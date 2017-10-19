@@ -30,6 +30,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string tales_comm_1856
  * @property string handwr_add_tales_comm_1856
  * @property string external_digitization
+ *
+ * @method searchByTitle($title)
+ * @method searchByCatalogId($catId)
  */
 class LibraryBook extends Model
 {
@@ -58,6 +61,19 @@ class LibraryBook extends Model
     public function scopeSearchByTitle(Builder $query, $title)
     {
         return $query->whereRaw('match(title) against (? in boolean mode)', [$title]);
+    }
+
+    /**
+     * Search for a book by catalog id
+     *
+     * @param Builder $query The query object
+     * @param string $catId The catalog id searched for
+     *
+     * @return Builder
+     */
+    public function scopeSearchByCatalogId(Builder $query, $catId)
+    {
+        return $query->where('catalog_id', $catId);
     }
 
     /**

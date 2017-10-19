@@ -5,7 +5,7 @@
         <div class="row page">
             <div class="col-md-12 page-title">
                 <div class="button-container">
-                    <div class="search {{ request()->has('title') ? 'active' : '' }}">
+                    {{-- <div class="search {{ request()->has('title') ? 'active' : '' }}">
                         <form action="{{ url('librarybooks') }}" method="get">
                             <input type="text" class="form-control input-sm" name="title" maxlength="64"
                                    placeholder="Suche" value="{{ request('title') ?: '' }}"/>
@@ -18,6 +18,24 @@
                     @if(request()->has('title'))
                         <div class="reset-search">
                             <a href="{{ url()->filtered(['-title']) }}" class="btn btn-default btn-sm">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    @endif --}}
+
+                    <div class="search {{ request()->has('cat_id') ? 'active' : '' }}">
+                        <form action="{{ url('librarybooks') }}" method="get">
+                            <input type="text" class="form-control input-sm" name="cat_id" maxlength="64"
+                                   placeholder="Suche nach Buchnr." value="{{ request('cat_id') ?: '' }}"/>
+
+                            <button id="search-btn" type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    @if(request()->has('cat_id'))
+                        <div class="reset-search">
+                            <a href="{{ url()->filtered(['-cat_id']) }}" class="btn btn-default btn-sm">
                                 <i class="fa fa-times"></i>
                             </a>
                         </div>
