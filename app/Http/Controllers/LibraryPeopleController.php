@@ -44,6 +44,21 @@ class LibraryPeopleController extends Controller
             ])
             ->findOrFail($id);
 
+        $sortFunction = function ($a, $b) {
+            $num = (int)$a->catalog_id <=> (int)$b->catalog_id;
+
+            if ($num != 0) {
+                return $num;
+            }
+
+            return strcmp($a->catalog_id, $b->catalog_id);
+        };
+
+        $person->written = $person->written->sort($sortFunction);
+        $person->edited = $person->edited->sort($sortFunction);
+        $person->translated = $person->translated->sort($sortFunction);
+        $person->illustrated = $person->illustrated->sort($sortFunction);
+
         return view('librarypeople.show', compact('person'));
     }
 
