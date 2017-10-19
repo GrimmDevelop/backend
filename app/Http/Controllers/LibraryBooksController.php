@@ -6,6 +6,7 @@ use App\Events\DestroyLibraryEvent;
 use App\Events\DestroyLibraryRelationEvent;
 use App\Events\StoreLibraryEvent;
 use App\Events\UpdateLibraryEvent;
+use App\Filters\Library\DeneckeFilter;
 use App\Filters\Library\TitleFilter;
 use App\Filters\Shared\OnlyTrashedFilter;
 use App\Filters\Shared\PrefixFilter;
@@ -196,6 +197,7 @@ class LibraryBooksController extends Controller
             new TrashFilter('library'),
             new TitleFilter(),
             new PrefixFilter('title'),
+            new DeneckeFilter(),
             new OnlyTrashedFilter('library'),
             new SortFilter(function ($builder, $orderByKey, $direction) {
                 $builder->orderByRaw('ABS(catalog_id) ' . $direction)
