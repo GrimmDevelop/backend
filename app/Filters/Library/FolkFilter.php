@@ -2,25 +2,34 @@
 
 namespace App\Filters\Library;
 
-use App\Filters\Filter;
+use App\Filters\BooleanFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 
-class FolkFilter implements Filter
+class FolkFilter extends BooleanFilter
 {
 
+    /**
+     * @return string
+     */
     public function appliesTo()
     {
         return 'folk';
     }
 
-    public function apply(Builder $query, Collection $values)
+    /**
+     * Runs the query if filter is active
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    protected function filterQuery(Builder $query)
     {
-        // TODO: Implement apply() method.
+        return $query->whereNotNull('tales_comm_1856')
+            ->where('tales_comm_1856', '<>', ' ');
     }
 
-    public function shouldPreserve()
+    public function displayString()
     {
-        // TODO: Implement shouldPreserve() method.
+        return 'filters.folk';
     }
 }

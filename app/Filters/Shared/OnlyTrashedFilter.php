@@ -2,10 +2,8 @@
 
 namespace App\Filters\Shared;
 
-use App\Filters\Filter;
-use App\Filters\SelectableFilter;
+use App\Filters\BooleanFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 
 /**
  * Filter to only display trashed records,
@@ -14,7 +12,7 @@ use Illuminate\Support\Collection;
  *
  * @package App\Filters\Shared
  */
-class OnlyTrashedFilter implements Filter, SelectableFilter
+class OnlyTrashedFilter extends BooleanFilter
 {
 
     /**
@@ -32,49 +30,23 @@ class OnlyTrashedFilter implements Filter, SelectableFilter
         return 'only_trashed';
     }
 
-    public function apply(Builder $query, Collection $values)
-    {
-        if ($values->has($this->appliesTo())) {
-            $key = $this->sessionKey();
-
-            $to = $values->get($this->appliesTo());
-            session([$key => $to]);
-        }
-
-        return $query;
-    }
-
-    public function shouldPreserve()
-    {
-        return false;
-    }
-
-    public function applied()
-    {
-        return session($this->sessionKey());
-    }
-
-    public function nextValue()
-    {
-        $key = $this->sessionKey();
-
-        return !session($key);
-    }
-
     public function displayString()
     {
         return 'filters.only_trashed';
     }
 
-    public function default(Builder $query)
+    /**
+     * Runs the query if filter is active
+     *
+     * @param Builder $query
+     */
+    protected function filterQuery(Builder $query)
     {
-        if (session($this->sessionKey())) {
-            $query->onlyTrashed();
-        }
+        $query->onlyTrashed();
     }
 
-    private function sessionKey()
+    protected function namespace()
     {
-        return $this->namespace . '.' . $this->appliesTo();
+        return $this->namespace;
     }
 }
