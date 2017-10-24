@@ -8,6 +8,7 @@ use App\Events\StoreLibraryEvent;
 use App\Events\UpdateLibraryEvent;
 use App\Filters\Library\BookNoFilter;
 use App\Filters\Library\DeneckeFilter;
+use App\Filters\Library\FolkFilter;
 use App\Filters\Library\TitleFilter;
 use App\Filters\Shared\OnlyTrashedFilter;
 use App\Filters\Shared\PrefixFilter;
@@ -200,6 +201,7 @@ class LibraryBooksController extends Controller
             new BookNoFilter(),
             new PrefixFilter('title'),
             new DeneckeFilter(),
+            new FolkFilter(),
             new OnlyTrashedFilter('library'),
             new SortFilter(function ($builder, $orderByKey, $direction) {
                 $builder->orderByRaw('ABS(catalog_id) ' . $direction)
