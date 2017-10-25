@@ -9,8 +9,9 @@ class Excel
 {
 
     private $excel = null;
-    private $writer;
+    private $writer = null;
     private $config;
+
     /**
      * Excel constructor.
      */
@@ -23,29 +24,29 @@ class Excel
         $this->config = config('export');
         $this->excel = new PHPExcel();
         $this->writer = PHPExcel_IOFactory::createWriter($this->excel, $this->config['type']);
-
     }
 
-    public function title($title, $sheet = 1)
+    public function title($title, $sheet = 0)
     {
-        // set title for excel sheet
+        // create and set title for excel sheet
+
+        $this->excel->createSheet($sheet);
         $this->excel->setActiveSheetIndex($sheet)->setTitle($title);
         return $this;
     }
 
     /**
      * @param array $data
-     * @param integer $sheet
+     * @param $intoSheet
      * @param bool $firstRowAreColumnNames
      * @return $this
      */
-    public function load(array $data, $sheet, $firstRowAreColumnNames = false)
+    public function load(array $data, $intoSheet = null, $firstRowAreColumnNames = false)
     {
         // load to excel sheet
 
-        $this->excel->setActiveSheetIndex($sheet);
-        $this->excel->getActiveSheet()->fromArray($data);
-
+        $intoSheet = $intoSheet == null ? $this->excel->getActiveSheetIndex() : $intoSheet;
+        $this->excel->setActiveSheetIndex($intoSheet)->fromArray($data);
         return $this;
     }
 
@@ -57,14 +58,10 @@ class Excel
     {
         // save excel file to config('export.path')
         // return true if success otherwise false
-        if (!file_exists($this->config['path'] . $fileName)) {
 
-            $this->writer->save($this->config['path'] . $fileName);
-        }
-
-
+        $this->writer->save($this->config['path'] . $fileName . '.xlsx');
         return true;
+
     }
-
-
+    
 }
