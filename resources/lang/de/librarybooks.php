@@ -25,7 +25,7 @@ return [
     'place' => 'Verlagsort',
     'publisher' => 'Verlag',
     'year' => 'Jahr',
-    'pages' => 'Seitem',
+    'pages' => 'Seiten',
     'handwritten_dedication' => 'hsl Widmung',
 
     'notes_jg' => 'Spuren JG',
