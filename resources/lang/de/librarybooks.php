@@ -15,6 +15,7 @@ return [
     'store_success' => 'Das Buch wurde erfolgreich angelegt!',
 
     'catalog_id' => 'fortl. Buchnummer',
+    'catalog_id_short' => 'fortl. Buchnr.',
     'title' => 'Titel',
     'series_title' => 'Reihentitel',
     'denecke_teitge' => 'Denecke / Teitge',

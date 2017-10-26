@@ -35,6 +35,7 @@ $this->group(['middleware' => 'auth'], function () {
     $this->resource('roles', 'RolesController', ['except' => ['edit']]);
 
     // Grimm Library
+    $this->get('librarybooks/analyze', 'LibraryBooksController@analyzeBooks')->name('librarybooks.analyze');
     $this->resource('librarybooks', 'LibraryBooksController', ['except' => ['edit']]);
     $this->get('librarybooks/{book}/relation/{name}',
         ['as' => 'librarybooks.relation', 'uses' => 'LibraryBooksController@relation']);
