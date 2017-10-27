@@ -45,7 +45,7 @@ abstract class RegexpAnalyzer implements Analyzer
      */
     public function search(Builder $builder)
     {
-        $builder->where($this->appliesTo(), 'regexp', $this->regexp())
+        $builder->where($this->appliesTo(), 'regexp', $this->pcreToPosix($this->regexp()))
             ->where(function (Builder $b) {
                 foreach ($this->fields() as $field) {
                     $b->where($field, null)
@@ -90,5 +90,16 @@ abstract class RegexpAnalyzer implements Analyzer
         }
 
         return false;
+    }
+
+    /**
+     * removes all named matches inside a regular expression due to incompatibility in MySQL
+     *
+     * @param $regexp
+     * @return mixed
+     */
+    protected function pcreToPosix($regexp)
+    {
+        return preg_replace("/\?\<.*?\>/", '', $regexp);
     }
 }
