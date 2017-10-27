@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Analyzer\Library\NotesFromJacobAnalyzer;
+use App\Analyzer\Library\NotesFromWilhelmAnalyzer;
+use App\Analyzer\Library\PurchaseNumberAnalyzer;
 use App\Events\DestroyLibraryEvent;
 use App\Events\DestroyLibraryRelationEvent;
 use App\Events\StoreLibraryEvent;
@@ -31,7 +34,7 @@ use function storage_path;
 class LibraryBooksController extends Controller
 {
 
-    use FiltersEntity;
+    use AnalyzesEntity, FiltersEntity;
 
     /**
      * Display a listing of the resource.
@@ -50,6 +53,23 @@ class LibraryBooksController extends Controller
         $books = $this->prepareCollection('last_person_index', $books, $request, 200);
 
         return view('librarybooks.index', compact('books'));
+    }
+
+    /**
+     * @param IndexLibraryRequest $request
+     * @return \Illuminate\Http\Response
+     */
+    public function analyzeBooks(IndexLibraryRequest $request)
+    {
+        $books = LibraryBook::query();
+
+        $this->filter($books);
+
+        $this->analyze($books);
+
+        $books = $this->prepareCollection('last_person_index', $books, $request, 200);
+
+        return view('librarybooks.analyze', compact('books'));
     }
 
     /**
@@ -221,6 +241,15 @@ class LibraryBooksController extends Controller
         return redirect()
             ->route('library.show', [$id])
             ->with('success', 'Das Buch wurde wiederhergestellt!');
+    }
+
+    protected function analyzers()
+    {
+        return [
+            new NotesFromJacobAnalyzer(),
+            new NotesFromWilhelmAnalyzer(),
+            new PurchaseNumberAnalyzer(),
+        ];
     }
 
     protected function filters()
