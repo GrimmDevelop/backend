@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    <form action="{{ route('librarybooks.export') }}" method="post">
+
+        <button type="submit">test</button>
+    </form>
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">

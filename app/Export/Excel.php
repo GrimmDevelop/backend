@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use function in_array;
 use PHPExcel_IOFactory;
 use PHPExcel;
+use function storage_path;
 
 class Excel implements Export
 {
@@ -106,8 +107,8 @@ class Excel implements Export
         }
 
         $this->writer->save($this->config['path'] . $fileName . '.xlsx');
-        return true;
 
+        return $this->config['path'] . $fileName . '.xlsx';
     }
 
 }

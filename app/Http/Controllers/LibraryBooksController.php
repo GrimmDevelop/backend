@@ -6,6 +6,7 @@ use App\Events\DestroyLibraryEvent;
 use App\Events\DestroyLibraryRelationEvent;
 use App\Events\StoreLibraryEvent;
 use App\Events\UpdateLibraryEvent;
+use App\Export\Excel;
 use App\Filters\Library\BookNoFilter;
 use App\Filters\Library\DeneckeFilter;
 use App\Filters\Library\FolkFilter;
@@ -21,8 +22,11 @@ use App\Http\Requests\ShowLibraryRequest;
 use App\Http\Requests\StoreLibraryRelationRequest;
 use App\Http\Requests\StoreLibraryRequest;
 use App\Http\Requests\UpdateLibraryRequest;
+use Carbon\Carbon;
 use Grimm\LibraryBook;
-use Illuminate\Http\Request;
+use function response;
+use function storage_path;
+
 
 class LibraryBooksController extends Controller
 {
@@ -92,6 +96,26 @@ class LibraryBooksController extends Controller
         ])->findOrFail($id);
 
         return view('librarybooks.show', compact('book'));
+    }
+
+
+    public function export(IndexLibraryRequest $request)
+    {
+        $books = LibraryBook::query();
+
+        $this->filter($books);
+
+        $books = $this->prepareCollection('excel', $books, $request);
+
+        $data = collect($books->items());
+
+        $excel = new Excel();
+
+        $file = $excel->title('Books by catalog', 0)
+            ->load($data, 0, true)
+            ->save('test-' . Carbon::now()->format('Ymdhis'), true);
+
+        return response()->download($file);
     }
 
     /**
