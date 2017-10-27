@@ -14,7 +14,7 @@ class PublishingDataAnalyzer extends RegexpAnalyzer
      */
     protected function regexp(): string
     {
-        return '.*\s+(?<place>[\w]+)\:\s+(?<publisher>[\w]+)\s+(?<year>[0-9]{4}(?:(?:\-|—)[0-9]{4})?)\.\s+.*';
+        return '.*\s+(?<place>[\w]+)\:\s+(?<publisher>[\w]+)\s+(?<year>[0-9]{4}(?:(?:\-|—)[0-9]{4}){0,1})\.\s+.*';
     }
 
     /**
