@@ -3,7 +3,9 @@
 
     <div class="button-container">
         <div class="generic">
-            <a href="{{ route('librarybooks.relation', [$book, $name]) }}" role="button" class="btn btn-default btn-sm">
+            <a href="{{ route('librarybooks.relation', [$book, $name]) }}"
+               role="button" class="btn btn-default btn-sm"
+               @click="checkForChanges">
                 <span class="fa fa-plus"></span>
                 {{ trans('librarybooks.relations.' . $name . '.name') }} hinzufügen
             </a>
@@ -42,7 +44,8 @@
         @empty
             <tr>
                 <td colspan="3" style="text-align: center;">
-                    <a href="{{ route('librarybooks.relation', [$book, $name]) }}">
+                    <a href="{{ route('librarybooks.relation', [$book, $name]) }}"
+                       @çlick="checkForChanges">
                         {{ trans('librarybooks.relations.' . $name . '.empty') }}
                     </a>
                 </td>
