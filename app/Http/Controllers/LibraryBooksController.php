@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Analyzer\Library\NotesFromJacobAnalyzer;
 use App\Analyzer\Library\NotesFromWilhelmAnalyzer;
+use App\Analyzer\Library\PublishingDataAnalyzer;
 use App\Analyzer\Library\PurchaseNumberAnalyzer;
 use App\Events\DestroyLibraryEvent;
 use App\Events\DestroyLibraryRelationEvent;
@@ -246,6 +247,7 @@ class LibraryBooksController extends Controller
     protected function analyzers()
     {
         return [
+            new PublishingDataAnalyzer(),
             new NotesFromJacobAnalyzer(),
             new NotesFromWilhelmAnalyzer(),
             new PurchaseNumberAnalyzer(),

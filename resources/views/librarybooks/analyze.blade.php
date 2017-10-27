@@ -24,7 +24,7 @@
                     @endif --}}
 
                     <div class="search {{ request()->has('cat_id') ? 'active' : '' }}">
-                        <form action="{{ url('librarybooks') }}" method="get">
+                        <form action="{{ route('librarybooks.analyze') }}" method="get">
                             <input type="text" class="form-control input-sm" name="cat_id" maxlength="64"
                                    placeholder="Suche nach Buchnr." value="{{ request('cat_id') ?: '' }}"/>
 
@@ -64,7 +64,10 @@
             </div>
             <div class="col-md-12 list-content">
                 <div class="add-button">
-                    <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Analyze starten">
+                    @include('partials.filterSelection')
+
+                    <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
+                       data-toggle="tooltip" title="Analyze erneut starten">
                         <i class="fa fa-superpowers"></i>
                     </a>
                 </div>

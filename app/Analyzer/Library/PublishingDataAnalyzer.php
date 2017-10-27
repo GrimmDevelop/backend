@@ -4,7 +4,7 @@ namespace App\Analyzer\Library;
 
 use App\Analyzer\RegexpAnalyzer;
 
-class PurchaseNumberAnalyzer extends RegexpAnalyzer
+class PublishingDataAnalyzer extends RegexpAnalyzer
 {
 
     /**
@@ -14,7 +14,7 @@ class PurchaseNumberAnalyzer extends RegexpAnalyzer
      */
     protected function regexp(): string
     {
-        return '.*(?<purchase_number>[0-9]{2}\.[0-9]{3}).*';
+        return '.*\s+(?<place>[\w]+)\:\s+(?<publisher>[\w]+)\s+(?<year>[0-9]{4}(?:(?:\-|—)[0-9]{4})?)\.\s+.*';
     }
 
     /**
@@ -35,7 +35,9 @@ class PurchaseNumberAnalyzer extends RegexpAnalyzer
     protected function fields(): array
     {
         return [
-            'purchase_number',
+            'place',
+            'publisher',
+            'year',
         ];
     }
 
@@ -46,6 +48,6 @@ class PurchaseNumberAnalyzer extends RegexpAnalyzer
      */
     protected function displayString(): string
     {
-        return "Model contains possible publishing data [%s].";
+        return "Model contains possible publishing data [%s: %s %s].";
     }
 }

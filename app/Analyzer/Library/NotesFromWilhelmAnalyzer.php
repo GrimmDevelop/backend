@@ -3,39 +3,52 @@
 namespace App\Analyzer\Library;
 
 use App\Analyzer\Analyzer;
+use App\Analyzer\RegexpAnalyzer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class NotesFromWilhelmAnalyzer implements Analyzer
+class NotesFromWilhelmAnalyzer extends RegexpAnalyzer
 {
 
     /**
-     * Adds search requirements to given builder
+     * The actual regular expression which searches inside the database.
+     * All fields (from the method fields()) have to occur inside the expression as matching indices.
+     * The delimiter is always "/" so any occurrence of "/" inside the expression has to be escaped.
      *
-     * @param Builder $builder
+     * @return string
      */
-    public function search(Builder $builder)
+    protected function regexp(): string
     {
-        $builder->where('denecke_teitge', 'regexp', '.*(W\.[\*]+).*')
-            ->where(function (Builder $b) {
-                $b->where('notes_wg', null)
-                    ->orWhere('notes_wg', '');
-            });
+        return '.*(?<notes_wg>W\.[\*]+).*';
     }
 
     /**
-     * Returns a analyze message for given model if it
-     * contains related data or null otherwise.
+     * Field to search with regular expression
      *
-     * @param Model $model
-     * @return string|null
+     * @return string
      */
-    public function result(Model $model)
+    protected function appliesTo(): string
     {
-        if (preg_match('/.*(W\.[\*]+).*/', $model->denecke_teitge)) {
-            return "Model contains a note from Wilhelm Grimm";
-        }
+        return 'denecke_teitge';
+    }
 
-        return null;
+    /**
+     * All field which are found by the regular expression
+     *
+     * @return array
+     */
+    protected function fields(): array
+    {
+        return ['notes_wg'];
+    }
+
+    /**
+     * The messages displayed if something was found by the regular expression
+     *
+     * @return string
+     */
+    protected function displayString(): string
+    {
+        return "Model contains a note from Wilhelm Grimm [%s]";
     }
 }
