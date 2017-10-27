@@ -3,7 +3,7 @@
 // Authentication Routes...
 $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
 $this->post('login', 'Auth\LoginController@login');
-$this->post('logout', 'Auth\LoginController@logout')->name('logout');
+$this->get('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Password Reset Routes...
 $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
@@ -36,6 +36,7 @@ $this->group(['middleware' => 'auth'], function () {
 
     // Grimm Library
     $this->resource('librarybooks', 'LibraryBooksController', ['except' => ['edit']]);
+    $this->post('librarybooks/export','LibraryBooksController@export')->name('librarybooks.export');
     $this->get('librarybooks/{book}/relation/{name}',
         ['as' => 'librarybooks.relation', 'uses' => 'LibraryBooksController@relation']);
     $this->post('librarybooks/{book}/relation/{name}', 'LibraryBooksController@storeRelation');
