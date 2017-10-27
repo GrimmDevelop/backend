@@ -7,6 +7,7 @@ use function collect;
 use function file_exists;
 use Illuminate\Support\Collection;
 use function in_array;
+use League\Flysystem\FileExistsException;
 use PHPExcel_IOFactory;
 use PHPExcel;
 use function storage_path;
@@ -43,9 +44,10 @@ class Excel implements Export
         // create and set title for excel sheet
         //and if there is sheet with this title rename it
 
-        if (not(in_array($title, $this->excel->getSheetNames()))) {
+        if (!in_array($title, $this->excel->getSheetNames())) {
             $this->excel->createSheet($sheet);
         }
+
         $this->excel->setActiveSheetIndex($sheet)->setTitle($title);
         return $this;
     }
@@ -71,9 +73,13 @@ class Excel implements Export
     }
 
     /**
+     * Saves given data to export directory.
+     * If successful it returns the full file name otherwise null
+     *
      * @param $fileName
      * @param bool $overwriteExistingFile
-     * @return bool
+     * @return null|string
+     * @throws FileExistsException
      */
     public function save($fileName, $overwriteExistingFile = false)
     {
@@ -82,33 +88,22 @@ class Excel implements Export
         // when  $overwriteExistingFile = true
         //we write over  file and over  sheet if exists
 
+        $path = $this->config['path'] . '/' . $fileName . '.xlsx';
+
         //remove the default empty sheet
         $this->excel->removeSheetByIndex($this->excel->getSheetCount() - 1);
 
-        if (file_exists($this->config['path'] . $fileName . '.xlsx') && $overwriteExistingFile) {
-
-            $this->reader = PHPExcel_IOFactory::createReaderForFile($this->config['path'] . $fileName . '.xlsx');
-            $oldSheets = $this->reader->load($this->config['path'] . $fileName . '.xlsx');
-            //add the  old sheets to new excel file
-            foreach ($oldSheets->getAllSheets() as $sheet) {
-                if (in_array($sheet->getTitle(), $this->excel->getSheetNames())) {
-
-                    $mergeData = array_merge($sheet->toArray(),
-                        $this->excel->getSheetByName($sheet->getTitle())->toArray());
-
-                    $this->excel->setActiveSheetIndexByName($sheet->getTitle())
-                        ->fromArray($mergeData);
-                } else {
-
-                    $this->excel->addSheet($sheet, $this->excel->getSheetCount() + 1);
-
-                }
-            }
+        if(!$overwriteExistingFile && file_exists($path)) {
+            throw new FileExistsException('File "' . $fileName . '" already exists!');
         }
 
-        $this->writer->save($this->config['path'] . $fileName . '.xlsx');
+        try {
+            $this->writer->save($path);
 
-        return $this->config['path'] . $fileName . '.xlsx';
+            return $path;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
 }

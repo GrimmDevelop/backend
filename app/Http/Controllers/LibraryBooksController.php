@@ -115,6 +115,12 @@ class LibraryBooksController extends Controller
             ->load($data, 0, true)
             ->save('test-' . Carbon::now()->format('Ymdhis'), true);
 
+        if ($file === null) {
+            return redirect()
+                ->back()
+                ->with('error', 'Export konnte nicht erstellt werden!');
+        }
+
         return response()->download($file);
     }
 
