@@ -8,6 +8,7 @@ new Vue({
     data: {
         moreFields: false,
         morePeople: false,
+        inputChanged: false,
         person: {
             id: null
         },
@@ -18,6 +19,17 @@ new Vue({
     },
 
     methods: {
+        checkForChanges(event) {
+            if (this.inputChanged && !confirm('Es wurden Felder im Formular geändert. ' +
+                    'Möchtest du dieses wirklich verlassen?\n' +
+                    'Alle Änderungen gehen verloren!')) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            return false;
+        },
+
         deleteRelation(bookId, relationType, person) {
             console.log(person);
 
@@ -28,7 +40,14 @@ new Vue({
                     person
                 }
             }).then(response => {
-                location.reload(true);
+                if (!this.inputChanged) {
+                    location.reload(true);
+                } else {
+                    alert("Die Person wurde erfolgreich gelöscht. Die Änderung wird " +
+                        "erst bei einem Neuladen der Seite sichtbar.\n" +
+                        "Da Änderungen im Formular vorgenommen wurden, " +
+                        "wurde das automatische Neuladen unterbunden.");
+                }
             }).catch(response => {
                 console.log(response);
             });

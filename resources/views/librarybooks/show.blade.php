@@ -45,7 +45,8 @@
             <div class="col-md-12 page-content">
                 <form id="book-editor" action="{{ route('librarybooks.update', [$book->id]) }}"
                       class="form-horizontal"
-                      method="POST">
+                      method="POST"
+                      @change="inputChanged = true">
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
 
