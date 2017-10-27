@@ -14,7 +14,7 @@ class PurchaseNumberAnalyzer extends RegexpAnalyzer
      */
     protected function regexp(): string
     {
-        return '.*(?<purchase_number>[0-9]{2}\.[0-9]{3}).*';
+        return '.*(?<purchase_number>[0-9]{2,2}\.[0-9]{3,3}).*';
     }
 
     /**
