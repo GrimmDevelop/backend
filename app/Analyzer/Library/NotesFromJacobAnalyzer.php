@@ -3,39 +3,50 @@
 namespace App\Analyzer\Library;
 
 use App\Analyzer\Analyzer;
+use App\Analyzer\RegexpAnalyzer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class NotesFromJacobAnalyzer implements Analyzer
+class NotesFromJacobAnalyzer extends RegexpAnalyzer
 {
 
     /**
-     * Adds search requirements to given builder
+     * the actual regular expression which searches inside the database
      *
-     * @param Builder $builder
+     * @return string
      */
-    public function search(Builder $builder)
+    protected function regexp(): string
     {
-        $builder->where('denecke_teitge', 'regexp', '.*(J\.[\*]+).*')
-            ->where(function (Builder $b) {
-                $b->where('notes_jg', null)
-                    ->orWhere('notes_jg', '');
-            });
+        return '.*(?<notes_jg>J\.[\*]+).*';
     }
 
     /**
-     * Returns a analyze message for given model if it
-     * contains related data or null otherwise.
+     * Field to search with regular expression
      *
-     * @param Model $model
-     * @return string|null
+     * @return string
      */
-    public function result(Model $model)
+    protected function appliesTo(): string
     {
-        if (preg_match('/.*(J\.[\*]+).*/', $model->denecke_teitge)) {
-            return "Model contains a note from Jacob Grimm";
-        }
+        return 'denecke_teitge';
+    }
 
-        return null;
+    /**
+     * All field which are found by the regular expression
+     *
+     * @return array
+     */
+    protected function fields(): array
+    {
+        return ['notes_jg'];
+    }
+
+    /**
+     * The messages displayed if something was found by the regular expression
+     *
+     * @return string
+     */
+    protected function displayString(): string
+    {
+        return "Model contains a note from Jacob Grimm [%s].";
     }
 }

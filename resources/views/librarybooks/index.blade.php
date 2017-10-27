@@ -67,9 +67,18 @@
                 <div class="add-button">
                     @include('partials.filterSelection')
 
-                    <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Analyze starten">
+                    <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
+                       data-toggle="tooltip" title="Analyze starten">
                         <i class="fa fa-superpowers"></i>
                     </a>
+
+                    <form action="{{ route('librarybooks.export') . '?' . http_build_query($filter->delta()) }}" method="post" style="display: inline;">
+                        {{ csrf_field() }}
+                        <button type="submit" class="btn btn-info btn-sm"
+                                data-toggle="tooltip" title="Export starten">
+                            <i class="fa fa-download"></i>
+                        </button>
+                    </form>
                 </div>
                 <table class="table table-responsive table-hover">
                     <thead>
