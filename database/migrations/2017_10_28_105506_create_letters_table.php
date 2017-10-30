@@ -35,9 +35,10 @@ class CreateLettersTable extends Migration
             $table->string('attachment')->nullable();
             $table->string('directory')->nullable();
 
-            $table->string('handwritten_location')->nullable();
+            $table->string('handwriting_location')->nullable();
 
             $table->integer('from_id')->unsigned()->nullable();
+            $table->string('from_source')->nullable();
 
             $table->string('from_date')->nullable();
             $table->string('receive_annotation')->nullable();

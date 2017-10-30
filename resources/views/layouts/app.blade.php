@@ -46,7 +46,11 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-                <li class="disabled"><a href="#" onclick="return false">Briefe</a></li>
+                @can('letters.*')
+                    <li {!! active_if(request()->is('letters*')) !!}>
+                        <a href="{{ route('letters.index') }}">{{ trans('letters.letters') }}</a>
+                    </li>
+                @endcan
                 @can('people.*')
                     <li {!! active_if(request()->is('people*')) !!}>
                         <a href="{{ route('people.index') }}">{{ trans('people.people') }}</a>

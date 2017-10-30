@@ -6,7 +6,9 @@ namespace App\Import\Persons\Converter;
 use App\Import\Converter\DBFRecordConverter;
 use Grimm\Person;
 
-class PersonConverter {
+class PersonConverter
+{
+
     use DBFRecordConverter;
 
     protected function setupEntity()

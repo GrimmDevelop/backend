@@ -19,6 +19,9 @@ $this->group(['middleware' => 'auth'], function () {
     $this->get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
 
     // Books
+    $this->resource('letters', 'LettersController', ['except' => ['edit']]);
+
+    // Books
     $this->resource('books', 'BooksController', ['except' => ['edit']]);
 
     // Persons
