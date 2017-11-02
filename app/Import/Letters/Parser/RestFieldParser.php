@@ -18,8 +18,19 @@ class RestFieldParser implements FieldParser
         $this->populateCodes();
     }
 
+    /**
+     * @param $column
+     * @param $field
+     * @param Letter $letter
+     */
     public function parse($column, $field, $letter)
     {
+        if (!$letter->exists || $letter->id == 0) {
+            \Log::error('letter id not set or letter does not exists!');
+
+            return;
+        }
+
         $columnName = ($column == 'zusatz_2') ? 'zusatz' : $column;
 
         $letterInfo = new LetterInformation();

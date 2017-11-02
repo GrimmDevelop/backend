@@ -18,8 +18,11 @@ $this->group(['middleware' => 'auth'], function () {
 
     $this->get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
 
-    // Books
+    // Letters
     $this->resource('letters', 'LettersController', ['except' => ['edit']]);
+
+    // Conversations
+    $this->get('conversations/{letter}', 'ConversationsController@show');
 
     // Books
     $this->resource('books', 'BooksController', ['except' => ['edit']]);
@@ -40,7 +43,7 @@ $this->group(['middleware' => 'auth'], function () {
     // Grimm Library
     $this->get('librarybooks/analyze', 'LibraryBooksController@analyzeBooks')->name('librarybooks.analyze');
     $this->resource('librarybooks', 'LibraryBooksController', ['except' => ['edit']]);
-    $this->post('librarybooks/export','LibraryBooksController@export')->name('librarybooks.export');
+    $this->post('librarybooks/export', 'LibraryBooksController@export')->name('librarybooks.export');
     $this->get('librarybooks/{book}/relation/{name}',
         ['as' => 'librarybooks.relation', 'uses' => 'LibraryBooksController@relation']);
     $this->post('librarybooks/{book}/relation/{name}', 'LibraryBooksController@storeRelation');
@@ -48,7 +51,8 @@ $this->group(['middleware' => 'auth'], function () {
 
     $this->get('librarypeople/search', 'LibraryPeopleController@search');
     $this->resource('librarypeople', 'LibraryPeopleController', ['only' => ['index', 'show', 'store', 'update']]);
-    $this->get('librarypeople/{libraryPerson}/combine', 'LibraryPeopleController@combine')->name('librarypeople.combine');
+    $this->get('librarypeople/{libraryPerson}/combine',
+        'LibraryPeopleController@combine')->name('librarypeople.combine');
     $this->post('librarypeople/{libraryPerson}/combine', 'LibraryPeopleController@postCombine');
 
     // Associations (user-book)

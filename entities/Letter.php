@@ -52,7 +52,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Letter extends Model
 {
 
-    use SoftDeletes;
+    use SoftDeletes, HasActivity;
+
+    /**
+     * Returns full title of letter
+     *
+     * @return string
+     */
+    public function title()
+    {
+        $title = '#' . $this->id;
+
+        if ($senders = $this->senders()) {
+            foreach ($senders as $index => $sender) {
+                if ($index > 0) {
+                    $title .= ' /';
+                }
+
+                $title .= ' ' . $sender->assignment_source;
+            }
+        }
+
+        if ($this->from) {
+            $title .= ' aus ' . $this->from->historical_name;
+        }
+
+        return $title;
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -117,7 +143,7 @@ class Letter extends Model
     {
         return $this->personAssociations->filter(function (LetterPersonAssociation $association) {
             return $association->isSender();
-        });
+        })->values();
     }
 
     /**
@@ -127,6 +153,6 @@ class Letter extends Model
     {
         return $this->personAssociations->filter(function (LetterPersonAssociation $association) {
             return $association->isReceiver();
-        });
+        })->values();
     }
 }

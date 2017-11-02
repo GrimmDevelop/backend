@@ -37,6 +37,18 @@ class LettersController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param ShowLetterRequest $request
+     * @param Letter $letter
+     * @return \Illuminate\Http\Response
+     */
+    public function show(ShowLetterRequest $request, Letter $letter)
+    {
+        return view('letters.show', compact('letter'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -53,18 +65,6 @@ class LettersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreLetterRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param ShowLetterRequest $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ShowLetterRequest $request, $id)
     {
         //
     }
