@@ -8,6 +8,7 @@ use App\Events\UpdatePersonEvent;
 use App\Filters\People\BioDataDuplicateFilter;
 use App\Filters\People\NameFilter;
 use App\Filters\Shared\OnlyTrashedFilter;
+use App\Filters\Shared\PageSizeFilter;
 use App\Filters\Shared\PrefixFilter;
 use App\Filters\Shared\SortFilter;
 use App\Filters\Shared\TrashFilter;
@@ -18,8 +19,6 @@ use App\Http\Requests\UpdatePersonDataRequest;
 use Grimm\Person;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
 class PersonsController extends Controller
 {
@@ -35,13 +34,17 @@ class PersonsController extends Controller
      */
     public function index(IndexPersonRequest $request)
     {
+        Person::applyGrid();
+
         $people = Person::query();
 
         $this->filter($people);
 
         $this->preparePrefixDisplay($request->get('prefix'), Person::prefixesOfLength('last_name', 2)->get());
 
-        $people = $this->prepareCollection('last_person_index', $people, $request, 200);
+        $pageSize = $this->filter->filterFor('page-size')->pageSize();
+
+        $people = $this->prepareCollection('last_person_index', $people, $request, $pageSize);
 
         return view('people.index', compact('people'));
     }
@@ -184,6 +187,7 @@ class PersonsController extends Controller
     protected function filters()
     {
         return [
+            new PageSizeFilter('people'),
             new TrashFilter('people'),
             new NameFilter(),
             new PrefixFilter('last_name'),
