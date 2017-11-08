@@ -32,47 +32,75 @@
             @include('partials.prefixSelection', ['route' => 'people'])
             <div class="col-md-12 pagination-container">
                 {{ $people->appends($filter->delta())->links() }}
-            </div>
-            <div class="col-md-12 list-content">
-                <div class="add-button">
-                    @include('partials.filterSelection')
+                @include('partials.pageSizeSelection')
+                <div class="btn-group">
+                    <a href="#" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Spalten <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        @foreach(\Grimm\Person::staticGridColumns(true) as $column)
+                            <li {!! active_if($column->isActive()) !!}>
+                                <a href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">{{ $column->name() }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
 
-                </div>
-                <table class="table table-responsive table-hover">
-                    <thead>
-                    <tr>
-                        <th>
-                            <a href="{{ sort_link('people', 'last_name') }}">Name {!! sort_arrow('last_name') !!}</a>
-                        </th>
-                        <th><a href="{{ sort_link('people', 'bio_data') }}">{{ trans('people.bio_data') }} {!! sort_arrow('bio_data') !!}</a></th>
-                        <th><a href="{{ sort_link('people', 'add_bio_data') }}">{{ trans('people.add_bio_data') }} {!! sort_arrow('add_bio_data') !!}</a></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($people->items() as $person)
-                        <tr id="person-{{ $person->id }}"
-                            onclick="location.href='{{ route('people.show', ['id' => $person->id]) }}'"
-                            style="cursor: pointer;" class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
-                            <td>{{ $person->fullName() }}</td>
-                            <td>{{ $person->bio_data }}</td>
-                            <td>{{ str_limit($person->add_bio_data,50, '[...]') }}</td>
-                        </tr>
-                    @empty
-                        <tr onclick="location.href='{{ route('people.create') }}'" style="cursor: pointer;">
-                            <td class="empty-list" colspan="6">In der Datenbank ist keine Person vorhanden. Möchten Sie
-                                eine erstellen?
-                            </td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
+                @include('partials.filterSelection')
             </div>
-            <div class="col-md-12 pagination-container">
-                <div class="pagination-container">
-                    {{ $people->appends($filter->delta())->links() }}
-                </div>
+            <table class="table table-responsive table-hover">
+                <thead>
+                <tr>
+                    <th>
+                        <a href="{{ sort_link('people', 'last_name') }}">Name {!! sort_arrow('last_name') !!}</a>
+                    </th>
+                    <th>
+                        <a href="{{ sort_link('people', 'bio_data') }}">{{ trans('people.bio_data') }} {!! sort_arrow('bio_data') !!}</a>
+                    </th>
+                    <th>
+                        <a href="{{ sort_link('people', 'add_bio_data') }}">{{ trans('people.add_bio_data') }} {!! sort_arrow('add_bio_data') !!}</a>
+                    </th>
+                    @foreach(\Grimm\Person::staticGridColumns() as $column)
+                        <th>
+                            <a href="{{ sort_link('people', $column->name()) }}">
+                                {{ trans('people.' . $column->name()) }}
+                                {!! sort_arrow($column->name()) !!}
+                            </a>
+                        </th>
+                    @endforeach
+                </tr>
+                </thead>
+                <tbody>
+                @forelse($people->items() as $person)
+                    <tr id="person-{{ $person->id }}"
+                        onclick="location.href='{{ route('people.show', ['id' => $person->id]) }}'"
+                        style="cursor: pointer;"
+                        class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
+                        <td>{{ $person->fullName() }}</td>
+                        <td>{{ $person->bio_data }}</td>
+                        <td>{{ str_limit($person->add_bio_data,50, '[...]') }}</td>
+                        @foreach($person->gridColumns() as $column)
+                            <td>
+                                {{ $person->gridify($column) }}
+                            </td>
+                        @endforeach
+                    </tr>
+                    @empty
+                    <tr onclick="location.href='{{ route('people.create') }}'" style="cursor: pointer;">
+                        <td class="empty-list" colspan="6">In der Datenbank ist keine Person vorhanden. Möchten Sie
+                            eine erstellen?
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+
+        </div>
+        <div class="col-md-12 pagination-container">
+            <div class="pagination-container">
+                {{ $people->appends($filter->delta())->links() }}
             </div>
         </div>
+    </div>
     </div>
 @endsection
 
