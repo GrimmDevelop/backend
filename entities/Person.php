@@ -2,6 +2,8 @@
 
 namespace Grimm;
 
+use App\Grid\Column;
+use App\Grid\Grid;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -29,8 +31,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Person extends Model
 {
-
-    use SoftDeletes, CollectPrefixes, HasActivity;
+    use SoftDeletes, CollectPrefixes, HasActivity, Gridable;
 
     public static $unknownName = 'unknown';
 
@@ -178,5 +179,17 @@ class Person extends Model
         static::deleted(function (Person $model) {
             $model->bookAssociations()->delete();
         });
+    }
+
+    protected function grid(): Grid
+    {
+        return new Grid('people', [
+            new Column('birth_date', false),
+            new Column('death_date', false),
+            new Column('bio_data_source', false),
+            new Column('is_organization', false),
+            new Column('auto_generated', true),
+            new Column('source', false),
+        ]);
     }
 }
