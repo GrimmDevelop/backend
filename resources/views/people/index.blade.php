@@ -29,10 +29,14 @@
                 </div>
                 <h1>Personendatenbank</h1>
             </div>
+
             @include('partials.prefixSelection', ['route' => 'people'])
+
             <div class="col-md-12 pagination-container">
                 {{ $people->appends($filter->delta())->links() }}
+
                 @include('partials.pageSizeSelection')
+
                 <div class="btn-group">
                     <a href="#" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Spalten <span
                                 class="caret"></span></a>
@@ -51,13 +55,7 @@
                 <thead>
                 <tr>
                     <th>
-                        <a href="{{ sort_link('people', 'last_name') }}">Name {!! sort_arrow('last_name') !!}</a>
-                    </th>
-                    <th>
-                        <a href="{{ sort_link('people', 'bio_data') }}">{{ trans('people.bio_data') }} {!! sort_arrow('bio_data') !!}</a>
-                    </th>
-                    <th>
-                        <a href="{{ sort_link('people', 'add_bio_data') }}">{{ trans('people.add_bio_data') }} {!! sort_arrow('add_bio_data') !!}</a>
+                        <a href="{{ sort_link('people', 'id') }}"># {!! sort_arrow('id') !!}</a>
                     </th>
                     @foreach(\Grimm\Person::staticGridColumns() as $column)
                         <th>
@@ -70,14 +68,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($people->items() as $person)
+                @forelse($people->items() as $index => $person)
                     <tr id="person-{{ $person->id }}"
                         onclick="location.href='{{ route('people.show', ['id' => $person->id]) }}'"
                         style="cursor: pointer;"
                         class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
-                        <td>{{ $person->fullName() }}</td>
-                        <td>{{ $person->bio_data }}</td>
-                        <td>{{ str_limit($person->add_bio_data,50, '[...]') }}</td>
+                        <td>{{ $person->id }}</td>
                         @foreach($person->gridColumns() as $column)
                             <td>
                                 {{ $person->gridify($column) }}

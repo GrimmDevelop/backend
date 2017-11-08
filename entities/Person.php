@@ -4,6 +4,7 @@ namespace Grimm;
 
 use App\Grid\Column;
 use App\Grid\Grid;
+use function Aws\flatmap;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -184,12 +185,31 @@ class Person extends Model
     protected function grid(): Grid
     {
         return new Grid('people', [
+            new Column('full_name', true, function () {
+
+                return $this->fullName();
+            }),
+            new Column('last_name', false),
+            new Column('first_name', false),
             new Column('birth_date', false),
             new Column('death_date', false),
-            new Column('bio_data_source', false),
+            new Column('bio_data_source', true, function () {
+                return str_limit($this->bio_data_source, 20, '[...]');
+            }),
+            new Column('bio_data', true, function () {
+                return str_limit($this->bio_data, 20, '[...]');
+            }),
+            new Column('add_bio_data', true, function () {
+                return str_limit($this->add_bio_data, 20, '[...]');
+            }),
             new Column('is_organization', false),
-            new Column('auto_generated', true),
-            new Column('source', false),
+            new Column('auto_generated', false),
+            new Column('source',true,function (){
+                return str_limit($this->source,20,'[...]');
+            }),
+            new Column('created_at', false),
+            new Column('updated_at', false),
+            new Column('deleted_at', false),
         ]);
     }
 }
