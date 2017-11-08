@@ -57,7 +57,7 @@
                     </thead>
                     <tbody>
                     @forelse($people->items() as $person)
-                        <tr id="book-{{ $person->id }}"
+                        <tr id="person-{{ $person->id }}"
                             onclick="location.href='{{ route('librarypeople.show', ['id' => $person->id]) }}'"
                             style="cursor: pointer;"
                             class="@if($person->trashed()) bg-danger @endif">

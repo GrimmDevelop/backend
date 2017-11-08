@@ -3,10 +3,12 @@
 @section('title', $letter->title() . ' | ')
 
 @section('content')
-    <div class="container" id="library">
+    <div class="container" id="letter">
         <div class="row page">
             <div class="col-md-12 page-title">
-                <h1>Briefdaten: {{ $letter->title() }}</h1>
+                <h1><a class="prev-link"
+                       href="{{ referrer_url('last_letter_index', route('letters.index'), '#letter-' . $letter->id) }}"><i
+                                class="fa fa-caret-left"></i></a> Briefdaten: {{ $letter->title() }}</h1>
             </div>
 
             @if($letter->trashed())
@@ -54,18 +56,17 @@
 
                     <hr>
 
-                    <div class="row">
-                        <div class="col-md-6">from</div>
-                        <div class="col-md-6">to</div>
-                    </div>
-
-                    @include('partials.form.field', ['field' => 'from_id', 'model' => $letter])
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label"
                                for="inputFrom">{{ trans('letters.from') }}</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static">{{ $letter->from->historical_name ?? '[unbekannt]' }}</p>
+                            <p class="form-control-static">
+                                {{ $letter->from->historical_name ?? '[unbekannt]' }}
+
+                                <a href="{{-- route('letters.location', [$letter, 'from']) --}}">
+                                    <span class="fa fa-pencil"></span>
+                                </a>
+                            </p>
                         </div>
                     </div>
 
@@ -98,13 +99,17 @@
 
                     <hr>
 
-                    @include('partials.form.field', ['field' => 'to_id', 'model' => $letter])
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label"
                                for="inputFrom">{{ trans('letters.to') }}</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static">{{ $letter->to->historical_name ?? '[unbekannt]' }}</p>
+                            <p class="form-control-static">
+                                {{ $letter->to->historical_name ?? '[unbekannt]' }}
+
+                                <a href="{{-- route('letters.location', [$letter, 'to']) --}}">
+                                    <span class="fa fa-pencil"></span>
+                                </a>
+                            </p>
                         </div>
                     </div>
 
@@ -163,5 +168,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ url('js/library.js') }}"></script>
+    <script src="{{ url('js/letter.js') }}"></script>
 @endsection

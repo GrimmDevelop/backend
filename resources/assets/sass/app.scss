@@ -1,297 +1,308 @@
-
 @import "variables";
-
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 body {
-  font-family: 'Lato', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 .fa-btn {
-  margin-right: 6px;
+    margin-right: 6px;
 }
 
 .page {
-  box-shadow: 7px 2px 3px -3px lighten(rgba(201, 201, 201, 1), 10%);
-  margin-bottom: 20px;
+    box-shadow: 7px 2px 3px -3px lighten(rgba(201, 201, 201, 1), 10%);
+    margin-bottom: 20px;
 }
 
 .page-title {
-  background: #35495D;
-  border: 1px solid darken(#35495D, 10%);
+    background: #35495D;
+    border: 1px solid darken(#35495D, 10%);
 
-  &.error-title {
-    background: $brand-danger;
-    border: 1px solid darken($brand-danger, 10%);
-  }
+    &.error-title {
+        background: $brand-danger;
+        border: 1px solid darken($brand-danger, 10%);
+    }
 
-  h1 {
-    color: #fff;
-    margin-top: 10px;
-    font-weight: 100;
-    font-size: $font-size-h2;
-  }
+    h1 {
+        color: #fff;
+        margin-top: 10px;
+        font-weight: 100;
+        font-size: $font-size-h2;
+    }
 
-  a.prev-link {
-    color: #fff;
-  }
+    a.prev-link {
+        color: #fff;
+    }
 }
 
 .pagination-container {
-  background: $pagination-bg;
-  text-align: center;
-  border-bottom: 1px solid darken($pagination-bg, 10%);
-  padding-bottom: -5px;
-  display: flex;
-  justify-content: center;
+    background: $pagination-bg;
+    text-align: center;
+    border-bottom: 1px solid darken($pagination-bg, 10%);
+    padding-bottom: -5px;
+    display: flex;
+    justify-content: center;
 
-  border-left: 1px solid darken($pagination-bg, 5%);
-  border-right: 1px solid darken($pagination-bg, 5%);
+    border-left: 1px solid darken($pagination-bg, 5%);
+    border-right: 1px solid darken($pagination-bg, 5%);
 
-  .pagination {
-    border-radius: 0;
-    padding: 0;
-    display: block;
-    margin: 0 auto;
-  }
+    .pagination {
+        border-radius: 0;
+        padding: 0;
+        display: block;
+        margin: 0 auto;
+    }
 
-  .pagination li * {
-    border-top: none;
-    border-bottom: none;
-  }
+    .pagination li * {
+        border-top: none;
+        border-bottom: none;
+    }
 
-  .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span {
-    border-radius: 0;
-  }
+    .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span {
+        border-radius: 0;
+    }
+
+    > .btn-group {
+        margin-top: 1px;
+        margin-left: 2px;
+    }
 }
 
 .tabs-container {
-  background: $pagination-bg;
+    background: $pagination-bg;
 }
 
 .list-content, .page-content {
-  background: #fff;
-  border-left: 1px solid darken($pagination-bg, 5%);
-  border-right: 1px solid darken($pagination-bg, 5%);
-  border-bottom: 1px solid darken($pagination-bg, 10%);
+    background: #fff;
+    border-left: 1px solid darken($pagination-bg, 5%);
+    border-right: 1px solid darken($pagination-bg, 5%);
+    border-bottom: 1px solid darken($pagination-bg, 10%);
 }
 
 .page-content {
-  padding-top: 10px;
-  padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 20px;
 }
 
 .button-container {
-  float: right;
-  margin-top: 9px;
-  width: 300px;
-
-  .btn {
-    height: 30px;
-  }
-
-  .generic {
-    position: relative;
+    float: right;
+    margin-top: 9px;
+    width: 300px;
 
     .btn {
-      position: absolute;
-      top: 5px;
-      right: 0;
+        height: 30px;
     }
-  }
 
-  .reset-search {
-    position: relative;
-    right: 100px;
+    .generic {
+        position: relative;
 
-    .btn {
-      position: absolute;
-      top: 5px;
+        .btn {
+            position: absolute;
+            top: 5px;
+            right: 0;
+        }
     }
-  }
+
+    .reset-search {
+        position: relative;
+        right: 100px;
+
+        .btn {
+            position: absolute;
+            top: 5px;
+        }
+    }
 }
 
 .search {
-  padding: 5px 0;
-  width: 230px;
-  height: 30px;
-
-  position: relative;
-  right: 100px;
-  float: left;
-  line-height: 22px;
-
-  .btn {
-    position: absolute;
-    right: 0;
-    top: 5px;
-    border-radius: 1px;
-  }
-
-  input {
-    position: absolute;
-    width: 0;
-    float: Left;
-    margin-left: 210px;
-    -webkit-transition: all 0.7s ease-in-out;
-    -moz-transition: all 0.7s ease-in-out;
-    -o-transition: all 0.7s ease-in-out;
-    transition: all 0.7s ease-in-out;
+    padding: 5px 0;
+    width: 230px;
     height: 30px;
-    line-height: 18px;
-    padding: 0 2px 0 2px;
-    border-radius: 1px;
-  }
+
+    position: relative;
+    right: 100px;
+    float: left;
+    line-height: 22px;
+
+    .btn {
+        position: absolute;
+        right: 0;
+        top: 5px;
+        border-radius: 1px;
+    }
+
+    input {
+        position: absolute;
+        width: 0;
+        float: Left;
+        margin-left: 210px;
+        -webkit-transition: all 0.7s ease-in-out;
+        -moz-transition: all 0.7s ease-in-out;
+        -o-transition: all 0.7s ease-in-out;
+        transition: all 0.7s ease-in-out;
+        height: 30px;
+        line-height: 18px;
+        padding: 0 2px 0 2px;
+        border-radius: 1px;
+    }
 }
 
 .table tr:target {
-  animation: target-fade 2s 1;
+    animation: target-fade 2s 1;
 }
 
 .table tr.bg-danger:target {
-  animation: target-danger-fade 2s 1;
+    animation: target-danger-fade 2s 1;
 }
 
 @keyframes target-fade {
-  0% { background-color: rgba(0,0,0,.1); }
-  100% { background-color: rgba(0,0,0,0); }
+    0% {
+        background-color: rgba(0, 0, 0, .1);
+    }
+    100% {
+        background-color: rgba(0, 0, 0, 0);
+    }
 }
 
 @keyframes target-danger-fade {
-  0% { background-color: fade-in($state-danger-bg,.1); }
-  100% { background-color: $state-danger-bg; }
+    0% {
+        background-color: fade-in($state-danger-bg, .1);
+    }
+    100% {
+        background-color: $state-danger-bg;
+    }
 }
 
 .search:hover input, .search input:focus, .search.active input {
-  width: 200px;
-  margin-left: 0;
+    width: 200px;
+    margin-left: 0;
 }
 
 .empty-list {
-  text-align: center;
+    text-align: center;
 }
 
 .button-bar {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .add-button {
-  position: absolute;
-  right: 15px;
-  margin-top: 5px;
+    position: absolute;
+    right: 15px;
+    margin-top: 5px;
 }
 
 .action-column {
-  width: 120px;
-  text-align: center;
+    width: 120px;
+    text-align: center;
 }
 
 .check-helper:checked + * {
-  color: $btn-primary-color;
-  background-color: $btn-primary-bg;
-  border: 1px solid $btn-primary-border;
+    color: $btn-primary-color;
+    background-color: $btn-primary-bg;
+    border: 1px solid $btn-primary-border;
 }
 
 .button-box {
-  display: flex;
-  justify-content: center;
-  div {
-    text-align: center;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+    display: flex;
+    justify-content: center;
+    div {
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
 
-  a {
-    display: block;
-  }
+    a {
+        display: block;
+    }
 }
 
 .alert-container {
-  width: 400px;
-  position: absolute;
-  top: 70px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: 999;
+    width: 400px;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 999;
 }
 
 p.collapse-head {
-  cursor: pointer;
-  &::after {
-    content: ' \25BC';
-    font-size: $font-size-small;
-  }
-  &.collapsed {
+    cursor: pointer;
     &::after {
-      content: ' \25B2';
+        content: ' \25BC';
+        font-size: $font-size-small;
     }
-  }
+    &.collapsed {
+        &::after {
+            content: ' \25B2';
+        }
+    }
 }
 
 table.collapse.in {
-  display: table;
+    display: table;
 }
 
 .letters-container {
-  background: #35495D;
-  text-align: center;
-  display: flex;
+    background: #35495D;
+    text-align: center;
+    display: flex;
 
-  .letters {
-    @include clearfix;
+    .letters {
+        @include clearfix;
 
-    padding: 0 25px;
-    margin: 0 auto;
+        padding: 0 25px;
+        margin: 0 auto;
 
-    list-style: none;
+        list-style: none;
 
-    li {
-      float: left;
+        li {
+            float: left;
 
-      &.active {
+            &.active {
 
-        a {
-          background: darken(#35495D, 10%);
+                a {
+                    background: darken(#35495D, 10%);
+                }
+            }
+
+            a {
+                display: inline-block;
+                text-decoration: none;
+                padding: 10px;
+                color: #fff;
+
+                &:hover {
+                    background: darken(#35495D, 5%);
+                }
+            }
         }
-      }
-
-      a {
-        display: inline-block;
-        text-decoration: none;
-        padding: 10px;
-        color: #fff;
-
-        &:hover {
-          background: darken(#35495D, 5%);
-        }
-      }
     }
-  }
 }
 
 .deleted-record-info {
-  background: $brand-danger;
-  color: #fff;
-  padding-top: 10px;
-  padding-bottom: 10px;
-
-  .btn {
     background: $brand-danger;
     color: #fff;
-    border: 1px solid #fff;
-    display: block;
-    margin-top: 15px;
-  }
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    .btn {
+        background: $brand-danger;
+        color: #fff;
+        border: 1px solid #fff;
+        display: block;
+        margin-top: 15px;
+    }
 }
 
 // TODO: this should look nicer :/
 .toolbar {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-left: 1px solid darken($pagination-bg, 5%);
-  border-right: 1px solid darken($pagination-bg, 5%);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-left: 1px solid darken($pagination-bg, 5%);
+    border-right: 1px solid darken($pagination-bg, 5%);
 
-  background-color: #fff;
+    background-color: #fff;
 }

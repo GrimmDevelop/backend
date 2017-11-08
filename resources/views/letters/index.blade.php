@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container" id="letters">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <div class="button-container">
@@ -32,10 +32,25 @@
 
             <div class="col-md-12 pagination-container">
                 {{ $letters->appends($filter->delta())->links() }}
+
+                @include('partials.pageSizeSelection')
+
+                <div class="btn-group">
+                    <a href="#" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Spalten <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        @foreach(\Grimm\Letter::staticGridColumns(true) as $column)
+                            <li {!! active_if($column->isActive()) !!}>
+                                <a href="{{ route('letters.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">{{ $column->name() }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                @include('partials.filterSelection')
             </div>
             <div class="col-md-12 list-content">
                 <div class="add-button">
-                    @include('partials.filterSelection')
                 </div>
                 <table class="table table-responsive table-hover">
                     <thead>
@@ -43,39 +58,28 @@
                         <th>
                             <a href="{{ sort_link('letters', 'id') }}"># {!! sort_arrow('id') !!}</a>
                         </th>
-                        <th>
-                            <a href="{{ sort_link('letters', 'code') }}">{{ trans('letters.code') }} {!! sort_arrow('code') !!}</a>
-                        </th>
-                        <th>
-                            <a href="{{ sort_link('letters', 'date') }}">{{ trans('letters.date') }} {!! sort_arrow('date') !!}</a>
-                        </th>
-                        <th>
-                            {{ trans('letters.senders') }}
-                        </th>
-                        <th>
-                            {{ trans('letters.from') }}
-                        </th>
-                        <th>
-                            {{ trans('letters.receivers') }}
-                        </th>
-                        <th>
-                            {{ trans('letters.to') }}
-                        </th>
+                        @foreach(\Grimm\Letter::staticGridColumns() as $column)
+                            <th>
+                                <a href="{{ sort_link('letters', $column->name()) }}">
+                                    {{ trans('letters.' . $column->name()) }}
+                                    {!! sort_arrow($column->name()) !!}
+                                </a>
+                            </th>
+                        @endforeach
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($letters->items() as $letter)
-                        <tr id="person-{{ $letter->id }}"
+                    @forelse($letters->items() as $index => $letter)
+                        <tr id="letter-{{ $letter->id }}"
                             onclick="location.href='{{ route('letters.show', ['id' => $letter->id]) }}'"
                             style="cursor: pointer;"
                             class="@if($letter->trashed()) bg-danger @endif">
                             <td>{{ $letter->id }}</td>
-                            <td>{{ $letter->code }}</td>
-                            <td>{{ $letter->date }}</td>
-                            <td>{{ $letter->senders()->pluck('assignment_source')->implode(' / ') }}</td>
-                            <td>{{ $letter->from->historical_name ?? '[unbekannt]' }}</td>
-                            <td>{{ $letter->receivers()->pluck('assignment_source')->implode(' / ') }}</td>
-                            <td>{{ $letter->to->historical_name ?? '[unbekannt]' }}</td>
+                            @foreach($letter->gridColumns() as $column)
+                                <td>
+                                    {{ $letter->gridify($column) }}
+                                </td>
+                            @endforeach
                         </tr>
                     @empty
                         <tr onclick="location.href='{{ route('letters.create') }}'" style="cursor: pointer;">
@@ -97,6 +101,10 @@
 @endsection
 
 @section('scripts')
+    <script>
+        window.LETTERS = {!! $letters->toJson() !!};
+    </script>
+    <script src="{{ url('js/letters.js') }}"></script>
     <script>
         $(function () {
             // Prevent submission of search form if search input is empty

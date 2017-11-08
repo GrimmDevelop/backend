@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\Shared\PageSizeFilter;
 use App\Filters\Shared\SortFilter;
 use App\Filters\Shared\TrashFilter;
 use App\Http\Requests\DestroyLetterRequest;
@@ -25,13 +26,17 @@ class LettersController extends Controller
      */
     public function index(IndexBookRequest $request)
     {
+        Letter::applyGrid();
+
         $letters = Letter::query();
 
         $letters->with(['from', 'to', 'personAssociations']);
 
         $this->filter($letters);
 
-        $letters = $this->prepareCollection('last_letter_index', $letters, $request, 20);
+        $pageSize = $this->filter->filterFor('page-size')->pageSize();
+
+        $letters = $this->prepareCollection('last_letter_index', $letters, $request, $pageSize);
 
         return view('letters.index', compact('letters'));
     }
@@ -45,6 +50,8 @@ class LettersController extends Controller
      */
     public function show(ShowLetterRequest $request, Letter $letter)
     {
+        // TODO: add way to customize letter view
+
         return view('letters.show', compact('letter'));
     }
 
@@ -96,11 +103,19 @@ class LettersController extends Controller
     protected function filters()
     {
         return [
+            new PageSizeFilter('letters'),
             new TrashFilter('letters'),
-            new SortFilter(function ($builder) {
-                $builder->orderBy('code');
+            new SortFilter(function ($builder, $key, $direction) {
 
-                return 'code';
+                if ($key == 'senders') {
+                    // TODO: order by senders...
+
+                    return 'senders';
+                } else {
+                    $builder->orderBy('code');
+
+                    return 'code';
+                }
             }),
         ];
     }

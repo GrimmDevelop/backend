@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 46);
+/******/ 	return __webpack_require__(__webpack_require__.s = 57);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -29861,115 +29861,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 34 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
+/* 34 */,
 /* 35 */,
 /* 36 */,
 /* 37 */,
@@ -29981,826 +29873,347 @@ module.exports = function normalizeComponent (
 /* 43 */,
 /* 44 */,
 /* 45 */,
-/* 46 */
+/* 46 */,
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(47);
+module.exports = __webpack_require__(58);
 
 
 /***/ }),
-/* 47 */
+/* 58 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__bootstrap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_PrintInPlaceEditor_vue__ = __webpack_require__(48);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_PrintInPlaceEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_PrintInPlaceEditor_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_InheritanceInPlaceEditor_vue__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_InheritanceInPlaceEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_InheritanceInPlaceEditor_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils_Levenshtein__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_localstorage__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_localstorage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_localstorage__);
 
 
 
 
-
-
-
-Vue.component('in-place', __WEBPACK_IMPORTED_MODULE_1__components_PrintInPlaceEditor_vue___default.a);
-Vue.component('inheritance-in-place', __WEBPACK_IMPORTED_MODULE_2__components_InheritanceInPlaceEditor_vue___default.a);
+Vue.use(__WEBPACK_IMPORTED_MODULE_1_vue_localstorage___default.a);
 
 new Vue({
-    el: '#prints',
+    el: '#letters',
+
+    localStorage: {
+        columns: {
+            type: Object,
+            default: {
+                id_till_1992: false,
+                id_till_1997: false,
+                code: true,
+                valid: false,
+                date: true,
+                couvert: false,
+                copy_owned: false,
+                language: false,
+                inc: false,
+                copy: false,
+                attachment: false,
+                directory: false,
+                handwriting_location: false,
+                senders: true,
+                from: true,
+                from_id: false,
+                from_source: false,
+                from_date: false,
+                receive_annotation: false,
+                reconstructed_from: false,
+                receivers: true,
+                to: true,
+                to_id: false,
+                to_date: false,
+                reply_annotation: false
+            }
+        }
+    },
 
     data: {
-        prints: [],
-        createEntry: '',
-        createYear: ''
+        letters: window.LETTERS.data,
+        columns: {}
     },
 
     mounted: function mounted() {
         var _this = this;
 
         this.$nextTick(function () {
-            var url = BASE_URL + '/prints';
-
-            axios.get(url).then(function (_ref) {
-                var data = _ref.data;
-
-                _this.prints = data;
-            });
-
-            $('#addPrint').on('shown.bs.modal', function (e) {
-                _this.$refs.createEntryField.focus();
-            });
+            _this.columns = _this.$localStorage.get('columns');
         });
     },
 
 
     methods: {
-        storePrint: function storePrint() {
-            var _this2 = this;
+        toggleColumn: function toggleColumn(column) {
+            this.columns[column] = !this.columns[column];
 
-            var url = $('#createPrintForm').attr('action');
+            this.$localStorage.set('columns', this.columns);
+        },
+        filter: function filter(column, letter) {
+            if (column == 'from' || column == 'to') {
+                if (letter[column] != null) {
+                    return letter[column].historical_name;
+                } else {
+                    return '[unbekannt]';
+                }
+            }
 
-            console.log(url);
+            if (column == 'senders') {
+                return letter.person_associations.filter(function (item) {
+                    return item.type == 0;
+                }).map(function (item) {
+                    return item.assignment_source;
+                }).join(' / ');
+            }
 
-            axios.post(url, {
-                entry: this.createEntry,
-                year: this.createYear
-            }).then(function (_ref2) {
-                var data = _ref2.data;
+            if (column == 'receivers') {
+                return letter.person_associations.filter(function (item) {
+                    return item.type == 1;
+                }).map(function (item) {
+                    return item.assignment_source;
+                }).join(' / ');
+            }
 
-                _this2.prints = data;
-                _this2.createEntry = '';
-                _this2.createYear = '';
-                $('#addPrint').modal('hide');
-            });
+            return letter[column];
         }
     }
 });
 
-new Vue({
-    el: '#inheritances',
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
 
-    data: {
-        inheritances: [],
-        createEntry: ''
-    },
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * vue-local-storage v0.5.0
+ * (c) 2017 Alexander Avakov
+ * @license MIT
+ */
+(function (global, factory) {
+	 true ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.VueLocalStorage = factory());
+}(this, (function () { 'use strict';
 
-    mounted: function mounted() {
-        var _this3 = this;
-
-        this.$nextTick(function () {
-            var url = BASE_URL + '/inheritances';
-
-            axios.get(url).then(function (_ref3) {
-                var data = _ref3.data;
-
-                _this3.inheritances = data;
-            });
-
-            $('#addInheritance').on('shown.bs.modal', function (e) {
-                _this3.$refs.createEntryField.focus();
-            });
-        });
-    },
-
-
-    methods: {
-        storeInheritance: function storeInheritance() {
-            var _this4 = this;
-
-            var url = $('#createInheritanceForm').attr('action');
-
-            axios.post(url, {
-                entry: this.createEntry
-            }).then(function (_ref4) {
-                var data = _ref4.data;
-
-                _this4.inheritances = data;
-                _this4.createEntry = '';
-                $('#addInheritance').modal('hide');
-            });
-        }
-    }
-});
+var VueLocalStorage = function VueLocalStorage () {
+  this._properties = {};
+};
 
 /**
- * On save, we calculate the change in the name and according to that,
- * we will ask if the user wants to really change the entry
- * to prevent accidental overwriting.
+ * Get value from localStorage
+ *
+ * @param {String} lsKey
+ * @param {*} defaultValue
+ * @returns {*}
  */
-$('#person-editor').on('submit', function (event) {
-    var prevLastName = $('input[name=prev_last_name]').val();
-    var prevFirstName = $('input[name=prev_first_name]').val();
-    var prevName = prevLastName + ', ' + prevFirstName;
+VueLocalStorage.prototype.get = function get (lsKey, defaultValue) {
+    var this$1 = this;
+    if ( defaultValue === void 0 ) defaultValue = null;
 
-    var currentLastName = $('input[name=last_name]').val();
-    var currentFirstName = $('input[name=first_name]').val();
-    var currentName = currentLastName + ', ' + currentFirstName;
+  if (window.localStorage[lsKey]) {
+    var type = String;
 
-    var distance = Object(__WEBPACK_IMPORTED_MODULE_3__utils_Levenshtein__["a" /* default */])(prevName, currentName);
-
-    if (distance > 3) {
-        var message = 'Der Name wurde an ' + distance + ' Stellen bearbeitet. Soll der Datensatz wirklich ge\xE4ndert werden?\n\nBisheriger Name: ' + prevName + '\n\nNeuer Name: ' + currentName;
-        if (!confirm(message)) {
-            event.preventDefault();
-        }
+    for (var key in this$1._properties) {
+      if (key === lsKey) {
+        type = this$1._properties[key].type;
+        break
+      }
     }
-});
 
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(34)
-/* script */
-var __vue_script__ = __webpack_require__(49)
-/* template */
-var __vue_template__ = __webpack_require__(50)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/persons/components/PrintInPlaceEditor.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-f3cfe2b0", Component.options)
-  } else {
-    hotAPI.reload("data-v-f3cfe2b0", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 49 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['printId', 'printEntry', 'printYear', 'baseUrl', 'editable'],
-
-    methods: {
-        clickEdit: function clickEdit() {
-            if (this.editingYear == '') {
-                this.editingYear = this.printYear;
-            }
-            if (this.editingEntry == '') {
-                this.editingEntry = this.printEntry;
-            }
-            this.editing = true;
-            this.focusEntryInput();
-        },
-        stopEdit: function stopEdit() {
-            this.editing = false;
-        },
-        savePrint: function savePrint() {
-            var _this = this;
-
-            this.saving = true;
-            axios.put(this.baseUrl + '/' + this.printId, {
-                entry: this.editingEntry,
-                year: this.editingYear
-            }).then(function (_ref) {
-                var data = _ref.data;
-
-                // this.printEntry = data.entry;
-                // this.printYear = data.year;
-                _this.editing = false;
-                _this.saving = false;
-            });
-        },
-        deletePrint: function deletePrint() {
-            var _this2 = this;
-
-            if (window.confirm("Soll der Druck wirklich gelöscht werden?")) {
-                axios.delete(this.baseUrl + '/' + this.printId).then(function (response) {
-                    _this2.existing = false;
-                });
-            }
-        },
-        focusEntryInput: function focusEntryInput() {
-            __WEBPACK_IMPORTED_MODULE_0_vue___default.a.nextTick(function () {
-                this.$refs.entryInput.focus();
-            }.bind(this));
-        }
-    },
-
-    data: function data() {
-        return {
-            editing: false,
-            existing: true,
-            saving: false,
-            editingEntry: '',
-            editingYear: ''
-        };
-    }
-});
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm.existing
-    ? _c("tr", [
-        _vm.editing
-          ? _c("td", [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-link btn-sm",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.stopEdit($event)
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-times" })]
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.editing
-          ? _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.editingEntry,
-                    expression: "editingEntry"
-                  }
-                ],
-                ref: "entryInput",
-                staticClass: "form-control input-sm",
-                attrs: { type: "text" },
-                domProps: { value: _vm.editingEntry },
-                on: {
-                  keyup: function($event) {
-                    if (
-                      !("button" in $event) &&
-                      _vm._k($event.keyCode, "enter", 13, $event.key)
-                    ) {
-                      return null
-                    }
-                    _vm.savePrint()
-                  },
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.editingEntry = $event.target.value
-                  }
-                }
-              })
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        !_vm.editing
-          ? _c("td", { attrs: { colspan: "2" } }, [
-              _vm.editable
-                ? _c(
-                    "a",
-                    {
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.clickEdit($event)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fa fa-edit" })]
-                  )
-                : _vm._e(),
-              _vm._v(" " + _vm._s(_vm.printEntry) + "\n    ")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.editing
-          ? _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.editingYear,
-                    expression: "editingYear"
-                  }
-                ],
-                staticClass: "form-control input-sm",
-                attrs: { type: "text" },
-                domProps: { value: _vm.editingYear },
-                on: {
-                  keyup: function($event) {
-                    if (
-                      !("button" in $event) &&
-                      _vm._k($event.keyCode, "enter", 13, $event.key)
-                    ) {
-                      return null
-                    }
-                    _vm.savePrint()
-                  },
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.editingYear = $event.target.value
-                  }
-                }
-              })
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.editing
-          ? _c("td", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-sm",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      _vm.savePrint()
-                    }
-                  }
-                },
-                [
-                  _vm.saving
-                    ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
-                    : _vm._e(),
-                  _vm._v(" Speichern\n        ")
-                ]
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        !_vm.editing
-          ? _c("td", { attrs: { colspan: "2" } }, [
-              _vm._v(_vm._s(_vm.printYear) + " "),
-              _vm.editable
-                ? _c(
-                    "a",
-                    {
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.deletePrint($event)
-                        }
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fa fa-trash",
-                        attrs: {
-                          "data-toggle": "tooltip",
-                          "data-placement": "top",
-                          title: "Löschen"
-                        }
-                      })
-                    ]
-                  )
-                : _vm._e()
-            ])
-          : _vm._e()
-      ])
-    : _vm._e()
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-f3cfe2b0", module.exports)
+    return this._process(type, window.localStorage[lsKey])
   }
-}
 
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
+  return defaultValue !== null ? defaultValue : null
+};
 
-var disposed = false
-var normalizeComponent = __webpack_require__(34)
-/* script */
-var __vue_script__ = __webpack_require__(52)
-/* template */
-var __vue_template__ = __webpack_require__(53)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/persons/components/InheritanceInPlaceEditor.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+/**
+ * Set localStorage value
+ *
+ * @param {String} lsKey
+ * @param {*} value
+ * @returns {*}
+ */
+VueLocalStorage.prototype.set = function set (lsKey, value) {
+    var this$1 = this;
 
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5ba2a0aa", Component.options)
-  } else {
-    hotAPI.reload("data-v-5ba2a0aa", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
+  for (var key in this$1._properties) {
+    var type = this$1._properties[key].type;
 
-module.exports = Component.exports
+    if ((key === lsKey) && [Array, Object].includes(type)) {
+      window.localStorage.setItem(lsKey, JSON.stringify(value));
 
-
-/***/ }),
-/* 52 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['inheritanceId', 'inheritanceEntry', 'baseUrl', 'editable'],
-
-    methods: {
-        clickEdit: function clickEdit() {
-            if (this.editingEntry == '') {
-                this.editingEntry = this.inheritanceEntry;
-            }
-            this.editing = true;
-            this.focusEntryInput();
-        },
-
-
-        stopEdit: function stopEdit() {
-            this.editing = false;
-        },
-
-        saveInheritance: function saveInheritance() {
-            var _this = this;
-
-            this.saving = true;
-
-            axios.put(this.baseUrl + '/' + this.inheritanceId, {
-                entry: this.editingEntry
-            }).then(function (_ref) {
-                var data = _ref.data;
-
-                // this.inheritanceEntry = data.entry;
-                _this.editing = false;
-                _this.saving = false;
-            });
-        },
-
-        deleteInheritance: function deleteInheritance() {
-            var _this2 = this;
-
-            if (window.confirm("Soll der Nachlass wirklich gelöscht werden?")) {
-                axios.delete(this.baseUrl + '/' + this.inheritanceId).then(function () {
-                    _this2.existing = false;
-                });
-            }
-        },
-
-        focusEntryInput: function focusEntryInput() {
-            var _this3 = this;
-
-            __WEBPACK_IMPORTED_MODULE_0_vue___default.a.nextTick(function () {
-                _this3.$refs.entryInput.focus();
-            });
-        }
-    },
-    data: function data() {
-        return {
-            editing: false,
-            existing: true,
-            saving: false,
-            editingEntry: ''
-        };
+      return value
     }
-});
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm.existing
-    ? _c("tr", [
-        !_vm.editing
-          ? _c("td", { attrs: { colspan: "2" } }, [
-              _vm.editable
-                ? _c(
-                    "a",
-                    {
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.clickEdit($event)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fa fa-edit" })]
-                  )
-                : _vm._e(),
-              _vm._v(" " + _vm._s(_vm.inheritanceEntry) + "\n    ")
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        !_vm.editing
-          ? _c("td", [
-              _vm.editable
-                ? _c(
-                    "a",
-                    {
-                      attrs: { href: "#" },
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          _vm.deleteInheritance($event)
-                        }
-                      }
-                    },
-                    [
-                      _c("i", {
-                        staticClass: "fa fa-trash",
-                        attrs: {
-                          "data-toggle": "tooltip",
-                          "data-placement": "top",
-                          title: "Löschen"
-                        }
-                      })
-                    ]
-                  )
-                : _vm._e()
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.editing
-          ? _c("td", [
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-link btn-sm",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.stopEdit($event)
-                    }
-                  }
-                },
-                [_c("i", { staticClass: "fa fa-times" })]
-              )
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.editing
-          ? _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.editingEntry,
-                    expression: "editingEntry"
-                  }
-                ],
-                ref: "entryInput",
-                staticClass: "form-control input-sm",
-                attrs: { type: "text" },
-                domProps: { value: _vm.editingEntry },
-                on: {
-                  keyup: function($event) {
-                    if (
-                      !("button" in $event) &&
-                      _vm._k($event.keyCode, "enter", 13, $event.key)
-                    ) {
-                      return null
-                    }
-                    _vm.saveInheritance()
-                  },
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.editingEntry = $event.target.value
-                  }
-                }
-              })
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.editing
-          ? _c("td", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary btn-sm",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      _vm.saveInheritance()
-                    }
-                  }
-                },
-                [
-                  _vm.saving
-                    ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
-                    : _vm._e(),
-                  _vm._v(" Speichern\n        ")
-                ]
-              )
-            ])
-          : _vm._e()
-      ])
-    : _vm._e()
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5ba2a0aa", module.exports)
   }
-}
 
-/***/ }),
-/* 54 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+  window.localStorage.setItem(lsKey, value);
 
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = (function (str1, str2) {
-    var cost = [],
-        n = str1.length,
-        m = str2.length,
-        i = void 0,
-        j = void 0;
+  return value
+};
 
-    if (n == 0 || m == 0) {
-        return;
+/**
+ * Remove value from localStorage
+ *
+ * @param {String} lsKey
+ */
+VueLocalStorage.prototype.remove = function remove (lsKey) {
+  return window.localStorage.removeItem(lsKey)
+};
+
+/**
+ * Add new property to localStorage
+ *
+ * @param {String} key
+ * @param {function} type
+ * @param {*} defaultValue
+ */
+VueLocalStorage.prototype.addProperty = function addProperty (key, type, defaultValue) {
+    if ( defaultValue === void 0 ) defaultValue = undefined;
+
+  type = type || String;
+
+  this._properties[key] = { type: type };
+
+  if (!window.localStorage[key] && defaultValue !== null) {
+    window.localStorage.setItem(
+      key,
+      [Array, Object].includes(type) ? JSON.stringify(defaultValue) : defaultValue
+    );
+  }
+};
+
+/**
+ * Process the value before return it from localStorage
+ *
+ * @param {String} type
+ * @param {*} value
+ * @returns {*}
+ * @private
+ */
+VueLocalStorage.prototype._process = function _process (type, value) {
+  switch (type) {
+    case Boolean:
+      return value === 'true'
+    case Number:
+      return parseInt(value, 10)
+    case Array:
+      try {
+        var array = JSON.parse(value);
+
+        return Array.isArray(array) ? array : []
+      } catch (e) {
+        return []
+      }
+    case Object:
+      try {
+        return JSON.parse(value)
+      } catch (e) {
+        return {}
+      }
+    default:
+      return value
+  }
+};
+
+var VueLocalStorage$1 = new VueLocalStorage();
+
+var index = {
+  /**
+   * Install vue-local-storage plugin
+   *
+   * @param {Vue} Vue
+   * @param {Object} options
+   */
+  install: function (Vue, options) {
+    if ( options === void 0 ) options = {};
+
+    if (typeof process !== 'undefined' &&
+      (
+        process.server ||
+        process.SERVER_BUILD ||
+        (Object({"NODE_ENV":"development"}) && Object({"NODE_ENV":"development"}).VUE_ENV === 'server')
+      )
+    ) {
+      return
     }
 
-    for (i = 0; i <= n; i++) {
-        cost[i] = [];
+    try {
+      var test = '__vue-localstorage-test__';
+
+      window.localStorage.setItem(test, test);
+      window.localStorage.removeItem(test);
+    } catch (e) {
+      console.error('Local storage is not supported');
     }
 
-    for (i = 0; i <= n; i++) {
-        cost[i][0] = i;
-    }
+    var name = options.name || 'localStorage';
+    var bind = options.bind;
 
-    for (j = 0; j <= m; j++) {
-        cost[0][j] = j;
-    }
+    Vue.mixin({
+      beforeCreate: function beforeCreate () {
+        var this$1 = this;
 
-    for (i = 1; i <= n; i++) {
-        var x = str1.charAt(i - 1);
+        if (this.$options[name]) {
+          Object.keys(this.$options[name]).forEach(function (key) {
+            var config = this$1.$options[name][key];
+            var ref = [config.type, config.default];
+            var type = ref[0];
+            var defaultValue = ref[1];
 
-        for (j = 1; j <= m; j++) {
-            var y = str2.charAt(j - 1);
+            VueLocalStorage$1.addProperty(key, type, defaultValue);
 
-            if (x == y) {
-                cost[i][j] = cost[i - 1][j - 1];
-            } else {
-                cost[i][j] = 1 + Math.min(cost[i - 1][j - 1], cost[i][j - 1], cost[i - 1][j]);
+            var existingProp = Object.getOwnPropertyDescriptor(VueLocalStorage$1, key);
+
+            if (!existingProp) {
+              var prop = {
+                get: function () { return Vue.localStorage.get(key, defaultValue); },
+                set: function (val) { return Vue.localStorage.set(key, val); },
+                configurable: true
+              };
+
+              Object.defineProperty(VueLocalStorage$1, key, prop);
+              Vue.util.defineReactive(VueLocalStorage$1, key, defaultValue);
+            } else if (!Vue.config.silent) {
+              console.log((key + ": is already defined and will be reused"));
             }
-        }
-    }
 
-    return cost[n][m];
-});
+            if ((bind || config.bind) && config.bind !== false) {
+              this$1.$options.computed = this$1.$options.computed || {};
+
+              if (!this$1.$options.computed[key]) {
+                this$1.$options.computed[key] = {
+                  get: function () { return Vue.localStorage[key]; },
+                  set: function (val) { Vue.localStorage[key] = val; }
+                };
+              }
+            }
+          });
+        }
+      }
+    });
+
+    Vue[name] = VueLocalStorage$1;
+    Vue.prototype[("$" + name)] = VueLocalStorage$1;
+  }
+};
+
+return index;
+
+})));
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ })
 /******/ ]);
