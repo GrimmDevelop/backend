@@ -51,52 +51,55 @@
 
                 @include('partials.filterSelection')
             </div>
-            <table class="table table-responsive table-hover">
-                <thead>
-                <tr>
-                    <th>
-                        <a href="{{ sort_link('people', 'id') }}"># {!! sort_arrow('id') !!}</a>
-                    </th>
-                    @foreach(\Grimm\Person::staticGridColumns() as $column)
+            <div class="col-md-12 list-content">
+                <div class="add-button">
+                </div>
+                <table class="table table-responsive table-hover">
+                    <thead>
+                    <tr>
                         <th>
-                            <a href="{{ sort_link('people', $column->name()) }}">
-                                {{ trans('people.' . $column->name()) }}
-                                {!! sort_arrow($column->name()) !!}
-                            </a>
+                            <a href="{{ sort_link('people', 'id') }}"># {!! sort_arrow('id') !!}</a>
                         </th>
-                    @endforeach
-                </tr>
-                </thead>
-                <tbody>
-                @forelse($people->items() as $index => $person)
-                    <tr id="person-{{ $person->id }}"
-                        onclick="location.href='{{ route('people.show', ['id' => $person->id]) }}'"
-                        style="cursor: pointer;"
-                        class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
-                        <td>{{ $person->id }}</td>
-                        @foreach($person->gridColumns() as $column)
-                            <td>
-                                {{ $person->gridify($column) }}
-                            </td>
+                        @foreach(\Grimm\Person::staticGridColumns() as $column)
+                            <th>
+                                <a href="{{ sort_link('people', $column->name()) }}">
+                                    {{ trans('people.' . $column->name()) }}
+                                    {!! sort_arrow($column->name()) !!}
+                                </a>
+                            </th>
                         @endforeach
                     </tr>
+                    </thead>
+                    <tbody>
+                    @forelse($people->items() as $index => $person)
+                        <tr id="person-{{ $person->id }}"
+                            onclick="location.href='{{ route('people.show', ['id' => $person->id]) }}'"
+                            style="cursor: pointer;"
+                            class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
+                            <td>{{ $person->id }}</td>
+                            @foreach($person->gridColumns() as $column)
+                                <td>
+                                    {{ $person->gridify($column) }}
+                                </td>
+                            @endforeach
+                        </tr>
                     @empty
-                    <tr onclick="location.href='{{ route('people.create') }}'" style="cursor: pointer;">
-                        <td class="empty-list" colspan="6">In der Datenbank ist keine Person vorhanden. Möchten Sie
-                            eine erstellen?
-                        </td>
-                    </tr>
-                @endforelse
-                </tbody>
-            </table>
+                        <tr onclick="location.href='{{ route('people.create') }}'" style="cursor: pointer;">
+                            <td class="empty-list" colspan="6">In der Datenbank ist keine Person vorhanden. Möchten Sie
+                                eine erstellen?
+                            </td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
 
-        </div>
-        <div class="col-md-12 pagination-container">
-            <div class="pagination-container">
-                {{ $people->appends($filter->delta())->links() }}
+            </div>
+            <div class="col-md-12 pagination-container">
+                <div class="pagination-container">
+                    {{ $people->appends($filter->delta())->links() }}
+                </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 
