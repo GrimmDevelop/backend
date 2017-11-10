@@ -17,10 +17,13 @@
         </ul>
     </div>
 @endif
+@if(!str_contains(request()->url(),['people','librarybooks']))
 <div class="btn-group">
+
     <a href="{{ url()->filtered(['trash']) }}" type="button"
        class="btn btn-{{ ($filter->filterFor('trash')->applied()) ? 'danger' : 'default' }} btn-sm"
        data-toggle="tooltip" data-placement="bottom" title="Gelöschte Elemente anzeigen">
         <i class="fa fa-trash-o"></i>
     </a>
 </div>
+@endif

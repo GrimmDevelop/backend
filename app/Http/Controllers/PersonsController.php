@@ -188,7 +188,6 @@ class PersonsController extends Controller
     {
         return [
             new PageSizeFilter('people'),
-            new TrashFilter('people'),
             new NameFilter(),
             new PrefixFilter('last_name'),
             new BioDataDuplicateFilter(),

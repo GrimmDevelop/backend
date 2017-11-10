@@ -257,7 +257,6 @@ class LibraryBooksController extends Controller
     protected function filters()
     {
         return [
-            new TrashFilter('library'),
             new TitleFilter(),
             new BookNoFilter(),
             new PrefixFilter('title'),
