@@ -15,6 +15,7 @@ return [
     'id' => 'ID',
     'last_name' => 'Nachname',
     'first_name' => 'Vorname',
+    'full_name' => 'Name',
     'birth_date' => 'Geboren',
     'death_date' => 'Gestorben',
     'bio_data' => 'ungenaue Lebensdaten',
