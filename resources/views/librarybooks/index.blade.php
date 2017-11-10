@@ -75,7 +75,7 @@
                     <form action="{{ route('librarybooks.export') . '?' . http_build_query($filter->delta()) }}" method="post" style="display: inline;">
                         {{ csrf_field() }}
                         <button type="submit" class="btn btn-info btn-sm"
-                                data-toggle="tooltip" title="Export starten">
+                                data-toggle="tooltip" title="Daten exportieren">
                             <i class="fa fa-download"></i>
                         </button>
                     </form>
