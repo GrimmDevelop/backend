@@ -117,6 +117,17 @@ class FilterApplicator
     }
 
     /**
+     * Checks if a given filter is available in current context
+     *
+     * @param $key
+     * @return bool
+     */
+    public function hasFilter($key)
+    {
+        return isset($this->filters[$key]);
+    }
+
+    /**
      * Build the query string for the filters and the given delta
      * (see documentation for the delta method on how to use the
      * $deltaFilters array).
