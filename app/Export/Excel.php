@@ -64,8 +64,7 @@ class Excel implements Export
 
         $intoSheet = $intoSheet == null ? $this->excel->getActiveSheetIndex() : $intoSheet;
         if ($firstRowAreColumnNames) {
-            $keys = collect($data[0])->keys();
-            $this->excel->setActiveSheetIndex($intoSheet)->fromArray(array_merge([$keys->toArray()], $data->toArray()));
+            $this->excel->setActiveSheetIndex($intoSheet)->fromArray(array_merge([$data[0]->keys()->toArray()], $data[1]->toArray()));
         } else {
             $this->excel->setActiveSheetIndex($intoSheet)->fromArray($data->toArray());
         }
@@ -93,7 +92,7 @@ class Excel implements Export
         //remove the default empty sheet
         $this->excel->removeSheetByIndex($this->excel->getSheetCount() - 1);
 
-        if(!$overwriteExistingFile && file_exists($path)) {
+        if (!$overwriteExistingFile && file_exists($path)) {
             throw new FileExistsException('File "' . $fileName . '" already exists!');
         }
 
