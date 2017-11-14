@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\DestroyPersonEvent;
 use App\Events\StorePersonEvent;
 use App\Events\UpdatePersonEvent;
+use App\Export\Excel;
 use App\Filters\People\BioDataDuplicateFilter;
 use App\Filters\People\NameFilter;
 use App\Filters\Shared\OnlyTrashedFilter;
@@ -16,6 +17,7 @@ use App\Http\Requests\DestroyPersonRequest;
 use App\Http\Requests\IndexPersonRequest;
 use App\Http\Requests\StorePersonRequest;
 use App\Http\Requests\UpdatePersonDataRequest;
+use Carbon\Carbon;
 use Grimm\Person;
 use Illuminate\Http\Request;
 
@@ -76,6 +78,35 @@ class PersonsController extends Controller
 
         return redirect()->route('people.show', [$person->id])->with('success',
             'Die Person wurde erfolgreich erstellt!');
+    }
+
+    public function export(IndexPersonRequest $request)
+    {
+        Person::applyGrid();
+
+        $people = Person::query();
+
+        $this->filter($people);
+
+        $pageSize = $this->filter->filterFor('page-size')->pageSize();
+
+        $people = $this->prepareCollection('last_person_index', $people, $request, $pageSize);
+
+        $data = collect([Person::staticGridColumns(), Person::activeGridData($people)]);
+
+        $excel = new Excel();
+
+        $file = $excel->title('Books by catalog', 0)
+            ->load($data, 0, true)
+            ->save('test-' . Carbon::now()->format('Ymdhis'), true);
+
+        if ($file === null) {
+            return redirect()
+                ->back()
+                ->with('error', 'Export konnte nicht erstellt werden!');
+        }
+
+        return response()->download($file);
     }
 
     /**

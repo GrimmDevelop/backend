@@ -31,6 +31,7 @@ $this->group(['middleware' => 'auth'], function () {
     $this->get('people/search', ['as' => 'people.search', 'uses' => 'PersonsController@search']);
     $this->resource('people', 'PersonsController', ['except' => ['edit']]);
 
+    $this->post('people/export', ['as' => 'people.export', 'uses' => 'PersonsController@export']);
     $this->post('people/{id}/restore', ['as' => 'people.restore', 'uses' => 'PersonsController@restore']);
     $this->post('books/{id}/restore', ['as' => 'books.restore', 'uses' => 'BooksController@restore']);
     $this->post('librarybooks/{id}/restore',
