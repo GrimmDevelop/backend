@@ -66,7 +66,7 @@ class Excel implements Export
         if ($firstRowAreColumnNames) {
             $this->excel->setActiveSheetIndex($intoSheet)->fromArray(array_merge([$data[0]->keys()->toArray()], $data[1]->toArray()));
         } else {
-            $this->excel->setActiveSheetIndex($intoSheet)->fromArray($data->toArray());
+            $this->excel->setActiveSheetIndex($intoSheet)->fromArray($data[1]->toArray());
         }
         return $this;
     }
