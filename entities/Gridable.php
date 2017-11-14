@@ -4,6 +4,7 @@ namespace Grimm;
 
 use App\Grid\Column;
 use App\Grid\Grid;
+use Illuminate\Support\Collection;
 
 /**
  * Trait Gridable
@@ -52,5 +53,24 @@ trait Gridable
         $model = $this;
 
         return $column->value($model);
+    }
+
+    public function activeGridRow()
+    {
+        $row = collect($this->gridColumns());
+        return $row->map(function ($column) {
+            return $this->gridify($column);
+        });
+    }
+
+    /**
+     * @param Collection $gridItems
+     * @return mixed
+     */
+    public static function activeGridData($gridItems)
+    {
+        return $gridItems->map(function ($items) {
+            return $items->activeGridRow();
+        });
     }
 }
