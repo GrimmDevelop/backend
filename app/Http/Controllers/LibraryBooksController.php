@@ -128,7 +128,7 @@ class LibraryBooksController extends Controller
 
         $books = $this->prepareCollection('excel', $books, $request);
 
-        $data = collect($books->items());
+        $data = collect([collect($books->items()[0]), collect($books->items())]);
 
         $excel = new Excel();
 
