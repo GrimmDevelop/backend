@@ -5,12 +5,16 @@ namespace App\Export;
 use function array_merge;
 use function collect;
 use function file_exists;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 use function in_array;
+use JsonSerializable;
 use League\Flysystem\FileExistsException;
 use PHPExcel_IOFactory;
 use PHPExcel;
 use function storage_path;
+use Traversable;
 
 class Excel implements Export
 {
@@ -49,25 +53,54 @@ class Excel implements Export
         }
 
         $this->excel->setActiveSheetIndex($sheet)->setTitle($title);
+
         return $this;
     }
 
     /**
-     * @param Collection $data
+     * @param $data
      * @param $intoSheet
-     * @param bool $firstRowAreColumnNames
+     * @param bool $useKeysAsColumnNames
      * @return $this
      */
-    public function load(Collection $data, $intoSheet = null, $firstRowAreColumnNames = false)
+    public function load($data, $intoSheet = null, $useKeysAsColumnNames = true)
     {
         // load to excel sheet
-
         $intoSheet = $intoSheet == null ? $this->excel->getActiveSheetIndex() : $intoSheet;
-        if ($firstRowAreColumnNames) {
-            $this->excel->setActiveSheetIndex($intoSheet)->fromArray(array_merge([$data[0]->keys()->toArray()], $data[1]->toArray()));
-        } else {
-            $this->excel->setActiveSheetIndex($intoSheet)->fromArray($data[1]->toArray());
+
+        // always use collections
+        $data = collect($data)
+            ->map(function ($row) {
+                if (is_array($row)) {
+                    return $row;
+                } elseif ($row instanceof Collection) {
+                    return $row->all();
+                } elseif ($row instanceof Arrayable) {
+                    return $row->toArray();
+                } elseif ($row instanceof Jsonable) {
+                    return json_decode($row->toJson(), true);
+                } elseif ($row instanceof JsonSerializable) {
+                    return $row->jsonSerialize();
+                } elseif ($row instanceof Traversable) {
+                    return iterator_to_array($row);
+                }
+
+                return (array)$row;
+            });
+
+        if ($useKeysAsColumnNames) {
+            // prepend keys as row
+            $keys = array_keys($data[0]);
+
+            $data->prepend($keys);
         }
+
+        $preparedData = $data->all();
+
+        $this->excel
+            ->setActiveSheetIndex($intoSheet)
+            ->fromArray($preparedData);
+
         return $this;
     }
 

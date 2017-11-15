@@ -4,8 +4,12 @@ namespace Grimm;
 
 use App\Grid\Column;
 use App\Grid\Grid;
+use App\Grid\Gridable;
+use App\Grid\IsGridable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 
 /**
  * @property int id
@@ -51,10 +55,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property \Illuminate\Support\Collection|LetterPersonAssociation[] personAssociations
  */
-class Letter extends Model
+class Letter extends Model implements IsGridable, HasMedia
 {
 
-    use SoftDeletes, HasActivity, Gridable;
+    use SoftDeletes, HasActivity, Gridable, HasMediaTrait;
 
     /**
      * Returns full title of letter
@@ -158,7 +162,7 @@ class Letter extends Model
         })->values();
     }
 
-    protected function grid(): Grid
+    public function grid(): Grid
     {
         return new Grid('letters', [
             new Column('id_till_1992', false),

@@ -12,7 +12,6 @@ use App\Filters\Shared\OnlyTrashedFilter;
 use App\Filters\Shared\PageSizeFilter;
 use App\Filters\Shared\PrefixFilter;
 use App\Filters\Shared\SortFilter;
-use App\Filters\Shared\TrashFilter;
 use App\Http\Requests\DestroyPersonRequest;
 use App\Http\Requests\IndexPersonRequest;
 use App\Http\Requests\StorePersonRequest;
@@ -20,6 +19,7 @@ use App\Http\Requests\UpdatePersonDataRequest;
 use Carbon\Carbon;
 use Grimm\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 
 class PersonsController extends Controller
@@ -92,7 +92,7 @@ class PersonsController extends Controller
 
         $people = $this->prepareCollection('last_person_index', $people, $request, $pageSize);
 
-        $data = collect([Person::staticGridColumns(), Person::activeGridData($people)]);
+        $data = Person::activeGridData($people->items());
 
         $excel = new Excel();
 

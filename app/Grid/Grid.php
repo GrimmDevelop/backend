@@ -21,6 +21,26 @@ class Grid
         }
     }
 
+    /**
+     * change visible state of columns by request data
+     *
+     * @return void
+     */
+    public function apply()
+    {
+        if ($columnName = request()->get('grid')) {
+            $state = request()->get('state');
+
+            if ($this->column($columnName)->isActive() != $state) {
+                $this->toggleColumn($columnName);
+            }
+        }
+    }
+
+    /**
+     * @param Column $column
+     * @return $this
+     */
     public function add(Column $column)
     {
         $this->columns[$column->name()] = $column;
@@ -40,18 +60,43 @@ class Grid
     }
 
     /**
+     * @param bool $alsoHiddenOnes
      * @return Collection
      */
-    public function columns()
+    public function columns($alsoHiddenOnes = false)
     {
-        return $this->columns;
+        return $this->columns
+            ->filter(function (Column $column) use ($alsoHiddenOnes) {
+                if ($alsoHiddenOnes) {
+                    return true;
+                }
+
+                return $column->isActive();
+            });
     }
 
+    /**
+     * @param $items
+     * @return Collection
+     */
+    public function data($items)
+    {
+        return collect($items)->map(function (IsGridable $model) {
+            return $model->activeGridRow();
+        });
+    }
+
+    /**
+     * @param $name
+     */
     public function toggleColumn($name)
     {
         $this->column($name)->toggle();
     }
 
+    /**
+     * @return string
+     */
     public function namespace()
     {
         return $this->namespace . '.';

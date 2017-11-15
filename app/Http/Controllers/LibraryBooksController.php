@@ -128,12 +128,10 @@ class LibraryBooksController extends Controller
 
         $books = $this->prepareCollection('excel', $books, $request);
 
-        $data = collect([collect($books->items()[0]), collect($books->items())]);
-
         $excel = new Excel();
 
         $file = $excel->title('Books by catalog', 0)
-            ->load($data, 0, true)
+            ->load($books->items(), 0, true)
             ->save('test-' . Carbon::now()->format('Ymdhis'), true);
 
         if ($file === null) {

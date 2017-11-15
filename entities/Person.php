@@ -4,6 +4,8 @@ namespace Grimm;
 
 use App\Grid\Column;
 use App\Grid\Grid;
+use App\Grid\Gridable;
+use App\Grid\IsGridable;
 use function Aws\flatmap;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,7 +32,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property Carbon created_at
  */
-class Person extends Model
+class Person extends Model implements IsGridable
 {
     use SoftDeletes, CollectPrefixes, HasActivity, Gridable;
 
@@ -182,7 +184,7 @@ class Person extends Model
         });
     }
 
-    protected function grid(): Grid
+    public function grid(): Grid
     {
         return new Grid('people', [
             new Column('full_name', true, function () {

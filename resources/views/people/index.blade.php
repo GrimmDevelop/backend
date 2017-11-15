@@ -49,7 +49,7 @@
                     <a href="#" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Spalten <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        @foreach(\Grimm\Person::staticGridColumns(true) as $column)
+                        @foreach(\Grimm\Person::gridColumns(true) as $column)
                             <li {!! active_if($column->isActive()) !!}>
                                 <a href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">{{ $column->name() }}</a>
                             </li>
@@ -68,7 +68,7 @@
                         <th>
                             <a href="{{ sort_link('people', 'id') }}"># {!! sort_arrow('id') !!}</a>
                         </th>
-                        @foreach(\Grimm\Person::staticGridColumns() as $column)
+                        @foreach(\Grimm\Person::gridColumns() as $column)
                             <th>
                                 <a href="{{ sort_link('people', $column->name()) }}">
                                     {{ trans('people.' . $column->name()) }}
@@ -85,7 +85,7 @@
                             style="cursor: pointer;"
                             class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
                             <td>{{ $person->id }}</td>
-                            @foreach($person->gridColumns() as $column)
+                            @foreach($person->grid()->columns() as $column)
                                 <td>
                                     {{ $person->gridify($column) }}
                                 </td>

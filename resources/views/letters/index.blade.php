@@ -39,7 +39,7 @@
                     <a href="#" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Spalten <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        @foreach(\Grimm\Letter::staticGridColumns(true) as $column)
+                        @foreach(\Grimm\Letter::gridColumns(true) as $column)
                             <li {!! active_if($column->isActive()) !!}>
                                 <a href="{{ route('letters.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">{{ $column->name() }}</a>
                             </li>
@@ -58,7 +58,7 @@
                         <th>
                             <a href="{{ sort_link('letters', 'id') }}"># {!! sort_arrow('id') !!}</a>
                         </th>
-                        @foreach(\Grimm\Letter::staticGridColumns() as $column)
+                        @foreach(\Grimm\Letter::gridColumns() as $column)
                             <th>
                                 <a href="{{ sort_link('letters', $column->name()) }}">
                                     {{ trans('letters.' . $column->name()) }}
@@ -75,7 +75,7 @@
                             style="cursor: pointer;"
                             class="@if($letter->trashed()) bg-danger @endif">
                             <td>{{ $letter->id }}</td>
-                            @foreach($letter->gridColumns() as $column)
+                            @foreach($letter->grid()->columns() as $column)
                                 <td>
                                     {{ $letter->gridify($column) }}
                                 </td>
