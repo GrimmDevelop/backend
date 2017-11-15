@@ -13,7 +13,7 @@ class ShowUserRequest extends Request
      */
     public function authorize()
     {
-        return $this->user()->can('users.update') || $this->user()->id === $this->route('users')->id;
+        return $this->user()->can('users.update') || $this->user()->id === $this->route('user')->id;
     }
 
     /**
