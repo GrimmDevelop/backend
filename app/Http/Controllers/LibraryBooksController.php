@@ -126,7 +126,7 @@ class LibraryBooksController extends Controller
 
         $this->filter($books);
 
-        $books = $this->prepareCollection('excel', $books, $request);
+        $books = $this->prepareCollection('excel', $books, $request, PHP_INT_MAX);
 
         $excel = new Excel();
 
