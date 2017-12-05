@@ -126,14 +126,12 @@ class LibraryBooksController extends Controller
 
         $this->filter($books);
 
-        $books = $this->prepareCollection('excel', $books, $request);
-
-        $data = collect($books->items());
+        $books = $this->prepareCollection('excel', $books, $request, PHP_INT_MAX);
 
         $excel = new Excel();
 
         $file = $excel->title('Books by catalog', 0)
-            ->load($data, 0, true)
+            ->load($books->items(), 0, true)
             ->save('test-' . Carbon::now()->format('Ymdhis'), true);
 
         if ($file === null) {
@@ -257,7 +255,6 @@ class LibraryBooksController extends Controller
     protected function filters()
     {
         return [
-            new TrashFilter('library'),
             new TitleFilter(),
             new BookNoFilter(),
             new PrefixFilter('title'),

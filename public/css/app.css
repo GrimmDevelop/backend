@@ -8419,6 +8419,11 @@ body {
   border-radius: 0;
 }
 
+.pagination-container > .btn-group {
+  margin-top: 1px;
+  margin-left: 2px;
+}
+
 .tabs-container {
   background: #ECECEC;
 }

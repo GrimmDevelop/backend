@@ -31,6 +31,11 @@ trait DBFRecordConverter
     public function convert(Record $record, $columns)
     {
         $entity = $this->setupEntity();
+
+        if (method_exists($this, 'setupColumns')) {
+            $columns = $this->setupColumns($columns);
+        }
+
         foreach ($columns as $column) {
             $this->handleField($record->getObject($column), $column, $entity);
         }
@@ -67,5 +72,4 @@ trait DBFRecordConverter
             $this->parsers[$columnName]->parse($columnName, $field, $entity);
         }
     }
-
 }

@@ -29,33 +29,67 @@
                 </div>
                 <h1>Personendatenbank</h1>
             </div>
+
             @include('partials.prefixSelection', ['route' => 'people'])
+
             <div class="col-md-12 pagination-container">
                 {{ $people->appends($filter->delta())->links() }}
+
+                <form action="{{ route('people.export') . '?' . http_build_query($filter->delta()) }}" method="post" style="display: inline;">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-info btn-sm"
+                            data-toggle="tooltip" title="Daten exportieren">
+                        <i class="fa fa-download"></i>
+                    </button>
+                </form>
+
+                @include('partials.pageSizeSelection')
+
+                <div class="btn-group">
+                    <a href="#" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Spalten <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        @foreach(\Grimm\Person::gridColumns(true) as $column)
+                            <li {!! active_if($column->isActive()) !!}>
+                                <a href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">{{ $column->name() }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                @include('partials.filterSelection')
             </div>
             <div class="col-md-12 list-content">
                 <div class="add-button">
-                    @include('partials.filterSelection')
-
                 </div>
                 <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
                         <th>
-                            <a href="{{ sort_link('people', 'last_name') }}">Name {!! sort_arrow('last_name') !!}</a>
+                            <a href="{{ sort_link('people', 'id') }}"># {!! sort_arrow('id') !!}</a>
                         </th>
-                        <th><a href="{{ sort_link('people', 'bio_data') }}">{{ trans('people.bio_data') }} {!! sort_arrow('bio_data') !!}</a></th>
-                        <th><a href="{{ sort_link('people', 'add_bio_data') }}">{{ trans('people.add_bio_data') }} {!! sort_arrow('add_bio_data') !!}</a></th>
+                        @foreach(\Grimm\Person::gridColumns() as $column)
+                            <th>
+                                <a href="{{ sort_link('people', $column->name()) }}">
+                                    {{ trans('people.' . $column->name()) }}
+                                    {!! sort_arrow($column->name()) !!}
+                                </a>
+                            </th>
+                        @endforeach
                     </tr>
                     </thead>
                     <tbody>
-                    @forelse($people->items() as $person)
+                    @forelse($people->items() as $index => $person)
                         <tr id="person-{{ $person->id }}"
                             onclick="location.href='{{ route('people.show', ['id' => $person->id]) }}'"
-                            style="cursor: pointer;" class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
-                            <td>{{ $person->fullName() }}</td>
-                            <td>{{ $person->bio_data }}</td>
-                            <td>{{ str_limit($person->add_bio_data,50, '[...]') }}</td>
+                            style="cursor: pointer;"
+                            class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
+                            <td>{{ $person->id }}</td>
+                            @foreach($person->grid()->columns() as $column)
+                                <td>
+                                    {{ $person->gridify($column) }}
+                                </td>
+                            @endforeach
                         </tr>
                     @empty
                         <tr onclick="location.href='{{ route('people.create') }}'" style="cursor: pointer;">
@@ -66,6 +100,7 @@
                     @endforelse
                     </tbody>
                 </table>
+
             </div>
             <div class="col-md-12 pagination-container">
                 <div class="pagination-container">

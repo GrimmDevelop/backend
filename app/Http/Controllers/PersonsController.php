@@ -5,21 +5,22 @@ namespace App\Http\Controllers;
 use App\Events\DestroyPersonEvent;
 use App\Events\StorePersonEvent;
 use App\Events\UpdatePersonEvent;
+use App\Export\Excel;
 use App\Filters\People\BioDataDuplicateFilter;
 use App\Filters\People\NameFilter;
 use App\Filters\Shared\OnlyTrashedFilter;
+use App\Filters\Shared\PageSizeFilter;
 use App\Filters\Shared\PrefixFilter;
 use App\Filters\Shared\SortFilter;
-use App\Filters\Shared\TrashFilter;
 use App\Http\Requests\DestroyPersonRequest;
 use App\Http\Requests\IndexPersonRequest;
 use App\Http\Requests\StorePersonRequest;
 use App\Http\Requests\UpdatePersonDataRequest;
+use Carbon\Carbon;
 use Grimm\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
 class PersonsController extends Controller
 {
@@ -35,13 +36,17 @@ class PersonsController extends Controller
      */
     public function index(IndexPersonRequest $request)
     {
+        Person::applyGrid();
+
         $people = Person::query();
 
         $this->filter($people);
 
         $this->preparePrefixDisplay($request->get('prefix'), Person::prefixesOfLength('last_name', 2)->get());
 
-        $people = $this->prepareCollection('last_person_index', $people, $request, 200);
+        $pageSize = $this->filter->filterFor('page-size')->pageSize();
+
+        $people = $this->prepareCollection('last_person_index', $people, $request, $pageSize);
 
         return view('people.index', compact('people'));
     }
@@ -73,6 +78,35 @@ class PersonsController extends Controller
 
         return redirect()->route('people.show', [$person->id])->with('success',
             'Die Person wurde erfolgreich erstellt!');
+    }
+
+    public function export(IndexPersonRequest $request)
+    {
+        Person::applyGrid();
+
+        $people = Person::query();
+
+        $this->filter($people);
+
+        $pageSize = $this->filter->filterFor('page-size')->pageSize();
+
+        $people = $this->prepareCollection('last_person_index', $people, $request, $pageSize);
+
+        $data = Person::activeGridData($people->items());
+
+        $excel = new Excel();
+
+        $file = $excel->title('Books by catalog', 0)
+            ->load($data, 0, true)
+            ->save('test-' . Carbon::now()->format('Ymdhis'), true);
+
+        if ($file === null) {
+            return redirect()
+                ->back()
+                ->with('error', 'Export konnte nicht erstellt werden!');
+        }
+
+        return response()->download($file);
     }
 
     /**
@@ -184,7 +218,7 @@ class PersonsController extends Controller
     protected function filters()
     {
         return [
-            new TrashFilter('people'),
+            new PageSizeFilter('people'),
             new NameFilter(),
             new PrefixFilter('last_name'),
             new BioDataDuplicateFilter(),

@@ -7,7 +7,7 @@
         @else
             <textarea class="form-control"
                       name="{{ $field }}" id="input{{ ucfirst($field) }}" cols="30"
-                      rows="10">{{ old($field, (!is_string($model) ? $model->{$field} : null)) }}</textarea>
+                      rows="{{ $rows ?? 10 }}">{{ old($field, (!is_string($model) ? $model->{$field} : null)) }}</textarea>
 
             @if ($errors->has($field))
                 <span class="help-block">
