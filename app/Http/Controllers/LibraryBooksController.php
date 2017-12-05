@@ -132,7 +132,7 @@ class LibraryBooksController extends Controller
 
         $file = $excel->title('Books by catalog', 0)
             ->load($books->items(), 0, true)
-            ->save('test-' . Carbon::now()->format('Ymdhis'), true);
+            ->save('library-books-' . Carbon::now()->format('Ymdhis'), true);
 
         if ($file === null) {
             return redirect()
