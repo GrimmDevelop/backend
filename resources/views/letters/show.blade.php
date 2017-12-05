@@ -138,8 +138,20 @@
                     @include('partials.form.field', ['field' => 'to_date', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'reply_annotation', 'model' => $letter])
 
+                    <hr>
 
                     @unless($letter->trashed())
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                @can('library.update')
+                                    <a href onclick="return false;" role="button" class="btn btn-lg btn-default" style="cursor: not-allowed;">
+                                        <span class="fa fa-picture-o"></span>
+                                        Scans verwalten
+                                    </a>
+                                @endcan
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-sm-10 col-sm-offset-2">
                                 @can('library.update')
