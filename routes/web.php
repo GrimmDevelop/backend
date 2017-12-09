@@ -42,6 +42,7 @@ $this->group(['middleware' => 'auth'], function () {
     $this->resource('roles', 'RolesController', ['except' => ['edit']]);
 
     // Grimm Library
+    $this->post('LibraryBooks/uploadImage/{Book}', 'LibraryBooksController@upload')->name('uploadImage');
     $this->get('librarybooks/analyze', 'LibraryBooksController@analyzeBooks')->name('librarybooks.analyze');
     $this->resource('librarybooks', 'LibraryBooksController', ['except' => ['edit']]);
     $this->post('librarybooks/export', 'LibraryBooksController@export')->name('librarybooks.export');
@@ -55,6 +56,7 @@ $this->group(['middleware' => 'auth'], function () {
     $this->get('librarypeople/{libraryPerson}/combine',
         'LibraryPeopleController@combine')->name('librarypeople.combine');
     $this->post('librarypeople/{libraryPerson}/combine', 'LibraryPeopleController@postCombine');
+
 
     // Associations (user-book)
     $this->get('books/{book}/associations',

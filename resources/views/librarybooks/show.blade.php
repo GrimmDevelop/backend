@@ -90,6 +90,22 @@
                         @include('partials.form.field', ['field' => 'purchase_number', 'model' => $book, 'disabled' => $book->trashed()])
                         @include('partials.form.field', ['field' => 'shelf_mark', 'model' => $book, 'disabled' => $book->trashed()])
 
+
+                        <form id="uploadFileForm" action="{{route('uploadImage',$book->id)}}" method="POST"
+                              enctype="multipart/form-data">
+                            <meta name="csrf-token" content="{{ csrf_token() }}"/>
+                            <div class="row col-md-offset-2">
+                                <input id="uploadImage" name="image" class="col-sm-3 form-group" type="file">
+                                <div class="col-sm-9 pull-left">
+                                    <div id="progress-con" class="progress" style="height: 3px;" hidden>
+                                        <div id="progress" class="progress-bar" role="progressbar" style="width: 0%;"
+                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+
                         @include('partials.form.field', ['field' => 'tales_comm_1856', 'model' => $book, 'disabled' => $book->trashed()])
 
                         @include('partials.form.field', ['field' => 'external_digitization', 'model' => $book, 'disabled' => $book->trashed()])
@@ -161,4 +177,63 @@
 
 @section('scripts')
     <script src="{{ url('js/library.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#uploadImage').on('change', function (e) {
+                event.preventDefault();
+
+                var formdata = new FormData();
+
+                formdata.append('image', $('#uploadImage')[0].files[0]);
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    xhr: function () {
+                        var myXhr = $.ajaxSettings.xhr();
+                        if (myXhr.upload) {
+                            $('#progress-con').show();
+                            myXhr.upload.addEventListener('progress', function (e) {
+                                var percent = Math.round(e.loaded / e.total * 100);
+                                $('#progress').css('width', percent + '%');
+                            }, false);
+                        }
+                        return myXhr;
+                    },
+                    url: "{{route('uploadImage',$book->id)}}",
+                    data: formdata,
+                    method: 'POST',
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        setTimeout(function () {
+                            if (response['success'])
+                                alert(response['msg']);
+                        }, 1100);
+
+                    },
+                    error: function (response) {
+                        alert(response.responseText['image']);
+
+                    },
+                    complete: function (e) {
+                        setTimeout(function () {
+                            $('#progress-con').hide();
+                            $('#progress').css('width', '0%');
+                        }, 1000);
+
+                    },
+                    fail: function (data) {
+                        console.log(data['msg']);
+                    }
+
+                });
+
+
+            });
+
+        });
+
+    </script>
 @endsection

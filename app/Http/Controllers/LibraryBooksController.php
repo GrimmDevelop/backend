@@ -26,10 +26,23 @@ use App\Http\Requests\ShowLibraryRequest;
 use App\Http\Requests\StoreLibraryRelationRequest;
 use App\Http\Requests\StoreLibraryRequest;
 use App\Http\Requests\UpdateLibraryRequest;
+use App\Http\Requests\UploadImage;
+use function Aws\map;
+use function back;
 use Carbon\Carbon;
+use function data_get;
+use function dd;
+use function e;
+use File;
+use Grimm\Book;
 use Grimm\LibraryBook;
+use Illuminate\Support\Facades\Input;
+use function log;
+use function realpath;
 use function response;
+use function serialize;
 use function storage_path;
+use Validator;
 
 
 class LibraryBooksController extends Controller
@@ -141,6 +154,42 @@ class LibraryBooksController extends Controller
         }
 
         return response()->download($file);
+    }
+
+    /**
+     * @param IndexLibraryRequest $request
+     * @param LibraryBook $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function upload(IndexLibraryRequest $request, $id)
+    {
+
+        $validator = Validator::make($request->all(), [
+
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ]);
+
+        if ($validator->passes()) {
+            $book = LibraryBook::query()->findOrFail($id);
+            $image = null;
+            if ($request->ajax() && $request->has('image')) {
+                $image = $request->file('image');
+                $book->addMedia($image->getRealPath())
+                    ->usingName($image->getBasename() . '-' . Carbon::now()->format('Ymdhis'))
+                    ->usingFileName($image->getClientOriginalName())
+                    ->preservingOriginal()
+                    ->toMediaCollection('LibraryBooks');
+
+                return response()->json(['success' => true, 'msg' => $image->getClientOriginalName() . ' is uploaded'], 200);
+            } else
+                return response()->json(['success' => false, 'msg' => 'The request is not ajax or image is not exist'], 400);
+
+        } else if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+
+        }
+
     }
 
     /**
