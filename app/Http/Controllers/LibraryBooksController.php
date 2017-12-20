@@ -18,7 +18,6 @@ use App\Filters\Library\TitleFilter;
 use App\Filters\Shared\OnlyTrashedFilter;
 use App\Filters\Shared\PrefixFilter;
 use App\Filters\Shared\SortFilter;
-use App\Filters\Shared\TrashFilter;
 use App\Http\Requests\DestroyLibraryRelationRequest;
 use App\Http\Requests\DestroyLibraryRequest;
 use App\Http\Requests\IndexLibraryRequest;
@@ -26,23 +25,11 @@ use App\Http\Requests\ShowLibraryRequest;
 use App\Http\Requests\StoreLibraryRelationRequest;
 use App\Http\Requests\StoreLibraryRequest;
 use App\Http\Requests\UpdateLibraryRequest;
-use App\Http\Requests\UploadImage;
-use function Aws\map;
-use function back;
 use Carbon\Carbon;
-use function data_get;
-use function dd;
-use function e;
-use File;
-use Grimm\Book;
+use Flow\Config;
+use Flow\File;
 use Grimm\LibraryBook;
 use Illuminate\Support\Facades\Input;
-use function log;
-use function realpath;
-use function response;
-use function serialize;
-use function storage_path;
-use Validator;
 
 
 class LibraryBooksController extends Controller
@@ -156,40 +143,61 @@ class LibraryBooksController extends Controller
         return response()->download($file);
     }
 
-    /**
-     * @param IndexLibraryRequest $request
-     * @param LibraryBook $id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function upload(IndexLibraryRequest $request, $id)
+    public function uploadGet(IndexLibraryRequest $request, $id)
     {
+        $book = LibraryBook::query()->findOrFail($id);
 
-        $validator = Validator::make($request->all(), [
+        $file = $this->initFlowFile();
 
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        if ($file->checkChunk()) {
+            return $this->saveUploadedFile($file, $book);
+        } else {
+            return response("No Content", 204);
+        }
+    }
 
-        ]);
+    public function uploadPost(IndexLibraryRequest $request, $id)
+    {
+        $book = LibraryBook::query()->findOrFail($id);
 
-        if ($validator->passes()) {
-            $book = LibraryBook::query()->findOrFail($id);
-            $image = null;
-            if ($request->ajax() && $request->has('image')) {
-                $image = $request->file('image');
-                $book->addMedia($image->getRealPath())
-                    ->usingName($image->getBasename() . '-' . Carbon::now()->format('Ymdhis'))
-                    ->usingFileName($image->getClientOriginalName())
-                    ->preservingOriginal()
-                    ->toMediaCollection('LibraryBooks');
+        $file = $this->initFlowFile();
 
-                return response()->json(['success' => true, 'msg' => $image->getClientOriginalName() . ' is uploaded'], 200);
-            } else
-                return response()->json(['success' => false, 'msg' => 'The request is not ajax or image is not exist'], 400);
+        if ($file->validateChunk()) {
+            $file->saveChunk();
 
-        } else if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return $this->saveUploadedFile($file, $book);
+        } else {
+            return response("Bad Request", 400);
+        }
+    }
 
+    /**
+     * @param File $file
+     * @param LibraryBook $book
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     * @throws \Flow\FileLockException
+     * @throws \Flow\FileOpenException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     */
+    private function saveUploadedFile(File $file, LibraryBook $book)
+    {
+        $filename = Input::get('flowRelativePath');
+
+        $path = storage_path() . '/uploads/librarybooks/' . $book->id . '/scans/';
+
+        if (!is_dir($path)) {
+            mkdir($path, 0775, true);
         }
 
+        if ($file->validateFile() && $file->save($path . $filename)) {
+            $book->addMedia($path . $filename)
+                ->toMediaCollection('librarybooks.scans');
+
+            return response("Complete", 200);
+        } else {
+            return response("Ok", 200);
+        }
     }
 
     /**
@@ -317,5 +325,21 @@ class LibraryBooksController extends Controller
                 return 'cat_id';
             }),
         ];
+    }
+
+    /**
+     * @return File
+     */
+    private function initFlowFile()
+    {
+        $config = new Config();
+
+        if (!is_dir(storage_path() . '/uploads/temp/')) {
+            mkdir(storage_path() . '/uploads/temp/', 0775, true);
+        }
+
+        $config->setTempDir(storage_path() . '/uploads/temp/');
+
+        return new File($config);
     }
 }

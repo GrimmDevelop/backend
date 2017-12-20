@@ -90,22 +90,6 @@
                         @include('partials.form.field', ['field' => 'purchase_number', 'model' => $book, 'disabled' => $book->trashed()])
                         @include('partials.form.field', ['field' => 'shelf_mark', 'model' => $book, 'disabled' => $book->trashed()])
 
-
-                        <form id="uploadFileForm" action="{{route('uploadImage',$book->id)}}" method="POST"
-                              enctype="multipart/form-data">
-                            <meta name="csrf-token" content="{{ csrf_token() }}"/>
-                            <div class="row col-md-offset-2">
-                                <input id="uploadImage" name="image" class="col-sm-3 form-group" type="file">
-                                <div class="col-sm-9 pull-left">
-                                    <div id="progress-con" class="progress" style="height: 3px;" hidden>
-                                        <div id="progress" class="progress-bar" role="progressbar" style="width: 0%;"
-                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-
-
                         @include('partials.form.field', ['field' => 'tales_comm_1856', 'model' => $book, 'disabled' => $book->trashed()])
 
                         @include('partials.form.field', ['field' => 'external_digitization', 'model' => $book, 'disabled' => $book->trashed()])
@@ -146,6 +130,28 @@
                     @include('logs.entity-activity', ['entity' => $book])
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="dropZone" class="drop">
+                                    <span id="browseButton" class="btn btn-default">
+                                        Upload Image
+                                        <input type="file"
+                                               multiple="multiple"
+                                               style="visibility: hidden; position: absolute;">
+                                    </span>
+
+                        </div>
+
+                        <br>
+
+                        <div class="progress ">
+                            <div id="upload-progress" class="progress-bar progress-bar-success"
+                                 style="width: 0%; min-width: 2em;">0%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 @can('library.delete')
                     @unless($book->trashed())
                         <div class="panel panel-danger">
@@ -177,63 +183,50 @@
 
 @section('scripts')
     <script src="{{ url('js/library.js') }}"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#uploadImage').on('change', function (e) {
-                event.preventDefault();
-
-                var formdata = new FormData();
-
-                formdata.append('image', $('#uploadImage')[0].files[0]);
-
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    xhr: function () {
-                        var myXhr = $.ajaxSettings.xhr();
-                        if (myXhr.upload) {
-                            $('#progress-con').show();
-                            myXhr.upload.addEventListener('progress', function (e) {
-                                var percent = Math.round(e.loaded / e.total * 100);
-                                $('#progress').css('width', percent + '%');
-                            }, false);
-                        }
-                        return myXhr;
-                    },
-                    url: "{{route('uploadImage',$book->id)}}",
-                    data: formdata,
-                    method: 'POST',
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        setTimeout(function () {
-                            if (response['success'])
-                                alert(response['msg']);
-                        }, 1100);
-
-                    },
-                    error: function (response) {
-                        alert(response.responseText['image']);
-
-                    },
-                    complete: function (e) {
-                        setTimeout(function () {
-                            $('#progress-con').hide();
-                            $('#progress').css('width', '0%');
-                        }, 1000);
-
-                    },
-                    fail: function (data) {
-                        console.log(data['msg']);
-                    }
-
-                });
-
-
-            });
-
+    <script src="{{url('js/flow.min.js')}}"></script>
+    <script>
+        var flow = new Flow({
+            target: '{{route('librarybooks.upload-scan',$book)}}',
+            headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken},
+            withCredentials: true
         });
 
+
+        flow.assignBrowse($('#browseButton'));
+        flow.assignDrop($('#dropZone'));
+
+        flow.on('fileAdded', function (file, event) {
+            $('#upload-progress').show();
+        });
+        flow.on('fileSuccess', function (file, message) {
+            console.log(file, message);
+        });
+        flow.on('fileError', function (file, message) {
+            console.log(file, message);
+        });
+        flow.on('progress', function () {
+            let percent = Math.round(flow.sizeUploaded() / flow.getSize() * 100);
+
+            $('#upload-progress').css('width', percent + '%');
+            $('#upload-progress').text(percent + '%');
+        });
+        flow.on('complete', function (e) {
+            $('#upload-progress').addClass('progress-bar-success');
+            $('#upload-progress').css('width', '100%');
+        });
+
+
+        flow.on('fileProgress', function (file, message) {
+
+        }, false);
+        flow.on('filesSubmitted', function () {
+            flow.upload();// instant upload
+        });
+
+
     </script>
+
+
+
+
 @endsection
