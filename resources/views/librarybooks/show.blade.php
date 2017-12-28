@@ -119,8 +119,14 @@
                         <div class="button-bar row">
                             <div class="col-sm-10 col-md-offset-2">
                                 <button type="submit" class="btn btn-primary">Speichern</button>
+                                <a href="{{ route('librarybooks.scans', [$book]) }}"
+                                   class="btn btn-default">
+                                    Scans verwalten
+                                </a>
                                 <a href="{{ referrer_url('last_book_index', route('librarybooks.index')) }}"
-                                   class="btn btn-link">Abbrechen</a>
+                                   class="btn btn-link">
+                                    Abbrechen
+                                </a>
                             </div>
                         </div>
                     @endunless
@@ -128,28 +134,6 @@
 
                 <div>
                     @include('logs.entity-activity', ['entity' => $book])
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div id="dropZone" class="drop">
-                                    <span id="browseButton" class="btn btn-default">
-                                        Upload Image
-                                        <input type="file"
-                                               multiple="multiple"
-                                               style="visibility: hidden; position: absolute;">
-                                    </span>
-
-                        </div>
-
-                        <br>
-
-                        <div class="progress ">
-                            <div id="upload-progress" class="progress-bar progress-bar-success"
-                                 style="width: 0%; min-width: 2em;">0%
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 @can('library.delete')
@@ -183,50 +167,4 @@
 
 @section('scripts')
     <script src="{{ url('js/library.js') }}"></script>
-    <script src="{{url('js/flow.min.js')}}"></script>
-    <script>
-        var flow = new Flow({
-            target: '{{route('librarybooks.upload-scan',$book)}}',
-            headers: {'X-CSRF-TOKEN': window.Laravel.csrfToken},
-            withCredentials: true
-        });
-
-
-        flow.assignBrowse($('#browseButton'));
-        flow.assignDrop($('#dropZone'));
-
-        flow.on('fileAdded', function (file, event) {
-            $('#upload-progress').show();
-        });
-        flow.on('fileSuccess', function (file, message) {
-            console.log(file, message);
-        });
-        flow.on('fileError', function (file, message) {
-            console.log(file, message);
-        });
-        flow.on('progress', function () {
-            let percent = Math.round(flow.sizeUploaded() / flow.getSize() * 100);
-
-            $('#upload-progress').css('width', percent + '%');
-            $('#upload-progress').text(percent + '%');
-        });
-        flow.on('complete', function (e) {
-            $('#upload-progress').addClass('progress-bar-success');
-            $('#upload-progress').css('width', '100%');
-        });
-
-
-        flow.on('fileProgress', function (file, message) {
-
-        }, false);
-        flow.on('filesSubmitted', function () {
-            flow.upload();// instant upload
-        });
-
-
-    </script>
-
-
-
-
 @endsection

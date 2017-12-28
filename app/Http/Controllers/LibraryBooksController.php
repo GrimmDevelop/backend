@@ -119,6 +119,17 @@ class LibraryBooksController extends Controller
         return view('librarybooks.show', compact('book'));
     }
 
+    public function scans($id)
+    {
+        $book = LibraryBook::with([
+            'authors',
+            'editors',
+            'translators',
+            'illustrators'
+        ])->findOrFail($id);
+
+        return view('librarybooks.scans', compact('book'));
+    }
 
     public function export(IndexLibraryRequest $request)
     {
