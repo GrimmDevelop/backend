@@ -9,6 +9,7 @@ use App\History\Presenters\BookPresenter;
 use App\History\Presenters\PersonPresenter;
 use Carbon\Carbon;
 use Grimm\Person;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Valuestore\Valuestore;
 
@@ -24,6 +25,22 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::setLocale(config('app.locale'));
         Person::$unknownName = trans('people.unknownName');
+
+        Validator::extend('equals', function ($attribute, $value, $parameters, $validator) {
+            if (!isset($parameters[0])) {
+                throw new \InvalidArgumentException("at least one parameter is required");
+            }
+
+            return $value == $parameters[0];
+        });
+
+        Validator::extend('unequals', function ($attribute, $value, $parameters, $validator) {
+            if (!isset($parameters[0])) {
+                throw new \InvalidArgumentException("at least one parameter is required");
+            }
+
+            return $value != $parameters[0];
+        });
     }
 
     /**
@@ -33,10 +50,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(DeploymentService::class, function() {
+        $this->app->singleton(DeploymentService::class, function () {
             return new DeploymentService(Valuestore::make(storage_path('app/deployment.json')));
         });
-        
+
         $this->app->singleton(HistoryEntityTransformer::class, function () {
             return new HistoryEntityTransformer([new PersonPresenter(), new BookPresenter()]);
         });
@@ -44,11 +61,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(FilterApplicator::class, function () {
             return new FilterApplicator();
         });
-        
-        \URL::macro('filtered_to', function($to, $deltaFilters = []) {
+
+        \URL::macro('filtered_to', function ($to, $deltaFilters = []) {
             /** @var FilterApplicator $filterApplicator */
             $filterApplicator = app(FilterApplicator::class);
-            
+
             $queryString = $filterApplicator->buildQueryString($deltaFilters);
 
             if (empty($queryString)) {
@@ -58,7 +75,7 @@ class AppServiceProvider extends ServiceProvider
             return $to . '?' . $queryString;
         });
 
-        \URL::macro('filtered', function($deltaFilters = []) {
+        \URL::macro('filtered', function ($deltaFilters = []) {
             return url()->filtered_to(url()->current(), $deltaFilters);
         });
     }
