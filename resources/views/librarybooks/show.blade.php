@@ -119,13 +119,13 @@
                         <div class="button-bar row">
                             <div class="col-sm-10 col-md-offset-2">
                                 <button type="submit" class="btn btn-primary">Speichern</button>
-                                <a href="{{ route('librarybooks.scans', [$book]) }}"
-                                   class="btn btn-default">
-                                    Scans verwalten
-                                </a>
                                 <a href="{{ referrer_url('last_book_index', route('librarybooks.index')) }}"
                                    class="btn btn-link">
                                     Abbrechen
+                                </a>
+                                <a href="{{ route('librarybooks.scans', [$book]) }}"
+                                   class="btn btn-default pull-right">
+                                    Scans verwalten
                                 </a>
                             </div>
                         </div>
