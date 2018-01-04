@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\StoreLibraryPersonEvent;
+use App\Filters\People\NameFilter;
 use App\Filters\Shared\DuplicateEntryFilter;
 use App\Filters\Shared\OnlyTrashedFilter;
 use App\Filters\Shared\PrefixFilter;
@@ -137,7 +138,7 @@ class LibraryPeopleController extends Controller
     {
         return [
             new TrashFilter('library'),
-            // new NameFilter(),
+            new NameFilter(),
             new PrefixFilter('name'),
             new DuplicateEntryFilter('library_people', 'name'),
             new OnlyTrashedFilter('library.people'),
