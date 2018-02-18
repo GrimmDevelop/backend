@@ -123,7 +123,7 @@
                                    class="btn btn-link">
                                     Abbrechen
                                 </a>
-                                <a href="{{ route('librarybooks.scans', [$book]) }}"
+                                <a href="{{ route('librarybooks.scans.index', [$book]) }}"
                                    class="btn btn-default pull-right">
                                     Scans verwalten
                                 </a>

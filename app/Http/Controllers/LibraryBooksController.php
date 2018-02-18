@@ -121,14 +121,7 @@ class LibraryBooksController extends Controller
 
     public function scans($id)
     {
-        $book = LibraryBook::with([
-            'authors',
-            'editors',
-            'translators',
-            'illustrators'
-        ])->findOrFail($id);
 
-        return view('librarybooks.scans', compact('book'));
     }
 
     public function export(IndexLibraryRequest $request)
@@ -195,14 +188,14 @@ class LibraryBooksController extends Controller
     {
         $filename = Input::get('flowRelativePath');
 
-        $path = storage_path() . '/uploads/librarybooks/' . $book->id . '/scans/';
+        $tmp = uniqid(null, true);
 
-        if (!is_dir($path)) {
-            mkdir($path, 0775, true);
-        }
+        $path = storage_path() . '/uploads/temp/';
 
-        if ($file->validateFile() && $file->save($path . $filename)) {
-            $book->addMedia($path . $filename)
+        if ($file->validateFile() && $file->save($path . $tmp)) {
+            $book->addMedia($path . $tmp)
+                ->usingFileName($filename)
+                ->usingName($filename)
                 ->toMediaCollection('librarybooks.scans');
 
             return response("Complete", 200);

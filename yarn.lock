@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@flowjs/flow.js@^2.13.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@flowjs/flow.js/-/flow.js-2.13.0.tgz#ed59de1c5991f5eebcb1d810436c1c8694120462"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

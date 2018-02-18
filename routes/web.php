@@ -45,8 +45,6 @@ $this->group(['middleware' => 'auth'], function () {
     $this->get('librarybooks/{book}/upload-scan', 'LibraryBooksController@uploadGet')->name('librarybooks.upload-scan');
     $this->post('librarybooks/{book}/upload-scan', 'LibraryBooksController@uploadPost');
 
-    $this->get('librarybooks/{book}/scans', 'LibraryBooksController@scans')->name('librarybooks.scans');
-
     $this->get('librarybooks/analyze', 'LibraryBooksController@analyzeBooks')->name('librarybooks.analyze');
     $this->resource('librarybooks', 'LibraryBooksController', ['except' => ['edit']]);
     $this->post('librarybooks/export', 'LibraryBooksController@export')->name('librarybooks.export');
@@ -54,6 +52,8 @@ $this->group(['middleware' => 'auth'], function () {
         ['as' => 'librarybooks.relation', 'uses' => 'LibraryBooksController@relation']);
     $this->post('librarybooks/{book}/relation/{name}', 'LibraryBooksController@storeRelation');
     $this->delete('librarybooks/{book}/relation/{name}', 'LibraryBooksController@deleteRelation');
+
+    $this->resource('librarybooks.scans', 'Library\\BookScansController');
 
     $this->get('librarypeople/search', 'LibraryPeopleController@search');
     $this->resource('librarypeople', 'LibraryPeopleController', ['only' => ['index', 'show', 'store', 'update']]);
