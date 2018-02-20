@@ -56,7 +56,7 @@
                         <div class="row button-box">
                             @can('letters.store')
                                 <div>
-                                    <a href="{{ url('/') }}"><i class="fa fa-envelope-o fa-4x"></i>
+                                    <a href="{{ route('letters.create') }}"><i class="fa fa-envelope-o fa-4x"></i>
                                         <h5>Brief anlegen</h5></a>
                                 </div>
                             @endcan

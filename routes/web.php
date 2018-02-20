@@ -21,6 +21,10 @@ $this->group(['middleware' => 'auth'], function () {
     // Letters
     $this->resource('letters', 'LettersController', ['except' => ['edit']]);
 
+    $this->get('letters/{letter}/scans/upload', 'LetterScansController@uploadGet')->name('letters.scans.upload');
+    $this->post('letters/{letter}/scans/upload', 'LetterScansController@uploadPost');
+    $this->resource('letters.scans', 'LetterScansController');
+
     // Conversations
     $this->get('conversations/{letter}', 'ConversationsController@show');
 

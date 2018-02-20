@@ -62,7 +62,9 @@ class LettersController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()
+            ->route('letters.index')
+            ->with('error', 'Noch nicht implementiert');
     }
 
     /**

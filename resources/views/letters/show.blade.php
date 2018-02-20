@@ -144,7 +144,7 @@
                         <div class="form-group">
                             <div class="col-sm-10 col-sm-offset-2">
                                 @can('library.update')
-                                    <a href onclick="return false;" role="button" class="btn btn-lg btn-default" style="cursor: not-allowed;">
+                                    <a href="{{ route('letters.scans.index', [$letter]) }}" role="button" class="btn btn-lg btn-default">
                                         <span class="fa fa-picture-o"></span>
                                         Scans verwalten
                                     </a>
