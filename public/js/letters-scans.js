@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 61);
+/******/ 	return __webpack_require__(__webpack_require__.s = 68);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -13209,15 +13209,15 @@ if (false) {
 
 /***/ }),
 
-/***/ 61:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(62);
+module.exports = __webpack_require__(69);
 
 
 /***/ }),
 
-/***/ 62:
+/***/ 69:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -13231,7 +13231,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
-    el: '#library-scans',
+    el: '#letters-scans',
 
     data: {
         flow: null,

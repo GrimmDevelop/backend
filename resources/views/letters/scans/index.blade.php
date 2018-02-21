@@ -3,7 +3,7 @@
 @section('title', $letter->id . ': ' . $letter->title() . ' | ')
 
 @section('content')
-    <div class="container" id="library-scans">
+    <div class="container" id="letters-scans">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <h1><a class="prev-link"
@@ -36,6 +36,7 @@
                                     </a>
                                 </p>
                                 <p>{{ $media->mime_type }}</p>
+                                <p>change related field</p>
                                 <strong>{{ $media->getHumanReadableSizeAttribute() }}</strong>
                             </div>
                             <div class="col-md-2">

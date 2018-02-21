@@ -6,5 +6,6 @@
     "/js/letters.js": "/js/letters.js",
     "/js/deployment.js": "/js/deployment.js",
     "/js/library-scans.js": "/js/library-scans.js",
+    "/js/letters-scans.js": "/js/letters-scans.js",
     "/js/letter.js": "/js/letter.js"
 }
