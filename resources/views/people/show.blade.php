@@ -8,9 +8,9 @@
             <div class="col-md-12 page-title">
                 <div class="button-container">
                     <div class="generic">
-                        <a href="{{ route('people.create') }}" role="button" class="btn btn-default btn-sm">
-                            <span class="fa fa-plus"></span>
-                            {{ trans('people.store') }}
+                        <a href="{{ route('letters.index') }}?correspondence={{ $person->id }}" role="button" class="btn btn-default btn-sm">
+                            <span class="fa fa-envelope"></span>
+                            {{ trans('people.correspondence') }}
                         </a>
                     </div>
                 </div>

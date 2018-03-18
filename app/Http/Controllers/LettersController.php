@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\Letters\CorrespondenceFilter;
 use App\Filters\Shared\PageSizeFilter;
 use App\Filters\Shared\SortFilter;
 use App\Filters\Shared\TrashFilter;
@@ -105,6 +106,7 @@ class LettersController extends Controller
     protected function filters()
     {
         return [
+            new CorrespondenceFilter(),
             new PageSizeFilter('letters'),
             new TrashFilter('letters'),
             new SortFilter(function ($builder, $key, $direction) {

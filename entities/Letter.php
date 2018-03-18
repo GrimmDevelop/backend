@@ -6,6 +6,7 @@ use App\Grid\Column;
 use App\Grid\Grid;
 use App\Grid\Gridable;
 use App\Grid\IsGridable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -160,6 +161,17 @@ class Letter extends Model implements IsGridable, HasMedia
         return $this->personAssociations->filter(function (LetterPersonAssociation $association) {
             return $association->isReceiver();
         })->values();
+    }
+
+    public function scopeByPerson(Builder $query, $personId, $type)
+    {
+        return $query->whereHas('personAssociations', function ($query) use ($personId, $type) {
+            $query->where('person_id', $personId);
+
+            if ($type !== null) {
+                $query->where('type', $type);
+            }
+        });
     }
 
     public function grid(): Grid
