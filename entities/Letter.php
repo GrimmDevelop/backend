@@ -5,7 +5,7 @@ namespace Grimm;
 use App\Grid\Grid;
 use App\Grid\Gridable;
 use App\Grid\IsGridable;
-use Grimm\Grids\LettersGrid;
+use Grimm\Grids\LetterGrid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -176,6 +176,6 @@ class Letter extends Model implements IsGridable, HasMedia
 
     public function grid(): Grid
     {
-        return new LettersGrid($this);
+        return new LetterGrid($this);
     }
 }

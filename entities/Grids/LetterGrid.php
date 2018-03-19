@@ -7,7 +7,7 @@ use App\Grid\Grid;
 use Grimm\Letter;
 use Grimm\LetterPrint;
 
-class LettersGrid extends Grid
+class LetterGrid extends Grid
 {
 
     public function __construct(Letter $letter)
