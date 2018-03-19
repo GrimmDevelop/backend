@@ -46,11 +46,15 @@ class IdParser implements FieldParser
         if ($id == 10865) {
             // Very ugly, but as these entries are processed in different jobs,
             // this is for now the easiest way^^
-            if (!file_exists(storage_path('app') . '/importfix.txt')) {
-                file_put_contents(storage_path('app') . '/importfix.txt', $id);
-            } else {
+            $current = 0;
+
+            while (file_exists(storage_path('app') . '/importfix-' . $current . '.txt')) {
                 $id = $id * 10;
+
+                $current++;
             }
+
+            file_put_contents(storage_path('app') . '/importfix-' . $current . '.txt', $id);
         }
 
         $letter->id = (int)$id;
