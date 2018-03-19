@@ -6,10 +6,13 @@ namespace App\Import\Letters\Parser;
 use Grimm\Letter;
 use Grimm\LetterPersonAssociation;
 use App\Import\Parser\FieldParser;
+use Grimm\Person;
 use Illuminate\Support\Collection;
 
 class SenderReceiverParser implements FieldParser
 {
+
+    protected $personCache = [];
 
 
     /**
@@ -21,13 +24,17 @@ class SenderReceiverParser implements FieldParser
     {
         $persons = $this->prepareField($field);
 
-        foreach($persons as $person) {
+        foreach ($persons as $person) {
             if ($column == 'absender') {
                 $assoc = new LetterPersonAssociation();
 
                 $assoc->assignment_source = $person;
                 $assoc->makePersonSender();
                 $assoc->letter()->associate($letter);
+
+                if ($relatedPerson = $this->lookUpPerson($person)) {
+                    $assoc->person()->associate($relatedPerson);
+                }
 
                 $assoc->save();
             } else {
@@ -37,6 +44,10 @@ class SenderReceiverParser implements FieldParser
                     $assoc->assignment_source = $person;
                     $assoc->makePersonReceiver();
                     $assoc->letter()->associate($letter);
+
+                    if ($relatedPerson = $this->lookUpPerson($person)) {
+                        $assoc->person()->associate($relatedPerson);
+                    }
 
                     $assoc->save();
                 }
@@ -63,5 +74,26 @@ class SenderReceiverParser implements FieldParser
             })->filter();
 
         return $persons;
+    }
+
+    private function lookUpPerson($person)
+    {
+        if (!isset($this->personCache[$person])) {
+            $data = explode(', ', $person);
+
+            $lastName = $data[0] ?? null;
+            $firstName = $data[1] ?? null;
+
+            if ($lastName !== null && $firstName !== null) {
+                $this->personCache[$person] = Person::query()
+                    ->where('last_name', $lastName)
+                    ->where('first_name', $firstName)
+                    ->first();
+            } else {
+                $this->personCache[$person] = null;
+            }
+        }
+
+        return $this->personCache[$person];
     }
 }
