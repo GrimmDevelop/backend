@@ -20,6 +20,7 @@
                                         class="fa fa-times"></i></a>
                         </div>
                     @endif
+
                     <div class="generic">
                         <a href="{{ route('letters.create') }}" role="button" class="btn btn-default btn-sm">
                             <span class="fa fa-plus"></span>
@@ -41,11 +42,23 @@
                     <ul class="dropdown-menu">
                         @foreach(\Grimm\Letter::gridColumns(true) as $column)
                             <li {!! active_if($column->isActive()) !!}>
-                                <a href="{{ route('letters.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">{{ $column->name() }}</a>
+                                <a href="{{ route('letters.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">
+                                    {{ trans('letters.' . $column->name()) }}
+                                </a>
                             </li>
                         @endforeach
                     </ul>
                 </div>
+
+                @if(request()->has('correspondence'))
+                    <div class="btn-group">
+                        <a href="{{ url()->filtered(['-correspondence']) }}" class="btn btn-danger btn-sm"
+                           data-toggle="tooltip" data-placement="bottom" title="Correspondence-Filter entfernen">
+                            <i class="fa fa-envelope"></i>
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                @endif
 
                 @include('partials.filterSelection')
             </div>
