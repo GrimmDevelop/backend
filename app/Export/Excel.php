@@ -2,40 +2,30 @@
 
 namespace App\Export;
 
-use function array_merge;
-use function collect;
-use function file_exists;
+use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
-use function in_array;
 use JsonSerializable;
 use League\Flysystem\FileExistsException;
-use PHPExcel_IOFactory;
-use PHPExcel;
-use function storage_path;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Traversable;
 
 class Excel implements Export
 {
 
-    private $excel = null;
-    private $writer = null;
-    private $reader = null;
-    private $config;
+    private $excel;
+    private $writer;
 
     /**
      * Excel constructor.
      */
     public function __construct()
     {
-        // load excel class {from package}
-        // store to local attributes
-        // write excel as type in config(export.type)
+        $this->excel = new Spreadsheet();
 
-        $this->config = config('export');
-        $this->excel = new PHPExcel();
-        $this->writer = PHPExcel_IOFactory::createWriter($this->excel, $this->config['type']);
+        $this->writer = new Xlsx($this->excel);
     }
 
     /**
@@ -45,14 +35,10 @@ class Excel implements Export
      */
     public function title($title, $sheet = 0)
     {
-        // create and set title for excel sheet
-        //and if there is sheet with this title rename it
-
-        if (!in_array($title, $this->excel->getSheetNames())) {
-            $this->excel->createSheet($sheet);
+        try {
+            $this->excel->setActiveSheetIndex($sheet)->setTitle($title);
+        } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
         }
-
-        $this->excel->setActiveSheetIndex($sheet)->setTitle($title);
 
         return $this;
     }
@@ -66,7 +52,7 @@ class Excel implements Export
     public function load($data, $intoSheet = null, $useKeysAsColumnNames = true)
     {
         // load to excel sheet
-        $intoSheet = $intoSheet == null ? $this->excel->getActiveSheetIndex() : $intoSheet;
+        $intoSheet = $intoSheet === null ? $this->excel->getActiveSheetIndex() : $intoSheet;
 
         // always use collections
         $data = collect($data)
@@ -97,9 +83,12 @@ class Excel implements Export
 
         $preparedData = $data->all();
 
-        $this->excel
-            ->setActiveSheetIndex($intoSheet)
-            ->fromArray($preparedData);
+        try {
+            $this->excel
+                ->setActiveSheetIndex($intoSheet)
+                ->fromArray($preparedData);
+        } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
+        }
 
         return $this;
     }
@@ -120,10 +109,10 @@ class Excel implements Export
         // when  $overwriteExistingFile = true
         //we write over  file and over  sheet if exists
 
-        $path = $this->config['path'] . '/' . $fileName . '.xlsx';
+        $path = config('export.path') . '/' . $fileName . '.xlsx';
 
         //remove the default empty sheet
-        $this->excel->removeSheetByIndex($this->excel->getSheetCount() - 1);
+        // $this->excel->removeSheetByIndex($this->excel->getSheetCount() - 1);
 
         if (!$overwriteExistingFile && file_exists($path)) {
             throw new FileExistsException('File "' . $fileName . '" already exists!');
@@ -133,7 +122,7 @@ class Excel implements Export
             $this->writer->save($path);
 
             return $path;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
     }
