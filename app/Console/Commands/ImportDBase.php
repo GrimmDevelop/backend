@@ -110,7 +110,7 @@ class ImportDBase extends Command
                 $this->clearLettersDatabase();
 
                 // TODO: fix letter_codes bug (table is populated before clear and always empty with force option...)
-                return;
+                // return;
             }
         }
 
@@ -202,6 +202,7 @@ class ImportDBase extends Command
 
     protected function clearPersonDatabase()
     {
+        DB::raw('SET foreign_key_checks = 0;');
         DB::table('persons')->delete();
         DB::table('person_codes')->delete();
         DB::statement('ALTER TABLE persons AUTO_INCREMENT = 1');
