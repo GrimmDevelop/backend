@@ -29,14 +29,36 @@ class Excel implements Export
     }
 
     /**
+     * activate sheet and create it if non existing
+     *
+     * @param $sheet
+     * @return $this
+     */
+    public function sheet($sheet = null)
+    {
+        if ($sheet !== null) {
+            $this->createSheetIfNotExistent($sheet);
+
+            try {
+                $this->excel->setActiveSheetIndex($sheet);
+            } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @param string $title
      * @param int $sheet
      * @return $this
      */
-    public function title($title, $sheet = 0)
+    public function title($title, $sheet = null)
     {
         try {
-            $this->excel->setActiveSheetIndex($sheet)->setTitle($title);
+            $this->sheet($sheet);
+
+            $this->excel->getActiveSheet()->setTitle($title);
         } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
         }
 
@@ -83,9 +105,11 @@ class Excel implements Export
 
         $preparedData = $data->all();
 
+        $this->sheet($intoSheet);
+
         try {
             $this->excel
-                ->setActiveSheetIndex($intoSheet)
+                ->getActiveSheet()
                 ->fromArray($preparedData);
         } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
         }
@@ -124,6 +148,18 @@ class Excel implements Export
             return $path;
         } catch (Exception $e) {
             return null;
+        }
+    }
+
+    private function createSheetIfNotExistent($sheet)
+    {
+        if ($sheet > $this->excel->getSheetCount() - 1) {
+            try {
+                $this->excel->createSheet($sheet)
+                    ->setTitle('new sheet ' . $sheet);
+            } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
+                // TODO: handle exception
+            }
         }
     }
 
