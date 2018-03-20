@@ -7,6 +7,7 @@ use App\Filters\Letters\CorrespondenceFilter;
 use App\Filters\Shared\PageSizeFilter;
 use App\Filters\Shared\SortFilter;
 use App\Filters\Shared\TrashFilter;
+use App\Grid\Column;
 use App\Http\Requests\DestroyLetterRequest;
 use App\Http\Requests\IndexLetterRequest;
 use App\Http\Requests\ShowLetterRequest;
@@ -14,6 +15,7 @@ use App\Http\Requests\StoreLetterRequest;
 use App\Http\Requests\UpdateLetterRequest;
 use Carbon\Carbon;
 use Grimm\Letter;
+use Illuminate\Support\Collection;
 use League\Flysystem\FileExistsException;
 
 class LettersController extends Controller
@@ -54,10 +56,18 @@ class LettersController extends Controller
 
         $excel = new Excel();
 
+        $data = collect();
+
+        $data[] = Letter::translatedColumns();
+
+        /** @var Collection $data */
+        $data = $data->merge(Letter::gridStatic()->data($letters->items()));
+
         try {
-            $file = $excel->title('Books by catalog', 0)
-                ->load($letters->items(), 0, true)
-                ->save('library-books-' . Carbon::now()->format('Ymdhis'), true);
+            $excel->title('Letters', 0)
+                ->load($data, 0, false);
+
+            $file = $excel->save('letters-' . Carbon::now()->format('Ymdhis'), true);
 
             if ($file !== null) {
                 return response()

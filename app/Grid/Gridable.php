@@ -43,6 +43,13 @@ trait Gridable
             ->columns($alsoHiddenOnes);
     }
 
+    public static function translatedColumns($alsoHiddenOnes = false)
+    {
+        return static::gridColumns($alsoHiddenOnes)->map(function (Column $column) {
+            return trans($column->getGrid()->namespace() . $column->name());
+        });
+    }
+
     /**
      * @inheritdoc
      */

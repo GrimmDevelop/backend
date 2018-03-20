@@ -61,6 +61,18 @@
                 @endif
 
                 @include('partials.filterSelection')
+
+                <div class="btn-group">
+                    <form action="{{ route('letters.export') . '?' . http_build_query($filter->delta()) }}"
+                          method="post"
+                          style="display: inline;">
+                        {{ csrf_field() }}
+                        <button type="submit" class="btn btn-info btn-sm"
+                                data-toggle="tooltip" title="Daten exportieren">
+                            <i class="fa fa-download"></i>
+                        </button>
+                    </form>
+                </div>
             </div>
             <div class="col-md-12 list-content">
                 <div class="add-button">
