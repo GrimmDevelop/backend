@@ -9,8 +9,10 @@ use Grimm\Grids\LetterGrid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\Media;
 
 /**
  * @property int id
@@ -85,6 +87,23 @@ class Letter extends Model implements IsGridable, HasMedia
         }
 
         return $title;
+    }
+
+    /**
+     * Returns field for scan collection
+     *
+     * @param $collection
+     * @return mixed
+     */
+    public function fieldForCollection($collection)
+    {
+        if (Str::contains($collection, '.')) {
+            list($relation, $id) = explode('.', $collection);
+
+            return $this->{$relation}()->where('id', $id)->first()->entry;
+        }
+
+        return $this->{$collection};
     }
 
     /**
@@ -177,5 +196,12 @@ class Letter extends Model implements IsGridable, HasMedia
     public function grid(): Grid
     {
         return new LetterGrid($this);
+    }
+
+    public function resortCollection($collection)
+    {
+        $ids = $this->getMedia($collection)->pluck('id')->toArray();
+
+        Media::setNewOrder($ids);
     }
 }

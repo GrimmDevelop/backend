@@ -8385,6 +8385,11 @@ body {
   color: #fff;
 }
 
+.page-title--subtitle {
+  background: #5a7c9e;
+  border: 1px solid #48637d;
+}
+
 .pagination-container {
   background: #ECECEC;
   text-align: center;

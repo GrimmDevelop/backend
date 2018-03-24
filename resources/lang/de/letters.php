@@ -25,5 +25,8 @@ return [
     'from' => 'Abs.-Ort',
     'to' => 'Empf.-Ort',
 
-    'handwriting_location' => 'HS',
+    'handwriting_location' => 'Handschriftenstandort',
+    'prints' => 'Drucke',
+    'transcriptions' => 'Abschriften',
+    'drafts' => 'Konzepte',
 ];

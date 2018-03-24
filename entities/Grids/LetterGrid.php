@@ -4,6 +4,7 @@ namespace Grimm\Grids;
 
 use App\Grid\Column;
 use App\Grid\Grid;
+use Grimm\Draft;
 use Grimm\Letter;
 use Grimm\LetterPrint;
 
@@ -54,9 +55,14 @@ class LetterGrid extends Grid
             new Column('to_id', false),
             new Column('to_date', false),
             new Column('reply_annotation', false),
-            new Column('prints', true, function() use($letter) {
-                return $letter->prints->map(function(LetterPrint $print) {
+            new Column('prints', true, function () use ($letter) {
+                return $letter->prints->map(function (LetterPrint $print) {
                     return $print->entry . ($print->transcription ? ' [Abschrift]' : '');
+                })->implode('; ');
+            }),
+            new Column('drafts', false, function () use ($letter) {
+                return $letter->drafts->map(function (Draft $draft) {
+                    return $draft->entry;
                 })->implode('; ');
             }),
         ]);

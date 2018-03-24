@@ -81,6 +81,14 @@ class Person extends Model implements IsGridable
     }
 
     /**
+     * @return bool
+     */
+    public function hasCorrespondence()
+    {
+        return $this->letterAssociations()->count() > 0;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function information()
@@ -118,6 +126,14 @@ class Person extends Model implements IsGridable
     public function references()
     {
         return $this->hasMany(PersonReference::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function letterAssociations()
+    {
+        return $this->hasMany(LetterPersonAssociation::class);
     }
 
     /**

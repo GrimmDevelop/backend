@@ -37,7 +37,7 @@ class LetterScansController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -54,13 +54,13 @@ class LetterScansController extends Controller
      */
     public function show(Letter $letter, Media $scan)
     {
-        return $scan->toResponse();
+        return $scan->toResponse(request());
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -71,24 +71,48 @@ class LetterScansController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param Letter $letter
+     * @param Media $scan
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Letter $letter, Media $scan)
     {
-        //
+        if ($request->post('left')) {
+            $this->moveMediaLeft($letter, $scan);
+        } else {
+            if ($request->post('right')) {
+                $this->moveMediaRight($letter, $scan);
+            }
+        }
+
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Letter $letter
+     * @param Media $scan
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(Letter $letter, Media $scan)
     {
-        //
+        try {
+            $collection = $scan->collection_name;
+
+            $scan->delete();
+
+            $letter->resortCollection($collection);
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->with('error', 'Der Scan wurde nicht gelöscht!');
+        }
+
+        return redirect()
+            ->back()
+            ->with('success', 'Der Scan wurde gelöscht!');
     }
 
     public function uploadGet(IndexLetterRequest $request, $id)
@@ -132,15 +156,21 @@ class LetterScansController extends Controller
     {
         $filename = Input::get('flowRelativePath');
 
+        $collection = Input::get('collection', 'default');
+
         $tmp = uniqid(null, true);
 
         $path = storage_path() . '/uploads/temp/';
 
         if ($file->validateFile() && $file->save($path . $tmp)) {
+            $collection = 'letters.scans.' . $collection;
+
             $letter->addMedia($path . $tmp)
                 ->usingFileName($filename)
                 ->usingName($filename)
-                ->toMediaCollection('letters.scans');
+                ->toMediaCollection($collection);
+
+            $letter->resortCollection($collection);
 
             return response("Complete", 200);
         } else {
@@ -162,5 +192,63 @@ class LetterScansController extends Controller
         $config->setTempDir(storage_path() . '/uploads/temp/');
 
         return new File($config);
+    }
+
+    private function moveMediaLeft(Letter $letter, Media $media)
+    {
+        $collection = $letter->getMedia($media->collection_name);
+
+        $ids = [];
+
+        $mediaIndex = null;
+
+        foreach ($collection as $index => $item) {
+            $ids[] = $item->id;
+
+            if ($item->id == $media->id) {
+                $mediaIndex = $index;
+            }
+        }
+
+        if ($mediaIndex < 1) {
+            return false;
+        }
+
+        $ids[$mediaIndex] = $ids[$mediaIndex - 1];
+
+        $ids[$mediaIndex - 1] = $media->id;
+
+        Media::setNewOrder($ids);
+
+        return true;
+    }
+
+    private function moveMediaRight(Letter $letter, Media $media)
+    {
+        $collection = $letter->getMedia($media->collection_name);
+
+        $ids = [];
+
+        $mediaIndex = null;
+
+        foreach ($collection as $index => $item) {
+            $ids[] = $item->id;
+
+            if ($item->id == $media->id) {
+                $mediaIndex = $index;
+            }
+        }
+
+        if ($mediaIndex >= count($ids) - 1) {
+            return false;
+        }
+
+        $ids[$mediaIndex] = $ids[$mediaIndex + 1];
+
+        $ids[$mediaIndex + 1] = $media->id;
+
+        Media::setNewOrder($ids);
+
+        return true;
     }
 }

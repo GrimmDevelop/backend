@@ -33,6 +33,11 @@ body {
     a.prev-link {
         color: #fff;
     }
+
+    &--subtitle {
+        background: lighten(#35495D, 20%);
+        border: 1px solid lighten(#35495D, 10%);
+    }
 }
 
 .pagination-container {

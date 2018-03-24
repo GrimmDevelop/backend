@@ -6,14 +6,17 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
-                <div class="button-container">
-                    <div class="generic">
-                        <a href="{{ route('letters.index') }}?correspondence={{ $person->id }}" role="button" class="btn btn-default btn-sm">
-                            <span class="fa fa-envelope"></span>
-                            {{ trans('people.correspondence') }}
-                        </a>
+                @if($person->hasCorrespondence())
+                    <div class="button-container">
+                        <div class="generic">
+                            <a href="{{ route('letters.index') }}?correspondence={{ $person->id }}" role="button"
+                               class="btn btn-default btn-sm">
+                                <span class="fa fa-envelope"></span>
+                                {{ trans('people.correspondence') }}
+                            </a>
+                        </div>
                     </div>
-                </div>
+                @endif
                 <h1><a class="prev-link"
                        href="{{ referrer_url('last_person_index', route('people.index'), '#person-' . $person->id) }}"><i
                                 class="fa fa-caret-left"></i></a> Personendaten: {{ $person->fullName() }}</h1>
@@ -43,7 +46,8 @@
                 </div>
             @endif
             <div class="col-md-12 page-content">
-                <form id="person-editor" action="{{ route('people.update', ['people' => $person->id]) }}" class="form-horizontal"
+                <form id="person-editor" action="{{ route('people.update', ['people' => $person->id]) }}"
+                      class="form-horizontal"
                       method="POST">
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
