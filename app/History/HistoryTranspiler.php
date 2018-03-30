@@ -16,7 +16,6 @@ class HistoryTranspiler
 
     public function __construct(HistoryEntityTransformer $historyEntityTransformer)
     {
-
         $this->historyEntityTransformer = $historyEntityTransformer;
     }
 
@@ -31,7 +30,7 @@ class HistoryTranspiler
     {
         $this->clear();
 
-        $activities->each(function($activity) {
+        $activities->each(function ($activity) {
             $this->transpileEntry($activity);
         });
 
@@ -47,6 +46,10 @@ class HistoryTranspiler
      */
     public function transpileEntry(Activity $activity)
     {
+        if (!$this->historyEntityTransformer->modelShouldBePresented($activity)) {
+            return null;
+        }
+
         $type = $this->historyEntityTransformer->getType($activity);
 
         $this->registerEntity($type);
@@ -119,6 +122,11 @@ class HistoryTranspiler
      * @param $id
      */
     protected function deletingActivity($data, $type, $id)
+    {
+        $this->history[$type][$id]['history'][] = $data;
+    }
+
+    protected function restoringActivity($data, $type, $id)
     {
         $this->history[$type][$id]['history'][] = $data;
     }

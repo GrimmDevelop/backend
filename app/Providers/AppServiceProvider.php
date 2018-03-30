@@ -6,7 +6,9 @@ use App\Deployment\DeploymentService;
 use App\Filters\FilterApplicator;
 use App\History\HistoryEntityTransformer;
 use App\History\Presenters\BookPresenter;
+use App\History\Presenters\LibraryBookPresenter;
 use App\History\Presenters\PersonPresenter;
+use App\Import\ImportService;
 use Carbon\Carbon;
 use Grimm\Person;
 use Illuminate\Support\ServiceProvider;
@@ -33,22 +35,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(DeploymentService::class, function() {
+        $this->app->singleton(ImportService::class, function () {
+            return new ImportService(Valuestore::make(storage_path('app/import.json')));
+        });
+
+        $this->app->singleton(DeploymentService::class, function () {
             return new DeploymentService(Valuestore::make(storage_path('app/deployment.json')));
         });
-        
+
         $this->app->singleton(HistoryEntityTransformer::class, function () {
-            return new HistoryEntityTransformer([new PersonPresenter(), new BookPresenter()]);
+            return new HistoryEntityTransformer([
+                new PersonPresenter(),
+                new BookPresenter(),
+                new LibraryBookPresenter(),
+            ]);
         });
 
         $this->app->singleton(FilterApplicator::class, function () {
             return new FilterApplicator();
         });
-        
-        \URL::macro('filtered_to', function($to, $deltaFilters = []) {
+
+        \URL::macro('filtered_to', function ($to, $deltaFilters = []) {
             /** @var FilterApplicator $filterApplicator */
             $filterApplicator = app(FilterApplicator::class);
-            
+
             $queryString = $filterApplicator->buildQueryString($deltaFilters);
 
             if (empty($queryString)) {
@@ -58,7 +68,7 @@ class AppServiceProvider extends ServiceProvider
             return $to . '?' . $queryString;
         });
 
-        \URL::macro('filtered', function($deltaFilters = []) {
+        \URL::macro('filtered', function ($deltaFilters = []) {
             return url()->filtered_to(url()->current(), $deltaFilters);
         });
     }

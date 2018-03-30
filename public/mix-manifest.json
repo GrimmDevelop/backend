@@ -1,11 +1,13 @@
 {
-    "/js/associations.js": "/js/associations.js",
-    "/css/app.css": "/css/app.css",
+    "/js/import.js": "/js/import.js",
     "/js/library.js": "/js/library.js",
+    "/js/associations.js": "/js/associations.js",
     "/js/persons.js": "/js/persons.js",
     "/js/letters.js": "/js/letters.js",
     "/js/deployment.js": "/js/deployment.js",
     "/js/library-scans.js": "/js/library-scans.js",
     "/js/letters-scans.js": "/js/letters-scans.js",
+    "/js/misc.js": "/js/misc.js",
+    "/css/app.css": "/css/app.css",
     "/js/letter.js": "/js/letter.js"
 }

@@ -47,9 +47,9 @@
     }
 
     .upload__file-list__item__size {
-         font-size: 8pt;
-         font-style: italic;
-     }
+        font-size: 8pt;
+        font-style: italic;
+    }
 </style>
 
 <script>
@@ -117,10 +117,21 @@
                         }
                     });
 
-                    // TODO: start timeout when all files are completed
-                    setTimeout(() => {
-                        this.flowReset();
-                    }, 2500);
+                    let completed = true;
+
+                    this.files.forEach(item => {
+                        if (item.state !== 'complete') {
+                            completed = false;
+                        }
+                    });
+
+                    if (completed) {
+                        this.$emit('complete');
+
+                        setTimeout(() => {
+                            this.flowReset();
+                        }, 2500);
+                    }
                 });
 
                 this.flow.on('fileError', (file, message) => {
@@ -156,11 +167,11 @@
             },
 
             progressBarClass(file) {
-                if(file.state === 'error') {
+                if (file.state === 'error') {
                     return "progress-bar progress-bar-danger";
                 }
 
-                if(file.state === 'complete') {
+                if (file.state === 'complete') {
                     return "progress-bar progress-bar-success";
                 }
 

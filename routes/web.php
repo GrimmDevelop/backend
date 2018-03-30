@@ -86,4 +86,13 @@ $this->group(['middleware' => 'auth'], function () {
     $this->get('admin/publish', ['as' => 'admin.deployment.index', 'uses' => 'DeploymentController@index']);
 
     $this->get('history/since', ['as' => 'history.since', 'uses' => 'HistoryController@since']);
+
+    $this->get('admin/import', ['as' => 'admin.import.index', 'uses' => 'ImportController@index']);
+    $this->get('admin/import/remove', 'ImportController@remove');
+    $this->get('admin/import/status', 'ImportController@status');
+    $this->post('admin/import/trigger', 'ImportController@trigger');
+
+    $this->get('admin/import/upload', 'ImportController@uploadGet')
+        ->name('admin.import.upload');
+    $this->post('admin/import/upload', 'ImportController@uploadPost');
 });
