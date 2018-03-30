@@ -1,27 +1,19 @@
-# Laravel PHP Framework
+# Grimm Database System
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Das "Grimm Database System" ist eine Forschungsplattform und Wissensdatenbank rund um die Gebrüder Grimm.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+Sie dient dazu Zusammenhänge zwischen historischen Personen, sowie Ereignissen, zu ermitteln und bewerten.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## Modul: Briefe
 
-## Official Documentation
+Das Modul "Briefe" beinhaltet den fast vollständigen Schriftverkehr beider Gebrüder Jacob (Ludwig Carl) und Wilhelm (Carl) Grimm.
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+Die Datenbank erhebt den Anspruch historisch äußerts korrekt zu sein. 
 
-## Contributing
+## Modul: Personen
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-## Security Vulnerabilities
+## Modul: Bücher
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+## Modul: Bibliothek
