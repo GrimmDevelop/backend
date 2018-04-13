@@ -11,6 +11,7 @@ use App\History\Presenters\PersonPresenter;
 use App\Import\ImportService;
 use Carbon\Carbon;
 use Grimm\Person;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Valuestore\Valuestore;
 
@@ -26,6 +27,22 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::setLocale(config('app.locale'));
         Person::$unknownName = trans('people.unknownName');
+
+        Validator::extend('equals', function ($attribute, $value, $parameters, $validator) {
+            if (!isset($parameters[0])) {
+                throw new \InvalidArgumentException("at least one parameter is required");
+            }
+
+            return $value == $parameters[0];
+        });
+
+        Validator::extend('unequals', function ($attribute, $value, $parameters, $validator) {
+            if (!isset($parameters[0])) {
+                throw new \InvalidArgumentException("at least one parameter is required");
+            }
+
+            return $value != $parameters[0];
+        });
     }
 
     /**

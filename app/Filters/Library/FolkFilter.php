@@ -25,7 +25,7 @@ class FolkFilter extends BooleanFilter
     protected function filterQuery(Builder $query)
     {
         return $query->whereNotNull('tales_comm_1856')
-            ->where('tales_comm_1856', '<>', ' ');
+            ->where('tales_comm_1856', '<>', '');
     }
 
     public function displayString()
