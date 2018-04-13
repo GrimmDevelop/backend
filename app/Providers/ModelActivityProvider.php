@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Grimm\Activity;
 use Grimm\Book;
+use Grimm\Letter;
 use Grimm\LibraryBook;
 use Grimm\Person;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,8 @@ class ModelActivityProvider extends ServiceProvider
         if (app()->runningInConsole()) {
             return;
         }
+
+        $this->registerLetter();
 
         $this->registerBook();
 
@@ -93,6 +96,25 @@ class ModelActivityProvider extends ServiceProvider
         });
 
         LibraryBook::restored(function (Model $model) {
+            $this->logRestoring($model);
+        });
+    }
+
+    protected function registerLetter()
+    {
+        Letter::created(function (Model $model) {
+            $this->logCreating($model);
+        });
+
+        Letter::updating(function (Model $model) {
+            $this->logUpdating($model);
+        });
+
+        Letter::deleting(function (Model $model) {
+            $this->logDeleting($model);
+        });
+
+        Letter::restored(function (Model $model) {
             $this->logRestoring($model);
         });
     }

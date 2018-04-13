@@ -2,12 +2,11 @@
 
 namespace Grimm;
 
-use App\Grid\Column;
 use App\Grid\Grid;
 use App\Grid\Gridable;
 use App\Grid\IsGridable;
-use function Aws\flatmap;
 use Carbon\Carbon;
+use Grimm\Grids\PersonGrid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -34,6 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Person extends Model implements IsGridable
 {
+
     use SoftDeletes, CollectPrefixes, HasActivity, Gridable;
 
     public static $unknownName = 'unknown';
@@ -81,6 +81,14 @@ class Person extends Model implements IsGridable
     }
 
     /**
+     * @return bool
+     */
+    public function hasCorrespondence()
+    {
+        return $this->letterAssociations()->count() > 0;
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function information()
@@ -118,6 +126,14 @@ class Person extends Model implements IsGridable
     public function references()
     {
         return $this->hasMany(PersonReference::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function letterAssociations()
+    {
+        return $this->hasMany(LetterPersonAssociation::class);
     }
 
     /**
@@ -186,32 +202,6 @@ class Person extends Model implements IsGridable
 
     public function grid(): Grid
     {
-        return new Grid('people', [
-            new Column('full_name', true, function () {
-
-                return $this->fullName();
-            }),
-            new Column('last_name', false),
-            new Column('first_name', false),
-            new Column('birth_date', false),
-            new Column('death_date', false),
-            new Column('bio_data_source', true, function () {
-                return str_limit($this->bio_data_source, 20, '[...]');
-            }),
-            new Column('bio_data', true, function () {
-                return str_limit($this->bio_data, 20, '[...]');
-            }),
-            new Column('add_bio_data', true, function () {
-                return str_limit($this->add_bio_data, 20, '[...]');
-            }),
-            new Column('is_organization', false),
-            new Column('auto_generated', false),
-            new Column('source',true,function (){
-                return str_limit($this->source,20,'[...]');
-            }),
-            new Column('created_at', false),
-            new Column('updated_at', false),
-            new Column('deleted_at', false),
-        ]);
+        return new PersonGrid($this);
     }
 }

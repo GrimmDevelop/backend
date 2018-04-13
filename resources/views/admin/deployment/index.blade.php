@@ -38,7 +38,6 @@
                         </tr>
                         </tbody>
                     </table>
-                    @{{ history["Grimm\\Person"] | json }}
                     <h4>Bücher</h4>
                     <table class="table table-striped">
                         <tbody>
@@ -54,7 +53,21 @@
                         </tr>
                         </tbody>
                     </table>
-                    @{{ history["Grimm\\Book"] | json }}
+                    <h4>Bibliothek (Bücher)</h4>
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr v-for="entity in history['Grimm\\LibraryBook']">
+                            <td v-if="!entity.entity.trashed">
+                                <a :href="entity.entity.links.self">
+                                    @{{ entity.entity.title }}
+                                </a>
+                            </td>
+                            <td v-if="entity.entity.trashed">
+                                @{{ entity.entity.title }} (Gelöscht)
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div v-if="started">
                     <h4>Personen</h4>
@@ -67,8 +80,15 @@
                     <h4>Bücher</h4>
                     <div class="progress">
                         <div class="progress-bar progress-bar-striped active" role="progressbar"
-                             :aria-valuenow="personProgress" aria-valuemin="0" style="width: 100%;">
+                             :aria-valuenow="bookProgress" aria-valuemin="0" style="width: 100%;">
                             @{{ bookProgress }} / @{{ books }}
+                        </div>
+                    </div>
+                    <h4>Bibliothek (Bücher)</h4>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                             :aria-valuenow="libraryBookProgress" aria-valuemin="0" style="width: 100%;">
+                            @{{ libraryBookProgress }} / @{{ libraryBooks }}
                         </div>
                     </div>
                 </div>

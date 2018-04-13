@@ -12,6 +12,8 @@ return [
 
     'unknownName' => 'Unbekannt',
 
+    'correspondence' => 'Correspondence',
+
     'id' => 'ID',
     'last_name' => 'Nachname',
     'first_name' => 'Vorname',

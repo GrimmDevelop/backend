@@ -18,7 +18,6 @@ use App\Filters\Library\TitleFilter;
 use App\Filters\Shared\OnlyTrashedFilter;
 use App\Filters\Shared\PrefixFilter;
 use App\Filters\Shared\SortFilter;
-use App\Filters\Shared\TrashFilter;
 use App\Http\Requests\DestroyLibraryRelationRequest;
 use App\Http\Requests\DestroyLibraryRequest;
 use App\Http\Requests\IndexLibraryRequest;
@@ -27,9 +26,10 @@ use App\Http\Requests\StoreLibraryRelationRequest;
 use App\Http\Requests\StoreLibraryRequest;
 use App\Http\Requests\UpdateLibraryRequest;
 use Carbon\Carbon;
+use Flow\Config;
+use Flow\File;
 use Grimm\LibraryBook;
-use function response;
-use function storage_path;
+use Illuminate\Support\Facades\Input;
 
 
 class LibraryBooksController extends Controller
@@ -119,6 +119,10 @@ class LibraryBooksController extends Controller
         return view('librarybooks.show', compact('book'));
     }
 
+    public function scans($id)
+    {
+
+    }
 
     public function export(IndexLibraryRequest $request)
     {
@@ -141,6 +145,63 @@ class LibraryBooksController extends Controller
         }
 
         return response()->download($file);
+    }
+
+    public function uploadGet(IndexLibraryRequest $request, $id)
+    {
+        $book = LibraryBook::query()->findOrFail($id);
+
+        $file = $this->initFlowFile();
+
+        if ($file->checkChunk()) {
+            return $this->saveUploadedFile($file, $book);
+        } else {
+            return response("No Content", 204);
+        }
+    }
+
+    public function uploadPost(IndexLibraryRequest $request, $id)
+    {
+        $book = LibraryBook::query()->findOrFail($id);
+
+        $file = $this->initFlowFile();
+
+        if ($file->validateChunk()) {
+            $file->saveChunk();
+
+            return $this->saveUploadedFile($file, $book);
+        } else {
+            return response("Bad Request", 400);
+        }
+    }
+
+    /**
+     * @param File $file
+     * @param LibraryBook $book
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     * @throws \Flow\FileLockException
+     * @throws \Flow\FileOpenException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     */
+    private function saveUploadedFile(File $file, LibraryBook $book)
+    {
+        $filename = Input::get('flowRelativePath');
+
+        $tmp = uniqid(null, true);
+
+        $path = storage_path() . '/uploads/temp/';
+
+        if ($file->validateFile() && $file->save($path . $tmp)) {
+            $book->addMedia($path . $tmp)
+                ->usingFileName($filename)
+                ->usingName($filename)
+                ->toMediaCollection('librarybooks.scans');
+
+            return response("Complete", 200);
+        } else {
+            return response("Ok", 200);
+        }
     }
 
     /**
@@ -268,5 +329,21 @@ class LibraryBooksController extends Controller
                 return 'cat_id';
             }),
         ];
+    }
+
+    /**
+     * @return File
+     */
+    private function initFlowFile()
+    {
+        $config = new Config();
+
+        if (!is_dir(storage_path() . '/uploads/temp/')) {
+            mkdir(storage_path() . '/uploads/temp/', 0775, true);
+        }
+
+        $config->setTempDir(storage_path() . '/uploads/temp/');
+
+        return new File($config);
     }
 }

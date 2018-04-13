@@ -20,6 +20,11 @@ $this->group(['middleware' => 'auth'], function () {
 
     // Letters
     $this->resource('letters', 'LettersController', ['except' => ['edit']]);
+    $this->post('letters/export', 'LettersController@export')->name('letters.export');
+
+    $this->get('letters/{letter}/scans/upload', 'LetterScansController@uploadGet')->name('letters.scans.upload');
+    $this->post('letters/{letter}/scans/upload', 'LetterScansController@uploadPost');
+    $this->resource('letters.scans', 'LetterScansController');
 
     // Conversations
     $this->get('conversations/{letter}', 'ConversationsController@show');
@@ -42,6 +47,9 @@ $this->group(['middleware' => 'auth'], function () {
     $this->resource('roles', 'RolesController', ['except' => ['edit']]);
 
     // Grimm Library
+    $this->get('librarybooks/{book}/upload-scan', 'LibraryBooksController@uploadGet')->name('librarybooks.upload-scan');
+    $this->post('librarybooks/{book}/upload-scan', 'LibraryBooksController@uploadPost');
+
     $this->get('librarybooks/analyze', 'LibraryBooksController@analyzeBooks')->name('librarybooks.analyze');
     $this->resource('librarybooks', 'LibraryBooksController', ['except' => ['edit']]);
     $this->post('librarybooks/export', 'LibraryBooksController@export')->name('librarybooks.export');
@@ -50,11 +58,14 @@ $this->group(['middleware' => 'auth'], function () {
     $this->post('librarybooks/{book}/relation/{name}', 'LibraryBooksController@storeRelation');
     $this->delete('librarybooks/{book}/relation/{name}', 'LibraryBooksController@deleteRelation');
 
+    $this->resource('librarybooks.scans', 'Library\\BookScansController');
+
     $this->get('librarypeople/search', 'LibraryPeopleController@search');
     $this->resource('librarypeople', 'LibraryPeopleController', ['only' => ['index', 'show', 'store', 'update']]);
     $this->get('librarypeople/{libraryPerson}/combine',
         'LibraryPeopleController@combine')->name('librarypeople.combine');
     $this->post('librarypeople/{libraryPerson}/combine', 'LibraryPeopleController@postCombine');
+
 
     // Associations (user-book)
     $this->get('books/{book}/associations',
@@ -75,4 +86,13 @@ $this->group(['middleware' => 'auth'], function () {
     $this->get('admin/publish', ['as' => 'admin.deployment.index', 'uses' => 'DeploymentController@index']);
 
     $this->get('history/since', ['as' => 'history.since', 'uses' => 'HistoryController@since']);
+
+    $this->get('admin/import', ['as' => 'admin.import.index', 'uses' => 'ImportController@index']);
+    $this->get('admin/import/remove', 'ImportController@remove');
+    $this->get('admin/import/status', 'ImportController@status');
+    $this->post('admin/import/trigger', 'ImportController@trigger');
+
+    $this->get('admin/import/upload', 'ImportController@uploadGet')
+        ->name('admin.import.upload');
+    $this->post('admin/import/upload', 'ImportController@uploadPost');
 });

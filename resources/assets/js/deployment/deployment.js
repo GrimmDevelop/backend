@@ -11,6 +11,7 @@ new Vue({
         done: false,
         books: 0,
         people: 0,
+        libraryBooks: 0,
         last: null,
         blank: false,
         blankStarted: false,
@@ -39,12 +40,14 @@ new Vue({
         });
 
         axios.get(BASE_URL + '/status').then((response) => {
-            this.started = response.data.inProgress;
-            this.last = new Date(response.data.last);
-            this.blank = response.data.blank;
+            let status = response.data;
+
+            this.started = status.data.inProgress;
+            this.last = new Date(status.data.last);
+            this.blank = status.data.blank;
             if (!this.blank) {
-                axios.get(HISTORY_URL, {date: this.last.toISOString()}).then((response) => {
-                    this.history = response.data.history;
+                axios.get(HISTORY_URL, {params: {date: this.last.toISOString()}}).then((response) => {
+                    this.history = response.data.data.history;
                 });
             }
         });
@@ -57,8 +60,9 @@ new Vue({
                 this.messages.push({
                     type: "start"
                 });
-                this.books = response.data.books;
-                this.people = response.data.people;
+                this.books = response.data.data.books;
+                this.people = response.data.data.people;
+                this.libraryBooks = response.data.data.libraryBooks;
                 this.started = true;
             }).catch((response) => {
                 alert('Die Veröffentlichung konnte nicht gestartet werden!');
@@ -80,14 +84,37 @@ new Vue({
 
     computed: {
         personProgress() {
-            return this.messages.filter((val) =>
-                    val.type == 'update' && val.entity == 'Grimm\\Person'
-                ).slice(-1)[0].amount || 0;
+            let result = this.messages.filter((val) =>
+                val.type == 'update' && val.entity == 'Grimm\\Person'
+            );
+
+            if (result.length > 0) {
+                return result.slice(-1)[0].amount || 0;
+            }
+
+            return 0;
         },
         bookProgress() {
-            return this.messages.filter((val) =>
-                    val.type == 'update' && val.entity == 'Grimm\\Book'
-                ).slice(-1)[0].amount || 0;
+            let result = this.messages.filter((val) =>
+                val.type == 'update' && val.entity == 'Grimm\\Book'
+            );
+
+            if (result.length > 0) {
+                return result.slice(-1)[0].amount || 0;
+            }
+
+            return 0;
+        },
+        libraryBookProgress() {
+            let result = this.messages.filter((val) =>
+                val.type == 'update' && val.entity == 'Grimm\\LibraryBook'
+            );
+
+            if (result.length > 0) {
+                return result.slice(-1)[0].amount || 0;
+            }
+
+            return 0;
         }
     }
 });

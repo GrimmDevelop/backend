@@ -11,10 +11,14 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/associations/associations.js', 'public/js')
+mix.js('resources/assets/js/misc.js', 'public/js')
+    .js('resources/assets/js/associations/associations.js', 'public/js')
     .js('resources/assets/js/persons/persons.js', 'public/js')
     .js('resources/assets/js/library/library.js', 'public/js')
+    .js('resources/assets/js/library/scans.js', 'public/js/library-scans.js')
     .js('resources/assets/js/letters/letters.js', 'public/js')
     .js('resources/assets/js/letters/letter.js', 'public/js')
+    .js('resources/assets/js/letters/scans.js', 'public/js/letters-scans.js')
     .js('resources/assets/js/deployment/deployment.js', 'public/js')
+    .js('resources/assets/js/import/import.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css');

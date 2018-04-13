@@ -28,4 +28,5 @@ return [
     'library.delete',
 
     'admin.deployment',
+    'admin.import',
 ];

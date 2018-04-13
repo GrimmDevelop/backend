@@ -3,10 +3,11 @@
 namespace App\Import\Letters\Converter;
 
 use App\Import\Converter\DBFRecordConverter;
+use App\Import\ModelConverter;
 use Grimm\Letter;
 use XBase\Column;
 
-class LetterConverter
+class LetterConverter implements ModelConverter
 {
 
     use DBFRecordConverter;
@@ -22,6 +23,16 @@ class LetterConverter
         // $letter->save();
 
         return $letter;
+    }
+
+    /**
+     * Returns model type which is converted
+     *
+     * @return string
+     */
+    public function type()
+    {
+        return Letter::class;
     }
 
     /**

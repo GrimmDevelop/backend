@@ -7,6 +7,7 @@ use App\Deployment\ElasticIndexService;
 use App\Jobs\UpdateElasticsearchIndex;
 use Carbon\Carbon;
 use Grimm\Book;
+use Grimm\LibraryBook;
 use Grimm\Person;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,14 @@ class DeploymentController extends Controller
 
         $this->dispatch(new UpdateElasticsearchIndex(Carbon::now(), auth()->user()));
 
-        return response()->json(['data' => ['action' => 'ok', 'books' => Book::count(), 'people' => Person::count()]]);
+        return response()->json([
+            'data' => [
+                'action' => 'ok',
+                'books' => Book::count(),
+                'people' => Person::count(),
+                'libraryBooks' => LibraryBook::count()
+            ]
+        ]);
     }
 
     public function blankify(ElasticIndexService $indexService)

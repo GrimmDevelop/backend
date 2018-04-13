@@ -77,12 +77,20 @@
                             <div class="col-sm-10">
                                 <p class="form-control-static">
                                     @if($sender->person)
-                                        <a href="{{ route('people.show', [$sender->person]) }}">
+                                        <a href="{{ route('people.show', [$sender->person]) }}" data-toggle="tooltip"
+                                           title="Person öffnen">
                                             {{ $sender->person->fullName() }}
 
                                             @if($sender->person->fullName() != $sender->assignment_source)
                                                 [{{ $sender->assignment_source }}]
                                             @endif
+                                        </a>
+
+                                        -
+
+                                        <a href="{{ route('letters.index') }}?correspondence={{ $sender->person->id }}">
+                                            <span class="fa fa-envelope" data-toggle="tooltip"
+                                                  title="Correspondence filtern"></span>
                                         </a>
                                     @else
                                         {{ $sender->assignment_source ?? '[unbekannt]' }}
@@ -120,12 +128,20 @@
                             <div class="col-sm-10">
                                 <p class="form-control-static">
                                     @if($receiver->person)
-                                        <a href="{{ route('people.show', [$receiver->person]) }}">
+                                        <a href="{{ route('people.show', [$receiver->person]) }}" data-toggle="tooltip"
+                                           title="Person öffnen">
                                             {{ $receiver->person->fullName() }}
 
                                             @if($receiver->person->fullName() != $receiver->assignment_source)
                                                 [{{ $receiver->assignment_source }}]
                                             @endif
+                                        </a>
+
+                                        -
+
+                                        <a href="{{ route('letters.index') }}?correspondence={{ $receiver->person->id }}">
+                                            <span class="fa fa-envelope" data-toggle="tooltip"
+                                                  title="Correspondence"></span>
                                         </a>
                                     @else
                                         {{ $receiver->assignment_source ?? '[unbekannt]' }}
@@ -138,8 +154,21 @@
                     @include('partials.form.field', ['field' => 'to_date', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'reply_annotation', 'model' => $letter])
 
+                    <hr>
 
                     @unless($letter->trashed())
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                @can('library.update')
+                                    <a href="{{ route('letters.scans.index', [$letter]) }}" role="button"
+                                       class="btn btn-lg btn-default">
+                                        <span class="fa fa-picture-o"></span>
+                                        Scans verwalten
+                                    </a>
+                                @endcan
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="col-sm-10 col-sm-offset-2">
                                 @can('library.update')

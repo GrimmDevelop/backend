@@ -22,7 +22,7 @@ class PersonPresenter implements HistoryEntityPresenter
             'last_name' => $model->last_name,
             'trashed' => $model->trashed(),
             'links' => [
-                'self' => route('persons.show', [$model->id])
+                'self' => route('people.show', [$model->id])
             ]
         ];
     }

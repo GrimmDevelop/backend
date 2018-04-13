@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Export\Excel;
+use App\Filters\Letters\CorrespondenceFilter;
 use App\Filters\Shared\PageSizeFilter;
 use App\Filters\Shared\SortFilter;
 use App\Filters\Shared\TrashFilter;
+use App\Grid\Column;
 use App\Http\Requests\DestroyLetterRequest;
-use App\Http\Requests\IndexBookRequest;
+use App\Http\Requests\IndexLetterRequest;
 use App\Http\Requests\ShowLetterRequest;
 use App\Http\Requests\StoreLetterRequest;
 use App\Http\Requests\UpdateLetterRequest;
+use Carbon\Carbon;
 use Grimm\Letter;
-use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use League\Flysystem\FileExistsException;
 
 class LettersController extends Controller
 {
@@ -21,10 +26,10 @@ class LettersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param IndexBookRequest $request
+     * @param IndexLetterRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index(IndexBookRequest $request)
+    public function index(IndexLetterRequest $request)
     {
         Letter::applyGrid();
 
@@ -39,6 +44,41 @@ class LettersController extends Controller
         $letters = $this->prepareCollection('last_letter_index', $letters, $request, $pageSize);
 
         return view('letters.index', compact('letters'));
+    }
+
+    public function export(IndexLetterRequest $request)
+    {
+        $letters = Letter::query();
+
+        $this->filter($letters);
+
+        $letters = $this->prepareCollection('excel', $letters, $request, PHP_INT_MAX);
+
+        $excel = new Excel();
+
+        $data = collect();
+
+        $data[] = Letter::translatedColumns();
+
+        /** @var Collection $data */
+        $data = $data->merge(Letter::gridStatic()->data($letters->items()));
+
+        try {
+            $excel->title('Letters', 0)
+                ->load($data, 0, false);
+
+            $file = $excel->save('letters-' . Carbon::now()->format('Ymdhis'), true);
+
+            if ($file !== null) {
+                return response()
+                    ->download($file);
+            }
+        } catch (FileExistsException $e) {
+        }
+
+        return redirect()
+            ->back()
+            ->with('error', 'Export konnte nicht erstellt werden!');
     }
 
     /**
@@ -62,7 +102,9 @@ class LettersController extends Controller
      */
     public function create()
     {
-        //
+        return redirect()
+            ->route('letters.index')
+            ->with('error', 'Noch nicht implementiert');
     }
 
     /**
@@ -103,6 +145,7 @@ class LettersController extends Controller
     protected function filters()
     {
         return [
+            new CorrespondenceFilter(),
             new PageSizeFilter('letters'),
             new TrashFilter('letters'),
             new SortFilter(function ($builder, $key, $direction) {

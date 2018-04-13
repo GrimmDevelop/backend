@@ -75,4 +75,15 @@ class HistoryEntityTransformer
     {
         return $activity->model_type;
     }
+
+    /**
+     * determines if a model type should be present
+     *
+     * @param Activity $activity
+     * @return bool
+     */
+    public function modelShouldBePresented(Activity $activity)
+    {
+        return isset($this->presenters[$activity->model_type]);
+    }
 }

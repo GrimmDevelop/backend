@@ -13,11 +13,6 @@ class RestFieldParser implements FieldParser
 
     protected $codes = [];
 
-    public function __construct()
-    {
-        $this->populateCodes();
-    }
-
     /**
      * @param $column
      * @param $field
@@ -35,7 +30,7 @@ class RestFieldParser implements FieldParser
 
         $letterInfo = new LetterInformation();
         $letterInfo->data = $field;
-        $letterInfo->letterCode()->associate($this->codes[$columnName]);
+        $letterInfo->letterCode()->associate($this->codes($columnName));
         $letterInfo->letter()->associate($letter);
 
         $letterInfo->save();
@@ -46,19 +41,18 @@ class RestFieldParser implements FieldParser
         return ['gesehen_12', 'zusatz', 'zusatz_2', 'ba', 'ausg_notiz', 'tb_nr', 'del'];
     }
 
-    private function populateCodes()
+    private function codes($code)
     {
-        foreach ($this->handledColumns() as $code) {
-            if ($code != 'zusatz_2') {
-                // TODO: search for code, if already in database
-                $letterCode = new LetterCode();
-                $letterCode->name = $code;
-                $letterCode->error_generated = true;
-                $letterCode->internal = true;
-                $letterCode->save();
+        if (!isset($this->codes[$code])) {
+            $letterCode = new LetterCode();
+            $letterCode->name = $code;
+            $letterCode->error_generated = true;
+            $letterCode->internal = true;
+            $letterCode->save();
 
-                $this->codes[$code] = $letterCode;
-            }
+            $this->codes[$code] = $letterCode;
         }
+
+        return $this->codes[$code];
     }
 }

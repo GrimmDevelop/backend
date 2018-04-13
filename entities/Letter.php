@@ -2,14 +2,17 @@
 
 namespace Grimm;
 
-use App\Grid\Column;
 use App\Grid\Grid;
 use App\Grid\Gridable;
 use App\Grid\IsGridable;
+use Grimm\Grids\LetterGrid;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
+use Spatie\MediaLibrary\Media;
 
 /**
  * @property int id
@@ -84,6 +87,23 @@ class Letter extends Model implements IsGridable, HasMedia
         }
 
         return $title;
+    }
+
+    /**
+     * Returns field for scan collection
+     *
+     * @param $collection
+     * @return mixed
+     */
+    public function fieldForCollection($collection)
+    {
+        if (Str::contains($collection, '.')) {
+            list($relation, $id) = explode('.', $collection);
+
+            return $this->{$relation}()->where('id', $id)->first()->entry;
+        }
+
+        return $this->{$collection};
     }
 
     /**
@@ -162,50 +182,26 @@ class Letter extends Model implements IsGridable, HasMedia
         })->values();
     }
 
+    public function scopeByPerson(Builder $query, $personId, $type)
+    {
+        return $query->whereHas('personAssociations', function ($query) use ($personId, $type) {
+            $query->where('person_id', $personId);
+
+            if ($type !== null) {
+                $query->where('type', $type);
+            }
+        });
+    }
+
     public function grid(): Grid
     {
-        return new Grid('letters', [
-            new Column('id_till_1992', false),
-            new Column('id_till_1997', false),
-            new Column('code', false),
-            new Column('valid', false),
-            new Column('date', true),
-            new Column('couvert', false),
-            new Column('copy_owned', false),
-            new Column('language', false),
-            new Column('inc', false),
-            new Column('copy', false),
-            new Column('attachment', false),
-            new Column('directory', false),
-            new Column('handwriting_location', false),
-            new Column('senders', true, function () {
-                return $this->senders()
-                    ->map(function ($association) {
-                        return $association->assignment_source;
-                    })
-                    ->implode(' / ');
-            }),
-            new Column('from', true, function () {
-                return $this->from->historical_name ?? '[unbekannt]';
-            }),
-            new Column('from_id', false),
-            new Column('from_source', false),
-            new Column('from_date', false),
-            new Column('receive_annotation', false),
-            new Column('reconstructed_from', false),
-            new Column('receivers', true, function () {
-                return $this->receivers()
-                    ->map(function ($association) {
-                        return $association->assignment_source;
-                    })
-                    ->implode(' / ');
-            }),
-            new Column('to', true, function () {
-                return $this->to->historical_name ?? '[unbekannt]';
-            }),
-            new Column('to_id', false),
-            new Column('to_date', false),
-            new Column('reply_annotation', false),
-        ]);
+        return new LetterGrid($this);
+    }
+
+    public function resortCollection($collection)
+    {
+        $ids = $this->getMedia($collection)->pluck('id')->toArray();
+
+        Media::setNewOrder($ids);
     }
 }

@@ -27,6 +27,11 @@ class Column
         $this->callback = $callback;
     }
 
+    public function getGrid()
+    {
+        return $this->grid;
+    }
+
     public function setGrid(Grid $grid)
     {
         $this->grid = $grid;

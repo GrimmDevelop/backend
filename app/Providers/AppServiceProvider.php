@@ -6,11 +6,14 @@ use App\Deployment\DeploymentService;
 use App\Filters\FilterApplicator;
 use App\History\HistoryEntityTransformer;
 use App\History\Presenters\BookPresenter;
+use App\History\Presenters\LibraryBookPresenter;
 use App\History\Presenters\PersonPresenter;
+use App\Import\ImportService;
 use Carbon\Carbon;
 use Grimm\Person;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Spatie\Valuestore\Valuestore;
 
 class AppServiceProvider extends ServiceProvider
@@ -50,12 +53,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(ImportService::class, function () {
+            return new ImportService(Valuestore::make(storage_path('app/import.json')));
+        });
+
         $this->app->singleton(DeploymentService::class, function () {
             return new DeploymentService(Valuestore::make(storage_path('app/deployment.json')));
         });
 
         $this->app->singleton(HistoryEntityTransformer::class, function () {
-            return new HistoryEntityTransformer([new PersonPresenter(), new BookPresenter()]);
+            return new HistoryEntityTransformer([
+                new PersonPresenter(),
+                new BookPresenter(),
+                new LibraryBookPresenter(),
+            ]);
         });
 
         $this->app->singleton(FilterApplicator::class, function () {
@@ -77,6 +88,23 @@ class AppServiceProvider extends ServiceProvider
 
         \URL::macro('filtered', function ($deltaFilters = []) {
             return url()->filtered_to(url()->current(), $deltaFilters);
+        });
+
+        \URL::macro('filtered_grid', function ($to, $grid, $deltaFilters = []) {
+            $url = url()->filtered_to($to, $deltaFilters);
+
+            $gridKey = array_keys($grid)[0];
+
+            $gridQuery = http_build_query([
+                'grid' => $gridKey,
+                'state' => $grid[$gridKey],
+            ]);
+
+            if($url === $to) {
+                return $url . '?' . $gridQuery;
+            }
+
+            return $url . '&' . $gridQuery;
         });
     }
 }

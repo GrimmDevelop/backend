@@ -1,8 +1,11 @@
 <?php
 
-use App\Import\Persons\BioDataExtractor;
+namespace Tests\Unit;
 
-class BioDataExtractorTest extends PHPUnit_Framework_TestCase
+use App\Import\Persons\BioDataExtractor;
+use PHPUnit\Framework\TestCase;
+
+class BioDataExtractorTest extends TestCase
 {
 
     /** @test */
