@@ -42,7 +42,7 @@
                     <ul class="dropdown-menu">
                         @foreach(\Grimm\Letter::gridColumns(true) as $column)
                             <li {!! active_if($column->isActive()) !!}>
-                                <a href="{{ route('letters.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">
+                                <a href="{{ url()->filtered_grid(route('letters.index'), [$column->name() => (int) !$column->isActive()]) }}">
                                     {{ trans('letters.' . $column->name()) }}
                                 </a>
                             </li>
