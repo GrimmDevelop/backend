@@ -171,17 +171,28 @@ class LettersController extends Controller
             new PageSizeFilter('letters'),
             new TrashFilter('letters'),
             new SortFilter(function ($builder, $key, $direction) {
-
-                if ($key == 'senders') {
-                    // TODO: order by senders...
-
-                    return 'senders';
-                } else {
-                    $builder->orderBy('code');
-
-                    return 'code';
+                if ($key === 'senders' || $key === 'receivers') {
+                    return $this->sortByPersonAssociation($builder, $key, $direction);
                 }
+
+                // default order: letter code
+                $builder->orderBy('code');
+
+                return 'code';
             }),
         ];
+    }
+
+    protected function sortByPersonAssociation($builder, $key, $direction)
+    {
+        $builder
+            ->join('letter_person', function ($join) use ($key) {
+                $join->on('letters.id', '=', 'letter_person.letter_id')
+                    ->where('letter_person.type', $key == 'senders' ? '0' : '1');
+            })
+            ->orderBy('letter_person.assignment_source', $direction)
+            ->select('letters.*');
+
+        return $key;
     }
 }

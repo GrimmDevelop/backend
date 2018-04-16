@@ -16,10 +16,10 @@ class LetterGrid extends Grid
         parent::__construct('letters', [
             new Column('id_till_1992', false),
             new Column('id_till_1997', false),
-            new Column('code', false),
+            new Column('code', true),
             new Column('valid', false),
             new Column('date', true),
-            new Column('couvert', true),
+            new Column('couvert', false),
             new Column('copy_owned', false),
             new Column('language', false),
             new Column('inc', false),
