@@ -51,6 +51,7 @@
                     @include('partials.form.field', ['field' => 'language', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'copy', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'attachment', 'model' => $letter])
+                    @include('partials.form.field', ['field' => 'directory', 'model' => $letter])
 
                     @include('partials.form.field', ['field' => 'handwriting_location', 'model' => $letter])
 
@@ -153,6 +154,39 @@
 
                     @include('partials.form.field', ['field' => 'to_date', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'reply_annotation', 'model' => $letter])
+
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#information" data-toggle="tab">Informationen</a>
+                        </li>
+                        <li>
+                            <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="information">
+                            <table class="table table-responsive">
+                                <thead>
+                                <tr>
+                                    <th style="width: 25%;">Code</th>
+                                    <th>Wert</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($letter->information as $information)
+                                    <tr class="@if($information->code->error_generated) bg-danger @endif">
+                                        <td>{{ $information->code->name }}</td>
+                                        <td>{{ $information->data }}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="changes">
+                            @include('logs.entity-activity', ['entity' => $letter])
+                        </div>
+                    </div>
 
                     <hr>
 

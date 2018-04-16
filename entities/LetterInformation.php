@@ -13,9 +13,9 @@ class LetterInformation extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function letterCode()
+    public function code()
     {
-        return $this->belongsTo(LetterCode::class);
+        return $this->belongsTo(LetterCode::class, 'letter_code_id');
     }
 
     /**
