@@ -11,6 +11,10 @@ return [
     'delete' => 'Brief löschen',
     'assign' => 'Brief zuordnen',
 
+    'deleted_success' => 'Der Brief wurde gelöscht.',
+    'updated_success' => 'Der Brief wurde aktualisiert.',
+    'store_success' => 'Der Brief wurde erfolgreich angelegt!',
+
     'id_till_1992' => 'ID (1992)',
     'id_till_1997' => 'ID (1997)',
 

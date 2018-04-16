@@ -30,7 +30,7 @@ class RestFieldParser implements FieldParser
 
         $letterInfo = new LetterInformation();
         $letterInfo->data = $field;
-        $letterInfo->letterCode()->associate($this->codes($columnName));
+        $letterInfo->code()->associate($this->codes($columnName));
         $letterInfo->letter()->associate($letter);
 
         $letterInfo->save();

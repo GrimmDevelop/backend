@@ -122,12 +122,34 @@ class LettersController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateLetterRequest $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Letter $letter
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateLetterRequest $request, $id)
+    public function update(UpdateLetterRequest $request, Letter $letter)
     {
-        //
+        $letter->code = $request->input("code");
+        $letter->date = $request->input("date");
+        $letter->valid = $request->input("valid");
+        $letter->inc = $request->input("inc");
+        $letter->couvert = $request->input("couvert");
+        $letter->copy_owned = $request->input("copy_owned");
+        $letter->language = $request->input("language");
+        $letter->copy = $request->input("copy");
+        $letter->attachment = $request->input("attachment");
+        $letter->directory = $request->input("directory");
+        $letter->handwriting_location = $request->input("handwriting_location");
+        $letter->from_source = $request->input("from_source");
+        $letter->from_date = $request->input("from_date");
+        $letter->receive_annotation = $request->input("receive_annotation");
+        $letter->reconstructed_from = $request->input("reconstructed_from");
+        $letter->to_date = $request->input("to_date");
+        $letter->reply_annotation = $request->input("reply_annotation");
+
+        $letter->save();
+
+        return redirect()
+            ->back()
+            ->with('success', trans('letters.updated_success'));
     }
 
     /**
