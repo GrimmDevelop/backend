@@ -127,7 +127,7 @@
 
 @section('scripts')
     <script>
-        window.LETTERS = {!! $letters->toJson() !!};
+        window.LETTERS = [];
     </script>
     <script src="{{ url('js/letters.js') }}"></script>
     <script>

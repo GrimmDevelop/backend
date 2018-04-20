@@ -51,6 +51,17 @@
 
                     @include('partials.form.textarea', ['field' => 'inc', 'model' => $letter, 'rows' => 3])
                     @include('partials.form.field', ['field' => 'couvert', 'model' => $letter])
+
+                    @if($letter->couvert != null)
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                @foreach($letter->getMedia('letters.scans.couvert') as $index => $media)
+                                    <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
                     @include('partials.form.boolean', ['field' => 'copy_owned', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'language', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'copy', 'model' => $letter])
@@ -58,6 +69,16 @@
                     @include('partials.form.field', ['field' => 'directory', 'model' => $letter])
 
                     @include('partials.form.field', ['field' => 'handwriting_location', 'model' => $letter])
+
+                    @if($letter->handwriting_location != null)
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                @foreach($letter->getMedia('letters.scans.handwriting_location') as $index => $media)
+                                    <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
 
                     <hr>
 

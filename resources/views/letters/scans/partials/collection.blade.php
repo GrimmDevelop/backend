@@ -15,7 +15,7 @@
 @foreach($letter->getMedia('letters.scans.' . $collection) as $index => $media)
     <div class="row">
         <div class="col-md-12" style="margin-top: 1.5em;">
-            <p style="text-align: center; font-size: 18px;">
+            <p style="text-align: center; font-size: 18px;" id="scan-{{ $media->id }}">
                 <strong>Seite {{ $media->order_column }}</strong>
             </p>
         </div>
@@ -47,7 +47,8 @@
             </div>
 
             <div class="btn-group">
-                <form onsubmit="return confirm('Soll der Scan wirklich gelöscht werden?');" action="{{ route('letters.scans.destroy', [$letter, $media]) }}" method="post">
+                <form onsubmit="return confirm('Soll der Scan wirklich gelöscht werden?');"
+                      action="{{ route('letters.scans.destroy', [$letter, $media]) }}" method="post">
                     {{ csrf_field() }}
                     {{ method_field('delete') }}
 
