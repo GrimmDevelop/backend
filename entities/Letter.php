@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Sofa\Eloquence\Eloquence;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\HasMedia\Interfaces\HasMedia;
 use Spatie\MediaLibrary\Media;
@@ -57,11 +58,23 @@ use Spatie\MediaLibrary\Media;
  * @property Location to
  *
  * @property \Illuminate\Support\Collection|LetterPersonAssociation[] personAssociations
+ * @property \Illuminate\Support\Collection|LetterPrint[] prints
  */
 class Letter extends Model implements IsGridable, HasMedia
 {
 
-    use SoftDeletes, HasActivity, Gridable, HasMediaTrait;
+    use SoftDeletes, HasActivity, Gridable, HasMediaTrait, Eloquence;
+
+    protected $searchableColumns = [
+        // 'from.historical_name' => 16,
+        // 'to.historical_name' => 16,
+        'personAssociations.assignment_source' => 15,
+        'prints.entry' => 5,
+        'drafts.entry' => 3,
+        'facsimiles.entry' => 3,
+        'information.data' => 3,
+        'handwriting_location' => 2,
+    ];
 
     /**
      * Returns full title of letter
@@ -73,17 +86,23 @@ class Letter extends Model implements IsGridable, HasMedia
         $title = '#' . $this->id;
 
         if ($senders = $this->senders()) {
-            foreach ($senders as $index => $sender) {
-                if ($index > 0) {
-                    $title .= ' /';
-                }
+            $title .= ' ' . $senders->map(function (LetterPersonAssociation $association) {
+                    return $association->assignment_source;
+                })->implode(' / ');
+        }
 
-                $title .= ' ' . $sender->assignment_source;
-            }
+        if ($receivers = $this->receivers()) {
+            $title .= ' an ' . $receivers->map(function (LetterPersonAssociation $association) {
+                    return $association->assignment_source;
+                })->implode(' / ');
         }
 
         if ($this->from) {
             $title .= ' aus ' . $this->from->historical_name;
+        }
+
+        if ($this->to) {
+            $title .= ' nach ' . $this->to->historical_name;
         }
 
         return $title;

@@ -5,18 +5,18 @@
         <div class="row page">
             <div class="col-md-12 page-title">
                 <div class="button-container">
-                    <div class="search {{ request()->has('name') ? 'active' : '' }}">
+                    <div class="search {{ request()->has('search') ? 'active' : '' }}">
                         <form action="{{ url('letters') }}" method="get">
-                            <input type="text" class="form-control input-sm" name="name" maxlength="64"
-                                   placeholder="Suche" value="{{ request('name') ?: '' }}"/>
+                            <input type="text" class="form-control input-sm" name="search" maxlength="64"
+                                   placeholder="Suche" value="{{ request('search') ?: '' }}"/>
                             <button id="search-btn" type="submit" class="btn btn-primary btn-sm"><i
                                         class="fa fa-search"></i></button>
 
                         </form>
                     </div>
-                    @if(request()->has('name'))
+                    @if(request()->has('search'))
                         <div class="reset-search">
-                            <a href="{{ url()->filtered(['-name']) }}" class="btn btn-default btn-sm"><i
+                            <a href="{{ url()->filtered(['-search']) }}" class="btn btn-default btn-sm"><i
                                         class="fa fa-times"></i></a>
                         </div>
                     @endif

@@ -1,5 +1,8 @@
 <?php
 
+$this->resource('letters.prints', 'LetterPrintController', ['except' => ['edit']]);
+$this->resource('letters.inheritances', 'LetterInheritanceController', ['except' => ['edit']]);
+
 $this->resource('people.prints', 'PersonPrintController', ['except' => ['edit']]);
 $this->resource('people.inheritances', 'PersonInheritanceController', ['except' => ['edit']]);
 

@@ -92,7 +92,7 @@ class BooksPersonController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return void
      */
     public function store(Request $request)
     {
@@ -102,7 +102,7 @@ class BooksPersonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param BookPersonAssociation $association
+     * @param $id
      * @return \Illuminate\Http\Response
      * @internal param Book $book
      */

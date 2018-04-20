@@ -6,9 +6,13 @@
     <div class="container" id="letter">
         <div class="row page">
             <div class="col-md-12 page-title">
-                <h1><a class="prev-link"
-                       href="{{ referrer_url('last_letter_index', route('letters.index'), '#letter-' . $letter->id) }}"><i
-                                class="fa fa-caret-left"></i></a> Briefdaten: {{ $letter->title() }}</h1>
+                <h1 data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="{{ addslashes($letter->title()) }}">
+                    <a class="prev-link"
+                       href="{{ referrer_url('last_letter_index', route('letters.index'), '#letter-' . $letter->id) }}">
+                        <i class="fa fa-caret-left"></i></a> Briefdaten: {{ str_limit($letter->title(), 60) }}
+                </h1>
             </div>
 
             @if($letter->trashed())
@@ -55,24 +59,62 @@
 
                     @include('partials.form.field', ['field' => 'handwriting_location', 'model' => $letter])
 
+                    <hr>
 
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            <a href="#send" data-toggle="tab">Sende-Daten</a>
-                        </li>
-                        <li>
-                            <a href="#receive" data-toggle="tab">Empf.-Daten</a>
-                        </li>
-                        <li>
-                            <a href="#information" data-toggle="tab">Informationen</a>
-                        </li>
-                        <li>
-                            <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
-                        </li>
-                    </ul>
+                    @unless($letter->trashed())
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                @can('library.update')
+                                    <a href="{{ route('letters.scans.index', [$letter]) }}" role="button"
+                                       class="btn btn-lg btn-default">
+                                        <span class="fa fa-picture-o"></span>
+                                        Scans verwalten
+                                    </a>
+                                @endcan
+                            </div>
+                        </div>
 
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="send">
+                        <div class="form-group">
+                            <div class="col-sm-10 col-sm-offset-2">
+                                @can('library.update')
+                                    <button type="submit" class="btn btn-primary">
+                                        <span class="fa fa-floppy-o"></span>
+                                        Speichern
+                                    </button>
+
+                                    <button type="reset" class="btn btn-link">
+                                        Änderungen zurücksetzen
+                                    </button>
+                                @endcan
+                            </div>
+                        </div>
+                    @endunless
+                </form>
+
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#send" data-toggle="tab">Sende-Daten</a>
+                    </li>
+                    <li>
+                        <a href="#receive" data-toggle="tab">Empf.-Daten</a>
+                    </li>
+                    <li>
+                        <a href="#prints" data-toggle="tab">Drucke</a>
+                    </li>
+                    <li>
+                        <a href="#inheritances" data-toggle="tab">Nachlässe</a>
+                    </li>
+                    <li>
+                        <a href="#information" data-toggle="tab">Informationen</a>
+                    </li>
+                    <li>
+                        <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="send">
+                        <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
                                        for="inputFrom">{{ trans('letters.from') }}</label>
@@ -111,7 +153,9 @@
                                                   title="Correspondence filtern"></span>
                                                 </a>
                                             @else
-                                                {{ $sender->assignment_source ?? '[unbekannt]' }}
+                                                <a href="{{ route('letters.assign-person', [$sender]) }}">
+                                                    {{ $sender->assignment_source ?? '[unbekannt]' }}
+                                                </a>
                                             @endif
                                         </p>
                                     </div>
@@ -122,8 +166,10 @@
                             @include('partials.form.field', ['field' => 'from_date', 'model' => $letter])
                             @include('partials.form.field', ['field' => 'receive_annotation', 'model' => $letter])
                             @include('partials.form.field', ['field' => 'reconstructed_from', 'model' => $letter])
-                        </div>
-                        <div role="tabpanel" class="tab-pane active" id="receive">
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="receive">
+                        <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
                                        for="inputFrom">{{ trans('letters.to') }}</label>
@@ -162,7 +208,9 @@
                                                   title="Correspondence"></span>
                                                 </a>
                                             @else
-                                                {{ $receiver->assignment_source ?? '[unbekannt]' }}
+                                                <a href="{{ route('letters.assign-person', [$receiver]) }}">
+                                                    {{ $receiver->assignment_source ?? '[unbekannt]' }}
+                                                </a>
                                             @endif
                                         </p>
                                     </div>
@@ -171,66 +219,82 @@
 
                             @include('partials.form.field', ['field' => 'to_date', 'model' => $letter])
                             @include('partials.form.field', ['field' => 'reply_annotation', 'model' => $letter])
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="information">
-                            <table class="table table-responsive">
-                                <thead>
-                                <tr>
-                                    <th style="width: 25%;">Code</th>
-                                    <th>Wert</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($letter->information as $information)
-                                    <tr class="@if($information->code->error_generated) bg-danger @endif">
-                                        <td>{{ $information->code->name }}</td>
-                                        <td>{{ $information->data }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="changes">
-                            @include('logs.entity-activity', ['entity' => $letter])
-                        </div>
+                        </form>
                     </div>
 
-                    <hr>
-
-                    @unless($letter->trashed())
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
-                                @can('library.update')
-                                    <a href="{{ route('letters.scans.index', [$letter]) }}" role="button"
-                                       class="btn btn-lg btn-default">
-                                        <span class="fa fa-picture-o"></span>
-                                        Scans verwalten
-                                    </a>
-                                @endcan
+                    <div role="tabpanel" class="tab-pane active" id="prints">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addPrint">
+                                    <i class="fa fa-plus"></i> Druck hinzufügen
+                                </button>
                             </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
-                                @can('library.update')
-                                    <button type="submit" class="btn btn-primary">
-                                        <span class="fa fa-floppy-o"></span>
-                                        Speichern
-                                    </button>
-
-                                    <button type="reset" class="btn btn-link">
-                                        Änderungen zurücksetzen
-                                    </button>
-                                @endcan
+                        @endunless
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Eintrag</th>
+                                <th colspan="2">Jahr</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="print in prints" is="in-place"
+                                :print-id="print.id" :print-entry="print.entry" :print-year="print.year"
+                                base-url="{{ route('letters.prints.index', [$letter->id]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
+                            </tbody>
+                        </table>
+                        @include('letters.printDialog')
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="inheritances">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addInheritance">
+                                    <i class="fa fa-plus"></i> Nachlass hinzufügen
+                                </button>
                             </div>
-                        </div>
-                    @endunless
-                </form>
+                        @endunless
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th colspan="3">Eintrag</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="inheritance in inheritances" is="inheritance-in-place"
+                                :inheritance-id="inheritance.id" :inheritance-entry="inheritance.entry"
+                                base-url="{{ route('letters.inheritances.index', [$letter->id]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
+                            </tbody>
+                        </table>
+                        @include('letters.inheritanceDialog')
+                    </div>
 
-                <hr>
-
-                <div>
-                    @include('logs.entity-activity', ['entity' => $letter])
+                    <div role="tabpanel" class="tab-pane" id="information">
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th style="width: 25%;">Code</th>
+                                <th>Wert</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($letter->information as $information)
+                                <tr class="@if($information->code->error_generated) bg-danger @endif">
+                                    <td>{{ $information->code->name }}</td>
+                                    <td>{{ $information->data }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="changes">
+                        @include('logs.entity-activity', ['entity' => $letter])
+                    </div>
                 </div>
             </div>
         </div>
@@ -238,6 +302,9 @@
 @endsection
 
 @section('scripts')
+    <script>
+        var BASE_URL = "{{ route('letters.show', [$letter]) }}";
+    </script>
     <script src="{{ url('js/letter.js') }}"></script>
     <script>
 

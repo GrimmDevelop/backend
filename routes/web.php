@@ -19,6 +19,10 @@ $this->group(['middleware' => 'auth'], function () {
     $this->get('/home', ['as' => 'home', 'uses' => 'HomeController@index']);
 
     // Letters
+    $this->get('letters/assign/{association}', 'LettersController@assignPerson')
+        ->name('letters.assign-person');
+    $this->post('letters/assign/{association}', 'LettersController@doAssignPerson');
+
     $this->resource('letters', 'LettersController', ['except' => ['edit']]);
     $this->post('letters/export', 'LettersController@export')->name('letters.export');
 

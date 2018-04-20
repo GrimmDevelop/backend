@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use App\Export\Excel;
 use App\Filters\Letters\CorrespondenceFilter;
 use App\Filters\Shared\PageSizeFilter;
+use App\Filters\Shared\SearchFilter;
 use App\Filters\Shared\SortFilter;
 use App\Filters\Shared\TrashFilter;
-use App\Grid\Column;
+use App\Http\Requests\AssignPersonToLetterRequest;
 use App\Http\Requests\DestroyLetterRequest;
 use App\Http\Requests\IndexLetterRequest;
 use App\Http\Requests\ShowLetterRequest;
 use App\Http\Requests\StoreLetterRequest;
 use App\Http\Requests\UpdateLetterRequest;
 use Carbon\Carbon;
+use Grimm\Grids\PersonGrid;
 use Grimm\Letter;
+use Grimm\LetterPersonAssociation;
+use Grimm\Person;
 use Illuminate\Support\Collection;
 use League\Flysystem\FileExistsException;
 
@@ -157,17 +161,75 @@ class LettersController extends Controller
      *
      * @param DestroyLetterRequest $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy(DestroyLetterRequest $request, $id)
     {
         //
     }
 
+    /**
+     * @param IndexLetterRequest $request
+     * @param LetterPersonAssociation $letterPersonAssociation
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function assignPerson(IndexLetterRequest $request, LetterPersonAssociation $association)
+    {
+        $letter = $association->letter;
+
+        /** @var Collection $people */
+        $people = Person::query()
+            ->with('letterAssociations')
+            ->whereHas('letterAssociations')
+            ->latest('updated_at')
+            ->take(5)
+            ->get();
+
+        $people = $people->sort(function (Person $personA, Person $personB) {
+            $lastNameOrder = strcmp($personA->last_name, $personB->last_name);
+
+            if ($lastNameOrder == 0) {
+                return strcmp($personA->first_name, $personB->first_name);
+            }
+
+            return $lastNameOrder;
+        });
+
+        return view('letters.assign-person', compact('letter', 'association', 'people'));
+    }
+
+    public function doAssignPerson(AssignPersonToLetterRequest $request, LetterPersonAssociation $association)
+    {
+        /** @var Person $person */
+        $person = Person::find($request->input('person'));
+
+        $association->person()->associate($person);
+
+        $association->save();
+
+        $person->touch();
+
+        if ($request->input('associate_all')) {
+            \DB::beginTransaction();
+
+            LetterPersonAssociation::where('assignment_source', $association->assignment_source)
+                ->whereNull('person_id')->each(function (LetterPersonAssociation $association) use ($person) {
+                    $association->person()->associate($person);
+                    $association->save();
+                });
+
+            \DB::commit();
+        }
+
+        return redirect()
+            ->route('letters.show', [$association->letter])
+            ->with('success', 'Verknüpfung erstellt');
+    }
+
     protected function filters()
     {
         return [
             new CorrespondenceFilter(),
+            new SearchFilter(),
             new PageSizeFilter('letters'),
             new TrashFilter('letters'),
             new SortFilter(function ($builder, $key, $direction) {

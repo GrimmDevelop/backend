@@ -23,6 +23,8 @@ class PersonPrintController extends Controller
      */
     public function index($person)
     {
+        $this->authorize('people.*');
+
         $person = Person::withTrashed()->findOrFail($person);
 
         return $person->prints;
@@ -70,6 +72,8 @@ class PersonPrintController extends Controller
      */
     public function show(Person $person, $printId)
     {
+        $this->authorize('people.*');
+
         return $person->prints()->findOrFail($printId);
     }
 
@@ -96,7 +100,6 @@ class PersonPrintController extends Controller
      */
     public function update(UpdatePrintRequest $request, Person $person, $printId)
     {
-
         /** @var PersonPrint $print */
         $print = $person->prints()->find($printId);
 
