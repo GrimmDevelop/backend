@@ -56,7 +56,8 @@
                         <div class="form-group">
                             <div class="col-sm-10 col-sm-offset-2">
                                 @foreach($letter->getMedia('letters.scans.couvert') as $index => $media)
-                                    <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
+                                    <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img
+                                                src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
                                 @endforeach
                             </div>
                         </div>
@@ -74,13 +75,12 @@
                         <div class="form-group">
                             <div class="col-sm-10 col-sm-offset-2">
                                 @foreach($letter->getMedia('letters.scans.handwriting_location') as $index => $media)
-                                    <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
+                                    <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img
+                                                src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
                                 @endforeach
                             </div>
                         </div>
                     @endif
-
-                    <hr>
 
                     @unless($letter->trashed())
                         <div class="form-group">
@@ -185,7 +185,6 @@
 
                             @include('partials.form.field', ['field' => 'from_source', 'model' => $letter])
                             @include('partials.form.field', ['field' => 'from_date', 'model' => $letter])
-                            @include('partials.form.field', ['field' => 'receive_annotation', 'model' => $letter])
                             @include('partials.form.field', ['field' => 'reconstructed_from', 'model' => $letter])
                         </form>
                     </div>
@@ -239,11 +238,12 @@
                             @endforeach
 
                             @include('partials.form.field', ['field' => 'to_date', 'model' => $letter])
+                            @include('partials.form.field', ['field' => 'receive_annotation', 'model' => $letter])
                             @include('partials.form.field', ['field' => 'reply_annotation', 'model' => $letter])
                         </form>
                     </div>
 
-                    <div role="tabpanel" class="tab-pane active" id="prints">
+                    <div role="tabpanel" class="tab-pane" id="prints">
                         @unless($letter->trashed())
                             <div class="add-button">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
