@@ -17,9 +17,11 @@ use App\Http\Requests\UpdateLetterRequest;
 use Carbon\Carbon;
 use Grimm\Grids\PersonGrid;
 use Grimm\Letter;
+use Grimm\LetterCode;
 use Grimm\LetterPersonAssociation;
 use Grimm\Person;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use League\Flysystem\FileExistsException;
 
 class LettersController extends Controller
@@ -241,6 +243,10 @@ class LettersController extends Controller
                     return $this->sortByEntryAssociation($builder, $key, $direction);
                 }
 
+                if (Str::startsWith($key, 'code_')) {
+                    return $this->sortByLetterInformation($builder, $key, $direction);
+                }
+
                 // default order: letter code
                 $builder->orderBy('code');
 
@@ -252,7 +258,7 @@ class LettersController extends Controller
     protected function sortByPersonAssociation($builder, $key, $direction)
     {
         $builder
-            ->join('letter_person', function ($join) use ($key) {
+            ->leftJoin('letter_person', function ($join) use ($key) {
                 $join->on('letters.id', '=', 'letter_person.letter_id')
                     ->where('letter_person.type', $key == 'senders' ? '0' : '1');
             })
@@ -278,5 +284,20 @@ class LettersController extends Controller
             ->select('letters.*');
 
         return $key;
+    }
+
+    private function sortByLetterInformation($builder, $key, $direction)
+    {
+        $name = Str::replaceFirst('code_', '', $key);
+
+        $code = LetterCode::whereName($name)->first();
+
+        $builder
+            ->leftJoin('letter_informations', function ($join) use ($code) {
+                $join->on('letters.id', '=', 'letter_informations.letter_id')
+                    ->where('letter_informations.letter_code_id', $code->id);
+            })
+            ->orderBy('letter_informations.data', $direction)
+            ->select('letters.*');
     }
 }

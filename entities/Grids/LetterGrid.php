@@ -7,6 +7,7 @@ use App\Grid\Grid;
 use Grimm\Draft;
 use Grimm\Facsimile;
 use Grimm\Letter;
+use Grimm\LetterCode;
 use Grimm\LetterPrint;
 
 class LetterGrid extends Grid
@@ -14,7 +15,17 @@ class LetterGrid extends Grid
 
     public function __construct(Letter $letter)
     {
-        parent::__construct('letters', [
+        $codes = LetterCode::all()->map(function (LetterCode $code) use ($letter) {
+            return new Column('code_' . $code->name, false, function () use ($letter, $code) {
+                return $letter->information()
+                    ->where('letter_code_id', $code->id)
+                    ->get()
+                    ->pluck('data')
+                    ->implode('; ');
+            });
+        });
+
+        parent::__construct('letters', collect([
             new Column('id_till_1992', false),
             new Column('id_till_1997', false),
             new Column('code', true),
@@ -71,6 +82,6 @@ class LetterGrid extends Grid
                     return $facsimile->entry;
                 })->implode('; ');
             }),
-        ]);
+        ])->merge($codes)->toArray());
     }
 }
