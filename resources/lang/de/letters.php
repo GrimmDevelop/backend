@@ -23,6 +23,7 @@ return [
 
     "valid" => "Valid",
     "inc" => "Inc",
+    "addition" => "Zusatz",
     'couvert' => 'Couvert',
     // "copy_owned" => "",
     "language" => "Sprache",

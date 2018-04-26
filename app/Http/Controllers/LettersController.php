@@ -136,6 +136,7 @@ class LettersController extends Controller
         $letter->code = $request->input("code");
         $letter->date = $request->input("date");
         $letter->valid = $request->input("valid");
+        $letter->addition = $request->input("addition");
         $letter->inc = $request->input("inc");
         $letter->couvert = $request->input("couvert");
         $letter->copy_owned = $request->input("copy_owned");

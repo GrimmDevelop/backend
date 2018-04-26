@@ -26,11 +26,9 @@ class RestFieldParser implements FieldParser
             return;
         }
 
-        $columnName = ($column == 'zusatz_2') ? 'zusatz' : $column;
-
         $letterInfo = new LetterInformation();
         $letterInfo->data = $field;
-        $letterInfo->code()->associate($this->codes($columnName));
+        $letterInfo->code()->associate($this->codes($column));
         $letterInfo->letter()->associate($letter);
 
         $letterInfo->save();
@@ -38,7 +36,7 @@ class RestFieldParser implements FieldParser
 
     public function handledColumns()
     {
-        return ['gesehen_12', 'zusatz', 'zusatz_2', 'ba', 'ausg_notiz', 'tb_nr', 'del'];
+        return ['gesehen_12', 'ba', 'ausg_notiz', 'tb_nr', 'del'];
     }
 
     private function codes($code)

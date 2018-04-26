@@ -26,6 +26,7 @@ use Spatie\MediaLibrary\Media;
  *
  * @property string date
  *
+ * @property string addition
  * @property string couvert
  * @property bool copy_owned
  *
@@ -68,14 +69,25 @@ class Letter extends Model implements IsGridable, HasMedia
     use SoftDeletes, HasActivity, Gridable, HasMediaTrait, Eloquence;
 
     protected $searchableColumns = [
+        // search fields
+        'code' => 50,
+        'date' => 20,
+        'addition' => 20,
+        'couvert' => 20,
+        'inc' => 20,
+        'copy' => 20,
+        'attachment' => 20,
+        'directory' => 20,
+        'handwriting_location' => 20,
+
+        // search relations
         // 'from.historical_name' => 16,
         // 'to.historical_name' => 16,
         'personAssociations.assignment_source' => 15,
         'prints.entry' => 5,
-        'drafts.entry' => 3,
-        'facsimiles.entry' => 3,
+        'drafts.entry' => 4,
+        'facsimiles.entry' => 4,
         'information.data' => 3,
-        'handwriting_location' => 2,
     ];
 
     /**

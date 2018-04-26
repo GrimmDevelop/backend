@@ -47,6 +47,8 @@
                     @include('partials.form.field', ['field' => 'code', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'date', 'model' => $letter])
 
+                    @include('partials.form.textarea', ['field' => 'addition', 'model' => $letter, 'rows' => 3])
+
                     @include('partials.form.boolean', ['field' => 'valid', 'model' => $letter])
 
                     @include('partials.form.textarea', ['field' => 'inc', 'model' => $letter, 'rows' => 3])

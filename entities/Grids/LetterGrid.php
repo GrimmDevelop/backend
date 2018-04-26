@@ -38,7 +38,7 @@ class LetterGrid extends Grid
             new Column('copy', false),
             new Column('attachment', false),
             new Column('directory', false),
-            new Column('handwriting_location', true),
+            new Column('handwriting_location', false),
             new Column('senders', true, function () use ($letter) {
                 return $letter->senders()
                     ->map(function ($association) {
@@ -67,7 +67,7 @@ class LetterGrid extends Grid
             new Column('to_id', false),
             new Column('to_date', false),
             new Column('reply_annotation', false),
-            new Column('prints', true, function () use ($letter) {
+            new Column('prints', false, function () use ($letter) {
                 return $letter->prints->map(function (LetterPrint $print) {
                     return $print->entry . ($print->transcription ? ' [Abschrift]' : '');
                 })->implode('; ');
@@ -82,6 +82,7 @@ class LetterGrid extends Grid
                     return $facsimile->entry;
                 })->implode('; ');
             }),
+            new Column('addition', true),
         ])->merge($codes)->toArray());
     }
 }

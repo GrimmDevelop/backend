@@ -8,6 +8,7 @@ use App\Import\Books\Parser\SourceParser;
 use App\Import\Books\Parser\TitleParser;
 use App\Import\Books\Parser\YearParser;
 use App\Import\Letters\Converter\LetterConverter;
+use App\Import\Letters\Parser\AdditionParser;
 use App\Import\Letters\Parser\AuktkatParser;
 use App\Import\Letters\Parser\CodeParser;
 use App\Import\Letters\Parser\DraftParser;
@@ -64,6 +65,7 @@ class ImportServiceProvider extends ServiceProvider
                 new PrintParser(),
                 new SenderReceiverParser(),
                 new FromToParser(),
+                new AdditionParser(),
                 new RestFieldParser()
             ]);
 
