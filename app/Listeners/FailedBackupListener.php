@@ -18,6 +18,6 @@ class FailedBackupListener
     {
         Redis::set('grimm.last_backup_attempt', Carbon::now());
         Redis::set('grimm.last_backup_status', 'fail');
-        Redis::set('grimm.last_backup_name', $event->backupDestination->getBackupName());
+        Redis::set('grimm.last_backup_name', $event->backupDestination->backupName());
     }
 }
