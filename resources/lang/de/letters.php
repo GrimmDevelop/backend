@@ -44,6 +44,7 @@ return [
     'to' => 'Empf.-Ort',
 
     'prints' => 'Drucke',
+    'facsimile' => 'Faksimile',
     'transcriptions' => 'Abschriften',
     'drafts' => 'Konzepte',
 ];

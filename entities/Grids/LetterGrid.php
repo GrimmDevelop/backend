@@ -5,6 +5,7 @@ namespace Grimm\Grids;
 use App\Grid\Column;
 use App\Grid\Grid;
 use Grimm\Draft;
+use Grimm\Facsimile;
 use Grimm\Letter;
 use Grimm\LetterPrint;
 
@@ -63,6 +64,11 @@ class LetterGrid extends Grid
             new Column('drafts', false, function () use ($letter) {
                 return $letter->drafts->map(function (Draft $draft) {
                     return $draft->entry;
+                })->implode('; ');
+            }),
+            new Column('facsimiles', false, function () use ($letter) {
+                return $letter->facsimiles->map(function (Facsimile $facsimile) {
+                    return $facsimile->entry;
                 })->implode('; ');
             }),
         ]);

@@ -1,86 +1,79 @@
 import '../bootstrap';
 
-import InPlaceEditor from './components/PrintInPlaceEditor.vue';
-import InheritanceInPlaceEditor from './components/InheritanceInPlaceEditor.vue';
+import InPlaceEditor from './components/InPlaceEditor.vue';
+import AddItemEditor from './components/AddItemEditor.vue';
 
-Vue.component('in-place', InPlaceEditor);
-Vue.component('inheritance-in-place', InheritanceInPlaceEditor);
+Vue.component('in-place-editor', InPlaceEditor);
+Vue.component('add-item-editor', AddItemEditor);
 
 new Vue({
     el: '#prints',
 
     data: {
-        prints: [],
-        createEntry: '',
-        createYear: ''
+        prints: []
     },
 
     mounted() {
         this.$nextTick(() => {
             let url = BASE_URL + '/prints';
 
-            axios.get(url).then(({ data }) => {
+            axios.get(url).then(({data}) => {
                 this.prints = data;
-            });
-
-            $('#addPrint').on('shown.bs.modal', (e) => {
-                this.$refs.createEntryField.focus();
             });
         });
     },
 
     methods: {
-        storePrint() {
-            let url = $('#createPrintForm').attr('action');
-
-            console.log(url);
-
-            axios.post(url, {
-                entry: this.createEntry,
-                year: this.createYear
-            }).then(({ data }) => {
-                this.prints = data;
-                this.createEntry = '';
-                this.createYear = '';
-                $('#addPrint').modal('hide');
-            });
+        stored(prints) {
+            this.prints = prints;
         }
     }
 });
 
 new Vue({
-    el: '#inheritances',
+    el: '#drafts',
 
     data: {
-        inheritances: [],
-        createEntry: ''
+        drafts: []
     },
 
     mounted() {
         this.$nextTick(() => {
-            var url = BASE_URL + '/inheritances';
+            let url = BASE_URL + '/drafts';
 
-            axios.get(url).then(({ data }) => {
-                this.inheritances = data;
-            });
-
-            $('#addInheritance').on('shown.bs.modal', (e) => {
-                this.$refs.createEntryField.focus();
+            axios.get(url).then(({data}) => {
+                this.drafts = data;
             });
         });
     },
 
     methods: {
-        storeInheritance() {
-            var url = $('#createInheritanceForm').attr('action');
+        stored(drafts) {
+            this.drafts = drafts;
+        }
+    }
+});
 
-            axios.post(url, {
-                entry: this.createEntry
-            }).then(({ data }) => {
-                this.inheritances = data;
-                this.createEntry = '';
-                $('#addInheritance').modal('hide');
+new Vue({
+    el: '#facsimiles',
+
+    data: {
+        facsimiles: []
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            var url = BASE_URL + '/facsimiles';
+
+            axios.get(url).then(({data}) => {
+                this.facsimiles = data;
             });
+        });
+    },
+
+    methods: {
+        stored(facsimiles) {
+            this.facsimiles = facsimiles;
         }
     }
 });

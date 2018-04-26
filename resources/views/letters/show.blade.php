@@ -123,7 +123,10 @@
                         <a href="#prints" data-toggle="tab">Drucke</a>
                     </li>
                     <li>
-                        <a href="#inheritances" data-toggle="tab">Nachlässe</a>
+                        <a href="#drafts" data-toggle="tab">Entwürfe</a>
+                    </li>
+                    <li>
+                        <a href="#facsimiles" data-toggle="tab">Faksimiles</a>
                     </li>
                     <li>
                         <a href="#information" data-toggle="tab">Informationen</a>
@@ -260,39 +263,80 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="print in prints" is="in-place"
-                                :print-id="print.id" :print-entry="print.entry" :print-year="print.year"
+                            <tr v-for="print in prints" is="in-place-editor"
+                                :item-id="print.id" :item-entry="print.entry" :item-year="print.year"
                                 base-url="{{ route('letters.prints.index', [$letter->id]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>
                             </tbody>
                         </table>
-                        @include('letters.printDialog')
+
+                        <add-item-editor url="{{ route('letters.prints.store', [$letter]) }}"
+                                         :on-stored="stored"
+                                         modal="addPrint"
+                                         title="Drucke"></add-item-editor>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="inheritances">
+
+                    <div role="tabpanel" class="tab-pane" id="drafts">
                         @unless($letter->trashed())
                             <div class="add-button">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addInheritance">
-                                    <i class="fa fa-plus"></i> Nachlass hinzufügen
+                                        data-target="#addDraft">
+                                    <i class="fa fa-plus"></i> Entwurf hinzufügen
                                 </button>
                             </div>
                         @endunless
                         <table class="table table-responsive">
                             <thead>
                             <tr>
-                                <th colspan="3">Eintrag</th>
+                                <th colspan="2">Eintrag</th>
+                                <th colspan="2">Jahr</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="inheritance in inheritances" is="inheritance-in-place"
-                                :inheritance-id="inheritance.id" :inheritance-entry="inheritance.entry"
-                                base-url="{{ route('letters.inheritances.index', [$letter->id]) }}"
+                            <tr v-for="draft in drafts" is="in-place-editor"
+                                :item-id="draft.id" :item-entry="draft.entry" :item-year="draft.year"
+                                base-url="{{ route('letters.drafts.index', [$letter->id]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>
                             </tbody>
                         </table>
-                        @include('letters.inheritanceDialog')
+
+                        <add-item-editor url="{{ route('letters.drafts.store', [$letter]) }}"
+                                         :on-stored="stored"
+                                         modal="addDraft"
+                                         title="Drucke"></add-item-editor>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="facsimiles">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addFacsimile">
+                                    <i class="fa fa-plus"></i> Faksimile hinzufügen
+                                </button>
+                            </div>
+                        @endunless
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Eintrag</th>
+                                <th colspan="2">Jahr</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="facsimile in facsimiles" is="in-place-editor"
+                                :item-id="facsimile.id" :item-entry="facsimile.entry" :item-year="facsimile.year"
+                                base-url="{{ route('letters.facsimiles.index', [$letter->id]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <add-item-editor url="{{ route('letters.facsimiles.store', [$letter]) }}"
+                                         :on-stored="stored"
+                                         modal="addFacsimile"
+                                         title="Faksimile"></add-item-editor>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="information">
@@ -325,6 +369,7 @@
 @section('scripts')
     <script>
         var BASE_URL = "{{ route('letters.show', [$letter]) }}";
+        var LETTERS_FACSIMILE_STORE_URL = "{{ route('letters.facsimiles.store', [$letter]) }}";
     </script>
     <script src="{{ url('js/letter.js') }}"></script>
     <script>

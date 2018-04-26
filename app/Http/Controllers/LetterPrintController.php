@@ -56,7 +56,7 @@ class LetterPrintController extends Controller
             return $letter->prints;
         }
 
-        return redirect()->route('people.show', ['people' => $letter->id]);
+        return redirect()->route('letters.show', ['letter' => $letter->id]);
     }
 
     /**

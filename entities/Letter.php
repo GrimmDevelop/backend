@@ -59,6 +59,8 @@ use Spatie\MediaLibrary\Media;
  *
  * @property \Illuminate\Support\Collection|LetterPersonAssociation[] personAssociations
  * @property \Illuminate\Support\Collection|LetterPrint[] prints
+ * @property \Illuminate\Support\Collection|Draft[] drafts
+ * @property \Illuminate\Support\Collection|Facsimile[] facsimiles
  */
 class Letter extends Model implements IsGridable, HasMedia
 {

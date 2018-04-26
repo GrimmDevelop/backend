@@ -237,6 +237,10 @@ class LettersController extends Controller
                     return $this->sortByPersonAssociation($builder, $key, $direction);
                 }
 
+                if (in_array($key, ['prints', 'drafts', 'facsimiles'])) {
+                    return $this->sortByEntryAssociation($builder, $key, $direction);
+                }
+
                 // default order: letter code
                 $builder->orderBy('code');
 
@@ -253,6 +257,24 @@ class LettersController extends Controller
                     ->where('letter_person.type', $key == 'senders' ? '0' : '1');
             })
             ->orderBy('letter_person.assignment_source', $direction)
+            ->select('letters.*');
+
+        return $key;
+    }
+
+    private function sortByEntryAssociation($builder, $key, $direction)
+    {
+        $table = $key;
+
+        if ($key == 'prints') {
+            $table = 'letter_prints';
+        }
+
+        $builder
+            ->leftJoin($table, function ($join) use ($table) {
+                $join->on('letters.id', '=', $table . '.letter_id');
+            })
+            ->orderBy($table . '.entry', $direction)
             ->select('letters.*');
 
         return $key;

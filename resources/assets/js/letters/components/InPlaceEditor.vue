@@ -5,20 +5,20 @@
         </td>
         <td v-if="editing">
             <input type="text" class="form-control input-sm" v-model="editingEntry" ref="entryInput"
-                   v-on:keyup.enter="savePrint()"/>
+                   v-on:keyup.enter="saveItem()"/>
         </td>
         <td colspan="2" v-if="!editing">
-            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><i class="fa fa-edit"></i></a> {{ printEntry }}
+            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><i class="fa fa-edit"></i></a> {{ entry }}
         </td>
         <td v-if="editing">
-            <input type="text" class="form-control input-sm" v-model="editingYear" v-on:keyup.enter="savePrint()"/>
+            <input type="text" class="form-control input-sm" v-model="editingYear" v-on:keyup.enter="saveItem()"/>
         </td>
         <td v-if="editing">
-            <button type="button" class="btn btn-primary btn-sm" v-on:click="savePrint()"><i
+            <button type="button" class="btn btn-primary btn-sm" v-on:click="saveItem()"><i
                     class="fa fa-spinner fa-spin" v-if="saving"></i> Speichern
             </button>
         </td>
-        <td colspan="2" v-if="!editing">{{ printYear }} <a href="#" v-on:click.prevent="deletePrint" v-if="editable"><i
+        <td colspan="2" v-if="!editing">{{ year }} <a href="#" v-on:click.prevent="deleteItem" v-if="editable"><i
                 class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Löschen"></i></a></td>
     </tr>
 </template>
@@ -27,15 +27,32 @@
     import Vue from 'vue';
 
     export default {
-        props: ['printId', 'printEntry', 'printYear', 'baseUrl', 'editable'],
+        props: ['itemId', 'itemEntry', 'itemYear', 'baseUrl', 'editable'],
+
+        data() {
+            return {
+                editing: false,
+                existing: true,
+                saving: false,
+                entry: '',
+                year: '',
+                editingEntry: '',
+                editingYear: ''
+            }
+        },
+
+        mounted() {
+            this.entry = this.itemEntry;
+            this.year = this.itemYear;
+        },
 
         methods: {
             clickEdit() {
                 if (this.editingYear == '') {
-                    this.editingYear = this.printYear;
+                    this.editingYear = this.year;
                 }
                 if (this.editingEntry == '') {
-                    this.editingEntry = this.printEntry;
+                    this.editingEntry = this.entry;
                 }
                 this.editing = true;
                 this.focusEntryInput();
@@ -45,22 +62,22 @@
                 this.editing = false;
             },
 
-            savePrint() {
+            saveItem() {
                 this.saving = true;
-                axios.put(this.baseUrl + '/' + this.printId, {
+                axios.put(this.baseUrl + '/' + this.itemId, {
                     entry: this.editingEntry,
                     year: this.editingYear
                 }).then(({data}) => {
-                    // this.printEntry = data.entry;
-                    // this.printYear = data.year;
+                    this.entry = data.entry;
+                    this.year = data.year;
                     this.editing = false;
                     this.saving = false;
                 });
             },
 
-            deletePrint() {
-                if (window.confirm("Soll der Druck wirklich gelöscht werden?")) {
-                    axios.delete(this.baseUrl + '/' + this.printId).then((response) => {
+            deleteItem() {
+                if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
+                    axios.delete(this.baseUrl + '/' + this.itemId).then((response) => {
                         this.existing = false;
                     });
                 }
@@ -70,16 +87,6 @@
                 Vue.nextTick((function () {
                     this.$refs.entryInput.focus();
                 }).bind(this));
-            }
-        },
-
-        data() {
-            return {
-                editing: false,
-                existing: true,
-                saving: false,
-                editingEntry: '',
-                editingYear: ''
             }
         }
     }
