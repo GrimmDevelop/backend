@@ -122,7 +122,11 @@ class LettersController extends Controller
      */
     public function store(StoreLetterRequest $request)
     {
-        //
+        $letter = $request->persist();
+
+        return redirect()
+            ->route('letters.update', [$letter])
+            ->with('success', 'Der Brief wurde angelegt. Er kann nun weiter bearbeitet werden.');
     }
 
     /**

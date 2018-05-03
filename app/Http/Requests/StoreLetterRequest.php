@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Grimm\Letter;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreLetterRequest extends FormRequest
@@ -14,7 +15,7 @@ class StoreLetterRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('letters.create');
+        return $this->user()->can('letters.store');
     }
 
     /**
@@ -25,7 +26,28 @@ class StoreLetterRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'code' => 'string|required',
+            'date' => 'nullable|string',
         ];
+    }
+
+    /**
+     * Persists new letter to database
+     *
+     * @return Letter
+     */
+    public function persist()
+    {
+        $letter = new Letter();
+
+        $letter->code = $this->input('code');
+        $letter->date = $this->input('date');
+
+        $letter->addition = $this->input('addition');
+        $letter->inc = $this->input('inc');
+
+        $letter->save();
+
+        return $letter;
     }
 }
