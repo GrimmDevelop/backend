@@ -95,26 +95,6 @@
                         @include('partials.form.field', ['field' => 'external_digitization', 'model' => $book, 'disabled' => $book->trashed()])
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <a href @click.prevent="morePeople = !morePeople">
-                                weitere Personen
-
-                                <span class="fa fa-caret-down" v-show="!morePeople"></span>
-                                <span class="fa fa-caret-up" v-show="morePeople"></span>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div v-show="morePeople">
-                        <div class="form-group">
-                            @include('librarybooks.person_relation', ['name' => 'author'])
-                            @include('librarybooks.person_relation', ['name' => 'editor'])
-                            @include('librarybooks.person_relation', ['name' => 'translator'])
-                            @include('librarybooks.person_relation', ['name' => 'illustrator'])
-                        </div>
-                    </div>
-
                     @unless($book->trashed())
                         <div class="button-bar row">
                             <div class="col-sm-10 col-md-offset-2">
@@ -132,9 +112,47 @@
                     @endunless
                 </form>
 
-                <div>
-                    @include('logs.entity-activity', ['entity' => $book])
+                <div style="margin-top: 4.5em;"></div>
+
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#author" data-toggle="tab">{{ trans('librarybooks.relations.author.name') }}</a>
+                    </li>
+                    <li>
+                        <a href="#editor" data-toggle="tab">{{ trans('librarybooks.relations.editor.name') }}</a>
+                    </li>
+                    <li>
+                        <a href="#translator"
+                           data-toggle="tab">{{ trans('librarybooks.relations.translator.name') }}</a>
+                    </li>
+                    <li>
+                        <a href="#illustrator" data-toggle="tab">Illustrator</a>
+                    </li>
+                    <li>
+                        <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
+                    </li>
+                </ul>
+
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="author">
+                        @include('librarybooks.person_relation', ['name' => 'author'])
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="editor">
+                        @include('librarybooks.person_relation', ['name' => 'editor'])
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="translator">
+                        @include('librarybooks.person_relation', ['name' => 'translator'])
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="illustrator">
+                        @include('librarybooks.person_relation', ['name' => 'illustrator'])
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="changes">
+                        @include('logs.entity-activity', ['entity' => $book])
+                    </div>
                 </div>
+
+                <div>&nbsp;</div>
 
                 @can('library.delete')
                     @unless($book->trashed())

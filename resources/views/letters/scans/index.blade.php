@@ -52,7 +52,14 @@
         @if($letter->prints()->where('transcription', 1)->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
-                    <h1>{{ trans('letters.prints') }}</h1>
+                    <h1>{{ trans('letters.transcription') }}</h1>
+
+                    <p class="pull-right" style="margin-top: 9px;">
+                        <a href="{{ route('letters.show', [$letter]) }}#transcriptions" class="btn btn-default">
+                            <span class="fa fa-plus"></span>
+                            {{ trans('letters.transcription') }} hizufügen
+                        </a>
+                    </p>
                 </div>
 
                 <div class="col-md-12 page-content">
@@ -66,7 +73,14 @@
         @if($letter->prints()->where('transcription', 0)->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
-                    <h1>{{ trans('letters.transcriptions') }}</h1>
+                    <h1 class="pull-left">{{ trans('letters.print') }}</h1>
+
+                    <p class="pull-right" style="margin-top: 9px;">
+                        <a href="{{ route('letters.show', [$letter]) }}#prints" class="btn btn-default">
+                            <span class="fa fa-plus"></span>
+                            {{ trans('letters.print') }} hizufügen
+                        </a>
+                    </p>
                 </div>
 
                 <div class="col-md-12 page-content">
@@ -80,7 +94,14 @@
         @if($letter->drafts->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
-                    <h1>{{ trans('letters.drafts') }}</h1>
+                    <h1>{{ trans('letters.draft') }}</h1>
+
+                    <p class="pull-right" style="margin-top: 9px;">
+                        <a href="{{ route('letters.show', [$letter]) }}#drafts" class="btn btn-default">
+                            <span class="fa fa-plus"></span>
+                            {{ trans('letters.draft') }} hizufügen
+                        </a>
+                    </p>
                 </div>
 
                 <div class="col-md-12 page-content">

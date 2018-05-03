@@ -27,4 +27,8 @@ class DestroyLetterRequest extends FormRequest
             //
         ];
     }
+
+    public function persist($letter)
+    {
+    }
 }

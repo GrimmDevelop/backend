@@ -1,4 +1,4 @@
-<div class="col-md-offset-2 col-md-10">
+<div class="col-md-12">
     <h3>{{ trans('librarybooks.relations.' . $name . '.name') }}</h3>
 
     <div class="button-container">

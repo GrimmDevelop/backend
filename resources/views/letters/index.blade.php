@@ -65,7 +65,8 @@
                 <div class="btn-group">
                     <form action="{{ route('letters.export') . '?' . http_build_query($filter->delta()) }}"
                           method="post"
-                          style="display: inline;">
+                          style="display: inline;"
+                        @submit="showLimitWarning({{ $exportLimitExceeded }})">
                         {{ csrf_field() }}
                         <button type="submit" class="btn btn-info btn-sm"
                                 data-toggle="tooltip" title="Daten exportieren">

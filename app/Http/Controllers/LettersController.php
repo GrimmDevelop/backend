@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UpdateLetterEvent;
 use App\Export\Excel;
 use App\Filters\Letters\CorrespondenceFilter;
 use App\Filters\Shared\PageSizeFilter;
@@ -47,9 +48,11 @@ class LettersController extends Controller
 
         $pageSize = $this->filter->filterFor('page-size')->pageSize();
 
+        $exportLimitExceeded = $letters->count() > 5000;
+
         $letters = $this->prepareCollection('last_letter_index', $letters, $request, $pageSize);
 
-        return view('letters.index', compact('letters'));
+        return view('letters.index', compact('letters', 'exportLimitExceeded'));
     }
 
     public function export(IndexLetterRequest $request)
@@ -58,7 +61,7 @@ class LettersController extends Controller
 
         $this->filter($letters);
 
-        $letters = $this->prepareCollection('excel', $letters, $request, PHP_INT_MAX);
+        $letters = $this->prepareCollection('excel', $letters, $request, 5000);
 
         $excel = new Excel();
 
@@ -104,13 +107,11 @@ class LettersController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return redirect()
-            ->route('letters.index')
-            ->with('error', 'Noch nicht implementiert');
+        return view('letters.create', compact('letter'));
     }
 
     /**
@@ -133,26 +134,9 @@ class LettersController extends Controller
      */
     public function update(UpdateLetterRequest $request, Letter $letter)
     {
-        $letter->code = $request->input("code");
-        $letter->date = $request->input("date");
-        $letter->valid = $request->input("valid");
-        $letter->addition = $request->input("addition");
-        $letter->inc = $request->input("inc");
-        $letter->couvert = $request->input("couvert");
-        $letter->copy_owned = $request->input("copy_owned");
-        $letter->language = $request->input("language");
-        $letter->copy = $request->input("copy");
-        $letter->attachment = $request->input("attachment");
-        $letter->directory = $request->input("directory");
-        $letter->handwriting_location = $request->input("handwriting_location");
-        $letter->from_source = $request->input("from_source");
-        $letter->from_date = $request->input("from_date");
-        $letter->receive_annotation = $request->input("receive_annotation");
-        $letter->reconstructed_from = $request->input("reconstructed_from");
-        $letter->to_date = $request->input("to_date");
-        $letter->reply_annotation = $request->input("reply_annotation");
+        $request->persist($letter);
 
-        $letter->save();
+        event(new UpdateLetterEvent($letter, $request->user()));
 
         return redirect()
             ->back()
@@ -167,12 +151,15 @@ class LettersController extends Controller
      */
     public function destroy(DestroyLetterRequest $request, $id)
     {
-        //
+        /** @var Letter $book */
+        $letter = Letter::query()->findOrFail($id);
+
+        $request->persist($letter);
     }
 
     /**
      * @param IndexLetterRequest $request
-     * @param LetterPersonAssociation $letterPersonAssociation
+     * @param LetterPersonAssociation $association
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function assignPerson(IndexLetterRequest $request, LetterPersonAssociation $association)
@@ -202,26 +189,7 @@ class LettersController extends Controller
 
     public function doAssignPerson(AssignPersonToLetterRequest $request, LetterPersonAssociation $association)
     {
-        /** @var Person $person */
-        $person = Person::find($request->input('person'));
-
-        $association->person()->associate($person);
-
-        $association->save();
-
-        $person->touch();
-
-        if ($request->input('associate_all')) {
-            \DB::beginTransaction();
-
-            LetterPersonAssociation::where('assignment_source', $association->assignment_source)
-                ->whereNull('person_id')->each(function (LetterPersonAssociation $association) use ($person) {
-                    $association->person()->associate($person);
-                    $association->save();
-                });
-
-            \DB::commit();
-        }
+        $request->persist($association);
 
         return redirect()
             ->route('letters.show', [$association->letter])

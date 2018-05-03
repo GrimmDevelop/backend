@@ -363,6 +363,31 @@
                         @include('logs.entity-activity', ['entity' => $letter])
                     </div>
                 </div>
+
+                @can('letters.delete')
+                    @unless($letter->trashed())
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <h1 class="panel-title">Gefahrenzone</h1>
+                            </div>
+
+                            <div class="panel-body">
+                                <p>
+                                <form id="danger-zone" action="{{ route('letters.destroy', [$letter->id]) }}"
+                                      method="post"
+                                      class="form-inline">
+                                    {{ csrf_field() }}
+                                    {{ method_field('delete') }}
+                                    <button class="btn btn-danger">
+                                        <span class="fa fa-trash"></span>
+                                        {{ trans('letters.delete') }}
+                                    </button>
+                                </form>
+                                </p>
+                            </div>
+                        </div>
+                    @endunless
+                @endcan
             </div>
         </div>
     </div>

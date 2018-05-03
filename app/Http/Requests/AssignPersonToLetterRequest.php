@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests;
 
+use Grimm\LetterPersonAssociation;
+use Grimm\Person;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AssignPersonToLetterRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,5 +29,36 @@ class AssignPersonToLetterRequest extends FormRequest
         return [
             'person' => 'required|exists:persons,id',
         ];
+    }
+
+    /**
+     * @param LetterPersonAssociation $association
+     */
+    public function persist(LetterPersonAssociation $association)
+    {
+        /** @var Person $person */
+        $person = Person::query()->find($this->input('person'));
+
+        $association->person()->associate($person);
+
+        $association->save();
+
+        $person->touch();
+
+        if ($this->input('associate_all')) {
+            try {
+                \DB::beginTransaction();
+
+                LetterPersonAssociation::query()->where('assignment_source', $association->assignment_source)
+                    ->whereNull('person_id')->each(function (LetterPersonAssociation $association) use ($person) {
+                        $association->person()->associate($person);
+                        $association->save();
+                    });
+
+                \DB::commit();
+            } catch (\Exception $e) {
+                // ...
+            }
+        }
     }
 }
