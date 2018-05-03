@@ -27,7 +27,7 @@ class StoreLetterRequest extends FormRequest
     {
         return [
             'code' => 'string|required',
-            'date' => 'nullable|string',
+            'date' => 'string|required',
         ];
     }
 
@@ -40,11 +40,12 @@ class StoreLetterRequest extends FormRequest
     {
         $letter = new Letter();
 
-        $letter->code = $this->input('code');
+        $letter->code = number_format($this->input('code'), 4, '.', '');
+
         $letter->date = $this->input('date');
 
-        $letter->addition = $this->input('addition');
-        $letter->inc = $this->input('inc');
+        $letter->addition = $this->input('addition') ?? '';
+        $letter->inc = $this->input('inc') ?? '';
 
         $letter->save();
 

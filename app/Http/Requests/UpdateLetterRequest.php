@@ -34,11 +34,11 @@ class UpdateLetterRequest extends FormRequest
 
     public function persist(Letter $letter)
     {
-        $letter->code = $this->input("code");
-        $letter->date = $this->input("date");
+        $letter->code = number_format($this->input('code'), 4, '.', '');
+        $letter->date = $this->input("date") ?? '';
         $letter->valid = $this->input("valid");
-        $letter->addition = $this->input("addition");
-        $letter->inc = $this->input("inc");
+        $letter->addition = $this->input("addition") ?? '';
+        $letter->inc = $this->input("inc") ?? '';
         $letter->couvert = $this->input("couvert");
         $letter->copy_owned = $this->input("copy_owned");
         $letter->language = $this->input("language");
