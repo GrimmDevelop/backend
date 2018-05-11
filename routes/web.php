@@ -30,6 +30,8 @@ $this->group(['middleware' => 'auth'], function () {
     $this->post('letters/{letter}/scans/upload', 'LetterScansController@uploadPost');
     $this->resource('letters.scans', 'LetterScansController');
 
+    $this->resource('letters.associations', 'Letters\\AssociationsController', ['except' => ['index', 'show']]);
+
     // Conversations
     $this->get('conversations/{letter}', 'ConversationsController@show');
 

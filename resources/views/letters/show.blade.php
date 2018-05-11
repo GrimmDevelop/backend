@@ -155,11 +155,11 @@
                                 </div>
                             </div>
 
-                            @foreach($letter->senders() as $sender)
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label"
-                                           for="inputFrom">{{ trans('letters.sender') }}</label>
-                                    <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                       for="inputFrom">{{ trans('letters.sender') }}</label>
+                                <div class="col-sm-10">
+                                    @foreach($letter->senders() as $sender)
                                         <p class="form-control-static">
                                             @if($sender->person)
                                                 <a href="{{ route('people.show', [$sender->person]) }}"
@@ -174,19 +174,31 @@
 
                                                 -
 
-                                                <a href="{{ route('letters.index') }}?correspondence={{ $sender->person->id }}">
-                                            <span class="fa fa-envelope" data-toggle="tooltip"
-                                                  title="Correspondence filtern"></span>
+                                                <a href="{{ route('letters.index') }}?correspondence={{ $sender->person->id }}"
+                                                   class="btn btn-default" data-toggle="tooltip" title="Korrespondenz">
+                                                    <span class="fa fa-envelope"></span>
                                                 </a>
                                             @else
                                                 <a href="{{ route('letters.assign-person', [$sender]) }}">
                                                     {{ $sender->assignment_source ?? '[unbekannt]' }}
                                                 </a>
                                             @endif
+
+                                            <a href="{{ route('letters.associations.edit', [$letter, $sender]) }}"
+                                               class="btn btn-default" data-toggle="tooltip" title="bearbeiten">
+                                                <span class="fa fa-pencil"></span>
+                                            </a>
                                         </p>
-                                    </div>
+                                    @endforeach
+                                    <p>
+                                        <a class="btn btn-default"
+                                           href="{{ route('letters.associations.create', [$letter]) }}?type=sender">
+                                            <span class="fa fa-plus"></span>
+                                            Absender hinzufügen
+                                        </a>
+                                    </p>
                                 </div>
-                            @endforeach
+                            </div>
 
                             @include('partials.form.field', ['field' => 'from_source', 'model' => $letter])
                             @include('partials.form.field', ['field' => 'from_date', 'model' => $letter])
@@ -209,11 +221,11 @@
                                 </div>
                             </div>
 
-                            @foreach($letter->receivers() as $receiver)
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label"
-                                           for="inputFrom">{{ trans('letters.receiver') }}</label>
-                                    <div class="col-sm-10">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                       for="inputFrom">{{ trans('letters.receiver') }}</label>
+                                <div class="col-sm-10">
+                                    @foreach($letter->receivers() as $receiver)
                                         <p class="form-control-static">
                                             @if($receiver->person)
                                                 <a href="{{ route('people.show', [$receiver->person]) }}"
@@ -228,19 +240,32 @@
 
                                                 -
 
-                                                <a href="{{ route('letters.index') }}?correspondence={{ $receiver->person->id }}">
-                                            <span class="fa fa-envelope" data-toggle="tooltip"
-                                                  title="Correspondence"></span>
+                                                <a href="{{ route('letters.index') }}?correspondence={{ $receiver->person->id }}"
+                                                   class="btn btn-default" data-toggle="tooltip"
+                                                   title="Korrespondenz">
+                                                    <span class="fa fa-envelope"></span>
                                                 </a>
                                             @else
                                                 <a href="{{ route('letters.assign-person', [$receiver]) }}">
                                                     {{ $receiver->assignment_source ?? '[unbekannt]' }}
                                                 </a>
                                             @endif
+
+                                            <a href="{{ route('letters.associations.edit', [$letter, $receiver]) }}"
+                                               class="btn btn-default" data-toggle="tooltip" title="bearbeiten">
+                                                <span class="fa fa-pencil"></span>
+                                            </a>
                                         </p>
-                                    </div>
+                                    @endforeach
+                                    <p>
+                                        <a class="btn btn-default"
+                                           href="{{ route('letters.associations.create', [$letter]) }}?type=receiver">
+                                            <span class="fa fa-plus"></span>
+                                            Empfänger hinzufügen
+                                        </a>
+                                    </p>
                                 </div>
-                            @endforeach
+                            </div>
 
                             @include('partials.form.field', ['field' => 'to_date', 'model' => $letter])
                             @include('partials.form.field', ['field' => 'receive_annotation', 'model' => $letter])
