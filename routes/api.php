@@ -1,6 +1,8 @@
 <?php
 
 $this->resource('letters.prints', 'LetterPrintController', ['except' => ['show', 'create', 'edit']]);
+$this->resource('letters.transcriptions', 'Letters\\TranscriptionController', ['except' => ['show', 'create', 'edit']]);
+$this->resource('letters.attachments', 'Letters\\AttachmentController', ['except' => ['show', 'create', 'edit']]);
 $this->resource('letters.facsimiles', 'LetterFacsimileController', ['except' => ['show', 'create', 'edit']]);
 $this->resource('letters.drafts', 'LetterDraftController', ['except' => ['show', 'create', 'edit']]);
 

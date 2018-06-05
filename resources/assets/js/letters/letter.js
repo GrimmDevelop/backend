@@ -31,6 +31,54 @@ new Vue({
 });
 
 new Vue({
+    el: '#transcriptions',
+
+    data: {
+        transcriptions: []
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            let url = BASE_URL + '/transcriptions';
+
+            axios.get(url).then(({data}) => {
+                this.transcriptions = data;
+            });
+        });
+    },
+
+    methods: {
+        stored(transcriptions) {
+            this.transcriptions = transcriptions;
+        }
+    }
+});
+
+new Vue({
+    el: '#attachments',
+
+    data: {
+        attachments: []
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            let url = BASE_URL + '/attachments';
+
+            axios.get(url).then(({data}) => {
+                this.attachments = data;
+            });
+        });
+    },
+
+    methods: {
+        stored(attachments) {
+            this.attachments = attachments;
+        }
+    }
+});
+
+new Vue({
     el: '#drafts',
 
     data: {

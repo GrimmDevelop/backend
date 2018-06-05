@@ -44,12 +44,14 @@
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
 
+                    @include('partials.form.field', ['field' => 'id_till_2018', 'model' => $letter, 'disabled' => true])
+                    @include('partials.form.field', ['field' => 'id_till_1992', 'model' => $letter, 'disabled' => true])
+                    @include('partials.form.field', ['field' => 'id_till_1997', 'model' => $letter, 'disabled' => true])
+
                     @include('partials.form.field', ['field' => 'code', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'date', 'model' => $letter])
 
                     @include('partials.form.textarea', ['field' => 'addition', 'model' => $letter, 'rows' => 3])
-
-                    @include('partials.form.boolean', ['field' => 'valid', 'model' => $letter])
 
                     @include('partials.form.textarea', ['field' => 'inc', 'model' => $letter, 'rows' => 3])
                     @include('partials.form.field', ['field' => 'couvert', 'model' => $letter])
@@ -65,13 +67,13 @@
                         </div>
                     @endif
 
-                    @include('partials.form.boolean', ['field' => 'copy_owned', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'language', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'copy', 'model' => $letter])
-                    @include('partials.form.field', ['field' => 'attachment', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'directory', 'model' => $letter])
 
                     @include('partials.form.field', ['field' => 'handwriting_location', 'model' => $letter])
+
+                    @include('partials.form.field', ['field' => 'reconstructed_from', 'model' => $letter])
 
                     @if($letter->handwriting_location != null)
                         <div class="form-group">
@@ -122,7 +124,13 @@
                         <a href="#receive" data-toggle="tab">Empf.-Daten</a>
                     </li>
                     <li>
+                        <a href="#transcriptions" data-toggle="tab">Abschriften</a>
+                    </li>
+                    <li>
                         <a href="#prints" data-toggle="tab">Drucke</a>
+                    </li>
+                    <li>
+                        <a href="#attachments" data-toggle="tab">Beilagen</a>
                     </li>
                     <li>
                         <a href="#drafts" data-toggle="tab">Entwürfe</a>
@@ -141,19 +149,8 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="send">
                         <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"
-                                       for="inputFrom">{{ trans('letters.from') }}</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">
-                                        {{ $letter->from->historical_name ?? '[unbekannt]' }}
-
-                                        <a href="{{-- route('letters.location', [$letter, 'from']) --}}">
-                                            <span class="fa fa-pencil"></span>
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
+                            @include('partials.form.field', ['field' => 'from_location_historical', 'model' => $letter])
+                            @include('partials.form.field', ['field' => 'from_location_derived', 'model' => $letter])
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
@@ -200,26 +197,12 @@
                                 </div>
                             </div>
 
-                            @include('partials.form.field', ['field' => 'from_source', 'model' => $letter])
                             @include('partials.form.field', ['field' => 'from_date', 'model' => $letter])
-                            @include('partials.form.field', ['field' => 'reconstructed_from', 'model' => $letter])
                         </form>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="receive">
                         <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"
-                                       for="inputFrom">{{ trans('letters.to') }}</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static">
-                                        {{ $letter->to->historical_name ?? '[unbekannt]' }}
-
-                                        <a href="{{-- route('letters.location', [$letter, 'to']) --}}">
-                                            <span class="fa fa-pencil"></span>
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
+                            @include('partials.form.field', ['field' => 'to_location_historical', 'model' => $letter])
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
@@ -292,7 +275,7 @@
                             <tbody>
                             <tr v-for="print in prints" is="in-place-editor"
                                 :item-id="print.id" :item-entry="print.entry" :item-year="print.year"
-                                base-url="{{ route('letters.prints.index', [$letter->id]) }}"
+                                base-url="{{ route('letters.prints.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>
                             </tbody>
@@ -302,6 +285,69 @@
                                          :on-stored="stored"
                                          modal="addPrint"
                                          title="Drucke"></add-item-editor>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="transcriptions">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addTranscription">
+                                    <i class="fa fa-plus"></i> Abschrift hinzufügen
+                                </button>
+                            </div>
+                        @endunless
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Eintrag</th>
+                                <th colspan="2">Jahr</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="transcription in transcriptions" is="in-place-editor"
+                                :item-id="transcription.id" :item-entry="transcription.entry"
+                                :item-year="transcription.year"
+                                base-url="{{ route('letters.transcriptions.index', [$letter]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <add-item-editor url="{{ route('letters.transcriptions.store', [$letter]) }}"
+                                         :on-stored="stored"
+                                         modal="addTranscription"
+                                         title="Abschriften"></add-item-editor>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="attachments">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addAttachment">
+                                    <i class="fa fa-plus"></i> Beilage hinzufügen
+                                </button>
+                            </div>
+                        @endunless
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Eintrag</th>
+                                <th colspan="2">Jahr</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="attachment in attachments" is="in-place-editor"
+                                :item-id="attachment.id" :item-entry="attachment.entry" :item-year="attachment.year"
+                                base-url="{{ route('letters.attachments.index', [$letter]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <add-item-editor url="{{ route('letters.attachments.store', [$letter]) }}"
+                                         :on-stored="stored"
+                                         modal="addAttachment"
+                                         title="Beilagen"></add-item-editor>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="drafts">
@@ -323,7 +369,7 @@
                             <tbody>
                             <tr v-for="draft in drafts" is="in-place-editor"
                                 :item-id="draft.id" :item-entry="draft.entry" :item-year="draft.year"
-                                base-url="{{ route('letters.drafts.index', [$letter->id]) }}"
+                                base-url="{{ route('letters.drafts.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>
                             </tbody>
@@ -354,7 +400,7 @@
                             <tbody>
                             <tr v-for="facsimile in facsimiles" is="in-place-editor"
                                 :item-id="facsimile.id" :item-entry="facsimile.entry" :item-year="facsimile.year"
-                                base-url="{{ route('letters.facsimiles.index', [$letter->id]) }}"
+                                base-url="{{ route('letters.facsimiles.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>
                             </tbody>

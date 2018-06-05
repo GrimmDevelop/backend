@@ -16,11 +16,9 @@ class LetterPrintController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index($letter)
+    public function index(Letter $letter)
     {
         $this->authorize('letters.update');
-
-        $letter = Letter::withTrashed()->findOrFail($letter);
 
         return $letter->prints;
     }

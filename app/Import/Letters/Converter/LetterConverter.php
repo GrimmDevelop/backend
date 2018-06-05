@@ -4,6 +4,7 @@ namespace App\Import\Letters\Converter;
 
 use App\Import\Converter\DBFRecordConverter;
 use App\Import\ModelConverter;
+use App\Transformers\UniqueIdTransformer;
 use Grimm\Letter;
 use XBase\Column;
 
@@ -19,8 +20,12 @@ class LetterConverter implements ModelConverter
      */
     public function setupEntity()
     {
+        $transformer = new UniqueIdTransformer();
+
         $letter = new Letter();
-        // $letter->save();
+        $letter->save();
+
+        $letter->unique_code = $transformer->transform($letter->id);
 
         return $letter;
     }

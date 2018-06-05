@@ -35,9 +35,6 @@ class MultiDataParser implements FieldParser
             case "couvert":
                 $letter->couvert = $field;
                 break;
-            case "beilage":
-                $letter->attachment = $field;
-                break;
             case "verz_in":
                 $letter->directory = $field;
                 break;
@@ -71,7 +68,6 @@ class MultiDataParser implements FieldParser
             'inc',
             'copy',
             'couvert',
-            'beilage',
             'verz_in',
             'erschl_aus',
             'empf_verm',

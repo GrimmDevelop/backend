@@ -17,7 +17,9 @@ use Spatie\MediaLibrary\Media;
 
 /**
  * @property int id
+ * @property string unique_code
  *
+ * @property int id_till_2018
  * @property int id_till_1992
  * @property int id_till_1997
  *
@@ -40,12 +42,14 @@ use Spatie\MediaLibrary\Media;
  * @property string handwriting_location
  *
  * @property int from_id
- * @property string from_source
+ * @property string from_location_historical
+ * @property string from_location_derived
  * @property string from_date
  * @property string receive_annotation
  * @property string reconstructed_from
  *
  * @property int to_id
+ * @property string to_location_historical
  * @property string to_date
  * @property string reply_annotation
  *
@@ -60,8 +64,10 @@ use Spatie\MediaLibrary\Media;
  *
  * @property \Illuminate\Support\Collection|LetterPersonAssociation[] personAssociations
  * @property \Illuminate\Support\Collection|LetterPrint[] prints
+ * @property \Illuminate\Support\Collection|LetterTranscription[] transcriptions
  * @property \Illuminate\Support\Collection|Draft[] drafts
  * @property \Illuminate\Support\Collection|Facsimile[] facsimiles
+ * @property \Illuminate\Support\Collection|LetterAttachment[] attachments
  */
 class Letter extends Model implements IsGridable, HasMedia
 {
@@ -70,6 +76,7 @@ class Letter extends Model implements IsGridable, HasMedia
 
     protected $searchableColumns = [
         // search fields
+        'unique_code' => 100,
         'code' => 50,
         'date' => 20,
         'addition' => 20,
@@ -79,16 +86,21 @@ class Letter extends Model implements IsGridable, HasMedia
         'attachment' => 20,
         'directory' => 20,
         'handwriting_location' => 20,
+        'from_location_historical' => 16,
+        'to_location_historical' => 16,
 
         // search relations
-        // 'from.historical_name' => 16,
-        // 'to.historical_name' => 16,
         'personAssociations.assignment_source' => 15,
         'prints.entry' => 5,
         'drafts.entry' => 4,
         'facsimiles.entry' => 4,
         'information.data' => 3,
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'unique_code';
+    }
 
     /**
      * Returns full title of letter
@@ -97,7 +109,7 @@ class Letter extends Model implements IsGridable, HasMedia
      */
     public function title()
     {
-        $title = '#' . $this->id;
+        $title = '#' . $this->unique_code;
 
         if ($senders = $this->senders()) {
             $title .= ' ' . $senders->map(function (LetterPersonAssociation $association) {
@@ -196,6 +208,22 @@ class Letter extends Model implements IsGridable, HasMedia
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transcriptions()
+    {
+        return $this->hasMany(LetterTranscription::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function attachments()
+    {
+        return $this->hasMany(LetterAttachment::class);
+    }
+
+    /**
      * @return \Illuminate\Support\Collection
      */
     public function senders()
@@ -217,7 +245,7 @@ class Letter extends Model implements IsGridable, HasMedia
 
     public function scopeByPerson(Builder $query, $personId, $type)
     {
-        return $query->whereHas('personAssociations', function ($query) use ($personId, $type) {
+        return $query->whereHas('personAssociations', function (Builder $query) use ($personId, $type) {
             $query->where('person_id', $personId);
 
             if ($type !== null) {

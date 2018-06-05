@@ -10,7 +10,7 @@ use App\Import\Parser\FieldParser;
 class PrintParser implements FieldParser
 {
 
-    use YearParser;
+    use YearParser, OrderExtractor;
 
     /**
      * @param $column
@@ -26,32 +26,13 @@ class PrintParser implements FieldParser
 
         $print = new LetterPrint();
 
-        if ($column == 'abschrift') {
-            $order = 0;
-        } else {
-            $order = $this->extractOrder($column);
-        }
-
-        if ($column[0] === 'a') {
-            $print->transcription = true;
-        }
-
         $print->entry = $field;
         $print->year = $year;
-        $print->sort = $order;
+        $print->sort = $this->extractOrder($column);
 
         $print->letter()->associate($letter);
 
         $print->save();
-    }
-
-    private function extractOrder($field)
-    {
-        // dr_1 => 0, dr_2 => 1
-
-        $components = explode('_', $field);
-
-        return intval(array_pop($components)) - 1;
     }
 
     public function handledColumns()
@@ -65,10 +46,6 @@ class PrintParser implements FieldParser
             'dr_5',
             'dr_6',
             'dr_7',
-            'abschrift',
-            'abschr_2',
-            'abschr_3',
-            'abschr_4'
         ];
     }
 }

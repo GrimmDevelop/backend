@@ -43,6 +43,48 @@
                 </div>
             @endif
             <div class="col-md-12 page-content">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#author" data-toggle="tab">{{ trans('librarybooks.relations.author.name') }}</a>
+                    </li>
+                    <li>
+                        <a href="#editor" data-toggle="tab">{{ trans('librarybooks.relations.editor.name') }}</a>
+                    </li>
+                    <li>
+                        <a href="#translator"
+                           data-toggle="tab">{{ trans('librarybooks.relations.translator.name') }}</a>
+                    </li>
+                    <li>
+                        <a href="#illustrator" data-toggle="tab">Illustrator</a>
+                    </li>
+                    <li>
+                        <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
+                    </li>
+                </ul>
+
+
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="author">
+                        @include('librarybooks.person_relation', ['name' => 'author'])
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="editor">
+                        @include('librarybooks.person_relation', ['name' => 'editor'])
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="translator">
+                        @include('librarybooks.person_relation', ['name' => 'translator'])
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="illustrator">
+                        @include('librarybooks.person_relation', ['name' => 'illustrator'])
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="changes">
+                        @include('logs.entity-activity', ['entity' => $book])
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+
+                <div style="margin: 2.5em 0; border-bottom: 1px solid #e2e2e2;"></div>
+
                 <form id="book-editor" action="{{ route('librarybooks.update', [$book->id]) }}"
                       class="form-horizontal"
                       method="POST"
@@ -111,46 +153,6 @@
                         </div>
                     @endunless
                 </form>
-
-                <div style="margin-top: 4.5em;"></div>
-
-                <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#author" data-toggle="tab">{{ trans('librarybooks.relations.author.name') }}</a>
-                    </li>
-                    <li>
-                        <a href="#editor" data-toggle="tab">{{ trans('librarybooks.relations.editor.name') }}</a>
-                    </li>
-                    <li>
-                        <a href="#translator"
-                           data-toggle="tab">{{ trans('librarybooks.relations.translator.name') }}</a>
-                    </li>
-                    <li>
-                        <a href="#illustrator" data-toggle="tab">Illustrator</a>
-                    </li>
-                    <li>
-                        <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
-                    </li>
-                </ul>
-
-
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="author">
-                        @include('librarybooks.person_relation', ['name' => 'author'])
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="editor">
-                        @include('librarybooks.person_relation', ['name' => 'editor'])
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="translator">
-                        @include('librarybooks.person_relation', ['name' => 'translator'])
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="illustrator">
-                        @include('librarybooks.person_relation', ['name' => 'illustrator'])
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="changes">
-                        @include('logs.entity-activity', ['entity' => $book])
-                    </div>
-                </div>
 
                 <div>&nbsp;</div>
 

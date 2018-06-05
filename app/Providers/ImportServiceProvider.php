@@ -9,6 +9,7 @@ use App\Import\Books\Parser\TitleParser;
 use App\Import\Books\Parser\YearParser;
 use App\Import\Letters\Converter\LetterConverter;
 use App\Import\Letters\Parser\AdditionParser;
+use App\Import\Letters\Parser\AttachmentParser;
 use App\Import\Letters\Parser\AuktkatParser;
 use App\Import\Letters\Parser\CodeParser;
 use App\Import\Letters\Parser\DraftParser;
@@ -19,6 +20,7 @@ use App\Import\Letters\Parser\MultiDataParser;
 use App\Import\Letters\Parser\PrintParser;
 use App\Import\Letters\Parser\RestFieldParser;
 use App\Import\Letters\Parser\SenderReceiverParser;
+use App\Import\Letters\Parser\TranscriptionParser;
 use App\Import\Persons\BioDataExtractor;
 use App\Import\Persons\Converter\PersonConverter;
 use App\Import\Persons\Parser\BioDataParser;
@@ -63,6 +65,8 @@ class ImportServiceProvider extends ServiceProvider
                 new IdParser(),
                 new MultiDataParser(),
                 new PrintParser(),
+                new TranscriptionParser(),
+                new AttachmentParser(),
                 new SenderReceiverParser(),
                 new FromToParser(),
                 new AdditionParser(),

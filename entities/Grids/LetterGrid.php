@@ -26,13 +26,13 @@ class LetterGrid extends Grid
         });
 
         parent::__construct('letters', collect([
+            new Column('unique_code', true),
+            new Column('id_till_2018', false),
             new Column('id_till_1992', false),
             new Column('id_till_1997', false),
             new Column('code', true),
-            new Column('valid', false),
             new Column('date', true),
             new Column('couvert', false),
-            new Column('copy_owned', false),
             new Column('language', false),
             new Column('inc', false),
             new Column('copy', false),
@@ -46,11 +46,12 @@ class LetterGrid extends Grid
                     })
                     ->implode(' / ');
             }),
-            new Column('from', false, function () use ($letter) {
-                return $letter->from->historical_name ?? '[unbekannt]';
+            new Column('from_location_historical', false, function () use ($letter) {
+                return $letter->from_location_historical ?? '[nicht angegeben]';
             }),
-            new Column('from_id', false),
-            new Column('from_source', false),
+            new Column('from_location_derived', false, function () use ($letter) {
+                return $letter->from_location_derived ?? '[nicht erschlossen]';
+            }),
             new Column('from_date', false),
             new Column('receive_annotation', false),
             new Column('reconstructed_from', false),
@@ -61,10 +62,9 @@ class LetterGrid extends Grid
                     })
                     ->implode(' / ');
             }),
-            new Column('to', false, function () use ($letter) {
-                return $letter->to->historical_name ?? '[unbekannt]';
+            new Column('to_location_historical', false, function () use ($letter) {
+                return $letter->to_location_historical ?? '[nicht angegeben]';
             }),
-            new Column('to_id', false),
             new Column('to_date', false),
             new Column('reply_annotation', false),
             new Column('prints', false, function () use ($letter) {

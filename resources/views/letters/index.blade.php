@@ -40,7 +40,7 @@
                     <a href="#" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Spalten <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        @foreach(\Grimm\Letter::gridColumns(true) as $column)
+                        @foreach(\Grimm\Letter::gridColumns(true, true) as $column)
                             <li {!! active_if($column->isActive()) !!}>
                                 <a href="{{ url()->filtered_grid(route('letters.index'), [$column->name() => (int) !$column->isActive()]) }}">
                                     {{ trans('letters.' . $column->name()) }}
@@ -66,7 +66,7 @@
                     <form action="{{ route('letters.export') . '?' . http_build_query($filter->delta()) }}"
                           method="post"
                           style="display: inline;"
-                        @submit="showLimitWarning({{ $exportLimitExceeded }})">
+                          @submit="showLimitWarning({{ $exportLimitExceeded }})">
                         {{ csrf_field() }}
                         <button type="submit" class="btn btn-info btn-sm"
                                 data-toggle="tooltip" title="Daten exportieren">
@@ -81,9 +81,9 @@
                 <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
-                        <th>
+                        {{--<th>
                             <a href="{{ sort_link('letters', 'id') }}"># {!! sort_arrow('id') !!}</a>
-                        </th>
+                        </th>--}}
                         @foreach(\Grimm\Letter::gridColumns() as $column)
                             <th>
                                 <a href="{{ sort_link('letters', $column->name()) }}">
@@ -97,10 +97,9 @@
                     <tbody>
                     @forelse($letters->items() as $index => $letter)
                         <tr id="letter-{{ $letter->id }}"
-                            onclick="location.href='{{ route('letters.show', ['id' => $letter->id]) }}'"
+                            onclick="location.href='{{ route('letters.show', [$letter]) }}'"
                             style="cursor: pointer;"
                             class="@if($letter->trashed()) bg-danger @endif">
-                            <td>{{ $letter->id }}</td>
                             @foreach($letter->grid()->columns() as $column)
                                 <td>
                                     {{ $letter->gridify($column) }}

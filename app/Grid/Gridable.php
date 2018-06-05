@@ -3,6 +3,7 @@
 namespace App\Grid;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * Trait Gridable
@@ -35,12 +36,21 @@ trait Gridable
      * Helper method for blade files
      *
      * @param bool $alsoHiddenOnes
+     * @param bool $sort
      * @return Collection
      */
-    public static function gridColumns($alsoHiddenOnes = false)
+    public static function gridColumns($alsoHiddenOnes = false, $sort = false)
     {
-        return static::gridStatic()
+        $columns = static::gridStatic()
             ->columns($alsoHiddenOnes);
+
+        if ($sort) {
+            $columns = $columns->sort(function (Column $columnA, Column $columnB) {
+                return strcmp(trans('letters.' . $columnA->name()), trans('letters.' . $columnB->name()));
+            });
+        }
+
+        return $columns;
     }
 
     public static function translatedColumns($alsoHiddenOnes = false)

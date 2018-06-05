@@ -16,11 +16,9 @@ class LetterDraftController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index($id)
+    public function index(Letter $letter)
     {
         $this->authorize('letters.update');
-
-        $letter = Letter::withTrashed()->findOrFail($id);
 
         return $letter->drafts;
     }
