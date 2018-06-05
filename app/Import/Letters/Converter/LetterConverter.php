@@ -39,26 +39,4 @@ class LetterConverter implements ModelConverter
     {
         return Letter::class;
     }
-
-    /**
-     * @param array $columns
-     * @return array
-     */
-    protected function setupColumns(array $columns)
-    {
-        // Fix to set id first and then all other fields
-        usort($columns, function (Column $a, Column $b) {
-            if ($a->getName() == 'nr') {
-                return -1;
-            }
-
-            if ($b->getName() == 'nr') {
-                return 1;
-            }
-
-            return 0;
-        });
-
-        return $columns;
-    }
 }

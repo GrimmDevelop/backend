@@ -82,7 +82,7 @@ class Activity extends Model
         $before = collect($this->log['before']);
 
         if (is_string($rejectEmptyFields)) {
-            return $before[$rejectEmptyFields];
+            return $before[$rejectEmptyFields] ?? '';
         }
 
         if (!$rejectEmptyFields) {

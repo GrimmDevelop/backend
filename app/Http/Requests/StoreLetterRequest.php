@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Transformers\UniqueIdTransformer;
 use Grimm\Letter;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -38,7 +39,13 @@ class StoreLetterRequest extends FormRequest
      */
     public function persist()
     {
+        $transformer = new UniqueIdTransformer();
+
         $letter = new Letter();
+        // save once to set id (needed for unique_code)
+        $letter->save();
+
+        $letter->unique_code = $transformer->transform($letter->id);
 
         $letter->code = number_format($this->input('code'), 4, '.', '');
 
