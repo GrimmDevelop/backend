@@ -49,10 +49,10 @@
             </div>
         @endif
 
-        @if($letter->prints()->where('transcription', 1)->count() > 0)
+        @if($letter->transcriptions()->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
-                    <h1>{{ trans('letters.transcription') }}</h1>
+                    <h1 class="pull-left">{{ trans('letters.transcription') }}</h1>
 
                     <p class="pull-right" style="margin-top: 9px;">
                         <a href="{{ route('letters.show', [$letter]) }}#transcriptions" class="btn btn-default">
@@ -63,14 +63,14 @@
                 </div>
 
                 <div class="col-md-12 page-content">
-                    @foreach($letter->prints()->where('transcription', 1)->orderBy('sort')->get() as $print)
-                        @include('letters.scans.partials.collection', ['collection' => 'prints.' . $print->id])
+                    @foreach($letter->transcriptions()->orderBy('sort')->get() as $print)
+                        @include('letters.scans.partials.collection', ['collection' => 'transcriptions.' . $print->id])
                     @endforeach
                 </div>
             </div>
         @endif
 
-        @if($letter->prints()->where('transcription', 0)->count() > 0)
+        @if($letter->prints()->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
                     <h1 class="pull-left">{{ trans('letters.print') }}</h1>
@@ -84,14 +84,35 @@
                 </div>
 
                 <div class="col-md-12 page-content">
-                    @foreach($letter->prints()->where('transcription', 0)->orderBy('sort')->get() as $print)
+                    @foreach($letter->prints()->orderBy('sort')->get() as $print)
                         @include('letters.scans.partials.collection', ['collection' => 'prints.' . $print->id])
                     @endforeach
                 </div>
             </div>
         @endif
 
-        @if($letter->drafts->count() > 0)
+        @if($letter->attachments()->count() > 0)
+            <div class="row page">
+                <div class="col-md-12 page-title page-title--subtitle">
+                    <h1 class="pull-left">{{ trans('letters.attachment') }}</h1>
+
+                    <p class="pull-right" style="margin-top: 9px;">
+                        <a href="{{ route('letters.show', [$letter]) }}#attachments" class="btn btn-default">
+                            <span class="fa fa-plus"></span>
+                            {{ trans('letters.attachment') }} hizufügen
+                        </a>
+                    </p>
+                </div>
+
+                <div class="col-md-12 page-content">
+                    @foreach($letter->attachments()->orderBy('sort')->get() as $print)
+                        @include('letters.scans.partials.collection', ['collection' => 'attachments.' . $print->id])
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
+        @if($letter->drafts()->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
                     <h1>{{ trans('letters.draft') }}</h1>

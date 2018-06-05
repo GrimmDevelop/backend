@@ -7,8 +7,10 @@ use App\Grid\Grid;
 use Grimm\Draft;
 use Grimm\Facsimile;
 use Grimm\Letter;
+use Grimm\LetterAttachment;
 use Grimm\LetterCode;
 use Grimm\LetterPrint;
+use Grimm\LetterTranscription;
 
 class LetterGrid extends Grid
 {
@@ -22,7 +24,7 @@ class LetterGrid extends Grid
                     ->get()
                     ->pluck('data')
                     ->implode('; ');
-            });
+            }, 'information.data');
         });
 
         parent::__construct('letters', collect([
@@ -45,7 +47,7 @@ class LetterGrid extends Grid
                         return $association->assignment_source;
                     })
                     ->implode(' / ');
-            }),
+            }, 'personAssociations.assignment_source'),
             new Column('from_location_historical', false, function () use ($letter) {
                 return $letter->from_location_historical ?? '[nicht angegeben]';
             }),
@@ -61,7 +63,7 @@ class LetterGrid extends Grid
                         return $association->assignment_source;
                     })
                     ->implode(' / ');
-            }),
+            }, 'personAssociations.assignment_source'),
             new Column('to_location_historical', false, function () use ($letter) {
                 return $letter->to_location_historical ?? '[nicht angegeben]';
             }),
@@ -69,9 +71,19 @@ class LetterGrid extends Grid
             new Column('reply_annotation', false),
             new Column('prints', false, function () use ($letter) {
                 return $letter->prints->map(function (LetterPrint $print) {
-                    return $print->entry . ($print->transcription ? ' [Abschrift]' : '');
+                    return $print->entry;
                 })->implode('; ');
-            }),
+            }, 'prints.entry'),
+            new Column('transcriptions', false, function () use ($letter) {
+                return $letter->transcriptions->map(function (LetterTranscription $print) {
+                    return $print->entry;
+                })->implode('; ');
+            }, 'transcriptions.entry'),
+            new Column('attachments', false, function () use ($letter) {
+                return $letter->attachments->map(function (LetterAttachment $print) {
+                    return $print->entry;
+                })->implode('; ');
+            }, 'attachments.entry'),
             new Column('drafts', false, function () use ($letter) {
                 return $letter->drafts->map(function (Draft $draft) {
                     return $draft->entry;
@@ -81,7 +93,7 @@ class LetterGrid extends Grid
                 return $letter->facsimiles->map(function (Facsimile $facsimile) {
                     return $facsimile->entry;
                 })->implode('; ');
-            }),
+            }, 'facsimiles.entry'),
             new Column('addition', true),
         ])->merge($codes)->toArray());
     }

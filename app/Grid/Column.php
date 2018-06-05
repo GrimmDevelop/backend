@@ -7,7 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Column
 {
 
+    /**
+     * name of grid column
+     *
+     * @var string
+     */
     private $name;
+
+    /**
+     * default visibility state of grid column
+     *
+     * @var bool
+     */
     private $defaultState;
 
     /**
@@ -16,15 +27,31 @@ class Column
     private $callback;
 
     /**
+     * key used by Eloquence
+     *
+     * @var string
+     */
+    private $searchKey;
+
+    /**
      * @var  Grid
      */
     protected $grid;
 
-    public function __construct($name, $defaultState, callable $callback = null)
+    public function __construct($name, $defaultState, callable $callback = null, $searchKey = null)
     {
         $this->name = $name;
         $this->defaultState = $defaultState;
         $this->callback = $callback;
+        $this->searchKey = $searchKey ?? $this->name();
+    }
+
+    /**
+     * @return string
+     */
+    public function searchKey()
+    {
+        return $this->searchKey;
     }
 
     public function getGrid()
@@ -39,11 +66,22 @@ class Column
         return $this;
     }
 
+    /**
+     * returns the name of the column
+     *
+     * @return string
+     */
     public function name()
     {
         return $this->name;
     }
 
+    /**
+     * Returns true if the user has activated the column
+     * If the user hasn't changed the state, the default state is used
+     *
+     * @return bool
+     */
     public function isActive()
     {
         $key = $this->grid->gridSessionKey() . $this->name();
@@ -51,6 +89,13 @@ class Column
         return session($key, $this->defaultState);
     }
 
+    /**
+     * Returns either the value of a model field
+     * or the return value of given callback
+     *
+     * @param Model $model
+     * @return mixed
+     */
     public function value(Model $model)
     {
         $callback = $this->callback;

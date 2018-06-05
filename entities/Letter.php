@@ -2,6 +2,7 @@
 
 namespace Grimm;
 
+use App\Grid\Column;
 use App\Grid\Grid;
 use App\Grid\Gridable;
 use App\Grid\IsGridable;
@@ -74,29 +75,12 @@ class Letter extends Model implements IsGridable, HasMedia
 
     use SoftDeletes, HasActivity, Gridable, HasMediaTrait, Eloquence;
 
-    protected $searchableColumns = [
-        // search fields
-        'unique_code' => 100,
-        'code' => 50,
-        'date' => 20,
-        'addition' => 20,
-        'couvert' => 20,
-        'inc' => 20,
-        'copy' => 20,
-        'attachment' => 20,
-        'directory' => 20,
-        'handwriting_location' => 20,
-        'from_location_historical' => 16,
-        'to_location_historical' => 16,
-
-        // search relations
-        'personAssociations.assignment_source' => 15,
-        'prints.entry' => 5,
-        'drafts.entry' => 4,
-        'facsimiles.entry' => 4,
-        'information.data' => 3,
-    ];
-
+    /**
+     * Returns the field used by router
+     * unique_code is the id converted to base 36 (0-Z)
+     *
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'unique_code';
@@ -264,5 +248,21 @@ class Letter extends Model implements IsGridable, HasMedia
         $ids = $this->getMedia($collection)->pluck('id')->toArray();
 
         Media::setNewOrder($ids);
+    }
+
+    /**
+     * Columns used by Eloquence
+     *
+     * @return array
+     */
+    public function getSearchableColumns()
+    {
+        $columns = $this->grid()->columns()->map(function (Column $column) {
+            return $column->searchKey();
+        })->values()->unique()->toArray();
+
+        $columns = array_combine($columns, array_fill(0, count($columns), 1));
+
+        return $columns;
     }
 }
