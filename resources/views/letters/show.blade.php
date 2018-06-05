@@ -51,6 +51,15 @@
                     @include('partials.form.field', ['field' => 'code', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'date', 'model' => $letter])
 
+                    @include('partials.form.field', ['field' => 'from_location_historical', 'model' => $letter])
+                    @include('partials.form.field', ['field' => 'from_location_derived', 'model' => $letter])
+                    @include('partials.form.field', ['field' => 'from_date', 'model' => $letter])
+
+                    @include('partials.form.field', ['field' => 'to_location_historical', 'model' => $letter])
+                    @include('partials.form.field', ['field' => 'to_date', 'model' => $letter])
+                    @include('partials.form.field', ['field' => 'receive_annotation', 'model' => $letter])
+                    @include('partials.form.field', ['field' => 'reply_annotation', 'model' => $letter])
+
                     @include('partials.form.textarea', ['field' => 'addition', 'model' => $letter, 'rows' => 3])
 
                     @include('partials.form.textarea', ['field' => 'inc', 'model' => $letter, 'rows' => 3])
@@ -116,12 +125,14 @@
                     @endunless
                 </form>
 
+                <h3>Verknüpfungen</h3>
+
                 <ul class="nav nav-tabs">
                     <li class="active">
-                        <a href="#send" data-toggle="tab">Sende-Daten</a>
+                        <a href="#send" data-toggle="tab">Sender</a>
                     </li>
                     <li>
-                        <a href="#receive" data-toggle="tab">Empf.-Daten</a>
+                        <a href="#receive" data-toggle="tab">Empfänger</a>
                     </li>
                     <li>
                         <a href="#transcriptions" data-toggle="tab">Abschriften</a>
@@ -149,9 +160,6 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="send">
                         <form class="form-horizontal">
-                            @include('partials.form.field', ['field' => 'from_location_historical', 'model' => $letter])
-                            @include('partials.form.field', ['field' => 'from_location_derived', 'model' => $letter])
-
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
                                        for="inputFrom">{{ trans('letters.sender') }}</label>
@@ -176,7 +184,9 @@
                                                     <span class="fa fa-envelope"></span>
                                                 </a>
                                             @else
-                                                <a href="{{ route('letters.assign-person', [$sender]) }}">
+                                                <a href="{{ route('letters.assign-person', [$sender]) }}"
+                                                   data-toggle="tooltip"
+                                                   title="Person zuordnen">
                                                     {{ $sender->assignment_source ?? '[unbekannt]' }}
                                                 </a>
                                             @endif
@@ -196,14 +206,10 @@
                                     </p>
                                 </div>
                             </div>
-
-                            @include('partials.form.field', ['field' => 'from_date', 'model' => $letter])
                         </form>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="receive">
                         <form class="form-horizontal">
-                            @include('partials.form.field', ['field' => 'to_location_historical', 'model' => $letter])
-
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
                                        for="inputFrom">{{ trans('letters.receiver') }}</label>
@@ -229,7 +235,9 @@
                                                     <span class="fa fa-envelope"></span>
                                                 </a>
                                             @else
-                                                <a href="{{ route('letters.assign-person', [$receiver]) }}">
+                                                <a href="{{ route('letters.assign-person', [$receiver]) }}"
+                                                   data-toggle="tooltip"
+                                                   title="Person zuordnen">
                                                     {{ $receiver->assignment_source ?? '[unbekannt]' }}
                                                 </a>
                                             @endif
@@ -249,10 +257,6 @@
                                     </p>
                                 </div>
                             </div>
-
-                            @include('partials.form.field', ['field' => 'to_date', 'model' => $letter])
-                            @include('partials.form.field', ['field' => 'receive_annotation', 'model' => $letter])
-                            @include('partials.form.field', ['field' => 'reply_annotation', 'model' => $letter])
                         </form>
                     </div>
 

@@ -43,13 +43,14 @@ class UpdateLetterRequest extends FormRequest
         $letter->copy_owned = $this->input("copy_owned");
         $letter->language = $this->input("language");
         $letter->copy = $this->input("copy");
-        $letter->attachment = $this->input("attachment");
         $letter->directory = $this->input("directory");
         $letter->handwriting_location = $this->input("handwriting_location");
-        $letter->from_source = $this->input("from_source");
+        $letter->from_location_historical = $this->input("from_location_historical");
+        $letter->from_location_derived = $this->input("from_location_derived");
         $letter->from_date = $this->input("from_date");
         $letter->receive_annotation = $this->input("receive_annotation");
         $letter->reconstructed_from = $this->input("reconstructed_from");
+        $letter->to_location_historical = $this->input("to_location_historical");
         $letter->to_date = $this->input("to_date");
         $letter->reply_annotation = $this->input("reply_annotation");
 
