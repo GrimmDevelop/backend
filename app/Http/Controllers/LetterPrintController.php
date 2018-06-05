@@ -24,16 +24,6 @@ class LetterPrintController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -54,7 +44,7 @@ class LetterPrintController extends Controller
             return $letter->prints;
         }
 
-        return redirect()->route('letters.show', ['letter' => $letter->id]);
+        return redirect()->route('letters.show', [$letter]);
     }
 
     /**

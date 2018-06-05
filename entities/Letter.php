@@ -37,7 +37,6 @@ use Spatie\MediaLibrary\Media;
  * @property string inc
  * @property string copy
  *
- * @property string attachment
  * @property string directory
  *
  * @property string handwriting_location
