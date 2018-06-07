@@ -38,7 +38,7 @@
                     </div>
                 </form>
 
-                <form action="{{ route('letters.associations.store', [$letter->id]) }}" class="form-horizontal"
+                <form action="{{ route('letters.associations.store', [$letter]) }}" class="form-horizontal"
                       method="POST">
                     {{ csrf_field() }}
 
