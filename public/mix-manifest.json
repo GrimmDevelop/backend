@@ -1,10 +1,10 @@
 {
     "/js/import.js": "/js/import.js",
+    "/js/letter.js": "/js/letter.js",
     "/js/library.js": "/js/library.js",
     "/js/letters/associations.js": "/js/letters/associations.js",
     "/js/associations.js": "/js/associations.js",
     "/js/persons.js": "/js/persons.js",
-    "/js/letter.js": "/js/letter.js",
     "/js/deployment.js": "/js/deployment.js",
     "/js/letters.js": "/js/letters.js",
     "/js/library-scans.js": "/js/library-scans.js",
