@@ -30404,6 +30404,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_AddItemEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_AddItemEditor_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_AddInformationEditor_vue__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_AddInformationEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_AddInformationEditor_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_InPlaceInformationEditor_vue__ = __webpack_require__(85);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_InPlaceInformationEditor_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_InPlaceInformationEditor_vue__);
+
 
 
 
@@ -30413,6 +30416,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Vue.component('in-place-editor', __WEBPACK_IMPORTED_MODULE_1__components_InPlaceEditor_vue___default.a);
 Vue.component('add-item-editor', __WEBPACK_IMPORTED_MODULE_2__components_AddItemEditor_vue___default.a);
 Vue.component('add-information-editor', __WEBPACK_IMPORTED_MODULE_3__components_AddInformationEditor_vue___default.a);
+Vue.component('in-place-information-editor', __WEBPACK_IMPORTED_MODULE_4__components_InPlaceInformationEditor_vue___default.a);
 
 new Vue({
     el: '#prints',
@@ -31313,7 +31317,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['url', 'modal', 'codesItem', 'title', 'on-stored'],
@@ -31329,6 +31332,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         this.$nextTick(function () {
             $('#' + _this.modal).on('shown.bs.modal', function (e) {
+                _this.createCode = _this.codesItem[0].id;
                 $(_this.$refs.createCodeField).focus();
             });
         });
@@ -31349,7 +31353,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 _this2.onStored(data);
 
-                _this2.createCode = '';
+                _this2.createCode = _this2.codesItem[0].id;
                 _this2.createdData = '';
 
                 $('#' + _this2.modal).modal('hide');
@@ -31439,11 +31443,6 @@ var render = function() {
                         domProps: {
                           value: code.id,
                           textContent: _vm._s(code.name)
-                        },
-                        on: {
-                          change: function($event) {
-                            _vm.createCode = _vm.$("#codeSelect").selectedIndex
-                          }
                         }
                       })
                     })
@@ -31534,6 +31533,379 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-74ef97cd", module.exports)
+  }
+}
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(13)
+/* script */
+var __vue_script__ = __webpack_require__(86)
+/* template */
+var __vue_template__ = __webpack_require__(87)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/letters/components/InPlaceInformationEditor.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-384711ac", Component.options)
+  } else {
+    hotAPI.reload("data-v-384711ac", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 86 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['itemId', 'itemCodes', 'selectedCode', 'itemData', 'baseUrl', 'editable'],
+
+    data: function data() {
+        return {
+            editing: false,
+            existing: true,
+            saving: false,
+            code: '',
+            data: '',
+            editingCode: '',
+            editingData: ''
+        };
+    },
+    mounted: function mounted() {
+        this.code = this.selectedCode;
+        this.data = this.itemData;
+    },
+
+
+    methods: {
+        clickEdit: function clickEdit() {
+            if (this.editingData == '') {
+                this.editingData = this.data;
+            }
+            if (this.editingCode == '') {
+                this.editingCode = this.code;
+            }
+            this.editing = true;
+            this.focusEntryInput();
+        },
+        stopEdit: function stopEdit() {
+            this.editing = false;
+        },
+        saveItem: function saveItem() {
+            var _this = this;
+
+            this.saving = true;
+            axios.put(this.baseUrl + '/' + this.itemId, {
+                code: this.editingCode,
+                data: this.editingData
+            }).then(function (_ref) {
+                var data = _ref.data;
+
+                _this.code = data.code;
+                _this.data = data.data;
+                _this.editing = false;
+                _this.saving = false;
+            });
+        },
+        deleteItem: function deleteItem() {
+            var _this2 = this;
+
+            if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
+                axios.delete(this.baseUrl + '/' + this.itemId).then(function (response) {
+                    _this2.existing = false;
+                });
+            }
+        },
+        focusEntryInput: function focusEntryInput() {
+            __WEBPACK_IMPORTED_MODULE_0_vue___default.a.nextTick(function () {
+                this.$refs.codeInput.focus();
+            }.bind(this));
+        }
+    }
+});
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.existing
+    ? _c("tr", [
+        _vm.editing
+          ? _c("td", [
+              _c(
+                "a",
+                {
+                  staticClass: "btn btn-link btn-sm",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.stopEdit($event)
+                    }
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-times" })]
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.editing
+          ? _c("td", [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.editingCode,
+                      expression: "editingCode"
+                    }
+                  ],
+                  ref: "codeInput",
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.editingCode = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
+                _vm._l(_vm.itemCodes, function(code) {
+                  return _c("option", {
+                    staticClass: "form-control",
+                    attrs: { name: code.name },
+                    domProps: {
+                      value: code.id,
+                      textContent: _vm._s(code.name)
+                    },
+                    on: {
+                      keyup: function($event) {
+                        if (
+                          !("button" in $event) &&
+                          _vm._k(
+                            $event.keyCode,
+                            "enter",
+                            13,
+                            $event.key,
+                            "Enter"
+                          )
+                        ) {
+                          return null
+                        }
+                        _vm.saveItem()
+                      }
+                    }
+                  })
+                })
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.editing
+          ? _c("td", { attrs: { colspan: "2" } }, [
+              _vm.editable
+                ? _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.clickEdit($event)
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fa fa-edit" })]
+                  )
+                : _vm._e(),
+              _vm._v(
+                "\n        " +
+                  _vm._s(this.itemCodes[this.selectedCode - 1].name) +
+                  "\n    "
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.editing
+          ? _c("td", [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.editingData,
+                    expression: "editingData"
+                  }
+                ],
+                staticClass: "form-control input-sm",
+                attrs: { rows: "5", cols: "30" },
+                domProps: { value: _vm.editingData },
+                on: {
+                  keyup: function($event) {
+                    if (
+                      !("button" in $event) &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                    ) {
+                      return null
+                    }
+                    _vm.saveItem()
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.editingData = $event.target.value
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.editing
+          ? _c("td", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary btn-sm",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      _vm.saveItem()
+                    }
+                  }
+                },
+                [
+                  _vm.saving
+                    ? _c("i", { staticClass: "fa fa-spinner fa-spin" })
+                    : _vm._e(),
+                  _vm._v(" Speichern\n        ")
+                ]
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.editing
+          ? _c("td", { attrs: { colspan: "2" } }, [
+              _vm._v(_vm._s(_vm.data) + " "),
+              _vm.editable
+                ? _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.deleteItem($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-trash",
+                        attrs: {
+                          "data-toggle": "tooltip",
+                          "data-placement": "top",
+                          title: "Löschen"
+                        }
+                      })
+                    ]
+                  )
+                : _vm._e()
+            ])
+          : _vm._e()
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-384711ac", module.exports)
   }
 }
 
