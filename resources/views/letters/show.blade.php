@@ -428,17 +428,17 @@
                         <table class="table table-responsive">
                             <thead>
                             <tr>
-                                <th style="width: 25%;">Code</th>
-                                <th>Wert</th>
+                                <th colspan="2">Code</th>
+                                <th colspan="2">Wert</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($letter->information as $info)
-                                <tr class="@if($info->code->error_generated) bg-danger @endif">
-                                    <td>{{ $info->code->name }}</td>
-                                    <td>{{ $info->data }}</td>
-                                </tr>
-                            @endforeach
+                            <tr v-for="info in information" is="in-place-information-editor"
+                                :item-id="info.id" :item-codes="codes" :selected-Code="info.letter_code_id"
+                                :item-data="info.data"
+                                base-url="{{ route('letters.information.index', [$letter]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
                             </tbody>
                         </table>
                         <add-information-editor url="{{ route('letters.information.store', [$letter]) }}"
