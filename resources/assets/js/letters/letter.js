@@ -2,9 +2,11 @@ import '../bootstrap';
 
 import InPlaceEditor from './components/InPlaceEditor.vue';
 import AddItemEditor from './components/AddItemEditor.vue';
+import AddInformationEditor from './components/AddInformationEditor.vue';
 
 Vue.component('in-place-editor', InPlaceEditor);
 Vue.component('add-item-editor', AddItemEditor);
+Vue.component('add-information-editor', AddInformationEditor);
 
 new Vue({
     el: '#prints',
@@ -122,6 +124,32 @@ new Vue({
     methods: {
         stored(facsimiles) {
             this.facsimiles = facsimiles;
+        }
+    }
+});
+
+new Vue({
+    el: '#information',
+
+    data: {
+        information: [],
+        codes: []
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            var url = BASE_URL + '/information';
+
+            axios.get(url).then(({data}) => {
+                this.information = data['information'];
+                this.codes = data['codes'];
+            });
+        });
+    },
+
+    methods: {
+        stored(information) {
+            this.information = information;
         }
     }
 });
