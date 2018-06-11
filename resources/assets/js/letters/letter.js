@@ -3,10 +3,12 @@ import '../bootstrap';
 import InPlaceEditor from './components/InPlaceEditor.vue';
 import AddItemEditor from './components/AddItemEditor.vue';
 import AddInformationEditor from './components/AddInformationEditor.vue';
+import InPlaceInformationEditor from './components/InPlaceInformationEditor.vue';
 
 Vue.component('in-place-editor', InPlaceEditor);
 Vue.component('add-item-editor', AddItemEditor);
 Vue.component('add-information-editor', AddInformationEditor);
+Vue.component('in-place-information-editor',InPlaceInformationEditor);
 
 new Vue({
     el: '#prints',
