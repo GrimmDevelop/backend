@@ -16,7 +16,6 @@
                             <label for="code">Code: </label>
                             <select id="#codeSelect" v-model="createCode">
                                 <option v-for="code in codesItem" :value="code.id" class="form-control"
-                                        @change="createCode=$('#codeSelect').selectedIndex"
                                         ref="createCodeField" v-text="code.name">
                                 </option>
                             </select>
@@ -54,6 +53,7 @@
         mounted() {
             this.$nextTick(() => {
                 $('#' + this.modal).on('shown.bs.modal', (e) => {
+                    this.createCode=this.codesItem[0].id;
                     $(this.$refs.createCodeField).focus();
                 });
             });
@@ -69,7 +69,7 @@
                 }).then(({data}) => {
                     this.onStored(data);
 
-                    this.createCode = '';
+                    this.createCode = this.codesItem[0].id;
                     this.createdData = '';
 
                     $('#' + this.modal).modal('hide');
