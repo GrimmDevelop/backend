@@ -31649,10 +31649,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         clickEdit: function clickEdit() {
-            if (this.editingData == '') {
+            if (this.editingData === '') {
                 this.editingData = this.data;
             }
-            if (this.editingCode == '') {
+            if (this.editingCode === '') {
                 this.editingCode = this.code;
             }
             this.editing = true;

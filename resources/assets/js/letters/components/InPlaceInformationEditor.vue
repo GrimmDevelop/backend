@@ -56,10 +56,10 @@
 
         methods: {
             clickEdit() {
-                if (this.editingData == '') {
+                if (this.editingData === '') {
                     this.editingData = this.data;
                 }
-                if (this.editingCode == '') {
+                if (this.editingCode === '') {
                     this.editingCode = this.code;
                 }
                 this.editing = true;
