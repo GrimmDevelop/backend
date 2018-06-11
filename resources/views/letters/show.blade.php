@@ -417,6 +417,14 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="information">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addInformation">
+                                    <i class="fa fa-plus"></i> Information hinzufügen
+                                </button>
+                            </div>
+                        @endunless
                         <table class="table table-responsive">
                             <thead>
                             <tr>
@@ -425,14 +433,18 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($letter->information as $information)
-                                <tr class="@if($information->code->error_generated) bg-danger @endif">
-                                    <td>{{ $information->code->name }}</td>
-                                    <td>{{ $information->data }}</td>
+                            @foreach($letter->information as $info)
+                                <tr class="@if($info->code->error_generated) bg-danger @endif">
+                                    <td>{{ $info->code->name }}</td>
+                                    <td>{{ $info->data }}</td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
+                        <add-information-editor url="{{ route('letters.information.store', [$letter]) }}"
+                                                :on-stored="stored" :codes-Item="codes"
+                                                modal="addInformation"
+                                                title="Information"></add-information-editor>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="changes">
                         @include('logs.entity-activity', ['entity' => $letter])
