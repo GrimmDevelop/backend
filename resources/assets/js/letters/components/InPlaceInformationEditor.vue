@@ -72,6 +72,7 @@
 
             saveItem() {
                 this.saving = true;
+                this.selectedCode =this.editingCode;
                 axios.put(this.baseUrl + '/' + this.itemId, {
                     code: this.editingCode,
                     data: this.editingData

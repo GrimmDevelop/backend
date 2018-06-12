@@ -31665,6 +31665,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.saving = true;
+            this.selectedCode = this.editingCode;
             axios.put(this.baseUrl + '/' + this.itemId, {
                 code: this.editingCode,
                 data: this.editingData
