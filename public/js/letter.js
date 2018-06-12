@@ -31635,7 +31635,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             editing: false,
             existing: true,
             saving: false,
-            code: '',
+            code: this.selectedCode,
             data: '',
             editingCode: '',
             editingData: ''
@@ -31665,14 +31665,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             this.saving = true;
-            this.selectedCode = this.editingCode;
             axios.put(this.baseUrl + '/' + this.itemId, {
                 code: this.editingCode,
                 data: this.editingData
             }).then(function (_ref) {
                 var data = _ref.data;
 
-                _this.code = data.code;
+                _this.code = _this.editingCode;
                 _this.data = data.data;
                 _this.editing = false;
                 _this.saving = false;
@@ -31804,7 +31803,7 @@ var render = function() {
                 : _vm._e(),
               _vm._v(
                 "\n        " +
-                  _vm._s(this.itemCodes[this.selectedCode - 1].name) +
+                  _vm._s(this.itemCodes[this.code - 1].name) +
                   "\n    "
               )
             ])

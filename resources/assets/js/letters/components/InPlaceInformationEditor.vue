@@ -14,7 +14,7 @@
         </td>
         <td colspan="2" v-if="!editing">
             <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><i class="fa fa-edit"></i></a>
-            {{ this.itemCodes[this.selectedCode-1].name}}
+            {{ this.itemCodes[this.code-1].name}}
         </td>
         <td v-if="editing">
             <textarea rows="5" cols="30" class="form-control input-sm" v-model="editingData"
@@ -42,8 +42,8 @@
                 editing: false,
                 existing: true,
                 saving: false,
-                code: '',
-                data: '',
+                code: this.selectedCode,
+                data:'',
                 editingCode: '',
                 editingData: ''
             }
@@ -72,12 +72,11 @@
 
             saveItem() {
                 this.saving = true;
-                this.selectedCode =this.editingCode;
                 axios.put(this.baseUrl + '/' + this.itemId, {
                     code: this.editingCode,
                     data: this.editingData
                 }).then(({data}) => {
-                    this.code = data.code;
+                    this.code = this.editingCode;
                     this.data = data.data;
                     this.editing = false;
                     this.saving = false;
