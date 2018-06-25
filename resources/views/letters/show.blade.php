@@ -434,7 +434,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="info in information" is="in-place-information-editor"
-                                :item-id="info.id" :item-codes="codes" :selected-Code="info.letter_code_id"
+                                :item-id="info.id" :item-codes="codes" :selected-code="info.letter_code_id"
                                 :item-data="info.data"
                                 base-url="{{ route('letters.information.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
@@ -442,7 +442,7 @@
                             </tbody>
                         </table>
                         <add-information-editor url="{{ route('letters.information.store', [$letter]) }}"
-                                                :on-stored="stored" :codes-Item="codes"
+                                                :on-stored="stored" :codes-item="codes"
                                                 modal="addInformation"
                                                 title="Information"></add-information-editor>
                     </div>
