@@ -6,7 +6,6 @@
         <td v-if="editing">
             <select ref="codeInput" v-model="editingCode">
                 <option v-for="code in itemCodes" :value="code.id" v-text="code.name"
-                        :name="code.name"
                         class="form-control"
                         v-on:keyup.enter="saveItem()">
                 </option>
@@ -14,7 +13,7 @@
         </td>
         <td colspan="2" v-if="!editing">
             <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><i class="fa fa-edit"></i></a>
-            {{ this.itemCodes[this.code-1].name}}
+            {{ this.itemCodes[this.code].name}}
         </td>
         <td v-if="editing">
             <textarea rows="5" cols="30" class="form-control input-sm" v-model="editingData"
@@ -43,7 +42,7 @@
                 existing: true,
                 saving: false,
                 code: this.selectedCode,
-                data:'',
+                data: '',
                 editingCode: '',
                 editingData: ''
             }
@@ -76,18 +75,22 @@
                     code: this.editingCode,
                     data: this.editingData
                 }).then(({data}) => {
-                    this.code = this.editingCode;
+                    this.code = data.letter_code_id;
                     this.data = data.data;
                     this.editing = false;
                     this.saving = false;
                 });
             },
 
-            deleteItem() {
+            deleteItem(index) {
                 if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
                     axios.delete(this.baseUrl + '/' + this.itemId).then((response) => {
                         this.existing = false;
+                        this.$delete(information, index);
+
                     });
+
+
                 }
             },
 

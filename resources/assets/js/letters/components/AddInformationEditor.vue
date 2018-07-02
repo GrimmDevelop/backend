@@ -14,7 +14,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="code">Code: </label>
-                            <select id="#codeSelect" v-model="createCode">
+                            <select id="#selectCodes" v-model="createCode">
                                 <option v-for="code in codesItem" :value="code.id" class="form-control"
                                         ref="createCodeField" v-text="code.name">
                                 </option>
@@ -53,7 +53,6 @@
         mounted() {
             this.$nextTick(() => {
                 $('#' + this.modal).on('shown.bs.modal', (e) => {
-                    this.createCode=this.codesItem[0].id;
                     $(this.$refs.createCodeField).focus();
                 });
             });
@@ -69,7 +68,7 @@
                 }).then(({data}) => {
                     this.onStored(data);
 
-                    this.createCode = this.codesItem[0].id;
+                    this.createCode = '';
                     this.createdData = '';
 
                     $('#' + this.modal).modal('hide');

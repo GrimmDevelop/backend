@@ -21,9 +21,15 @@ class LetterInformationController extends Controller
     {
         $this->authorize('letters.update');
 
-        $codes = new LetterCode();
+        $code = new LetterCode();
 
-        return response()->json(["information" => $letter->information, "codes" => $codes->all('id', 'name')]);
+        $codes = $code->all('id', 'name');
+
+        $codes = $codes->mapWithKeys(function ($item) {
+            return [$item->id => $item];
+        });
+
+        return response()->json(["information" => $letter->information, "codes" => $codes]);
     }
 
     /**
