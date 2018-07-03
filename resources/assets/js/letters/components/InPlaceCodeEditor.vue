@@ -99,6 +99,7 @@
                 if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
                     axios.delete(this.baseUrl + '/' + this.itemId).then((response) => {
                         this.existing = false;
+                        this.$emit('removed-code');
                     });
 
                 }

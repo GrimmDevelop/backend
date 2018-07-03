@@ -86,8 +86,7 @@
                 if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
                     axios.delete(this.baseUrl + '/' + this.itemId).then((response) => {
                         this.existing = false;
-                        this.$delete(information, index);
-
+                        this.$emit('removed-info');
                     });
 
 

@@ -436,9 +436,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="info in information" is="in-place-information-editor"
+                            <tr v-for="(info, index) in information" is="in-place-information-editor"
                                 :item-id="info.id" :item-codes="codes" :selected-code="info.letter_code_id"
-                                :item-data="info.data"
+                                :item-data="info.data" @removed-info="removed(index)" :key="info.id"
                                 base-url="{{ route('letters.information.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>
@@ -467,9 +467,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for=" code in codes" is="in-place-code-editor"
+                            <tr v-for="(code, index) in codes" is="in-place-code-editor"
                                 :item-id="code.id" :item-name="code.name" :item-error-generated="code.error_generated"
-                                :item-internal="code.internal"
+                                :item-internal="code.internal" @removed-code="removed(index)" :key="code.id"
                                 base-url="{{ route('letters.codes.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>

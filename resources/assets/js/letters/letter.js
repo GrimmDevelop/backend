@@ -157,6 +157,9 @@ new Vue({
     methods: {
         stored(information) {
             this.information = information;
+        },
+        removed(index) {
+            this.information.splice(index, 1);
         }
     }
 });
@@ -179,6 +182,9 @@ new Vue({
     methods: {
         stored(codes) {
             this.codes = codes;
+        },
+        removed(index) {
+            this.codes.splice(index, 1);
         }
 
 
