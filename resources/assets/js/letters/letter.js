@@ -1,14 +1,19 @@
 import '../bootstrap';
 
 import InPlaceEditor from './components/InPlaceEditor.vue';
+import InPlaceInformationEditor from './components/InPlaceInformationEditor.vue';
+import InPlaceCodeEditor from './components/InPlaceCodeEditor.vue';
 import AddItemEditor from './components/AddItemEditor.vue';
 import AddInformationEditor from './components/AddInformationEditor.vue';
-import InPlaceInformationEditor from './components/InPlaceInformationEditor.vue';
+import AddCodeEditor from './components/AddCodeEditor.vue' ;
+
 
 Vue.component('in-place-editor', InPlaceEditor);
+Vue.component('in-place-information-editor', InPlaceInformationEditor);
+Vue.component('in-place-code-editor', InPlaceCodeEditor);
 Vue.component('add-item-editor', AddItemEditor);
 Vue.component('add-information-editor', AddInformationEditor);
-Vue.component('in-place-information-editor',InPlaceInformationEditor);
+Vue.component('add-code-editor', AddCodeEditor);
 
 new Vue({
     el: '#prints',
@@ -153,5 +158,29 @@ new Vue({
         stored(information) {
             this.information = information;
         }
+    }
+});
+new Vue({
+    el: '#codes',
+
+    data: {
+        codes: []
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            var url = BASE_URL + '/codes';
+
+            axios.get(url).then(({data}) => {
+                this.codes = data;
+            });
+        });
+    },
+    methods: {
+        stored(codes) {
+            this.codes = codes;
+        }
+
+
     }
 });
