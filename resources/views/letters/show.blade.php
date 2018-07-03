@@ -153,6 +153,9 @@
                         <a href="#information" data-toggle="tab">Informationen</a>
                     </li>
                     <li>
+                        <a href="#codes" data-toggle="tab">Codes</a>
+                    </li>
+                    <li>
                         <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
                     </li>
                 </ul>
@@ -446,6 +449,37 @@
                                                 modal="addInformation"
                                                 title="Information"></add-information-editor>
                     </div>
+                    <div role="tabpanel" class="tab-pane" id="codes">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addCode">
+                                    <i class="fa fa-plus"></i> Code hinzufügen
+                                </button>
+                            </div>
+                        @endunless
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Name</th>
+                                <th colspan="1">Error_Generated</th>
+                                <th colspan="2">Internal</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for=" code in codes" is="in-place-code-editor"
+                                :item-id="code.id" :item-name="code.name" :item-error-generated="code.error_generated"
+                                :item-internal="code.internal"
+                                base-url="{{ route('letters.codes.index', [$letter]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
+                            </tbody>
+                        </table>
+                        <add-code-editor url="{{ route('letters.codes.store', [$letter]) }}"
+                                         :on-stored="stored" modal="addCode"
+                                         title="Code"></add-code-editor>
+                    </div>
+
                     <div role="tabpanel" class="tab-pane" id="changes">
                         @include('logs.entity-activity', ['entity' => $letter])
                     </div>
