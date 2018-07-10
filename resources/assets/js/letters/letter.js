@@ -1,10 +1,19 @@
 import '../bootstrap';
 
 import InPlaceEditor from './components/InPlaceEditor.vue';
+import InPlaceInformationEditor from './components/InPlaceInformationEditor.vue';
+import InPlaceCodeEditor from './components/InPlaceCodeEditor.vue';
 import AddItemEditor from './components/AddItemEditor.vue';
+import AddInformationEditor from './components/AddInformationEditor.vue';
+import AddCodeEditor from './components/AddCodeEditor.vue' ;
+
 
 Vue.component('in-place-editor', InPlaceEditor);
+Vue.component('in-place-information-editor', InPlaceInformationEditor);
+Vue.component('in-place-code-editor', InPlaceCodeEditor);
 Vue.component('add-item-editor', AddItemEditor);
+Vue.component('add-information-editor', AddInformationEditor);
+Vue.component('add-code-editor', AddCodeEditor);
 
 new Vue({
     el: '#prints',
@@ -123,5 +132,61 @@ new Vue({
         stored(facsimiles) {
             this.facsimiles = facsimiles;
         }
+    }
+});
+
+new Vue({
+    el: '#information',
+
+    data: {
+        information: [],
+        codes: []
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            var url = BASE_URL + '/information';
+
+            axios.get(url).then(({data}) => {
+                this.information = data['information'];
+                this.codes = data['codes'];
+            });
+        });
+    },
+
+    methods: {
+        stored(information) {
+            this.information = information;
+        },
+        removed(index) {
+            this.information.splice(index, 1);
+        }
+    }
+});
+new Vue({
+    el: '#codes',
+
+    data: {
+        codes: []
+    },
+
+    mounted() {
+        this.$nextTick(() => {
+            var url = BASE_URL + '/codes';
+
+            axios.get(url).then(({data}) => {
+                this.codes = data;
+            });
+        });
+    },
+    methods: {
+        stored(codes) {
+            this.codes = codes;
+        },
+        removed(index) {
+            this.codes.splice(index, 1);
+        }
+
+
     }
 });

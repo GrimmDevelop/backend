@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string data
+ * @property int letter_code_id
+ *
+ * @property LetterCode code
+ * @property Letter letter
  */
 class LetterInformation extends Model
 {
