@@ -68,6 +68,7 @@ use Spatie\MediaLibrary\Media;
  * @property \Illuminate\Support\Collection|Draft[] drafts
  * @property \Illuminate\Support\Collection|Facsimile[] facsimiles
  * @property \Illuminate\Support\Collection|LetterAttachment[] attachments
+ * @property \Illuminate\Support\Collection|LetterInformation[] information
  */
 class Letter extends Model implements IsGridable, HasMedia
 {

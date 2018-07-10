@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Grimm\Letter;
 use Grimm\LetterCode;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class LetterCodeController extends Controller
 {
@@ -13,7 +12,7 @@ class LetterCodeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $id
+     * @param Letter $letter
      * @return LetterCode[]|\Illuminate\Database\Eloquent\Collection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -21,11 +20,7 @@ class LetterCodeController extends Controller
     {
         $this->authorize('letters.update');
 
-        $code = new LetterCode();
-
-//        return $this->codesFromInformationForLetter($letter);
-
-        return $code->all();
+        return LetterCode::all();
     }
 
     /**
@@ -49,9 +44,7 @@ class LetterCodeController extends Controller
         $code->save();
 
         if ($request->ajax()) {
-
-            return $code->all();
-
+            return LetterCode::all();
         }
 
         return redirect()->route('letters.show', ['letters' => $letter->id]);
@@ -63,29 +56,26 @@ class LetterCodeController extends Controller
      * @param \Illuminate\Http\Request $request $request
      * @param Letter $letter
      * @param $codeId
-     * @return LetterCode[]
+     * @return LetterCode
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Letter $letter, $codeId)
     {
-
         $this->authorize('letters.update');
 
-        /** @var LetterCode $codeId */
-        $code = new LetterCode();
+        /** @var LetterCode $code */
+        $code = LetterCode::query()->findOrFail($codeId);
 
-        $codeId = $code->find($codeId);
+        $code->name = $request->get('codeName');
+        $code->error_generated = $request->get('codeErrorGenerated');
+        $code->internal = $request->get('codeInternal');
 
-        $codeId->name = $request->get('codeName');
-        $codeId->error_generated = $request->get('codeErrorGenerated');
-        $codeId->internal = $request->get('codeInternal');
-
-
-        $codeId->save();
+        $code->save();
 
         if ($request->ajax()) {
-            return $codeId;
+            return $code;
         }
+
         return redirect()->route('letters.show', ['letters' => $letter->id]);
     }
 
@@ -99,12 +89,15 @@ class LetterCodeController extends Controller
      */
     public function destroy(Letter $letter, $codeId)
     {
-
         $this->authorize('letters.update');
 
-        $code = new LetterCode();
+        /** @var LetterCode $code */
+        $code = LetterCode::query()->findOrFail($codeId);
 
-        $code->find($codeId)->delete();
+        try {
+            $code->delete();
+        } catch (\Exception $e) {
+        }
 
         return $code;
     }

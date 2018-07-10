@@ -13,7 +13,7 @@ class LetterInformationController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $id
+     * @param Letter $letter
      * @return \Illuminate\Http\Response [Information[],codes[]]|\Illuminate\Support\Collection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
@@ -21,9 +21,7 @@ class LetterInformationController extends Controller
     {
         $this->authorize('letters.update');
 
-        $code = new LetterCode();
-
-        $codes = $code->all('id', 'name');
+        $codes = LetterCode::all('id', 'name');
 
         $codes = $codes->mapWithKeys(function ($item) {
             return [$item->id => $item];
@@ -37,7 +35,7 @@ class LetterInformationController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @param Letter $letter
-     * @return Information[]\Illuminate\Http\RedirectResponse|mixed
+     * @return LetterInformation[]\Illuminate\Http\RedirectResponse|mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(Request $request, Letter $letter)
@@ -49,7 +47,7 @@ class LetterInformationController extends Controller
         $information->data = $request->get('data');
         $information->letter_code_id = $request->get('code');
 
-        $letter->Information()->save($information);
+        $letter->information()->save($information);
 
         if ($request->ajax()) {
             return $letter->information;
@@ -63,24 +61,20 @@ class LetterInformationController extends Controller
      *
      * @param \Illuminate\Http\Request $request $request
      * @param Letter $letter
-     * @param $informationId
-     * @return LetterInformation[]
+     * @param LetterInformation $information
+     * @return LetterInformation
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function update(Request $request, Letter $letter, $informationId)
+    public function update(Request $request, Letter $letter, LetterInformation $information)
     {
-
         $this->authorize('letters.update');
 
-        /** @var Information $information */
-        $informationId = $letter->information()->find($informationId);
+        $information->data = $request->get('data');
+        $information->letter_code_id = $request->get('code');
 
-        $informationId->data = $request->get('data');
-        $informationId->letter_code_id = $request->get('code');
+        $information->save();
 
-        $informationId->save();
-
-        return $informationId;
+        return $information;
     }
 
     /**
@@ -88,12 +82,11 @@ class LetterInformationController extends Controller
      *
      * @param Letter $letter
      * @param $informationId
-     * @return Information []
+     * @return LetterInformation[]
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Letter $letter, $informationId)
     {
-
         $this->authorize('letters.update');
 
         $letter->information()->find($informationId)->delete();
