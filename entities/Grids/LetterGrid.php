@@ -38,7 +38,6 @@ class LetterGrid extends Grid
             new Column('language', false),
             new Column('inc', false),
             new Column('copy', false),
-            new Column('attachment', false),
             new Column('directory', false),
             new Column('handwriting_location', false),
             new Column('senders', true, function () use ($letter) {

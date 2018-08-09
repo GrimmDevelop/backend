@@ -212,7 +212,7 @@ class LettersController extends Controller
                     return $this->sortByPersonAssociation($builder, $key, $direction);
                 }
 
-                if (in_array($key, ['prints', 'drafts', 'facsimiles'])) {
+                if (in_array($key, ['prints', 'transcriptions', 'drafts', 'facsimiles', 'attachments'])) {
                     return $this->sortByEntryAssociation($builder, $key, $direction);
                 }
 
@@ -245,8 +245,8 @@ class LettersController extends Controller
     {
         $table = $key;
 
-        if ($key == 'prints') {
-            $table = 'letter_prints';
+        if ($key == 'prints' || $key == 'transcriptions' || $key == 'attachments') {
+            $table = 'letter_' . $key;
         }
 
         $builder

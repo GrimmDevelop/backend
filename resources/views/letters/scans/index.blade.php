@@ -105,8 +105,8 @@
                 </div>
 
                 <div class="col-md-12 page-content">
-                    @foreach($letter->attachments()->orderBy('sort')->get() as $print)
-                        @include('letters.scans.partials.collection', ['collection' => 'attachments.' . $print->id])
+                    @foreach($letter->attachments as $attachment)
+                        @include('letters.scans.partials.collection', ['collection' => 'attachments.' . $attachment->id])
                     @endforeach
                 </div>
             </div>
