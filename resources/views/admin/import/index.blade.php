@@ -27,12 +27,6 @@
                             v-on:complete="onComplete"></upload>
                 </div>
 
-                <div class="pull-right">
-                    <button class="btn btn-success" @click="startImport($event)" :disabled="started">
-                        <i class="fa fa-circle-o-notch fa-btn fa-spin" v-if="started"></i>
-                        Import jetzt starten
-                    </button>
-                </div>
                 <h3>Datenbanken</h3>
                 <div v-if="!started && !done">
                     <table class="table table-striped">
@@ -40,6 +34,11 @@
                         <tr v-for="database in databases">
                             <td>
                                 @{{ database.name }}
+                            </td>
+                            <td width="100%">
+                                <span style="font-weight: lighter;">
+                                    @{{ database.type }}
+                                </span>
                             </td>
                             <td>
                                 <a :href="database.remove" class="text-danger">
@@ -50,6 +49,14 @@
                         </tbody>
                     </table>
                 </div>
+
+                <div class="pull-right">
+                    <button class="btn btn-success" @click="startImport($event)" :disabled="started">
+                        <i class="fa fa-circle-o-notch fa-btn fa-spin" v-if="started"></i>
+                        Import jetzt starten
+                    </button>
+                </div>
+
                 <div v-if="started">
                     <h4>Briefe</h4>
                     <div class="progress">

@@ -173,10 +173,10 @@
                                                 <a href="{{ route('people.show', [$sender->person]) }}"
                                                    data-toggle="tooltip"
                                                    title="Person öffnen">
-                                                    {{ $sender->person->fullName() }}
+                                                    {{ $sender->assignment_source }}
 
                                                     @if($sender->person->fullName() != $sender->assignment_source)
-                                                        [{{ $sender->assignment_source }}]
+                                                        <span style="font-weight: lighter;">[{{ $sender->person->fullName() }}]</span>
                                                     @endif
                                                 </a>
 
@@ -223,10 +223,10 @@
                                                 <a href="{{ route('people.show', [$receiver->person]) }}"
                                                    data-toggle="tooltip"
                                                    title="Person öffnen">
-                                                    {{ $receiver->person->fullName() }}
+                                                    {{ $receiver->assignment_source }}
 
                                                     @if($receiver->person->fullName() != $receiver->assignment_source)
-                                                        [{{ $receiver->assignment_source }}]
+                                                        <span style="font-weight: lighter;">[{{ $receiver->person->fullName() }}]</span>
                                                     @endif
                                                 </a>
 

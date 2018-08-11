@@ -16,7 +16,7 @@ class IdParser implements FieldParser
     public function parse($column, $field, $letter)
     {
         switch ($column) {
-            case 'nr':
+            case 'nr_2018':
                 $letter->id_till_2018 = (int)$field;
                 break;
             case 'nr_1992':
@@ -32,6 +32,6 @@ class IdParser implements FieldParser
 
     public function handledColumns()
     {
-        return ['nr', 'nr_1992', 'nr_1997'];
+        return ['nr_2018', 'nr_1992', 'nr_1997'];
     }
 }

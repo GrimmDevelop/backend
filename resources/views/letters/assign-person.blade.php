@@ -100,7 +100,7 @@
                     <div class="button-bar row">
                         <div class="col-sm-10 col-md-offset-2">
                             <button type="submit" class="btn btn-primary">Speichern</button>
-                            <a href="{{ route('letters.show', [$letter->id]) }}#letters"
+                            <a href="{{ route('letters.show', [$letter]) }}"
                                class="btn btn-link">Abbrechen</a>
                         </div>
                     </div>
@@ -159,7 +159,7 @@
 
 @section('scripts')
     <script>
-        var BASE_URL = "{{ route('letters.show', [$letter->id]) }}";
+        var BASE_URL = "{{ route('letters.show', [$letter]) }}";
     </script>
     <script src="{{ url('js/associations.js') }}"></script>
     <script>

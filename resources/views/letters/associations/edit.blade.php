@@ -97,7 +97,7 @@
                     <div class="button-bar row">
                         <div class="col-sm-10 col-md-offset-2">
                             <button type="submit" class="btn btn-primary">Speichern</button>
-                            <a href="{{ route('letters.show', [$letter->id]) }}"
+                            <a href="{{ route('letters.show', [$letter]) }}"
                                class="btn btn-link">Abbrechen</a>
                         </div>
                     </div>

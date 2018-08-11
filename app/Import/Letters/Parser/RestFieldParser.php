@@ -36,7 +36,7 @@ class RestFieldParser implements FieldParser
 
     public function handledColumns()
     {
-        return ['gesehen_12', 'ba', 'ausg_notiz', 'tb_nr', 'del'];
+        return ['ausg_notiz', 'tb_nr']; // 'gesehen_12', 'ba', 'del'
     }
 
     private function codes($code)
