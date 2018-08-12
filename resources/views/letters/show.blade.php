@@ -169,35 +169,7 @@
                                 <div class="col-sm-10">
                                     @foreach($letter->senders() as $sender)
                                         <p class="form-control-static">
-                                            @if($sender->person)
-                                                <a href="{{ route('people.show', [$sender->person]) }}"
-                                                   data-toggle="tooltip"
-                                                   title="Person öffnen">
-                                                    {{ $sender->assignment_source }}
-
-                                                    @if($sender->person->fullName() != $sender->assignment_source)
-                                                        <span style="font-weight: lighter;">[{{ $sender->person->fullName() }}]</span>
-                                                    @endif
-                                                </a>
-
-                                                -
-
-                                                <a href="{{ route('letters.index') }}?correspondence={{ $sender->person->id }}"
-                                                   class="btn btn-default" data-toggle="tooltip" title="Korrespondenz">
-                                                    <span class="fa fa-envelope"></span>
-                                                </a>
-                                            @else
-                                                <a href="{{ route('letters.assign-person', [$sender]) }}"
-                                                   data-toggle="tooltip"
-                                                   title="Person zuordnen">
-                                                    {{ $sender->assignment_source ?? '[unbekannt]' }}
-                                                </a>
-                                            @endif
-
-                                            <a href="{{ route('letters.associations.edit', [$letter, $sender]) }}"
-                                               class="btn btn-default" data-toggle="tooltip" title="bearbeiten">
-                                                <span class="fa fa-pencil"></span>
-                                            </a>
+                                            @include('letters.associations.partials.person', ['association' => $sender])
                                         </p>
                                     @endforeach
                                     <p>
@@ -219,36 +191,7 @@
                                 <div class="col-sm-10">
                                     @foreach($letter->receivers() as $receiver)
                                         <p class="form-control-static">
-                                            @if($receiver->person)
-                                                <a href="{{ route('people.show', [$receiver->person]) }}"
-                                                   data-toggle="tooltip"
-                                                   title="Person öffnen">
-                                                    {{ $receiver->assignment_source }}
-
-                                                    @if($receiver->person->fullName() != $receiver->assignment_source)
-                                                        <span style="font-weight: lighter;">[{{ $receiver->person->fullName() }}]</span>
-                                                    @endif
-                                                </a>
-
-                                                -
-
-                                                <a href="{{ route('letters.index') }}?correspondence={{ $receiver->person->id }}"
-                                                   class="btn btn-default" data-toggle="tooltip"
-                                                   title="Korrespondenz">
-                                                    <span class="fa fa-envelope"></span>
-                                                </a>
-                                            @else
-                                                <a href="{{ route('letters.assign-person', [$receiver]) }}"
-                                                   data-toggle="tooltip"
-                                                   title="Person zuordnen">
-                                                    {{ $receiver->assignment_source ?? '[unbekannt]' }}
-                                                </a>
-                                            @endif
-
-                                            <a href="{{ route('letters.associations.edit', [$letter, $receiver]) }}"
-                                               class="btn btn-default" data-toggle="tooltip" title="bearbeiten">
-                                                <span class="fa fa-pencil"></span>
-                                            </a>
+                                            @include('letters.associations.partials.person', ['association' => $receiver])
                                         </p>
                                     @endforeach
                                     <p>
