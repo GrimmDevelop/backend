@@ -63,6 +63,7 @@
                     @include('partials.form.textarea', ['field' => 'addition', 'model' => $letter, 'rows' => 3])
 
                     @include('partials.form.textarea', ['field' => 'inc', 'model' => $letter, 'rows' => 3])
+
                     @include('partials.form.field', ['field' => 'couvert', 'model' => $letter])
 
                     @if($letter->couvert != null)
