@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexLetterRequest;
+use App\Upload\UploadsFiles;
 use Flow\Config;
 use Flow\File;
 use Grimm\Letter;
@@ -12,6 +13,8 @@ use Spatie\MediaLibrary\Media;
 
 class LetterScansController extends Controller
 {
+
+    use UploadsFiles;
 
     /**
      * Display a listing of the resource.
@@ -178,21 +181,6 @@ class LetterScansController extends Controller
         }
     }
 
-    /**
-     * @return File
-     */
-    private function initFlowFile()
-    {
-        $config = new Config();
-
-        if (!is_dir(storage_path() . '/uploads/temp/')) {
-            mkdir(storage_path() . '/uploads/temp/', 0775, true);
-        }
-
-        $config->setTempDir(storage_path() . '/uploads/temp/');
-
-        return new File($config);
-    }
 
     private function moveMediaLeft(Letter $letter, Media $media)
     {

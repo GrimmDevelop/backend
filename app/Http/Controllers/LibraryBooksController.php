@@ -25,8 +25,8 @@ use App\Http\Requests\ShowLibraryRequest;
 use App\Http\Requests\StoreLibraryRelationRequest;
 use App\Http\Requests\StoreLibraryRequest;
 use App\Http\Requests\UpdateLibraryRequest;
+use App\Upload\UploadsFiles;
 use Carbon\Carbon;
-use Flow\Config;
 use Flow\File;
 use Grimm\LibraryBook;
 use Illuminate\Support\Facades\Input;
@@ -35,7 +35,7 @@ use Illuminate\Support\Facades\Input;
 class LibraryBooksController extends Controller
 {
 
-    use AnalyzesEntity, FiltersEntity;
+    use AnalyzesEntity, FiltersEntity, UploadsFiles;
 
     /**
      * Display a listing of the resource.
@@ -124,6 +124,11 @@ class LibraryBooksController extends Controller
 
     }
 
+    /**
+     * @param IndexLibraryRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \League\Flysystem\FileExistsException
+     */
     public function export(IndexLibraryRequest $request)
     {
         $books = LibraryBook::query();
@@ -147,6 +152,14 @@ class LibraryBooksController extends Controller
         return response()->download($file);
     }
 
+    /**
+     * @param IndexLibraryRequest $request
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \Flow\FileLockException
+     * @throws \Flow\FileOpenException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     */
     public function uploadGet(IndexLibraryRequest $request, $id)
     {
         $book = LibraryBook::query()->findOrFail($id);
@@ -160,6 +173,14 @@ class LibraryBooksController extends Controller
         }
     }
 
+    /**
+     * @param IndexLibraryRequest $request
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @throws \Flow\FileLockException
+     * @throws \Flow\FileOpenException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     */
     public function uploadPost(IndexLibraryRequest $request, $id)
     {
         $book = LibraryBook::query()->findOrFail($id);
@@ -252,6 +273,12 @@ class LibraryBooksController extends Controller
             ->with('success', 'Verknüpfung wurde erstellt');
     }
 
+    /**
+     * @param DestroyLibraryRelationRequest $request
+     * @param LibraryBook $book
+     * @param $relation
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteRelation(DestroyLibraryRelationRequest $request, LibraryBook $book, $relation)
     {
         $request->persist($book, $relation);
@@ -329,21 +356,5 @@ class LibraryBooksController extends Controller
                 return 'cat_id';
             }),
         ];
-    }
-
-    /**
-     * @return File
-     */
-    private function initFlowFile()
-    {
-        $config = new Config();
-
-        if (!is_dir(storage_path() . '/uploads/temp/')) {
-            mkdir(storage_path() . '/uploads/temp/', 0775, true);
-        }
-
-        $config->setTempDir(storage_path() . '/uploads/temp/');
-
-        return new File($config);
     }
 }

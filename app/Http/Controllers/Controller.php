@@ -22,7 +22,6 @@ class Controller extends BaseController
         Request $request,
         $pageSize = null
     ) {
-
         $paginator = $builder->paginate($pageSize);
 
         $this->preserveIndexSet($collectionName, $request);

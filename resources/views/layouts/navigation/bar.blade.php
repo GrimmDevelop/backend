@@ -37,7 +37,34 @@
                 @endcan
                 @can('library.*')
                     <li {!! active_if(request()->is('library*')) !!}>
-                        <a href="{{ route('librarybooks.index') }}">{{ trans('librarybooks.library') }}</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-expanded="false">
+                            {{ trans('librarybooks.library') }} <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li {!! active_if(request()->is('librarybooks')) !!}>
+                                <a href="{{ route('librarybooks.index') }}"
+                                   style="display: flex; align-items: center;">
+                                    <div style="width: 3rem;">
+                                        <span class="fa fa-university fa-2x"></span>
+                                    </div>
+                                    <span style="flex: 1; padding: 1rem 0.7rem;">
+                                        {{ trans('librarybooks.library') }}
+                                    </span>
+                                </a>
+                            </li>
+                            <li {!! active_if(request()->is('librarypeople')) !!}>
+                                <a href="{{ route('librarypeople.index') }}"
+                                   style="display: flex; align-items: center;">
+                                    <div style="width: 3rem;">
+                                        <span class="fa fa-address-book fa-2x"></span>
+                                    </div>
+                                    <span style="flex: 1; padding: 1rem 0.7rem;">
+                                        Personenregister
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 @endcan
                 @can('admin.*')

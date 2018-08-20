@@ -50,12 +50,6 @@
 
                 <h1>
                     Grimm-Bibliothek
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{{ route('librarypeople.index') }}" role="button" class="btn-link">
-                        <span class="fa fa-address-book"></span>
-
-                        Zum Personenregister
-                    </a>
                 </h1>
             </div>
 

@@ -26,12 +26,6 @@
 
                 <h1>
                     Personenregister - Grimm-Bibliothek
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{{ route('librarybooks.index') }}" role="button" class="btn-link">
-                        <span class="fa fa-university"></span>
-
-                        Zur Bibliothek
-                    </a>
                 </h1>
             </div>
             @include('partials.prefixSelection', ['route' => 'library'])
