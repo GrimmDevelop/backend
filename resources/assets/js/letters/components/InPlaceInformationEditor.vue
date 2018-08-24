@@ -1,5 +1,5 @@
 <template>
-    <tr v-if="existing">
+    <tr v-if="existing" :class="{'bg-danger': this.itemCodes[this.code].errorGenerated}">
         <td v-if="editing">
             <a href="#" class="btn btn-link btn-sm" v-on:click.prevent="stopEdit"><i class="fa fa-times"></i></a>
         </td>

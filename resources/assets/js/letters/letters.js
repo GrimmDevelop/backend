@@ -1,7 +1,7 @@
 import '../bootstrap';
 
 new Vue({
-    el: '#letters',
+    el: '#app-container',
 
     methods: {
         showLimitWarning(exportLimitExceeded) {

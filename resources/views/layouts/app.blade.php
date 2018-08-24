@@ -21,12 +21,18 @@
 
     </script>
 </head>
-<body id="app-layout">
+<body>
 
-@include('layouts.navigation.bar')
+<div id="app-container">
+    @include('layouts.navigation.bar')
 
-@include('info')
-@yield('content')
+    <div style="margin-bottom: 4em;">
+        @include('info')
+        @yield('content')
+    </div>
+
+    @include('layouts.navigation.status-bar')
+</div>
 
 <!-- JavaScripts -->
 <script src="/js/misc.js"></script>

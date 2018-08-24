@@ -26,3 +26,9 @@ window.axios.defaults.headers.common = {
 };
 
 window.Vue = require('vue');
+
+import PortalVue from 'portal-vue'
+import Modal from './utils/Modal'
+
+Vue.use(PortalVue);
+Vue.component('modal', Modal);

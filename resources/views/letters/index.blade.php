@@ -33,47 +33,6 @@
 
             <div class="col-md-12 pagination-container">
                 {{ $letters->appends($filter->delta())->links() }}
-
-                @include('partials.pageSizeSelection')
-
-                <div class="btn-group">
-                    <a href="#" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Spalten <span
-                                class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        @foreach(\Grimm\Letter::gridColumns(true, true) as $column)
-                            <li {!! active_if($column->isActive()) !!}>
-                                <a href="{{ url()->filtered_grid(route('letters.index'), [$column->name() => (int) !$column->isActive()]) }}">
-                                    {{ trans('letters.' . $column->name()) }}
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                @if(request()->has('correspondence'))
-                    <div class="btn-group">
-                        <a href="{{ url()->filtered(['-correspondence']) }}" class="btn btn-danger btn-sm"
-                           data-toggle="tooltip" data-placement="bottom" title="Correspondence-Filter entfernen">
-                            <i class="fa fa-envelope"></i>
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
-                @endif
-
-                @include('partials.filterSelection')
-
-                <div class="btn-group">
-                    <form action="{{ route('letters.export') . '?' . http_build_query($filter->delta()) }}"
-                          method="post"
-                          style="display: inline;"
-                          @submit="showLimitWarning({{ $exportLimitExceeded }})">
-                        {{ csrf_field() }}
-                        <button type="submit" class="btn btn-info btn-sm"
-                                data-toggle="tooltip" title="Daten exportieren">
-                            <i class="fa fa-download"></i>
-                        </button>
-                    </form>
-                </div>
             </div>
             <div class="col-md-12 list-content">
                 <div class="add-button">
@@ -123,6 +82,57 @@
             </div>
         </div>
     </div>
+
+    <portal to="status-bar-left"></portal>
+
+    <portal to="status-bar-right">
+        <div style="display: flex;">
+            <div class="dropup">
+                @include('partials.pageSizeSelection')
+            </div>
+
+            <div class="dropup">
+                <div class="btn-group">
+                    <a href="#" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Spalten <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu" style="width: 600px;">
+                        @foreach(\Grimm\Letter::gridColumns(true, true) as $column)
+                            <li {!! active_if($column->isActive()) !!} style="float: left; width: 31.33%; margin: 0 1%;">
+                                <a href="{{ url()->filtered_grid(route('letters.index'), [$column->name() => (int) !$column->isActive()]) }}">
+                                    {{ trans('letters.' . $column->name()) }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            @if(request()->has('correspondence'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-correspondence']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Correspondence-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
+
+            @include('partials.filterSelection')
+
+            <div class="btn-group">
+                <form action="{{ route('letters.export') . '?' . http_build_query($filter->delta()) }}"
+                      method="post"
+                      style="display: inline;"
+                      @submit="showLimitWarning({{ $exportLimitExceeded }})">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-info"
+                            data-toggle="tooltip" title="Daten exportieren">
+                        <i class="fa fa-download"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </portal>
 @endsection
 
 @section('scripts')
