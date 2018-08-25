@@ -3,6 +3,10 @@
 @section('title', $letter->title() . ' | ')
 
 @section('content')
+    <portal to="help-modal-body">
+        Test
+    </portal>
+
     <portal to="status-bar-left">
         @can('library.update')
             <a href="{{ route('letters.scans.index', [$letter]) }}" role="button"

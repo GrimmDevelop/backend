@@ -31,7 +31,9 @@
         @yield('content')
     </div>
 
-    @include('layouts.navigation.status-bar')
+    <status-bar></status-bar>
+
+    <portal-target name="modal-container" multiple></portal-target>
 </div>
 
 <!-- JavaScripts -->

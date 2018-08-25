@@ -28,7 +28,8 @@ window.axios.defaults.headers.common = {
 window.Vue = require('vue');
 
 import PortalVue from 'portal-vue'
-import Modal from './utils/Modal'
+import StatusBar from './ui/components/StatusBar'
 
 Vue.use(PortalVue);
-Vue.component('modal', Modal);
+
+Vue.component('status-bar', StatusBar);

@@ -1,8 +1,9 @@
-import Vue from 'vue';
+import '../bootstrap';
+
 import typeahead from '../utils/Typeahead.vue';
 
 new Vue({
-    el: '#associations',
+    el: '#app-container',
 
     data: {
         associations: [],

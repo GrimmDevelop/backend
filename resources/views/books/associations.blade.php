@@ -35,7 +35,7 @@
                                        :prepare-response="prepareResponse"
                                        :on-hit="personSelected"
                                        empty="Es wurde keine Person gefunden!">
-                                <template slot="list-item" scope="props">
+                                <template slot="list-item" slot-scope="props">
                                     @{{ props.item.last_name }}, @{{ props.item.first_name }} <em
                                             class='pull-right'>@{{ props.item.bio_data }}</em>
                                 </template>
