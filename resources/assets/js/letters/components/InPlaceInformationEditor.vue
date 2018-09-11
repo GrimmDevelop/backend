@@ -1,5 +1,5 @@
 <template>
-    <tr v-if="existing" :class="{'bg-danger': this.itemCodes[this.code].error_generated}">
+    <tr v-if="existing" :class="{'bg-danger': this.selectedItem.error_generated}">
         <td v-if="editing">
             <a href="#" class="btn btn-link btn-sm" v-on:click.prevent="stopEdit"><i class="fa fa-times"></i></a>
         </td>
@@ -13,7 +13,7 @@
         </td>
         <td colspan="2" v-if="!editing">
             <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><i class="fa fa-edit"></i></a>
-            {{ this.itemCodes[this.code].name}}
+            {{ this.selectedItem.name}}
         </td>
         <td v-if="editing">
             <textarea rows="5" cols="30" class="form-control input-sm" v-model="editingData"
@@ -41,7 +41,8 @@
                 editing: false,
                 existing: true,
                 saving: false,
-                code: this.selectedCode,
+                selectedItem:'',
+                code: '',
                 data: '',
                 editingCode: '',
                 editingData: ''
@@ -49,7 +50,8 @@
         },
 
         mounted() {
-            this.code = this.selectedCode;
+            this.selectedItem = this.selectedCode;
+            this.code = this.selectedCode.id;
             this.data = this.itemData;
         },
 
@@ -77,6 +79,8 @@
                 }).then(({data}) => {
                     this.code = data.letter_code_id;
                     this.data = data.data;
+                    this.selectedItem = this.itemCodes[data.letter_code_id];
+
                     this.editing = false;
                     this.saving = false;
                 });

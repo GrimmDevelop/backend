@@ -109,7 +109,7 @@ class LetterCodeController extends Controller
      */
     private function codesMapWithKeys()
     {
-        $codes = LetterCode::all();
+        $codes = LetterCode::all('id', 'name', 'error_generated', 'internal');
 
         $codes = $codes->mapWithKeys(function ($item) {
             return [$item->id => $item];

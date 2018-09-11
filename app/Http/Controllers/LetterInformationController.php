@@ -14,7 +14,7 @@ class LetterInformationController extends Controller
      * Display a listing of the resource.
      *
      * @param Letter $letter
-     * @return \Illuminate\Http\Response [Information[],codes[]]|\Illuminate\Support\Collection
+     * @return LetterInformation[]|\Illuminate\Support\Collection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Letter $letter)
