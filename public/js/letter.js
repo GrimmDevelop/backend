@@ -57,7 +57,7 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 88);
@@ -615,7 +615,7 @@ module.exports = function normalizeComponent (
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
- * Vue.js v2.5.16
+ * Vue.js v2.5.17
  * (c) 2014-2018 Evan You
  * Released under the MIT License.
  */
@@ -5704,7 +5704,7 @@ Object.defineProperty(Vue, 'FunctionalRenderContext', {
   value: FunctionalRenderContext
 });
 
-Vue.version = '2.5.16';
+Vue.version = '2.5.17';
 
 /*  */
 
@@ -31528,12 +31528,16 @@ new Vue({
 
                 _this.facsimiles = data;
             });
-
-            axios.get(BASE_URL + '/information').then(function (_ref6) {
+            axios.get(BASE_URL + '/codes').then(function (_ref6) {
                 var data = _ref6.data;
 
-                _this.information = data['information'];
-                _this.codes = data['codes'];
+                _this.codes = data;
+
+                axios.get(BASE_URL + '/information').then(function (_ref7) {
+                    var data = _ref7.data;
+
+                    _this.information = data;
+                });
             });
         });
     },
@@ -31558,14 +31562,47 @@ new Vue({
         storedInformation: function storedInformation(information) {
             this.information = information;
         },
-        removedInformation: function removedInformation(index) {
-            this.information.splice(index, 1);
-        },
         storedCode: function storedCode(codes) {
             this.codes = codes;
         },
+        removedInformation: function removedInformation(index) {
+            this.information.splice(index, 1);
+        },
         removedCode: function removedCode(index) {
-            this.codes.splice(index, 1);
+            var _this2 = this;
+
+            try {
+                // let len = this.information.length;
+                // for(var i=0;i<len;i++)
+                // {
+                //     if(this.information[i].letter_code_id===index)
+                //     {
+                //         this.delete(this.information,index);
+                //         this.removedInformation(index);
+                //     }
+                // }
+                axios.get(BASE_URL + '/information').then(function (_ref8) {
+                    var data = _ref8.data;
+
+                    _this2.information = data;
+                });
+            } catch (e) {
+
+                console.error(e.toString());
+            }
+        },
+        updatedCode: function updatedCode(code) {
+            try {
+
+                this.codes[code.id].name = code.name;
+                this.codes[code.id].error_generated = code.error_generated;
+                this.codes[code.id].internal = code.internal;
+
+                this.storedCode(this.codes);
+            } catch (e) {
+
+                console.error(e.toString());
+            }
         }
     }
 });
@@ -32075,7 +32112,7 @@ var render = function() {
   return _vm.existing
     ? _c(
         "tr",
-        { class: { "bg-danger": this.itemCodes[this.code].errorGenerated } },
+        { class: { "bg-danger": this.itemCodes[this.code].error_generated } },
         [
           _vm.editing
             ? _c("td", [
@@ -32431,6 +32468,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.codeInternal = data.internal;
                 _this.codeErrorGenerated = data.error_generated;
 
+                _this.$emit('updated-code', data);
+
                 _this.editing = false;
                 _this.saving = false;
             });
@@ -32441,6 +32480,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
                 axios.delete(this.baseUrl + '/' + this.itemId).then(function (response) {
                     _this2.existing = false;
+
                     _this2.$emit('removed-code');
                 });
             }
@@ -32450,6 +32490,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$refs.EntryInput.focus();
             }.bind(this));
         }
+    }, watch: {
+        codeName: function codeName() {
+            this.$emit('update:itemName', this.codeName);
+        },
+        codeErrorGenerated: function codeErrorGenerated() {
+            this.$emit('update:itemCodeErrorGenerated', this.codeErrorGenerated);
+        },
+        codeInternal: function codeInternal() {}
     }
 });
 
@@ -32462,7 +32510,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.existing
-    ? _c("tr", [
+    ? _c("tr", { class: { "bg-danger": _vm.codeErrorGenerated } }, [
         _vm.editing
           ? _c("td", [
               _c(
@@ -33420,6 +33468,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$nextTick(function () {
             $('#' + _this.modal).on('shown.bs.modal', function (e) {
                 $(_this.$refs.createCodeField).focus();
+                console.log('modal is shown');
             });
         });
     },
@@ -33441,11 +33490,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 _this2.onStored(data);
 
+                if (!_this2.createErrorGenerated) $('#' + _this2.modal).modal('hide');
+
                 _this2.createCode = '';
                 _this2.createErrorGenerated = false;
                 _this2.createInternal = false;
-
-                $('#' + _this2.modal).modal('hide');
             });
         }
     }

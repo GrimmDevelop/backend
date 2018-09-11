@@ -54,6 +54,7 @@
             this.$nextTick(() => {
                 $('#' + this.modal).on('shown.bs.modal', (e) => {
                     $(this.$refs.createCodeField).focus();
+
                 });
             });
         },
@@ -72,6 +73,7 @@
                     this.createdData = '';
 
                     $('#' + this.modal).modal('hide');
+
                 });
             }
 

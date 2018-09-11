@@ -396,7 +396,8 @@
                     <div role="tabpanel" class="tab-pane" id="information">
                         @unless($letter->trashed())
                             <div class="add-button">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                <button id="addInformationButton" type="button" class="btn btn-primary btn-sm"
+                                        data-toggle="modal"
                                         data-target="#addInformation">
                                     <i class="fa fa-plus"></i> Information hinzufügen
                                 </button>
@@ -436,14 +437,16 @@
                             <thead>
                             <tr>
                                 <th colspan="2">Name</th>
-                                <th colspan="1">Error_Generated</th>
+                                <th colspan="1">Error Generated</th>
                                 <th colspan="2">Internal</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="(code, index) in codes" is="in-place-code-editor"
-                                :item-id="code.id" :item-name="code.name" :item-error-generated="code.error_generated"
-                                :item-internal="code.internal" @removed-code="removedCode(index)" :key="code.id"
+                                :item-id="code.id" :item-name.sync="code.name"
+                                :item-error-generated.sync="code.error_generated"
+                                :item-internal.sync="code.internal" @removed-code="removedCode(index)"
+                                @updated-code="updatedCode" :key="code.id"
                                 base-url="{{ route('letters.codes.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>
@@ -480,5 +483,6 @@
         $('.nav-tabs a').on('shown.bs.tab', function (e) {
             window.location.hash = e.target.hash;
         });
+
     </script>
 @endsection

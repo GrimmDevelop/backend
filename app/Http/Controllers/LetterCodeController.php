@@ -20,7 +20,7 @@ class LetterCodeController extends Controller
     {
         $this->authorize('letters.update');
 
-        return LetterCode::all();
+        return $this->codesMapWithKeys();
     }
 
     /**
@@ -41,10 +41,12 @@ class LetterCodeController extends Controller
         $code->error_generated = $request->get('codeErrorGenerated');
         $code->internal = $request->get('codeInternal');
 
-        $code->save();
+        if (!$code->error_generated) {
+            $code->save();
+        }
 
         if ($request->ajax()) {
-            return LetterCode::all();
+            return $this->codesMapWithKeys();
         }
 
         return redirect()->route('letters.show', ['letters' => $letter->id]);
@@ -100,6 +102,19 @@ class LetterCodeController extends Controller
         }
 
         return $code;
+    }
+
+    /**
+     * @return LetterCode[]|\Illuminate\Database\Eloquent\Collection
+     */
+    private function codesMapWithKeys()
+    {
+        $codes = LetterCode::all();
+
+        $codes = $codes->mapWithKeys(function ($item) {
+            return [$item->id => $item];
+        });
+        return $codes;
     }
 
 }

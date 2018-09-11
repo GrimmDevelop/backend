@@ -1,5 +1,5 @@
 <template>
-    <tr v-if="existing" :class="{'bg-danger': this.itemCodes[this.code].errorGenerated}">
+    <tr v-if="existing" :class="{'bg-danger': this.itemCodes[this.code].error_generated}">
         <td v-if="editing">
             <a href="#" class="btn btn-link btn-sm" v-on:click.prevent="stopEdit"><i class="fa fa-times"></i></a>
         </td>
@@ -88,8 +88,6 @@
                         this.existing = false;
                         this.$emit('removed-info');
                     });
-
-
                 }
             },
 

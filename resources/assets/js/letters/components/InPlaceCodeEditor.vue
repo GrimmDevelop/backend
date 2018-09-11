@@ -1,5 +1,5 @@
 <template>
-    <tr v-if="existing">
+    <tr v-if="existing" :class="{'bg-danger': codeErrorGenerated}">
         <td v-if="editing">
             <a href="#" class="btn btn-link btn-sm" v-on:click.prevent="stopEdit"><i class="fa fa-times"></i></a>
         </td>
@@ -90,6 +90,8 @@
                     this.codeInternal = data.internal;
                     this.codeErrorGenerated = data.error_generated;
 
+                    this.$emit('updated-code', data);
+
                     this.editing = false;
                     this.saving = false;
                 });
@@ -99,9 +101,9 @@
                 if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
                     axios.delete(this.baseUrl + '/' + this.itemId).then((response) => {
                         this.existing = false;
+
                         this.$emit('removed-code');
                     });
-
                 }
             },
 
@@ -109,6 +111,15 @@
                 Vue.nextTick((function () {
                     this.$refs.EntryInput.focus();
                 }).bind(this));
+            }
+        }, watch: {
+            codeName() {
+                this.$emit('update:itemName', this.codeName);
+            },
+            codeErrorGenerated() {
+                this.$emit('update:itemCodeErrorGenerated', this.codeErrorGenerated);
+            },
+            codeInternal() {
             }
         }
     }

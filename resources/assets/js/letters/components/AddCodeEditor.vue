@@ -53,6 +53,7 @@
             this.$nextTick(() => {
                 $('#' + this.modal).on('shown.bs.modal', (e) => {
                     $(this.$refs.createCodeField).focus();
+                    console.log('modal is shown');
                 });
             });
         },
@@ -69,11 +70,14 @@
                 }).then(({data}) => {
                     this.onStored(data);
 
+                    if (!this.createErrorGenerated)
+                        $('#' + this.modal).modal('hide');
+
                     this.createCode = '';
                     this.createErrorGenerated = false;
                     this.createInternal = false;
 
-                    $('#' + this.modal).modal('hide');
+
                 });
             }
 
