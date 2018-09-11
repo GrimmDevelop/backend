@@ -14,9 +14,9 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="code">Code: </label>
-                            <select id="#selectCodes" v-model="createCode">
+                            <select id="#selectCodes" v-model="createCode" ref="createCodeField">
                                 <option v-for="code in codesItem" :value="code.id" class="form-control"
-                                        ref="createCodeField" v-text="code.name">
+                                        v-text="code.name">
                                 </option>
                             </select>
                         </div>
@@ -51,11 +51,20 @@
         },
 
         mounted() {
+            this.$root.$on('code-added', (code) => {
+
+                $('.nav-tabs a[href="#information"]').tab('show');
+                $('#' + this.modal).modal('show');
+
+                this.createCode = code;
+
+            });
             this.$nextTick(() => {
                 $('#' + this.modal).on('shown.bs.modal', (e) => {
                     $(this.$refs.createCodeField).focus();
 
                 });
+
             });
         },
 

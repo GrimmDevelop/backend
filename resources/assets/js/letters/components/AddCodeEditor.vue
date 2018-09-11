@@ -53,8 +53,8 @@
             this.$nextTick(() => {
                 $('#' + this.modal).on('shown.bs.modal', (e) => {
                     $(this.$refs.createCodeField).focus();
-                    console.log('modal is shown');
                 });
+
             });
         },
 
@@ -70,9 +70,13 @@
                 }).then(({data}) => {
                     this.onStored(data);
 
-                    if (!this.createErrorGenerated)
+                    if (!this.createErrorGenerated) {
+
                         $('#' + this.modal).modal('hide');
 
+                        this.$root.$emit('code-added', Object.keys(data).pop());
+
+                    }
                     this.createCode = '';
                     this.createErrorGenerated = false;
                     this.createInternal = false;

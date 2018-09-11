@@ -33154,6 +33154,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         var _this = this;
 
+        this.$root.$on('code-added', function (code) {
+
+            $('.nav-tabs a[href="#information"]').tab('show');
+            $('#' + _this.modal).modal('show');
+
+            _this.createCode = code;
+        });
         this.$nextTick(function () {
             $('#' + _this.modal).on('shown.bs.modal', function (e) {
                 $(_this.$refs.createCodeField).focus();
@@ -33241,6 +33248,7 @@ var render = function() {
                           expression: "createCode"
                         }
                       ],
+                      ref: "createCodeField",
                       attrs: { id: "#selectCodes" },
                       on: {
                         change: function($event) {
@@ -33260,8 +33268,6 @@ var render = function() {
                     },
                     _vm._l(_vm.codesItem, function(code) {
                       return _c("option", {
-                        ref: "createCodeField",
-                        refInFor: true,
                         staticClass: "form-control",
                         domProps: {
                           value: code.id,
@@ -33468,7 +33474,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$nextTick(function () {
             $('#' + _this.modal).on('shown.bs.modal', function (e) {
                 $(_this.$refs.createCodeField).focus();
-                console.log('modal is shown');
             });
         });
     },
@@ -33490,8 +33495,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 _this2.onStored(data);
 
-                if (!_this2.createErrorGenerated) $('#' + _this2.modal).modal('hide');
+                if (!_this2.createErrorGenerated) {
 
+                    $('#' + _this2.modal).modal('hide');
+
+                    _this2.$root.$emit('code-added', Object.keys(data).pop());
+                }
                 _this2.createCode = '';
                 _this2.createErrorGenerated = false;
                 _this2.createInternal = false;
