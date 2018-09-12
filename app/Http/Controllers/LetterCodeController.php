@@ -35,6 +35,10 @@ class LetterCodeController extends Controller
     {
         $this->authorize('letters.update');
 
+        $this->validate($request, [
+            'codeName' => 'required'
+        ]);
+
         $code = new LetterCode();
 
         $code->name = $request->get('codeName');

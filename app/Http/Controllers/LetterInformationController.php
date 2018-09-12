@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Grimm\Letter;
-use Grimm\LetterCode;
 use Grimm\LetterInformation;
 use Illuminate\Http\Request;
 
@@ -35,6 +34,11 @@ class LetterInformationController extends Controller
     public function store(Request $request, Letter $letter)
     {
         $this->authorize('letters.update');
+
+        $this->validate($request, [
+            'data' => 'required',
+            'code' => 'required'
+        ]);
 
         $information = new LetterInformation();
 

@@ -26,6 +26,11 @@
                                       v-model="createdData">
                             </textarea>
                         </div>
+                        <div v-if="errors.length" class="list-group list-group-item-text">
+                            <ul>
+                                <li v-for="error in errors" class="text-danger">{{error}}</li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -45,6 +50,7 @@
 
         data() {
             return {
+                errors: [],
                 createCode: '',
                 createdData: '',
             };
@@ -80,8 +86,21 @@
 
                     this.createCode = '';
                     this.createdData = '';
+                    this.errors = [];
 
                     $('#' + this.modal).modal('hide');
+
+                }).catch(err => {
+                    this.errors = [];
+                    let items = err.response.data.errors;
+
+                    Object.keys(items).forEach(key => {
+
+                        Object.keys(items[key]).forEach((element) => {
+
+                            this.errors.push(items[key][element]);
+                        });
+                    });
 
                 });
             }
