@@ -11,9 +11,10 @@ use App\History\Presenters\PersonPresenter;
 use App\Import\ImportService;
 use Carbon\Carbon;
 use Grimm\Person;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
+use Laravel\Passport\Passport;
 use Spatie\Valuestore\Valuestore;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::setLocale(config('app.locale'));
         Person::$unknownName = trans('people.unknownName');
+
+        Passport::withoutCookieSerialization();
+        Paginator::useBootstrapThree();
 
         Validator::extend('equals', function ($attribute, $value, $parameters, $validator) {
             if (!isset($parameters[0])) {
@@ -100,7 +104,7 @@ class AppServiceProvider extends ServiceProvider
                 'state' => $grid[$gridKey],
             ]);
 
-            if($url === $to) {
+            if ($url === $to) {
                 return $url . '?' . $gridQuery;
             }
 
