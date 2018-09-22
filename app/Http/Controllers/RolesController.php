@@ -7,22 +7,9 @@ use App\Http\Requests\UpdateRoleRequest;
 use Grimm\Permission;
 use Grimm\Role;
 use Grimm\User;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class RolesController extends Controller
 {
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -67,17 +54,6 @@ class RolesController extends Controller
         $permissions = Permission::orderBy('name')->get();
 
         return view('roles.show', compact('role', 'users', 'permissions'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

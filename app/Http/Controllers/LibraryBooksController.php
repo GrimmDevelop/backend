@@ -162,6 +162,7 @@ class LibraryBooksController extends Controller
      */
     public function uploadGet(IndexLibraryRequest $request, $id)
     {
+        /** @var LibraryBook $book */
         $book = LibraryBook::query()->findOrFail($id);
 
         $file = $this->initFlowFile();
@@ -183,6 +184,7 @@ class LibraryBooksController extends Controller
      */
     public function uploadPost(IndexLibraryRequest $request, $id)
     {
+        /** @var LibraryBook $book */
         $book = LibraryBook::query()->findOrFail($id);
 
         $file = $this->initFlowFile();

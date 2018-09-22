@@ -18,6 +18,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string                  notes
  * @property string                  source
  * @property BookPersonAssociation[] personAssociations
+ *
+ * @method static \Illuminate\Contracts\Pagination\LengthAwarePaginator searchByTitle(string $title)
  */
 class Book extends Model
 {

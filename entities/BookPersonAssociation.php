@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property int id
  * @property Book book
  * @property Person person
  * @property integer book_id
@@ -15,7 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string page_description
  * @property integer line
  */
-class BookPersonAssociation extends Model {
+class BookPersonAssociation extends Model
+{
 
     use SoftDeletes;
 

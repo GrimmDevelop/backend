@@ -8,8 +8,6 @@ use Grimm\Activity;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class HistoryController extends Controller
 {
 
@@ -18,9 +16,11 @@ class HistoryController extends Controller
         $date = new Carbon($request->get('date', date('d.m.Y')));
 
         /** @var Collection $activities */
-        $activities = Activity::query()->with(['model' => function($q) {
-            $q->withTrashed();
-        }])->orderBy('model_type', 'model_id', 'created_at')->where('created_at', '>=',
+        $activities = Activity::query()->with([
+            'model' => function ($q) {
+                $q->withTrashed();
+            }
+        ])->orderBy('model_type', 'model_id', 'created_at')->where('created_at', '>=',
             $date)->get();
 
         $history = $historyTranspiler->transpileCollection($activities);

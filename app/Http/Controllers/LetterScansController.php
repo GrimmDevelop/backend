@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexLetterRequest;
 use App\Upload\UploadsFiles;
-use Flow\Config;
 use Flow\File;
 use Grimm\Letter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 class LetterScansController extends Controller
 {
@@ -28,27 +27,6 @@ class LetterScansController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param Letter $letter
@@ -58,17 +36,6 @@ class LetterScansController extends Controller
     public function show(Letter $letter, Media $scan)
     {
         return $scan->toResponse(request());
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -118,29 +85,47 @@ class LetterScansController extends Controller
             ->with('success', 'Der Scan wurde gelöscht!');
     }
 
+    /**
+     * @param IndexLetterRequest $request
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @throws \Flow\FileLockException
+     * @throws \Flow\FileOpenException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     */
     public function uploadGet(IndexLetterRequest $request, $id)
     {
-        $book = Letter::query()->findOrFail($id);
+        /** @var Letter $letter */
+        $letter = Letter::query()->findOrFail($id);
 
         $file = $this->initFlowFile();
 
         if ($file->checkChunk()) {
-            return $this->saveUploadedFile($file, $book);
+            return $this->saveUploadedFile($file, $letter);
         } else {
             return response("No Content", 204);
         }
     }
 
+    /**
+     * @param IndexLetterRequest $request
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @throws \Flow\FileLockException
+     * @throws \Flow\FileOpenException
+     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
+     */
     public function uploadPost(IndexLetterRequest $request, $id)
     {
-        $book = Letter::query()->findOrFail($id);
+        /** @var Letter $letter */
+        $letter = Letter::query()->findOrFail($id);
 
         $file = $this->initFlowFile();
 
         if ($file->validateChunk()) {
             $file->saveChunk();
 
-            return $this->saveUploadedFile($file, $book);
+            return $this->saveUploadedFile($file, $letter);
         } else {
             return response("Bad Request", 400);
         }

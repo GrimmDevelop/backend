@@ -9,9 +9,6 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use Grimm\Role;
 use Grimm\User;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class UsersController extends Controller
 {
@@ -118,7 +115,8 @@ class UsersController extends Controller
 
         $user->save();
 
-        return redirect()->route('users.show', [$user->id])->with('success', 'Die Nutzerdaten wurden erfolgreich aktualisiert!');
+        return redirect()->route('users.show', [$user->id])->with('success',
+            'Die Nutzerdaten wurden erfolgreich aktualisiert!');
     }
 
     /**
@@ -127,6 +125,7 @@ class UsersController extends Controller
      * @param DestroyUserRequest $request
      * @param User $user
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(DestroyUserRequest $request, User $user)
     {
