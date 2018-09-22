@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "011bb446e6cface68fc79609d0a093df",
+    "content-hash": "b49cd6f568895c83e2c0b3fd5f7437e7",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1648,16 +1648,16 @@
         },
         {
             "name": "hisamu/php-xbase",
-            "version": "dev-master",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/luads/php-xbase.git",
-                "reference": "92a789449d2f12e01b465787947e05689cd1d89a"
+                "url": "https://github.com/hisamu/php-xbase.git",
+                "reference": "26ceae6c7ca67d67132b5c1108e5e2906343631d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/luads/php-xbase/zipball/92a789449d2f12e01b465787947e05689cd1d89a",
-                "reference": "92a789449d2f12e01b465787947e05689cd1d89a",
+                "url": "https://api.github.com/repos/hisamu/php-xbase/zipball/26ceae6c7ca67d67132b5c1108e5e2906343631d",
+                "reference": "26ceae6c7ca67d67132b5c1108e5e2906343631d",
                 "shasum": ""
             },
             "require": {
@@ -1684,12 +1684,12 @@
                 }
             ],
             "description": "A simple parser for *.dbf, *.fpt files using PHP",
-            "homepage": "https://github.com/luads/php-xbase",
+            "homepage": "https://github.com/hisamu/php-xbase",
             "keywords": [
                 "dbase",
                 "foxpro"
             ],
-            "time": "2018-05-20T01:30:07+00:00"
+            "time": "2017-01-09T22:28:13+00:00"
         },
         {
             "name": "intervention/image",
@@ -7352,9 +7352,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "hisamu/php-xbase": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
