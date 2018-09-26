@@ -33,9 +33,6 @@
                 {{ $people->appends($filter->delta())->links() }}
             </div>
             <div class="col-md-12 list-content">
-                <div class="add-button">
-                    @include('partials.filterSelection')
-                </div>
                 <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
@@ -71,12 +68,23 @@
                 </table>
             </div>
             <div class="col-md-12 pagination-container">
-                <div class="pagination-container">
-                    {{ $people->appends($filter->delta())->links() }}
-                </div>
             </div>
         </div>
     </div>
+    <portal to="help-modal-body">
+        Test
+    </portal>
+
+    <portal to="status-bar-left">
+        @include('partials.prefixSelection', ['route' => 'library'])
+    </portal>
+    <portal to="status-bar-right">
+        <div style="display: flex;">
+            <div class="dropup">
+                @include('partials.filterSelection')
+            </div>
+        </div>
+    </portal>
 @endsection
 
 @section('scripts')

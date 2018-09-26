@@ -28,6 +28,10 @@
                 <button type="button" class="btn btn-default" @click="form.reset()">
                     Änderungen verwerfen
                 </button>
+                <a href="{{ referrer_url('last_letter_index', route('letters.index')) }}"
+                   class="btn btn-default">
+                    Abbrechen
+                </a>
             @endunless
         @endcan
 
