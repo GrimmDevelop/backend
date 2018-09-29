@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddNewPrintToPersonRequest;
 use App\Http\Requests\UpdatePrintRequest;
-use Gate;
 use Grimm\Person;
 use Grimm\PersonPrint;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class PersonPrintController extends Controller
 {
@@ -20,6 +16,7 @@ class PersonPrintController extends Controller
      * @param Person $person
      *
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index($person)
     {
@@ -28,16 +25,6 @@ class PersonPrintController extends Controller
         $person = Person::withTrashed()->findOrFail($person);
 
         return $person->prints;
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -66,9 +53,10 @@ class PersonPrintController extends Controller
      * Display the specified resource.
      *
      * @param Person $person
-     * @param        $printId
+     * @param $printId
      *
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Person $person, $printId)
     {
@@ -78,23 +66,11 @@ class PersonPrintController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param UpdatePrintRequest $request
      * @param Person $person
-     * @param                    $printId
+     * @param $printId
      *
      * @return PersonPrint
      */
@@ -115,9 +91,10 @@ class PersonPrintController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Person $person
-     * @param        $printId
+     * @param $printId
      *
-     * @return \Illuminate\Http\Response
+     * @return PersonPrint[]
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Person $person, $printId)
     {

@@ -12,8 +12,8 @@ class LetterFacsimileController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param $id
-     * @return \Illuminate\Http\Response
+     * @param Letter $letter
+     * @return Facsimile[]|\Illuminate\Support\Collection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Letter $letter)

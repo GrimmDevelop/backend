@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Input;
 class ImportController extends Controller
 {
 
+    /**
+     * @param ImportService $import
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index(ImportService $import)
     {
         $this->authorize('admin.import');
@@ -39,6 +44,11 @@ class ImportController extends Controller
             ->with('success', 'Die Datenbank wurde entfernt und wird nicht importiert');
     }
 
+    /**
+     * @param ImportService $import
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function status(ImportService $import)
     {
         $this->authorize('admin.import');

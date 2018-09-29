@@ -15,9 +15,6 @@ use App\Http\Requests\IndexBookRequest;
 use Grimm\Book;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 class BooksController extends Controller
 {
 
@@ -86,18 +83,6 @@ class BooksController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param BookUpdateRequest $request
@@ -137,6 +122,11 @@ class BooksController extends Controller
             ->with('success', trans('books.delete'));
     }
 
+    /**
+     * @param DestroyBookEvent $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function restore(DestroyBookEvent $request, $id)
     {
         $book = Book::onlyTrashed()->findOrFail($id);

@@ -9,13 +9,15 @@ use Carbon\Carbon;
 use Grimm\Book;
 use Grimm\LibraryBook;
 use Grimm\Person;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class DeploymentController extends Controller
 {
 
+    /**
+     * @param DeploymentService $deployment
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index(DeploymentService $deployment)
     {
         $this->authorize('admin.deployment');
@@ -23,6 +25,11 @@ class DeploymentController extends Controller
         return view('admin.deployment.index', compact('deployment'));
     }
 
+    /**
+     * @param DeploymentService $deployment
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function triggerDeployment(DeploymentService $deployment)
     {
         $this->authorize('admin.deployment');
@@ -45,6 +52,11 @@ class DeploymentController extends Controller
         ]);
     }
 
+    /**
+     * @param ElasticIndexService $indexService
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function blankify(ElasticIndexService $indexService)
     {
         $this->authorize('admin.deployment');
@@ -57,6 +69,11 @@ class DeploymentController extends Controller
         return response()->json(['data' => ['action' => 'ok', 'message' => 'Der Index wurde geleert']]);
     }
 
+    /**
+     * @param DeploymentService $deployment
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function status(DeploymentService $deployment)
     {
         $this->authorize('admin.deployment');

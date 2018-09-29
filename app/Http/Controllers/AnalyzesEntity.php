@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Analyzer\AnalyzeApplicator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\View\View;
 
 trait AnalyzesEntity
 {
@@ -23,7 +24,7 @@ trait AnalyzesEntity
             $this->analyzer->registerAnalyzers($analyzers);
         }
 
-        view()->composer('*', function ($view) {
+        view()->composer('*', function (View $view) {
             $view->with(['analyzer' => $this->analyzer]);
         });
 
