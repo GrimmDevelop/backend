@@ -24,6 +24,11 @@
                             <label for="internal">Internal: </label>
                             <input type="checkbox" class="checkbox-inline" v-model="createInternal">
                         </div>
+                        <div v-if="errors.length" class="list-group list-group-item-text">
+                            <ul>
+                                <li v-for="error in errors" class="text-danger">{{error}}</li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -43,6 +48,7 @@
 
         data() {
             return {
+                errors: [],
                 createCode: '',
                 createErrorGenerated: false,
                 createInternal: false
@@ -54,6 +60,7 @@
                 $('#' + this.modal).on('shown.bs.modal', (e) => {
                     $(this.$refs.createCodeField).focus();
                 });
+
             });
         },
 
@@ -69,11 +76,31 @@
                 }).then(({data}) => {
                     this.onStored(data);
 
+                    if (!this.createErrorGenerated) {
+
+                        $('#' + this.modal).modal('hide');
+
+                        this.$root.$emit('code-added', Object.keys(data).pop());
+
+                    }
+                    this.errors = [];
                     this.createCode = '';
                     this.createErrorGenerated = false;
                     this.createInternal = false;
 
-                    $('#' + this.modal).modal('hide');
+
+                }).catch(err => {
+                    this.errors = [];
+                    let items = err.response.data.errors;
+
+                    Object.keys(items).forEach(key => {
+
+                        Object.keys(items[key]).forEach((element) => {
+
+                            this.errors.push(items[key][element]);
+                        });
+                    });
+
                 });
             }
 

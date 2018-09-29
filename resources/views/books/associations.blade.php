@@ -45,7 +45,7 @@
                 </form>
 
                 <form action="{{ route('books.associations.store', [$book->id]) }}" class="form-horizontal"
-                      method="POST">
+                      method="POST" ref="associationsForm">
                     {{ csrf_field() }}
 
                     <div class="form-group{{ $errors->has('person') ? ' has-error' : '' }}">
@@ -135,13 +135,6 @@
                         </div>
                     </div>
 
-                    <div class="button-bar row">
-                        <div class="col-sm-10 col-md-offset-2">
-                            <button type="submit" class="btn btn-primary">Speichern</button>
-                            <a href="{{ route('books.show', [$book->id]) }}#books"
-                               class="btn btn-link">Abbrechen</a>
-                        </div>
-                    </div>
                 </form>
 
                 <table class="table table-striped" id="associations">
@@ -195,6 +188,37 @@
             </div>
         </div>
     </div>
+    <portal to="help-modal-body">
+        Test
+    </portal>
+
+    <portal to="status-bar-right">
+        @can('books.update')
+            @unless($book->trashed())
+                <button type="button" class="btn btn-primary" @click="form.submit()">
+                    <span class="fa fa-floppy-o"></span>
+                    Speichern
+                </button>
+                <a href="{{ route('books.show', [$book->id]) }}#books"
+                   class="btn btn-default">Abbrechen</a>
+            @endunless
+        @endcan
+
+        @can('books.delete')
+            @unless($book->trashed())
+                <form id="danger-zone" action="{{ route('books.destroy', [$book->id]) }}"
+                      style="display: inline-block; margin: 0;"
+                      method="post"
+                      class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>&nbsp;
+                    </button>
+                </form>
+            @endunless
+        @endcan
+    </portal>
 @endsection
 
 @section('scripts')

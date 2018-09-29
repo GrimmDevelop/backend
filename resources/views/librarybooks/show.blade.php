@@ -87,7 +87,7 @@
 
                 <form id="book-editor" action="{{ route('librarybooks.update', [$book->id]) }}"
                       class="form-horizontal"
-                      method="POST"
+                      method="POST" ref="bookForm"
                       @change="inputChanged = true">
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
@@ -136,25 +136,7 @@
 
                         @include('partials.form.field', ['field' => 'external_digitization', 'model' => $book, 'disabled' => $book->trashed()])
                     </div>
-
-                    @unless($book->trashed())
-                        <div class="button-bar row">
-                            <div class="col-sm-10 col-md-offset-2">
-                                <button type="submit" class="btn btn-primary">Speichern</button>
-                                <a href="{{ referrer_url('last_book_index', route('librarybooks.index')) }}"
-                                   class="btn btn-link">
-                                    Abbrechen
-                                </a>
-                                <a href="{{ route('librarybooks.scans.index', [$book]) }}"
-                                   class="btn btn-default pull-right">
-                                    Scans verwalten
-                                </a>
-                            </div>
-                        </div>
-                    @endunless
                 </form>
-
-                <div>&nbsp;</div>
 
                 @can('library.delete')
                     @unless($book->trashed())
@@ -183,6 +165,36 @@
             </div>
         </div>
     </div>
+    <portal to="help-modal-body">
+        Test
+    </portal>
+
+    <portal to="status-bar-left">
+        <a href="{{ route('librarybooks.scans.index', [$book]) }}" role="button"
+           class="btn btn-default">
+            <span class="fa fa-picture-o"></span>
+            Scans verwalten
+        </a>
+    </portal>
+
+    <portal to="status-bar-right">
+        @can('library.update')
+            @unless($book->trashed())
+                <button type="button" class="btn btn-primary" @click="form.submit()">
+                    <span class="fa fa-floppy-o"></span>
+                    Speichern
+                </button>
+                <button type="button" class="btn btn-default" @click="form.reset()">
+                    Änderungen verwerfen
+                </button>
+                <a href="{{ referrer_url('last_book_index', route('librarybooks.index')) }}"
+                   class="btn btn-default">
+                    Abbrechen
+                </a>
+            @endunless
+        @endcan
+
+    </portal>
 @endsection
 
 @section('scripts')

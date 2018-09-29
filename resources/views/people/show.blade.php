@@ -3,7 +3,7 @@
 @section('title', $person->fullName() . ' | ')
 
 @section('content')
-    <div class="container">
+    <div class="container" id="app-container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 @if($person->hasCorrespondence())
@@ -47,7 +47,7 @@
             @endif
             <div class="col-md-12 page-content">
                 <form id="person-editor" action="{{ route('people.update', ['people' => $person->id]) }}"
-                      class="form-horizontal"
+                      class="form-horizontal" ref="personForm"
                       method="POST">
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
@@ -65,15 +65,6 @@
                     @include('partials.form.boolean', ['field' => 'is_organization', 'model' => $person, 'disabled' => $person->trashed()])
                     @include('partials.form.boolean', ['field' => 'auto_generated', 'model' => $person, 'disabled' => $person->trashed()])
 
-                    @unless($person->trashed())
-                        <div class="button-bar row">
-                            <div class="col-sm-10 col-md-offset-2">
-                                <button type="submit" class="btn btn-primary">Speichern</button>
-                                <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
-                                   class="btn btn-link">Abbrechen</a>
-                            </div>
-                        </div>
-                    @endunless
                 </form>
 
                 <ul class="nav nav-tabs">
@@ -274,6 +265,29 @@
             </div>
         </div>
     </div>
+    <portal to="help-modal-body">
+        Test
+    </portal>
+
+    <portal to="status-bar-left">
+    </portal>
+
+    <portal to="status-bar-right">
+        @can('people.update')
+            @unless($person->trashed())
+                <button type="button" class="btn btn-primary" @click="form.submit()">
+                    <span class="fa fa-floppy-o"></span>
+                    Speichern
+                </button>
+
+                <button type="button" class="btn btn-default" @click="form.reset()">
+                    Änderungen verwerfen
+                </button>
+                <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
+                   class="btn btn-default">Abbrechen</a>
+            @endunless
+        @endcan
+    </portal>
 @endsection
 
 @section('scripts')
