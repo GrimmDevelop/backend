@@ -68,6 +68,9 @@
                 </table>
             </div>
             <div class="col-md-12 pagination-container">
+                <div class="pagination-container">
+                    {{ $people->appends($filter->delta())->links() }}
+                </div>
             </div>
         </div>
     </div>

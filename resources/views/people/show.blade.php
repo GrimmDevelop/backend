@@ -237,31 +237,6 @@
                         @include('logs.entity-activity', ['entity' => $person])
                     </div>
                 </div>
-
-                @can('people.delete')
-                    @unless($person->trashed())
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title">Gefahrenzone</h1>
-                            </div>
-
-                            <div class="panel-body">
-                                <p>
-                                <form id="danger-zone" action="{{ route('people.destroy', ['id' => $person->id]) }}"
-                                      method="post"
-                                      class="form-inline">
-                                    {{ csrf_field() }}
-                                    {{ method_field('delete') }}
-                                    <button class="btn btn-danger">
-                                        <span class="fa fa-trash"></span>
-                                        {{ trans('people.delete') }}
-                                    </button>
-                                </form>
-                                </p>
-                            </div>
-                        </div>
-                    @endunless
-                @endcan
             </div>
         </div>
     </div>
@@ -270,9 +245,25 @@
     </portal>
 
     <portal to="status-bar-left">
+        @can('people.delete')
+            @unless($person->trashed())
+                <form id="danger-zone" action="{{ route('people.destroy', [$person->id]) }}"
+                      style="display: inline-block; margin: 0;"
+                      method="post"
+                      class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>&nbsp;
+                        {{ trans('people.delete') }}
+                    </button>
+                </form>
+            @endunless
+        @endcan
     </portal>
 
     <portal to="status-bar-right">
+        <div style="display: flex;">
         @can('people.update')
             @unless($person->trashed())
                 <button type="button" class="btn btn-primary" @click="form.submit()">
@@ -287,6 +278,7 @@
                    class="btn btn-default">Abbrechen</a>
             @endunless
         @endcan
+        </div>
     </portal>
 @endsection
 

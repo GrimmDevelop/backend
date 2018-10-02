@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container" id="app-container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <h1><a class="prev-link"
@@ -116,39 +116,27 @@
                         @include('logs.entity-activity', ['entity' => $book])
                     </div>
                 </div>
-
-                @unless($book->trashed())
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="panel panel-danger">
-                                <div class="panel-heading">
-                                    <h1 class="panel-title">Gefahrenzone</h1>
-                                </div>
-
-                                <div class="panel-body">
-                                    <p>
-                                    <form id="danger-zone" action="{{ route('books.destroy', ['id' => $book->id]) }}"
-                                          method="post" class="form-inline">
-                                        {{ csrf_field() }}
-                                        {{ method_field('delete') }}
-                                        <button class="btn btn-danger">
-                                            <span class="fa fa-trash"></span>
-                                            {{ trans('books.delete') }}
-                                        </button>
-                                    </form>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endunless
             </div>
         </div>
     </div>
     <portal to="help-modal-body">
         Test
     </portal>
-
+    <portal to="status-bar-left">
+        @can('books.delete')
+            @unless($book->trashed())
+                <form id="danger-zone" action="{{ route('books.destroy', ['id' => $book->id]) }}"
+                      method="post" class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>&nbsp;
+                        {{ trans('books.delete') }}
+                    </button>
+                </form>
+            @endunless
+        @endcan
+    </portal>
     <portal to="status-bar-right">
         @can('library.update')
             @unless($book->trashed())

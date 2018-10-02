@@ -3,7 +3,7 @@
 @section('title', $book->catalog_id . ': ' . $book->title . ' | ')
 
 @section('content')
-    <div class="container" id="library">
+    <div class="container" id="app-container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <div class="button-container">
@@ -137,31 +137,6 @@
                         @include('partials.form.field', ['field' => 'external_digitization', 'model' => $book, 'disabled' => $book->trashed()])
                     </div>
                 </form>
-
-                @can('library.delete')
-                    @unless($book->trashed())
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title">Gefahrenzone</h1>
-                            </div>
-
-                            <div class="panel-body">
-                                <p>
-                                <form id="danger-zone" action="{{ route('librarybooks.destroy', [$book->id]) }}"
-                                      method="post"
-                                      class="form-inline">
-                                    {{ csrf_field() }}
-                                    {{ method_field('delete') }}
-                                    <button class="btn btn-danger">
-                                        <span class="fa fa-trash"></span>
-                                        {{ trans('librarybooks.delete') }}
-                                    </button>
-                                </form>
-                                </p>
-                            </div>
-                        </div>
-                    @endunless
-                @endcan
             </div>
         </div>
     </div>
@@ -170,11 +145,20 @@
     </portal>
 
     <portal to="status-bar-left">
-        <a href="{{ route('librarybooks.scans.index', [$book]) }}" role="button"
-           class="btn btn-default">
-            <span class="fa fa-picture-o"></span>
-            Scans verwalten
-        </a>
+        @can('library.delete')
+            @unless($book->trashed())
+                <form id="danger-zone" action="{{ route('librarybooks.destroy', [$book->id]) }}"
+                      method="post"
+                      class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>
+                        {{ trans('librarybooks.delete') }}
+                    </button>
+                </form>
+            @endunless
+        @endcan
     </portal>
 
     <portal to="status-bar-right">

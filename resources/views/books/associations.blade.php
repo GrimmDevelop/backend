@@ -191,7 +191,6 @@
     <portal to="help-modal-body">
         Test
     </portal>
-
     <portal to="status-bar-right">
         @can('books.update')
             @unless($book->trashed())
@@ -199,23 +198,11 @@
                     <span class="fa fa-floppy-o"></span>
                     Speichern
                 </button>
+                <button type="button" class="btn btn-default" @click="form.reset()">
+                    Änderungen verwerfen
+                </button>
                 <a href="{{ route('books.show', [$book->id]) }}#books"
                    class="btn btn-default">Abbrechen</a>
-            @endunless
-        @endcan
-
-        @can('books.delete')
-            @unless($book->trashed())
-                <form id="danger-zone" action="{{ route('books.destroy', [$book->id]) }}"
-                      style="display: inline-block; margin: 0;"
-                      method="post"
-                      class="form-inline">
-                    {{ csrf_field() }}
-                    {{ method_field('delete') }}
-                    <button class="btn btn-danger">
-                        <span class="fa fa-trash"></span>&nbsp;
-                    </button>
-                </form>
             @endunless
         @endcan
     </portal>
@@ -239,3 +226,9 @@
         });
     </script>
 @endsection
+        <script>
+            import Portal from "portal-vue/src/components/portal";
+            export default {
+                components: {Portal}
+            }
+        </script>

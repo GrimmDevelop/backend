@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container" id="app-container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <div class="button-container">
@@ -63,14 +63,6 @@
                 {{ $books->appends($filter->delta())->links() }}
             </div>
             <div class="col-md-12 list-content">
-                <div class="add-button">
-                    @include('partials.filterSelection')
-
-                    <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
-                       data-toggle="tooltip" title="Analyze erneut starten">
-                        <i class="fa fa-superpowers"></i>
-                    </a>
-                </div>
                 <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
@@ -119,8 +111,59 @@
             </div>
         </div>
     </div>
+    <portal to="status-bar-left">
+    </portal>
+
+    <portal to="status-bar-right">
+        <div style="display: flex;">
+            @if(request()->has('cat_id'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-cat_id']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Denecke-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
+            @if(request()->has('denecke'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-denecke']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Denecke-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
+            @if(request()->has('folk'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-folk']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Folk-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
+            @if(request()->has('title'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-title']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Title-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
+            <div class="dropup">
+                @include('partials.filterSelection')
+            </div>
+
+            <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
+               data-toggle="tooltip" title="Analyze erneut starten">
+                <i class="fa fa-superpowers"></i>
+            </a>
+        </div>
+    </portal>
 @endsection
 
 @section('scripts')
-
+    <script src="{{ url('js/library-books.js') }}"></script>
 @endsection

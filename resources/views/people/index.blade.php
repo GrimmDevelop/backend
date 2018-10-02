@@ -92,20 +92,27 @@
 
     <portal to="status-bar-right">
         <div style="display: flex;">
-            <div class="dropup">
-                @include('partials.pageSizeSelection')
-            </div>
-
-            @if(request()->has('correspondence'))
+            @if(request()->has('biodata_extractor'))
                 <div class="btn-group">
-                    <a href="{{ url()->filtered(['-correspondence']) }}" class="btn btn-danger"
-                       data-toggle="tooltip" title="Correspondence-Filter entfernen">
+                    <a href="{{ url()->filtered(['-biodata_extractor']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="BioDatien-Filter entfernen">
                         <i class="fa fa-envelope"></i>
                         <i class="fa fa-times"></i>
                     </a>
                 </div>
             @endif
-
+            @if(request()->has('only_trashed'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-only_trashed']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Name-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
+            <div class="dropup">
+                @include('partials.pageSizeSelection')
+            </div>
             <div class="dropup">
                 <div class="btn-group">
                     <a href="#" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Spalten <span
@@ -120,15 +127,6 @@
                 </div>
             </div>
 
-            @if(request()->has('correspondence'))
-                <div class="btn-group">
-                    <a href="{{ url()->filtered(['-correspondence']) }}" class="btn btn-danger"
-                       data-toggle="tooltip" title="Correspondence-Filter entfernen">
-                        <i class="fa fa-envelope"></i>
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
-            @endif
 
             <div class="dropup">
                 @include('partials.filterSelection')
