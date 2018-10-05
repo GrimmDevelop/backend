@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" id="app-container">
+    <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <div class="button-container">
@@ -29,17 +29,13 @@
                 </div>
                 <h1>Bücherdatenbank</h1>
             </div>
+
             @include('partials.prefixSelection', ['route' => 'books'])
+
             <div class="col-md-12 pagination-container">
                 {{ $books->appends($filter->delta())->links() }}
             </div>
-            <div class="col-md-12 toolbar">
-                <div class="pull-right">
-                    @include('partials.filterSelection')
-                </div>
-            </div>
             <div class="col-md-12 list-content">
-
                 <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
@@ -70,7 +66,7 @@
                             <td>
                                 {{ $book->volume }}
                                 @if($book->volume_irregular)
-                                    <span data-toggle="tooltip" data-title="Zusatzband">({{ $book->volume_irregular }}
+                                    <span data-toggle="tooltip" data-title="Zusatzband">({{ $book->volume_irregular }})
                                         )</span>
                                 @endif
                             </td>
@@ -86,5 +82,18 @@
             </div>
         </div>
     </div>
+
+    <portal to="status-bar-left">
+        @include('partials.prefixSelection', ['route' => 'books'])
+    </portal>
+
+    <portal to="status-bar-right">
+        <div style="display: flex;">
+            @include('partials.filterSelection')
+        </div>
+    </portal>
+@endsection
+@section('scripts')
+    <script src="{{ url('js/library-books.js') }}"></script>
 @endsection
 

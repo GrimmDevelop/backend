@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" id="app-container">
+    <div class="container" id="library">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <h1><a class="prev-link"
