@@ -78,9 +78,7 @@
         Test
     </portal>
 
-    <portal to="status-bar-left">
-        @include('partials.prefixSelection', ['route' => 'library'])
-    </portal>
+    <portal to="status-bar-left"></portal>
     <portal to="status-bar-right">
         <div style="display: flex;">
             <div class="dropup">

@@ -226,3 +226,9 @@
         });
     </script>
 @endsection
+        <script>
+            import Portal from "portal-vue/src/components/portal";
+            export default {
+                components: {Portal}
+            }
+        </script>

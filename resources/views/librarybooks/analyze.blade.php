@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container" id="app-container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <div class="button-container">
@@ -111,11 +111,46 @@
             </div>
         </div>
     </div>
-    <portal to="status-bar-left">
-    </portal>
+    <portal to="status-bar-left"></portal>
 
     <portal to="status-bar-right">
         <div style="display: flex;">
+            @if(request()->has('cat_id'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-cat_id']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Denecke-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
+            @if(request()->has('denecke'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-denecke']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Denecke-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
+            @if(request()->has('folk'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-folk']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Folk-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
+            @if(request()->has('title'))
+                <div class="btn-group">
+                    <a href="{{ url()->filtered(['-title']) }}" class="btn btn-danger"
+                       data-toggle="tooltip" title="Title-Filter entfernen">
+                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            @endif
             <div class="dropup">
                 @include('partials.filterSelection')
             </div>

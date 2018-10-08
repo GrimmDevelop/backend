@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" id="letters">
+    <div class="container" id="app-container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <div class="button-container">

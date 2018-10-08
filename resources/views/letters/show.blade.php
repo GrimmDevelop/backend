@@ -24,6 +24,7 @@
                     <span class="fa fa-floppy-o"></span>
                     Speichern
                 </button>
+
                 <button type="button" class="btn btn-default" @click="form.reset()">
                     Änderungen verwerfen
                 </button>
@@ -34,20 +35,20 @@
             @endunless
         @endcan
 
-        @can('letters.delete')
-            @unless($letter->trashed())
-                <form id="danger-zone" action="{{ route('letters.destroy', [$letter->id]) }}"
-                      style="display: inline-block; margin: 0;"
-                      method="post"
-                      class="form-inline">
-                    {{ csrf_field() }}
-                    {{ method_field('delete') }}
-                    <button class="btn btn-danger">
-                        <span class="fa fa-trash"></span>&nbsp;
-                    </button>
-                </form>
-            @endunless
-        @endcan
+            @can('letters.delete')
+                @unless($letter->trashed())
+                    <form id="danger-zone" action="{{ route('letters.destroy', [$letter->id]) }}"
+                          style="display: inline-block; margin: 0;"
+                          method="post"
+                          class="form-inline">
+                        {{ csrf_field() }}
+                        {{ method_field('delete') }}
+                        <button class="btn btn-danger">
+                            <span class="fa fa-trash"></span>&nbsp;
+                        </button>
+                    </form>
+                @endunless
+            @endcan
     </portal>
 
     <div class="container">

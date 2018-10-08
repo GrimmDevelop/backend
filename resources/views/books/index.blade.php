@@ -84,7 +84,6 @@
     </div>
 
     <portal to="status-bar-left">
-        @include('partials.prefixSelection', ['route' => 'books'])
     </portal>
 
     <portal to="status-bar-right">
