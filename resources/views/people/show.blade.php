@@ -3,7 +3,7 @@
 @section('title', $person->fullName() . ' | ')
 
 @section('content')
-    <div class="container" id="app-container">
+    <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 @if($person->hasCorrespondence())

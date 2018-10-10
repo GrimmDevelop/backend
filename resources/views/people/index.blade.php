@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" id="app-container">
+    <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <div class="button-container">
@@ -88,24 +88,6 @@
 
     <portal to="status-bar-right">
         <div style="display: flex;">
-            @if(request()->has('biodata_extractor'))
-                <div class="btn-group">
-                    <a href="{{ url()->filtered(['-biodata_extractor']) }}" class="btn btn-danger"
-                       data-toggle="tooltip" title="BioDatien-Filter entfernen">
-                        <i class="fa fa-envelope"></i>
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
-            @endif
-            @if(request()->has('only_trashed'))
-                <div class="btn-group">
-                    <a href="{{ url()->filtered(['-only_trashed']) }}" class="btn btn-danger"
-                       data-toggle="tooltip" title="Name-Filter entfernen">
-                        <i class="fa fa-envelope"></i>
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
-            @endif
             <div class="dropup">
                 @include('partials.pageSizeSelection')
             </div>
@@ -122,7 +104,6 @@
                     </ul>
                 </div>
             </div>
-
 
             <div class="dropup">
                 @include('partials.filterSelection')
