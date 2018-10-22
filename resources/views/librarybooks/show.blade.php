@@ -136,30 +136,14 @@
 
                         @include('partials.form.field', ['field' => 'external_digitization', 'model' => $book, 'disabled' => $book->trashed()])
                     </div>
+
+                    <button type="submit" style="visibility: hidden;"></button>
                 </form>
             </div>
         </div>
     </div>
-    <portal to="help-modal-body">
-        Test
-    </portal>
 
-    <portal to="status-bar-left">
-        @can('library.delete')
-            @unless($book->trashed())
-                <form id="danger-zone" action="{{ route('librarybooks.destroy', [$book->id]) }}"
-                      method="post"
-                      class="form-inline">
-                    {{ csrf_field() }}
-                    {{ method_field('delete') }}
-                    <button class="btn btn-danger">
-                        <span class="fa fa-trash"></span>
-                        {{ trans('librarybooks.delete') }}
-                    </button>
-                </form>
-            @endunless
-        @endcan
-    </portal>
+    <portal to="help-modal-body"></portal>
 
     <portal to="status-bar-right">
         @can('library.update')
@@ -178,6 +162,21 @@
             @endunless
         @endcan
 
+        @can('library.delete')
+            @unless($book->trashed())
+                <form id="danger-zone" action="{{ route('librarybooks.destroy', [$book->id]) }}"
+                      style="display: inline-block; margin: 0;"
+                      method="post"
+                      style="display: inline-block; margin: 0;"
+                      class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>
+                    </button>
+                </form>
+            @endunless
+        @endcan
     </portal>
 @endsection
 

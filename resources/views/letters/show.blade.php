@@ -156,6 +156,8 @@
                             </div>
                         </div>
                     @endif
+
+                    <button type="submit" style="visibility: hidden;"></button>
                 </form>
 
                 <hr>
