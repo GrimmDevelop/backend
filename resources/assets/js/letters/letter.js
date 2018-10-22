@@ -52,11 +52,14 @@ new Vue({
             axios.get(BASE_URL + '/facsimiles').then(({data}) => {
                 this.facsimiles = data;
             });
+            axios.get(BASE_URL + '/codes').then(({data}) => {
+                this.codes = data;
 
-            axios.get(BASE_URL + '/information').then(({data}) => {
-                this.information = data['information'];
-                this.codes = data['codes'];
+                axios.get(BASE_URL + '/information').then(({data}) => {
+                    this.information = data;
+                });
             });
+
         });
     },
 
@@ -85,16 +88,47 @@ new Vue({
             this.information = information;
         },
 
-        removedInformation(index) {
-            this.information.splice(index, 1);
-        },
-
         storedCode(codes) {
             this.codes = codes;
         },
 
+        removedInformation(index) {
+            this.information.splice(index, 1);
+        },
+
         removedCode(index) {
-            this.codes.splice(index, 1);
+            try {
+                // let len = this.information.length;
+                // for(var i=0;i<len;i++)
+                // {
+                //     if(this.information[i].letter_code_id===index)
+                //     {
+                //         this.delete(this.information,index);
+                //         this.removedInformation(index);
+                //     }
+                // }
+                axios.get(BASE_URL + '/information').then(({data}) => {
+                    this.information = data;
+                });
+
+            } catch (e) {
+
+                console.error(e.toString());
+            }
+        },
+        updatedCode(code) {
+            try {
+
+                this.codes[code.id].name = code.name;
+                this.codes[code.id].error_generated = code.error_generated;
+                this.codes[code.id].internal = code.internal;
+
+                this.storedCode(this.codes);
+
+            } catch (e) {
+
+                console.error(e.toString());
+            }
         }
     }
 });

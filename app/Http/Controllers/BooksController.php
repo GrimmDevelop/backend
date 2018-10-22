@@ -86,7 +86,7 @@ class BooksController extends Controller
      * Update the specified resource in storage.
      *
      * @param BookUpdateRequest $request
-     * @param Book              $book
+     * @param Book $book
      *
      * @return \Illuminate\Http\Response
      */
@@ -105,7 +105,7 @@ class BooksController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @param Book    $book
+     * @param Book $book
      *
      * @return \Illuminate\Http\Response
      * @throws \Exception

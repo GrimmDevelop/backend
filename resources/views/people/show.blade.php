@@ -47,7 +47,7 @@
             @endif
             <div class="col-md-12 page-content">
                 <form id="person-editor" action="{{ route('people.update', ['people' => $person->id]) }}"
-                      class="form-horizontal"
+                      class="form-horizontal" ref="personForm"
                       method="POST">
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
@@ -65,15 +65,6 @@
                     @include('partials.form.boolean', ['field' => 'is_organization', 'model' => $person, 'disabled' => $person->trashed()])
                     @include('partials.form.boolean', ['field' => 'auto_generated', 'model' => $person, 'disabled' => $person->trashed()])
 
-                    @unless($person->trashed())
-                        <div class="button-bar row">
-                            <div class="col-sm-10 col-md-offset-2">
-                                <button type="submit" class="btn btn-primary">Speichern</button>
-                                <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
-                                   class="btn btn-link">Abbrechen</a>
-                            </div>
-                        </div>
-                    @endunless
                 </form>
 
                 <ul class="nav nav-tabs">
@@ -246,34 +237,48 @@
                         @include('logs.entity-activity', ['entity' => $person])
                     </div>
                 </div>
-
-                @can('people.delete')
-                    @unless($person->trashed())
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title">Gefahrenzone</h1>
-                            </div>
-
-                            <div class="panel-body">
-                                <p>
-                                <form id="danger-zone" action="{{ route('people.destroy', ['id' => $person->id]) }}"
-                                      method="post"
-                                      class="form-inline">
-                                    {{ csrf_field() }}
-                                    {{ method_field('delete') }}
-                                    <button class="btn btn-danger">
-                                        <span class="fa fa-trash"></span>
-                                        {{ trans('people.delete') }}
-                                    </button>
-                                </form>
-                                </p>
-                            </div>
-                        </div>
-                    @endunless
-                @endcan
             </div>
         </div>
     </div>
+    <portal to="help-modal-body">
+        Test
+    </portal>
+
+    <portal to="status-bar-left"></portal>
+
+    <portal to="status-bar-right">
+        <div style="display: flex;">
+            @can('people.update')
+                @unless($person->trashed())
+                    <button type="button" class="btn btn-primary" @click="form.submit()">
+                        <span class="fa fa-floppy-o"></span>
+                        Speichern
+                    </button>
+
+                    <button type="button" class="btn btn-default" @click="form.reset()">
+                        Änderungen verwerfen
+                    </button>
+                    <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
+                       class="btn btn-default">Abbrechen</a>
+                @endunless
+            @endcan
+
+            @can('people.delete')
+                @unless($person->trashed())
+                    <form id="danger-zone" action="{{ route('people.destroy', [$person->id]) }}"
+                          style="display: inline-block; margin: 0;"
+                          method="post"
+                          class="form-inline">
+                        {{ csrf_field() }}
+                        {{ method_field('delete') }}
+                        <button class="btn btn-danger">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                    </form>
+                @endunless
+            @endcan
+        </div>
+    </portal>
 @endsection
 
 @section('scripts')

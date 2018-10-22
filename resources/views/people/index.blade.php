@@ -29,36 +29,11 @@
                 </div>
                 <h1>Personendatenbank</h1>
             </div>
-
             @include('partials.prefixSelection', ['route' => 'people'])
-
             <div class="col-md-12 pagination-container">
                 {{ $people->appends($filter->delta())->links() }}
-
-                <form action="{{ route('people.export') . '?' . http_build_query($filter->delta()) }}" method="post" style="display: inline;">
-                    {{ csrf_field() }}
-                    <button type="submit" class="btn btn-info btn-sm"
-                            data-toggle="tooltip" title="Daten exportieren">
-                        <i class="fa fa-download"></i>
-                    </button>
-                </form>
-
-                @include('partials.pageSizeSelection')
-
-                <div class="btn-group">
-                    <a href="#" data-toggle="dropdown" class="btn btn-default btn-sm dropdown-toggle">Spalten <span
-                                class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        @foreach(\Grimm\Person::gridColumns(true) as $column)
-                            <li {!! active_if($column->isActive()) !!}>
-                                <a href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">{{ $column->name() }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
-
-                @include('partials.filterSelection')
             </div>
+
             <div class="col-md-12 list-content">
                 <div class="add-button">
                 </div>
@@ -109,9 +84,48 @@
             </div>
         </div>
     </div>
+    <portal to="status-bar-left"></portal>
+
+    <portal to="status-bar-right">
+        <div style="display: flex;">
+            <div class="dropup">
+                @include('partials.pageSizeSelection')
+            </div>
+            <div class="dropup">
+                <div class="btn-group">
+                    <a href="#" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Spalten <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        @foreach(\Grimm\Person::gridColumns(true) as $column)
+                            <li {!! active_if($column->isActive()) !!}>
+                                <a href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">{{ $column->name() }}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+
+            <div class="dropup">
+                @include('partials.filterSelection')
+            </div>
+
+            <div class="btn-group">
+                <form action="{{ route('people.export') . '?' . http_build_query($filter->delta()) }}"
+                      method="post"
+                      style="display: inline;">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-info"
+                            data-toggle="tooltip" title="Daten exportieren">
+                        <i class="fa fa-download"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </portal>
 @endsection
 
 @section('scripts')
+    <script src="{{ url('js/library-people.js') }}"></script>
     <script>
         $(function () {
             // Prevent submission of search form if search input is empty

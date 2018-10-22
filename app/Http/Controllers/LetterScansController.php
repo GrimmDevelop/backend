@@ -91,7 +91,6 @@ class LetterScansController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function uploadGet(IndexLetterRequest $request, $id)
     {
@@ -113,7 +112,6 @@ class LetterScansController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function uploadPost(IndexLetterRequest $request, $id)
     {
@@ -138,7 +136,6 @@ class LetterScansController extends Controller
      * @throws \Exception
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     private function saveUploadedFile(File $file, Letter $letter)
     {

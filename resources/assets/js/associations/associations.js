@@ -6,6 +6,7 @@ new Vue({
     el: '#app-container',
 
     data: {
+        form: null,
         associations: [],
         person: {
             id: null,
@@ -15,6 +16,7 @@ new Vue({
 
     mounted() {
         this.$nextTick(() => {
+            this.form = this.$refs.associationsForm;
             var url = BASE_URL + '/associations';
 
             $('#addOccurrence').on('shown.bs.modal', (e) => {

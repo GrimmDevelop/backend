@@ -4,6 +4,7 @@ new Vue({
     el: '#app-container',
 
     data: {
+        form: null,
         moreFields: false,
         morePeople: false,
         inputChanged: false,
@@ -11,6 +12,7 @@ new Vue({
 
     mounted() {
 
+        this.form = this.$refs.bookForm;
     },
 
     methods: {
@@ -47,6 +49,5 @@ new Vue({
         }
     },
 
-    components: {
-    }
+    components: {}
 });

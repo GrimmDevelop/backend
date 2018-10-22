@@ -8,6 +8,7 @@ import levenshtein from '../utils/Levenshtein';
 Vue.component('in-place', InPlaceEditor);
 Vue.component('inheritance-in-place', InheritanceInPlaceEditor);
 
+
 new Vue({
     el: '#prints',
 
@@ -21,7 +22,7 @@ new Vue({
         this.$nextTick(() => {
             var url = BASE_URL + '/prints';
 
-            axios.get(url).then(({ data }) => {
+            axios.get(url).then(({data}) => {
                 this.prints = data;
             });
 
@@ -40,7 +41,7 @@ new Vue({
             axios.post(url, {
                 entry: this.createEntry,
                 year: this.createYear
-            }).then(({ data }) => {
+            }).then(({data}) => {
                 this.prints = data;
                 this.createEntry = '';
                 this.createYear = '';
@@ -62,7 +63,7 @@ new Vue({
         this.$nextTick(() => {
             var url = BASE_URL + '/inheritances';
 
-            axios.get(url).then(({ data }) => {
+            axios.get(url).then(({data}) => {
                 this.inheritances = data;
             });
 
@@ -78,12 +79,21 @@ new Vue({
 
             axios.post(url, {
                 entry: this.createEntry
-            }).then(({ data }) => {
+            }).then(({data}) => {
                 this.inheritances = data;
                 this.createEntry = '';
                 $('#addInheritance').modal('hide');
             });
         }
+    }
+});
+new Vue({
+    el: '#app-container',
+    data: {
+        form: null
+    },
+    mounted() {
+        this.form = this.$refs.personForm;
     }
 });
 
