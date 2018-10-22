@@ -87,16 +87,13 @@ class LetterScansController extends Controller
 
     /**
      * @param IndexLetterRequest $request
-     * @param $id
+     * @param Letter $letter
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
      */
-    public function uploadGet(IndexLetterRequest $request, $id)
+    public function uploadGet(IndexLetterRequest $request, Letter $letter)
     {
-        /** @var Letter $letter */
-        $letter = Letter::query()->findOrFail($id);
-
         $file = $this->initFlowFile();
 
         if ($file->checkChunk()) {
@@ -108,16 +105,13 @@ class LetterScansController extends Controller
 
     /**
      * @param IndexLetterRequest $request
-     * @param $id
+     * @param Letter $letter
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
      */
-    public function uploadPost(IndexLetterRequest $request, $id)
+    public function uploadPost(IndexLetterRequest $request, Letter $letter)
     {
-        /** @var Letter $letter */
-        $letter = Letter::query()->findOrFail($id);
-
         $file = $this->initFlowFile();
 
         if ($file->validateChunk()) {
