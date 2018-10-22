@@ -16,177 +16,119 @@ Vue.component('add-information-editor', AddInformationEditor);
 Vue.component('add-code-editor', AddCodeEditor);
 
 new Vue({
-    el: '#prints',
+    el: '#app-container',
 
     data: {
-        prints: []
+        form: null,
+        prints: [],
+        transcriptions: [],
+        attachments: [],
+        drafts: [],
+        facsimiles: [],
+        information: [],
+        codes: [],
     },
 
     mounted() {
-        this.$nextTick(() => {
-            let url = BASE_URL + '/prints';
+        this.form = this.$refs.letterForm;
 
-            axios.get(url).then(({data}) => {
+        this.$nextTick(() => {
+            axios.get(BASE_URL + '/prints').then(({data}) => {
                 this.prints = data;
             });
-        });
-    },
 
-    methods: {
-        stored(prints) {
-            this.prints = prints;
-        }
-    }
-});
-
-new Vue({
-    el: '#transcriptions',
-
-    data: {
-        transcriptions: []
-    },
-
-    mounted() {
-        this.$nextTick(() => {
-            let url = BASE_URL + '/transcriptions';
-
-            axios.get(url).then(({data}) => {
+            axios.get(BASE_URL + '/transcriptions').then(({data}) => {
                 this.transcriptions = data;
             });
-        });
-    },
 
-    methods: {
-        stored(transcriptions) {
-            this.transcriptions = transcriptions;
-        }
-    }
-});
-
-new Vue({
-    el: '#attachments',
-
-    data: {
-        attachments: []
-    },
-
-    mounted() {
-        this.$nextTick(() => {
-            let url = BASE_URL + '/attachments';
-
-            axios.get(url).then(({data}) => {
+            axios.get(BASE_URL + '/attachments').then(({data}) => {
                 this.attachments = data;
             });
-        });
-    },
 
-    methods: {
-        stored(attachments) {
-            this.attachments = attachments;
-        }
-    }
-});
-
-new Vue({
-    el: '#drafts',
-
-    data: {
-        drafts: []
-    },
-
-    mounted() {
-        this.$nextTick(() => {
-            let url = BASE_URL + '/drafts';
-
-            axios.get(url).then(({data}) => {
+            axios.get(BASE_URL + '/drafts').then(({data}) => {
                 this.drafts = data;
             });
-        });
-    },
 
-    methods: {
-        stored(drafts) {
-            this.drafts = drafts;
-        }
-    }
-});
-
-new Vue({
-    el: '#facsimiles',
-
-    data: {
-        facsimiles: []
-    },
-
-    mounted() {
-        this.$nextTick(() => {
-            var url = BASE_URL + '/facsimiles';
-
-            axios.get(url).then(({data}) => {
+            axios.get(BASE_URL + '/facsimiles').then(({data}) => {
                 this.facsimiles = data;
             });
-        });
-    },
+            axios.get(BASE_URL + '/codes').then(({data}) => {
+                this.codes = data;
 
-    methods: {
-        stored(facsimiles) {
-            this.facsimiles = facsimiles;
-        }
-    }
-});
-
-new Vue({
-    el: '#information',
-
-    data: {
-        information: [],
-        codes: []
-    },
-
-    mounted() {
-        this.$nextTick(() => {
-            var url = BASE_URL + '/information';
-
-            axios.get(url).then(({data}) => {
-                this.information = data['information'];
-                this.codes = data['codes'];
+                axios.get(BASE_URL + '/information').then(({data}) => {
+                    this.information = data;
+                });
             });
+
         });
     },
 
     methods: {
-        stored(information) {
+        storedPrint(prints) {
+            this.prints = prints;
+        },
+
+        storedTranscription(transcriptions) {
+            this.transcriptions = transcriptions;
+        },
+
+        storedAttachment(attachments) {
+            this.attachments = attachments;
+        },
+
+        storedDraft(drafts) {
+            this.drafts = drafts;
+        },
+
+        storedFacsimile(facsimiles) {
+            this.facsimiles = facsimiles;
+        },
+
+        storedInformation(information) {
             this.information = information;
         },
-        removed(index) {
-            this.information.splice(index, 1);
-        }
-    }
-});
-new Vue({
-    el: '#codes',
 
-    data: {
-        codes: []
-    },
-
-    mounted() {
-        this.$nextTick(() => {
-            var url = BASE_URL + '/codes';
-
-            axios.get(url).then(({data}) => {
-                this.codes = data;
-            });
-        });
-    },
-    methods: {
-        stored(codes) {
+        storedCode(codes) {
             this.codes = codes;
         },
-        removed(index) {
-            this.codes.splice(index, 1);
+
+        removedInformation(index) {
+            this.information.splice(index, 1);
+        },
+
+        removedCode(index) {
+            try {
+                // let len = this.information.length;
+                // for(var i=0;i<len;i++)
+                // {
+                //     if(this.information[i].letter_code_id===index)
+                //     {
+                //         this.delete(this.information,index);
+                //         this.removedInformation(index);
+                //     }
+                // }
+                axios.get(BASE_URL + '/information').then(({data}) => {
+                    this.information = data;
+                });
+
+            } catch (e) {
+
+                console.error(e.toString());
+            }
+        },
+        updatedCode(code) {
+            try {
+
+                this.codes[code.id].name = code.name;
+                this.codes[code.id].error_generated = code.error_generated;
+                this.codes[code.id].internal = code.internal;
+
+                this.storedCode(this.codes);
+
+            } catch (e) {
+
+                console.error(e.toString());
+            }
         }
-
-
     }
 });

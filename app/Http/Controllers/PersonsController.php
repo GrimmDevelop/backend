@@ -19,8 +19,6 @@ use App\Http\Requests\UpdatePersonDataRequest;
 use Carbon\Carbon;
 use Grimm\Person;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-
 
 class PersonsController extends Controller
 {
@@ -80,6 +78,11 @@ class PersonsController extends Controller
             'Die Person wurde erfolgreich erstellt!');
     }
 
+    /**
+     * @param IndexPersonRequest $request
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @throws \League\Flysystem\FileExistsException
+     */
     public function export(IndexPersonRequest $request)
     {
         Person::applyGrid();
@@ -168,6 +171,7 @@ class PersonsController extends Controller
      * @param Person $person
      *
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(DestroyPersonRequest $request, Person $person)
     {
@@ -178,6 +182,11 @@ class PersonsController extends Controller
         return redirect()->route('people.index')->with('success', 'Die Person wurde erfolgreich gelöscht!');
     }
 
+    /**
+     * @param DestroyPersonRequest $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function restore(DestroyPersonRequest $request, $id)
     {
         $person = Person::onlyTrashed()->find($id);

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Grimm\Letter;
-use Grimm\LetterCode;
 use Grimm\LetterInformation;
 use Illuminate\Http\Request;
 
@@ -14,20 +13,14 @@ class LetterInformationController extends Controller
      * Display a listing of the resource.
      *
      * @param Letter $letter
-     * @return \Illuminate\Http\Response [Information[],codes[]]|\Illuminate\Support\Collection
+     * @return LetterInformation[]|\Illuminate\Support\Collection
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Letter $letter)
     {
         $this->authorize('letters.update');
 
-        $codes = LetterCode::all('id', 'name');
-
-        $codes = $codes->mapWithKeys(function ($item) {
-            return [$item->id => $item];
-        });
-
-        return response()->json(["information" => $letter->information, "codes" => $codes]);
+        return $letter->information;
     }
 
     /**
@@ -41,6 +34,11 @@ class LetterInformationController extends Controller
     public function store(Request $request, Letter $letter)
     {
         $this->authorize('letters.update');
+
+        $this->validate($request, [
+            'data' => 'required',
+            'code' => 'required'
+        ]);
 
         $information = new LetterInformation();
 

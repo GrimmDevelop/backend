@@ -92,5 +92,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ url('js/library.js') }}"></script>
+    <script src="{{ url('js/library-person.js') }}"></script>
 @endsection

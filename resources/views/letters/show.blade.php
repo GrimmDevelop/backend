@@ -3,7 +3,55 @@
 @section('title', $letter->title() . ' | ')
 
 @section('content')
-    <div class="container" id="letter">
+    <portal to="help-modal-body">
+        Test
+    </portal>
+
+    <portal to="status-bar-left">
+        @can('library.update')
+            <a href="{{ route('letters.scans.index', [$letter]) }}" role="button"
+               class="btn btn-default">
+                <span class="fa fa-picture-o"></span>
+                Scans verwalten
+            </a>
+        @endcan
+    </portal>
+
+    <portal to="status-bar-right">
+        @can('library.update')
+            @unless($letter->trashed())
+                <button type="button" class="btn btn-primary" @click="form.submit()">
+                    <span class="fa fa-floppy-o"></span>
+                    Speichern
+                </button>
+
+                <button type="button" class="btn btn-default" @click="form.reset()">
+                    Änderungen verwerfen
+                </button>
+                <a href="{{ referrer_url('last_letter_index', route('letters.index')) }}"
+                   class="btn btn-default">
+                    Abbrechen
+                </a>
+            @endunless
+        @endcan
+
+        @can('letters.delete')
+            @unless($letter->trashed())
+                <form id="danger-zone" action="{{ route('letters.destroy', [$letter->id]) }}"
+                      style="display: inline-block; margin: 0;"
+                      method="post"
+                      class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>&nbsp;
+                    </button>
+                </form>
+            @endunless
+        @endcan
+    </portal>
+
+    <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
                 <h1 data-toggle="tooltip"
@@ -24,8 +72,8 @@
                                     <i class="fa fa-trash-o fa-5x"></i>
                                 </div>
                                 <div class="media-body media-middle">
-                                    <h4 class="media-heading">Die Person wurde gelöscht</h4>
-                                    <p>Das bedeutet, dass sie nicht mehr sichtbar ist.</p>
+                                    <h4 class="media-heading">Der Brief wurde gelöscht</h4>
+                                    <p>Das bedeutet, dass er nicht mehr sichtbar ist.</p>
                                 </div>
                             </div>
                         </div>
@@ -40,13 +88,26 @@
             @endif
 
             <div class="col-md-12 page-content">
-                <form class="form-horizontal" action="{{ route('letters.update', [$letter]) }}" method="post">
+                <form class="form-horizontal" ref="letterForm"
+                      action="{{ route('letters.update', [$letter]) }}" method="post">
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
 
-                    @include('partials.form.field', ['field' => 'id_till_2018', 'model' => $letter, 'disabled' => true])
-                    @include('partials.form.field', ['field' => 'id_till_1992', 'model' => $letter, 'disabled' => true])
-                    @include('partials.form.field', ['field' => 'id_till_1997', 'model' => $letter, 'disabled' => true])
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">IDs</label>
+                        <div class="col-sm-10">
+                            <p class="form-control-static">
+                                {{ $letter->id_till_2018 }} [2018]
+                                @if($letter->id_till_1997)
+                                    &nbsp;&nbsp;<strong>|</strong>&nbsp;&nbsp;{{ $letter->id_till_1997 }} [1997]
+                                @endif
+                                @if($letter->id_till_1992)
+                                    &nbsp;&nbsp;<strong>|</strong>&nbsp;&nbsp;{{ $letter->id_till_1992 }} [1992]
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+
 
                     @include('partials.form.field', ['field' => 'code', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'date', 'model' => $letter])
@@ -63,6 +124,7 @@
                     @include('partials.form.textarea', ['field' => 'addition', 'model' => $letter, 'rows' => 3])
 
                     @include('partials.form.textarea', ['field' => 'inc', 'model' => $letter, 'rows' => 3])
+
                     @include('partials.form.field', ['field' => 'couvert', 'model' => $letter])
 
                     @if($letter->couvert != null)
@@ -95,35 +157,10 @@
                         </div>
                     @endif
 
-                    @unless($letter->trashed())
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
-                                @can('library.update')
-                                    <a href="{{ route('letters.scans.index', [$letter]) }}" role="button"
-                                       class="btn btn-lg btn-default">
-                                        <span class="fa fa-picture-o"></span>
-                                        Scans verwalten
-                                    </a>
-                                @endcan
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
-                                @can('library.update')
-                                    <button type="submit" class="btn btn-primary">
-                                        <span class="fa fa-floppy-o"></span>
-                                        Speichern
-                                    </button>
-
-                                    <button type="reset" class="btn btn-link">
-                                        Änderungen zurücksetzen
-                                    </button>
-                                @endcan
-                            </div>
-                        </div>
-                    @endunless
+                    <button type="submit" style="visibility: hidden;"></button>
                 </form>
+
+                <hr>
 
                 <h3>Verknüpfungen</h3>
 
@@ -232,7 +269,7 @@
                         </table>
 
                         <add-item-editor url="{{ route('letters.prints.store', [$letter]) }}"
-                                         :on-stored="stored"
+                                         :on-stored="storedPrint"
                                          modal="addPrint"
                                          title="Drucke"></add-item-editor>
                     </div>
@@ -264,7 +301,7 @@
                         </table>
 
                         <add-item-editor url="{{ route('letters.transcriptions.store', [$letter]) }}"
-                                         :on-stored="stored"
+                                         :on-stored="storedTranscription"
                                          modal="addTranscription"
                                          title="Abschriften"></add-item-editor>
                     </div>
@@ -295,7 +332,7 @@
                         </table>
 
                         <add-item-editor url="{{ route('letters.attachments.store', [$letter]) }}"
-                                         :on-stored="stored"
+                                         :on-stored="storedAttachment"
                                          modal="addAttachment"
                                          title="Beilagen"></add-item-editor>
                     </div>
@@ -326,7 +363,7 @@
                         </table>
 
                         <add-item-editor url="{{ route('letters.drafts.store', [$letter]) }}"
-                                         :on-stored="stored"
+                                         :on-stored="storedDraft"
                                          modal="addDraft"
                                          title="Drucke"></add-item-editor>
                     </div>
@@ -357,7 +394,7 @@
                         </table>
 
                         <add-item-editor url="{{ route('letters.facsimiles.store', [$letter]) }}"
-                                         :on-stored="stored"
+                                         :on-stored="storedFacsimile"
                                          modal="addFacsimile"
                                          title="Faksimile"></add-item-editor>
                     </div>
@@ -365,7 +402,8 @@
                     <div role="tabpanel" class="tab-pane" id="information">
                         @unless($letter->trashed())
                             <div class="add-button">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                <button id="addInformationButton" type="button" class="btn btn-primary btn-sm"
+                                        data-toggle="modal"
                                         data-target="#addInformation">
                                     <i class="fa fa-plus"></i> Information hinzufügen
                                 </button>
@@ -380,15 +418,15 @@
                             </thead>
                             <tbody>
                             <tr v-for="(info, index) in information" is="in-place-information-editor"
-                                :item-id="info.id" :item-codes="codes" :selected-code="info.letter_code_id"
-                                :item-data="info.data" @removed-info="removed(index)" :key="info.id"
+                                :item-id="info.id" :item-codes="codes" :selected-code="codes[info.letter_code_id]"
+                                :item-data="info.data" @removed-info="removedInformation(index)" :key="info.id"
                                 base-url="{{ route('letters.information.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>
                             </tbody>
                         </table>
                         <add-information-editor url="{{ route('letters.information.store', [$letter]) }}"
-                                                :on-stored="stored" :codes-item="codes"
+                                                :on-stored="storedInformation" :codes-item="codes"
                                                 modal="addInformation"
                                                 title="Information"></add-information-editor>
                     </div>
@@ -405,21 +443,21 @@
                             <thead>
                             <tr>
                                 <th colspan="2">Name</th>
-                                <th colspan="1">Error_Generated</th>
+                                <th colspan="1">Error Generated</th>
                                 <th colspan="2">Internal</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="(code, index) in codes" is="in-place-code-editor"
-                                :item-id="code.id" :item-name="code.name" :item-error-generated="code.error_generated"
-                                :item-internal="code.internal" @removed-code="removed(index)" :key="code.id"
+                                :item-id="code.id" :item-code="code" :key="code.id"
+                                @updated-code="updatedCode" @removed-code="removedCode(index)"
                                 base-url="{{ route('letters.codes.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
                             </tr>
                             </tbody>
                         </table>
                         <add-code-editor url="{{ route('letters.codes.store', [$letter]) }}"
-                                         :on-stored="stored" modal="addCode"
+                                         :on-stored="storedCode" modal="addCode"
                                          title="Code"></add-code-editor>
                     </div>
 
@@ -427,31 +465,6 @@
                         @include('logs.entity-activity', ['entity' => $letter])
                     </div>
                 </div>
-
-                @can('letters.delete')
-                    @unless($letter->trashed())
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title">Gefahrenzone</h1>
-                            </div>
-
-                            <div class="panel-body">
-                                <p>
-                                <form id="danger-zone" action="{{ route('letters.destroy', [$letter->id]) }}"
-                                      method="post"
-                                      class="form-inline">
-                                    {{ csrf_field() }}
-                                    {{ method_field('delete') }}
-                                    <button class="btn btn-danger">
-                                        <span class="fa fa-trash"></span>
-                                        {{ trans('letters.delete') }}
-                                    </button>
-                                </form>
-                                </p>
-                            </div>
-                        </div>
-                    @endunless
-                @endcan
             </div>
         </div>
     </div>
@@ -474,5 +487,6 @@
         $('.nav-tabs a').on('shown.bs.tab', function (e) {
             window.location.hash = e.target.hash;
         });
+
     </script>
 @endsection

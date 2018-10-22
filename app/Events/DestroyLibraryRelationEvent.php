@@ -3,30 +3,34 @@
 namespace App\Events;
 
 use App\Events\Event;
+use Grimm\LibraryBook;
+use Grimm\User;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class DestroyLibraryRelationEvent extends Event
 {
+
     use SerializesModels;
+
+    /**
+     * @var LibraryBook
+     */
+    public $book;
+
+    /**
+     * @var User
+     */
+    public $user;
 
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param LibraryBook $book
+     * @param User $user
      */
-    public function __construct()
+    public function __construct(LibraryBook $book, User $user)
     {
-        //
-    }
-
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     */
-    public function broadcastOn()
-    {
-        return [];
+        $this->book = $book;
+        $this->user = $user;
     }
 }

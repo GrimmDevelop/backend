@@ -21,7 +21,7 @@
                                        :on-hit="personSelected"
                                        empty="Es wurde keine Person gefunden!"
                             >
-                                <template slot="list-item" scope="props">
+                                <template slot="list-item" slot-scope="props">
                                     @{{ props.item.name }}
                                 </template>
                             </typeahead>
@@ -119,5 +119,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ url('js/library.js') }}"></script>
+    <script src="{{ url('js/library-relation.js') }}"></script>
 @endsection

@@ -1,9 +1,9 @@
-import Vue from 'vue';
+import '../bootstrap';
 
 import Upload from '../utils/Upload.vue';
 
 new Vue({
-    el: '#library-scans',
+    el: '#app-container',
 
     data: {
         flow: null,

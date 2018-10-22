@@ -16,7 +16,6 @@ use App\Http\Requests\ShowLetterRequest;
 use App\Http\Requests\StoreLetterRequest;
 use App\Http\Requests\UpdateLetterRequest;
 use Carbon\Carbon;
-use Grimm\Grids\PersonGrid;
 use Grimm\Letter;
 use Grimm\LetterCode;
 use Grimm\LetterPersonAssociation;

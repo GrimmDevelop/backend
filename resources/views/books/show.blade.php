@@ -4,7 +4,8 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
-                <h1><a class="prev-link" href="{{ referrer_url('last_book_index', route('books.index'), "#book-" . $book->id) }}"><i
+                <h1><a class="prev-link"
+                       href="{{ referrer_url('last_book_index', route('books.index'), "#book-" . $book->id) }}"><i
                                 class="fa fa-caret-left"></i></a> Buchdaten</h1>
             </div>
             @if($book->trashed())
@@ -17,7 +18,8 @@
                                 </div>
                                 <div class="media-body media-middle">
                                     <h4 class="media-heading">Das Buch wurde gelöscht</h4>
-                                    <p>Das bedeutet, dass dieses nicht mehr für die Veröffentlichung berücksichtigt wird und nicht mehr sichtbar ist.</p>
+                                    <p>Das bedeutet, dass dieses nicht mehr für die Veröffentlichung berücksichtigt wird
+                                        und nicht mehr sichtbar ist.</p>
                                 </div>
                             </div>
                         </div>
@@ -33,7 +35,7 @@
             <div class="col-md-12 page-content">
                 <div class="panel-body">
                     <form class="form-horizontal" action="{{ route('books.update', ['id' => $book->id]) }}"
-                          method="post">
+                          method="post" ref="bookForm">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
 
@@ -49,22 +51,6 @@
 
                         @include('partials.form.boolean', ['field' => 'grimm', 'model' => $book, 'disabled' => $book->trashed()])
 
-                        @unless($book->trashed())
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
-                                @can('books.update')
-                                <button type="submit" class="btn btn-primary">
-                                    <span class="fa fa-floppy-o"></span>
-                                    Speichern
-                                </button>
-
-                                <button type="reset" class="btn btn-link">
-                                    Änderungen zurücksetzen
-                                </button>
-                                @endcan
-                            </div>
-                        </div>
-                        @endunless
                     </form>
                 </div>
 
@@ -80,11 +66,12 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="associations">
                         @unless($book->trashed())
-                        <div class="add-button">
-                            <a href="{{ route('books.associations.index', [$book->id]) }}" class="btn btn-primary btn-sm">
-                                <i class="fa fa-plus"></i> Person hinzufügen
-                            </a>
-                        </div>
+                            <div class="add-button">
+                                <a href="{{ route('books.associations.index', [$book->id]) }}"
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fa fa-plus"></i> Person hinzufügen
+                                </a>
+                            </div>
                         @endunless
                         <table class="table table-responsive">
                             <thead>
@@ -129,39 +116,50 @@
                         @include('logs.entity-activity', ['entity' => $book])
                     </div>
                 </div>
-
-                @unless($book->trashed())
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title">Gefahrenzone</h1>
-                            </div>
-
-                            <div class="panel-body">
-                                <p>
-                                <form id="danger-zone" action="{{ route('books.destroy', ['id' => $book->id]) }}" method="post" class="form-inline">
-                                    {{ csrf_field() }}
-                                    {{ method_field('delete') }}
-                                    <button class="btn btn-danger">
-                                        <span class="fa fa-trash"></span>
-                                        {{ trans('books.delete') }}
-                                    </button>
-                                </form>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endunless
             </div>
         </div>
-
-
     </div>
+    <portal to="help-modal-body">
+        Test
+    </portal>
+    <portal to="status-bar-left">
+        @can('books.delete')
+            @unless($book->trashed())
+                <form id="danger-zone" action="{{ route('books.destroy', ['id' => $book->id]) }}"
+                      method="post" class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>&nbsp;
+                        {{ trans('books.delete') }}
+                    </button>
+                </form>
+            @endunless
+        @endcan
+    </portal>
+    <portal to="status-bar-right">
+        @can('library.update')
+            @unless($book->trashed())
+                <button type="button" class="btn btn-primary" @click="form.submit()">
+                    <span class="fa fa-floppy-o"></span>
+                    Speichern
+                </button>
+
+                <button type="button" class="btn btn-default" @click="form.reset()">
+                    Änderungen verwerfen
+                </button>
+
+                <a href="{{ referrer_url('last_book_index', route('books.index')) }}"
+                   class="btn btn-default">
+                    Abbrechen
+                </a>
+            @endunless
+        @endcan
+    </portal>
 @endsection
 
 @section('scripts')
+    <script src="{{ url('js/library-book.js') }}"></script>
     <script>
 
         // Tab auto selection

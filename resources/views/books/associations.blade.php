@@ -35,7 +35,7 @@
                                        :prepare-response="prepareResponse"
                                        :on-hit="personSelected"
                                        empty="Es wurde keine Person gefunden!">
-                                <template slot="list-item" scope="props">
+                                <template slot="list-item" slot-scope="props">
                                     @{{ props.item.last_name }}, @{{ props.item.first_name }} <em
                                             class='pull-right'>@{{ props.item.bio_data }}</em>
                                 </template>
@@ -45,7 +45,7 @@
                 </form>
 
                 <form action="{{ route('books.associations.store', [$book->id]) }}" class="form-horizontal"
-                      method="POST">
+                      method="POST" ref="associationsForm">
                     {{ csrf_field() }}
 
                     <div class="form-group{{ $errors->has('person') ? ' has-error' : '' }}">
@@ -135,13 +135,6 @@
                         </div>
                     </div>
 
-                    <div class="button-bar row">
-                        <div class="col-sm-10 col-md-offset-2">
-                            <button type="submit" class="btn btn-primary">Speichern</button>
-                            <a href="{{ route('books.show', [$book->id]) }}#books"
-                               class="btn btn-link">Abbrechen</a>
-                        </div>
-                    </div>
                 </form>
 
                 <table class="table table-striped" id="associations">
@@ -195,6 +188,24 @@
             </div>
         </div>
     </div>
+    <portal to="help-modal-body">
+        Test
+    </portal>
+    <portal to="status-bar-right">
+        @can('books.update')
+            @unless($book->trashed())
+                <button type="button" class="btn btn-primary" @click="form.submit()">
+                    <span class="fa fa-floppy-o"></span>
+                    Speichern
+                </button>
+                <button type="button" class="btn btn-default" @click="form.reset()">
+                    Änderungen verwerfen
+                </button>
+                <a href="{{ route('books.show', [$book->id]) }}#books"
+                   class="btn btn-default">Abbrechen</a>
+            @endunless
+        @endcan
+    </portal>
 @endsection
 
 @section('scripts')

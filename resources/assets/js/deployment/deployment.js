@@ -3,7 +3,7 @@ import '../bootstrap';
 import Pusher from 'pusher-js';
 
 new Vue({
-    el: '#deployment',
+    el: '#app-container',
 
     data: {
         messages: [],

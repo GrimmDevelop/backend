@@ -1,28 +1,25 @@
-import Vue from 'vue';
-
-import Typeahead from '../utils/Typeahead.vue';
+import '../bootstrap';
 
 new Vue({
-    el: '#library',
+    el: '#app-container',
 
     data: {
+        form: null,
         moreFields: false,
         morePeople: false,
         inputChanged: false,
-        person: {
-            id: null
-        },
     },
 
     mounted() {
 
+        this.form = this.$refs.bookForm;
     },
 
     methods: {
         checkForChanges(event) {
             if (this.inputChanged && !confirm('Es wurden Felder im Formular geändert. ' +
-                    'Möchtest du dieses wirklich verlassen?\n' +
-                    'Alle Änderungen gehen verloren!')) {
+                'Möchtest du dieses wirklich verlassen?\n' +
+                'Alle Änderungen gehen verloren!')) {
                 event.preventDefault();
                 event.stopPropagation();
             }
@@ -31,8 +28,6 @@ new Vue({
         },
 
         deleteRelation(bookId, relationType, person) {
-            console.log(person);
-
             axios({
                 method: 'delete',
                 url: `/librarybooks/${bookId}/relation/${relationType}`,
@@ -51,18 +46,8 @@ new Vue({
             }).catch(response => {
                 console.log(response);
             });
-        },
-
-        personSelected(person) {
-            this.person = person;
-        },
-
-        prepareResponse(response) {
-            return response.data;
         }
     },
 
-    components: {
-        Typeahead
-    }
+    components: {}
 });

@@ -87,7 +87,7 @@
 
                 <form id="book-editor" action="{{ route('librarybooks.update', [$book->id]) }}"
                       class="form-horizontal"
-                      method="POST"
+                      method="POST" ref="bookForm"
                       @change="inputChanged = true">
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
@@ -137,54 +137,49 @@
                         @include('partials.form.field', ['field' => 'external_digitization', 'model' => $book, 'disabled' => $book->trashed()])
                     </div>
 
-                    @unless($book->trashed())
-                        <div class="button-bar row">
-                            <div class="col-sm-10 col-md-offset-2">
-                                <button type="submit" class="btn btn-primary">Speichern</button>
-                                <a href="{{ referrer_url('last_book_index', route('librarybooks.index')) }}"
-                                   class="btn btn-link">
-                                    Abbrechen
-                                </a>
-                                <a href="{{ route('librarybooks.scans.index', [$book]) }}"
-                                   class="btn btn-default pull-right">
-                                    Scans verwalten
-                                </a>
-                            </div>
-                        </div>
-                    @endunless
+                    <button type="submit" style="visibility: hidden;"></button>
                 </form>
-
-                <div>&nbsp;</div>
-
-                @can('library.delete')
-                    @unless($book->trashed())
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title">Gefahrenzone</h1>
-                            </div>
-
-                            <div class="panel-body">
-                                <p>
-                                <form id="danger-zone" action="{{ route('librarybooks.destroy', [$book->id]) }}"
-                                      method="post"
-                                      class="form-inline">
-                                    {{ csrf_field() }}
-                                    {{ method_field('delete') }}
-                                    <button class="btn btn-danger">
-                                        <span class="fa fa-trash"></span>
-                                        {{ trans('librarybooks.delete') }}
-                                    </button>
-                                </form>
-                                </p>
-                            </div>
-                        </div>
-                    @endunless
-                @endcan
             </div>
         </div>
     </div>
+
+    <portal to="help-modal-body"></portal>
+
+    <portal to="status-bar-right">
+        @can('library.update')
+            @unless($book->trashed())
+                <button type="button" class="btn btn-primary" @click="form.submit()">
+                    <span class="fa fa-floppy-o"></span>
+                    Speichern
+                </button>
+                <button type="button" class="btn btn-default" @click="form.reset()">
+                    Änderungen verwerfen
+                </button>
+                <a href="{{ referrer_url('last_book_index', route('librarybooks.index')) }}"
+                   class="btn btn-default">
+                    Abbrechen
+                </a>
+            @endunless
+        @endcan
+
+        @can('library.delete')
+            @unless($book->trashed())
+                <form id="danger-zone" action="{{ route('librarybooks.destroy', [$book->id]) }}"
+                      style="display: inline-block; margin: 0;"
+                      method="post"
+                      style="display: inline-block; margin: 0;"
+                      class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>
+                    </button>
+                </form>
+            @endunless
+        @endcan
+    </portal>
 @endsection
 
 @section('scripts')
-    <script src="{{ url('js/library.js') }}"></script>
+    <script src="{{ url('js/library-book.js') }}"></script>
 @endsection

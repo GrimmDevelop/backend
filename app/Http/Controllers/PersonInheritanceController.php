@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddNewInheritanceToPersonRequest;
 use App\Http\Requests\UpdateInheritanceRequest;
-use Gate;
 use Grimm\Person;
 use Grimm\PersonInheritance;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
 
 class PersonInheritanceController extends Controller
 {
@@ -29,22 +25,12 @@ class PersonInheritanceController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param AddNewInheritanceToPersonRequest $request
      * @param Person $person
      *
-     * @return \Illuminate\Http\Response
+     * @return PersonInheritance[]|\Illuminate\Http\Response
      */
     public function store(AddNewInheritanceToPersonRequest $request, Person $person)
     {
@@ -60,37 +46,13 @@ class PersonInheritanceController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param UpdateInheritanceRequest $request
      * @param Person $person
-     * @param                          $inheritanceId
+     * @param $inheritanceId
      *
-     * @return \Illuminate\Http\Response
+     * @return PersonInheritance
      */
     public function update(UpdateInheritanceRequest $request, Person $person, $inheritanceId)
     {
@@ -110,7 +72,8 @@ class PersonInheritanceController extends Controller
      * @param Person $person
      * @param        $inheritances
      *
-     * @return \Illuminate\Http\Response
+     * @return PersonInheritance[]
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Person $person, $inheritances)
     {

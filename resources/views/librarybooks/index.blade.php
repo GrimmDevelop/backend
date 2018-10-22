@@ -50,12 +50,6 @@
 
                 <h1>
                     Grimm-Bibliothek
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{{ route('librarypeople.index') }}" role="button" class="btn-link">
-                        <span class="fa fa-address-book"></span>
-
-                        Zum Personenregister
-                    </a>
                 </h1>
             </div>
 
@@ -64,22 +58,6 @@
                 {{ $books->appends($filter->delta())->links() }}
             </div>
             <div class="col-md-12 list-content">
-                <div class="add-button">
-                    @include('partials.filterSelection')
-
-                    <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
-                       data-toggle="tooltip" title="Analyze starten">
-                        <i class="fa fa-superpowers"></i>
-                    </a>
-
-                    <form action="{{ route('librarybooks.export') . '?' . http_build_query($filter->delta()) }}" method="post" style="display: inline;">
-                        {{ csrf_field() }}
-                        <button type="submit" class="btn btn-info btn-sm"
-                                data-toggle="tooltip" title="Daten exportieren">
-                            <i class="fa fa-download"></i>
-                        </button>
-                    </form>
-                </div>
                 <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
@@ -122,8 +100,33 @@
             </div>
         </div>
     </div>
+    <portal to="status-bar-left"></portal>
+
+    <portal to="status-bar-right">
+        <div style="display: flex;">
+            <div class="dropup">
+                @include('partials.filterSelection')
+            </div>
+
+            <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
+               data-toggle="tooltip" title="Analyze starten">
+                <i class="fa fa-superpowers"></i>
+            </a>
+            <div class="btn-group">
+                <form action="{{ route('librarybooks.export') . '?' . http_build_query($filter->delta()) }}"
+                      method="post"
+                      style="display: inline;">
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-info"
+                            data-toggle="tooltip" title="Daten exportieren">
+                        <i class="fa fa-download"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </portal>
 @endsection
 
 @section('scripts')
-
+    <script src="{{ url('js/library-books.js') }}"></script>
 @endsection

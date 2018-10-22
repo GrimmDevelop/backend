@@ -1,6 +1,5 @@
 import '../bootstrap';
 
-import Pusher from 'pusher-js';
 import Upload from '../utils/Upload';
 import Echo from 'laravel-echo';
 
@@ -11,7 +10,7 @@ window.Echo = new Echo({
 });
 
 new Vue({
-    el: '#import',
+    el: '#app-container',
 
     data: {
         started: false,

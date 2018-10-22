@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
 use Grimm\Book;
 use Grimm\LibraryBook;
 use Grimm\Person;

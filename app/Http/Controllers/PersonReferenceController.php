@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Grimm\PersonReference;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-
 class PersonReferenceController extends Controller
 {
 

@@ -7,7 +7,6 @@ use App\Http\Requests\StoreLettersAssociationsRequest;
 use App\Http\Requests\UpdateLettersAssociationsRequest;
 use Grimm\Letter;
 use Grimm\LetterPersonAssociation;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class AssociationsController extends Controller

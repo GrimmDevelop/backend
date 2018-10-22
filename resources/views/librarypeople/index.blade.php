@@ -26,12 +26,6 @@
 
                 <h1>
                     Personenregister - Grimm-Bibliothek
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="{{ route('librarybooks.index') }}" role="button" class="btn-link">
-                        <span class="fa fa-university"></span>
-
-                        Zur Bibliothek
-                    </a>
                 </h1>
             </div>
             @include('partials.prefixSelection', ['route' => 'library'])
@@ -39,9 +33,6 @@
                 {{ $people->appends($filter->delta())->links() }}
             </div>
             <div class="col-md-12 list-content">
-                <div class="add-button">
-                    @include('partials.filterSelection')
-                </div>
                 <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
@@ -83,8 +74,20 @@
             </div>
         </div>
     </div>
+    <portal to="help-modal-body">
+        Test
+    </portal>
+
+    <portal to="status-bar-left"></portal>
+    <portal to="status-bar-right">
+        <div style="display: flex;">
+            <div class="dropup">
+                @include('partials.filterSelection')
+            </div>
+        </div>
+    </portal>
 @endsection
 
 @section('scripts')
-
+    <script src="{{ url('js/library-people.js') }}"></script>
 @endsection

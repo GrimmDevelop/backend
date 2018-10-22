@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\IndexLetterRequest;
-use Flow\Config;
+use App\Upload\UploadsFiles;
 use Flow\File;
 use Grimm\Letter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Spatie\MediaLibrary\Media;
+use Spatie\MediaLibrary\Models\Media;
 
 class LetterScansController extends Controller
 {
+
+    use UploadsFiles;
 
     /**
      * Display a listing of the resource.
@@ -25,27 +27,6 @@ class LetterScansController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param Letter $letter
@@ -55,17 +36,6 @@ class LetterScansController extends Controller
     public function show(Letter $letter, Media $scan)
     {
         return $scan->toResponse(request());
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -115,29 +85,39 @@ class LetterScansController extends Controller
             ->with('success', 'Der Scan wurde gelöscht!');
     }
 
-    public function uploadGet(IndexLetterRequest $request, $id)
+    /**
+     * @param IndexLetterRequest $request
+     * @param Letter $letter
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @throws \Flow\FileLockException
+     * @throws \Flow\FileOpenException
+     */
+    public function uploadGet(IndexLetterRequest $request, Letter $letter)
     {
-        $book = Letter::query()->findOrFail($id);
-
         $file = $this->initFlowFile();
 
         if ($file->checkChunk()) {
-            return $this->saveUploadedFile($file, $book);
+            return $this->saveUploadedFile($file, $letter);
         } else {
             return response("No Content", 204);
         }
     }
 
-    public function uploadPost(IndexLetterRequest $request, $id)
+    /**
+     * @param IndexLetterRequest $request
+     * @param Letter $letter
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
+     * @throws \Flow\FileLockException
+     * @throws \Flow\FileOpenException
+     */
+    public function uploadPost(IndexLetterRequest $request, Letter $letter)
     {
-        $book = Letter::query()->findOrFail($id);
-
         $file = $this->initFlowFile();
 
         if ($file->validateChunk()) {
             $file->saveChunk();
 
-            return $this->saveUploadedFile($file, $book);
+            return $this->saveUploadedFile($file, $letter);
         } else {
             return response("Bad Request", 400);
         }
@@ -150,7 +130,6 @@ class LetterScansController extends Controller
      * @throws \Exception
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     private function saveUploadedFile(File $file, Letter $letter)
     {
@@ -178,21 +157,6 @@ class LetterScansController extends Controller
         }
     }
 
-    /**
-     * @return File
-     */
-    private function initFlowFile()
-    {
-        $config = new Config();
-
-        if (!is_dir(storage_path() . '/uploads/temp/')) {
-            mkdir(storage_path() . '/uploads/temp/', 0775, true);
-        }
-
-        $config->setTempDir(storage_path() . '/uploads/temp/');
-
-        return new File($config);
-    }
 
     private function moveMediaLeft(Letter $letter, Media $media)
     {

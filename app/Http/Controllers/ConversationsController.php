@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Grimm\Letter;
-use Illuminate\Http\Request;
 
 class ConversationsController extends Controller
 {

@@ -9,7 +9,6 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
-use Schema;
 
 class Controller extends BaseController
 {
@@ -22,7 +21,6 @@ class Controller extends BaseController
         Request $request,
         $pageSize = null
     ) {
-
         $paginator = $builder->paginate($pageSize);
 
         $this->preserveIndexSet($collectionName, $request);

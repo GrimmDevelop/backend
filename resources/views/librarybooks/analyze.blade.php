@@ -63,14 +63,6 @@
                 {{ $books->appends($filter->delta())->links() }}
             </div>
             <div class="col-md-12 list-content">
-                <div class="add-button">
-                    @include('partials.filterSelection')
-
-                    <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
-                       data-toggle="tooltip" title="Analyze erneut starten">
-                        <i class="fa fa-superpowers"></i>
-                    </a>
-                </div>
                 <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
@@ -119,8 +111,22 @@
             </div>
         </div>
     </div>
+    <portal to="status-bar-left"></portal>
+
+    <portal to="status-bar-right">
+        <div style="display: flex;">
+            <div class="dropup">
+                @include('partials.filterSelection')
+            </div>
+
+            <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
+               data-toggle="tooltip" title="Analyze erneut starten">
+                <i class="fa fa-superpowers"></i>
+            </a>
+        </div>
+    </portal>
 @endsection
 
 @section('scripts')
-
+    <script src="{{ url('js/library-books.js') }}"></script>
 @endsection

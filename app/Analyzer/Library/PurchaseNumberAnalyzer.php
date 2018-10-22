@@ -46,6 +46,6 @@ class PurchaseNumberAnalyzer extends RegexpAnalyzer
      */
     protected function displayString(): string
     {
-        return "Model contains possible publishing data [%s].";
+        return "Model contains possible purchase number [%s].";
     }
 }

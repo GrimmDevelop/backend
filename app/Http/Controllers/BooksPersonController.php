@@ -9,23 +9,10 @@ use Grimm\BookPersonAssociation;
 use Grimm\Person;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 
 class BooksPersonController extends Controller
 {
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -81,22 +68,11 @@ class BooksPersonController extends Controller
     {
         $person = Person::findOrFail($request->input('person'));
 
-        $association = $this->storeAssociation($request, $person, $book);
+        $this->storeAssociation($request, $person, $book);
 
         return redirect()
             ->route('books.show', [$book])
             ->with('success', 'Verknüpfung erstellt');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return void
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -108,6 +84,7 @@ class BooksPersonController extends Controller
      */
     public function show($id)
     {
+        /** @var BookPersonAssociation $association */
         $association = BookPersonAssociation::withTrashed()->findOrFail($id);
         $association->load([
             'book',
@@ -168,18 +145,6 @@ class BooksPersonController extends Controller
         });
 
         return view('books.associations', ['book' => $book, 'persons' => $persons]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
