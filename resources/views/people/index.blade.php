@@ -29,10 +29,10 @@
                 </div>
                 <h1>Personendatenbank</h1>
             </div>
+            @include('partials.prefixSelection', ['route' => 'people'])
             <div class="col-md-12 pagination-container">
                 {{ $people->appends($filter->delta())->links() }}
             </div>
-            @include('partials.prefixSelection', ['route' => 'people'])
 
             <div class="col-md-12 list-content">
                 <div class="add-button">
