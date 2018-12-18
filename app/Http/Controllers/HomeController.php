@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Grimm\Book;
+use Grimm\Letter;
 use Grimm\LibraryBook;
 use Grimm\Person;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class HomeController extends Controller
     {
         $take = max(min((int)$request->get('take', 4), 50), 0);
 
+        $latestLettersCreated = Letter::latest()->take($take)->get();
         $latestPeopleCreated = Person::latest()->take($take)->get();
         $latestBooksCreated = Book::latest()->take($take)->get();
         $latestLibraryBooksCreated = LibraryBook::latest()->take($take)->get();
@@ -37,7 +39,7 @@ class HomeController extends Controller
 
         return view(
             'home',
-            compact('latestPeopleCreated', 'latestBooksCreated', 'latestLibraryBooksCreated', 'latestPeopleUpdated',
+            compact('latestLettersCreated', 'latestPeopleCreated', 'latestBooksCreated', 'latestLibraryBooksCreated', 'latestPeopleUpdated',
                 'latestBooksUpdated')
         );
     }
