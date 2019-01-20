@@ -130,7 +130,7 @@
         $(function () {
             // Prevent submission of search form if search input is empty
             $('#search-btn').on('click', function (ev) {
-                if ($('input[name="name"]').val() == '') {
+                if ($('input[name="name"]').val() === '') {
                     ev.preventDefault();
                 }
             });

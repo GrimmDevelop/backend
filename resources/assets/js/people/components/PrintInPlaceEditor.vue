@@ -31,10 +31,10 @@
 
         methods: {
             clickEdit() {
-                if (this.editingYear == '') {
+                if (this.editingYear === '') {
                     this.editingYear = this.printYear;
                 }
-                if (this.editingEntry == '') {
+                if (this.editingEntry === '') {
                     this.editingEntry = this.printEntry;
                 }
                 this.editing = true;
@@ -47,12 +47,10 @@
 
             savePrint() {
                 this.saving = true;
-                axios.put(this.baseUrl + '/' + this.printId, {
+                window.axios.put(this.baseUrl + '/' + this.printId, {
                     entry: this.editingEntry,
                     year: this.editingYear
-                }).then(({data}) => {
-                    // this.printEntry = data.entry;
-                    // this.printYear = data.year;
+                }).then(() => {
                     this.editing = false;
                     this.saving = false;
                 });
@@ -60,7 +58,7 @@
 
             deletePrint() {
                 if (window.confirm("Soll der Druck wirklich gelöscht werden?")) {
-                    axios.delete(this.baseUrl + '/' + this.printId).then((response) => {
+                    window.axios.delete(this.baseUrl + '/' + this.printId).then(() => {
                         this.existing = false;
                     });
                 }
@@ -80,7 +78,7 @@
                 saving: false,
                 editingEntry: '',
                 editingYear: ''
-            }
+            };
         }
-    }
+    };
 </script>

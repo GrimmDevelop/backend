@@ -47,7 +47,7 @@
                 saving: false,
                 code: '',
                 editingCode: '',
-            }
+            };
         },
 
         mounted() {
@@ -56,7 +56,7 @@
 
         methods: {
             clickEdit() {
-                if (this.editingCode == '') {
+                if (this.editingCode === '') {
                     this.editingCode = this.code;
                 }
                 this.editing = true;
@@ -69,14 +69,14 @@
 
             saveItem() {
                 this.saving = true;
-                axios.put(this.baseUrl + '/' + this.itemId, {
+                window.axios.put(this.baseUrl + '/' + this.itemId, {
                     codeName: this.editingCode.name,
                     codeInternal: this.editingCode.internal,
                     codeErrorGenerated: this.editingCode.error_generated
                 }).then(({data}) => {
-                    this.editingCode.name = data.name;
-                    this.editingCode.error_generated = data.error_generated;
-                    this.editingCode.internal = data.internal;
+                    this.$set(this.editingCode, "name", data.name);
+                    this.$set(this.editingCode, "error_generated", data.error_generated);
+                    this.$set(this.editingCode, "internal", data.internal);
 
                     this.$emit('updated-code', data);
 
@@ -87,7 +87,7 @@
 
             deleteItem() {
                 if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
-                    axios.delete(this.baseUrl + '/' + this.itemId).then((response) => {
+                    window.axios.delete(this.baseUrl + '/' + this.itemId).then(() => {
                         this.existing = false;
 
                         this.$emit('removed-code');
@@ -110,5 +110,5 @@
             codeInternal() {
             }
         }
-    }
+    };
 </script>

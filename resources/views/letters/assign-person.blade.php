@@ -159,7 +159,7 @@
 
 @section('scripts')
     <script>
-        var BASE_URL = "{{ route('letters.show', [$letter]) }}";
+        window.BASE_URL = "{{ route('letters.show', [$letter]) }}";
     </script>
     <script src="{{ url('js/associations.js') }}"></script>
     <script>

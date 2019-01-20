@@ -2,7 +2,7 @@ import '../bootstrap';
 
 import Pusher from 'pusher-js';
 
-new Vue({
+new window.Vue({
     el: '#app-container',
 
     data: {
@@ -19,11 +19,11 @@ new Vue({
     },
 
     mounted() {
-        this.pusher = new Pusher(PUSHER_KEY, {
-            cluster: PUSHER_CLUSTER
+        this.pusher = new Pusher(window.PUSHER_KEY, {
+            cluster: window.PUSHER_CLUSTER
         });
 
-        let channel = 'user.' + USER_ID;
+        let channel = 'user.' + window.USER_ID;
         this.pusherChannel = this.pusher.subscribe(channel);
 
         this.pusherChannel.bind('App\\Events\\DeployProgress', (message) => {
@@ -34,19 +34,19 @@ new Vue({
             });
         });
 
-        this.pusherChannel.bind('App\\Events\\DeploymentDone', (message) => {
+        this.pusherChannel.bind('App\\Events\\DeploymentDone', () => {
             this.done = true;
             this.started = false;
         });
 
-        axios.get(BASE_URL + '/status').then((response) => {
+        window.axios.get(window.BASE_URL + '/status').then((response) => {
             let status = response.data;
 
             this.started = status.data.inProgress;
             this.last = new Date(status.data.last);
             this.blank = status.data.blank;
             if (!this.blank) {
-                axios.get(HISTORY_URL, {params: {date: this.last.toISOString()}}).then((response) => {
+                window.axios.get(window.HISTORY_URL, {params: {date: this.last.toISOString()}}).then((response) => {
                     this.history = response.data.data.history;
                 });
             }
@@ -56,7 +56,7 @@ new Vue({
     methods: {
         deploy(event) {
             event.preventDefault();
-            axios.post(BASE_URL + '/trigger').then((response) => {
+            window.axios.post(window.BASE_URL + '/trigger').then((response) => {
                 this.messages.push({
                     type: "start"
                 });
@@ -64,7 +64,7 @@ new Vue({
                 this.people = response.data.data.people;
                 this.libraryBooks = response.data.data.libraryBooks;
                 this.started = true;
-            }).catch((response) => {
+            }).catch(() => {
                 alert('Die Veröffentlichung konnte nicht gestartet werden!');
             });
         },
@@ -72,20 +72,20 @@ new Vue({
         blankify(event) {
             event.preventDefault();
             this.blankStarted = true;
-            $.post(BASE_URL + '/blankify').done((response) => {
+            window.$.post(window.BASE_URL + '/blankify').done(() => {
                 alert('Der Index wurde geleert!');
                 this.blankStarted = false;
-            }).fail((response) => {
+            }).fail(() => {
                 alert('Der Index konnte nicht geleert werden');
                 this.blankStarted = false;
-            })
+            });
         }
     },
 
     computed: {
         personProgress() {
             let result = this.messages.filter((val) =>
-                val.type == 'update' && val.entity == 'Grimm\\Person'
+                val.type === 'update' && val.entity === 'Grimm\\Person'
             );
 
             if (result.length > 0) {
@@ -96,7 +96,7 @@ new Vue({
         },
         bookProgress() {
             let result = this.messages.filter((val) =>
-                val.type == 'update' && val.entity == 'Grimm\\Book'
+                val.type === 'update' && val.entity === 'Grimm\\Book'
             );
 
             if (result.length > 0) {
@@ -107,7 +107,7 @@ new Vue({
         },
         libraryBookProgress() {
             let result = this.messages.filter((val) =>
-                val.type == 'update' && val.entity == 'Grimm\\LibraryBook'
+                val.type === 'update' && val.entity === 'Grimm\\LibraryBook'
             );
 
             if (result.length > 0) {

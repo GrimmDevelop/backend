@@ -74,9 +74,8 @@
             </div>
         </div>
     </div>
-    <portal to="help-modal-body">
-        Test
-    </portal>
+
+    <portal to="help-modal-body"></portal>
 
     <portal to="status-bar-left"></portal>
     <portal to="status-bar-right">

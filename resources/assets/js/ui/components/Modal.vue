@@ -38,5 +38,5 @@
         mounted() {
 
         }
-    }
+    };
 </script>

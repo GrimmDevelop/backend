@@ -8,14 +8,14 @@ import AddInformationEditor from './components/AddInformationEditor.vue';
 import AddCodeEditor from './components/AddCodeEditor.vue' ;
 
 
-Vue.component('in-place-editor', InPlaceEditor);
-Vue.component('in-place-information-editor', InPlaceInformationEditor);
-Vue.component('in-place-code-editor', InPlaceCodeEditor);
-Vue.component('add-item-editor', AddItemEditor);
-Vue.component('add-information-editor', AddInformationEditor);
-Vue.component('add-code-editor', AddCodeEditor);
+window.Vue.component('in-place-editor', InPlaceEditor);
+window.Vue.component('in-place-information-editor', InPlaceInformationEditor);
+window.Vue.component('in-place-code-editor', InPlaceCodeEditor);
+window.Vue.component('add-item-editor', AddItemEditor);
+window.Vue.component('add-information-editor', AddInformationEditor);
+window.Vue.component('add-code-editor', AddCodeEditor);
 
-new Vue({
+new window.Vue({
     el: '#app-container',
 
     data: {
@@ -33,29 +33,29 @@ new Vue({
         this.form = this.$refs.letterForm;
 
         this.$nextTick(() => {
-            axios.get(BASE_URL + '/prints').then(({data}) => {
+            window.axios.get(window.BASE_URL + '/prints').then(({data}) => {
                 this.prints = data;
             });
 
-            axios.get(BASE_URL + '/transcriptions').then(({data}) => {
+            window.axios.get(window.BASE_URL + '/transcriptions').then(({data}) => {
                 this.transcriptions = data;
             });
 
-            axios.get(BASE_URL + '/attachments').then(({data}) => {
+            window.axios.get(window.BASE_URL + '/attachments').then(({data}) => {
                 this.attachments = data;
             });
 
-            axios.get(BASE_URL + '/drafts').then(({data}) => {
+            window.axios.get(window.BASE_URL + '/drafts').then(({data}) => {
                 this.drafts = data;
             });
 
-            axios.get(BASE_URL + '/facsimiles').then(({data}) => {
+            window.axios.get(window.BASE_URL + '/facsimiles').then(({data}) => {
                 this.facsimiles = data;
             });
-            axios.get(BASE_URL + '/codes').then(({data}) => {
+            window.axios.get(window.BASE_URL + '/codes').then(({data}) => {
                 this.codes = data;
 
-                axios.get(BASE_URL + '/information').then(({data}) => {
+                window.axios.get(window.BASE_URL + '/information').then(({data}) => {
                     this.information = data;
                 });
             });
@@ -96,7 +96,7 @@ new Vue({
             this.information.splice(index, 1);
         },
 
-        removedCode(index) {
+        removedCode() {
             try {
                 // let len = this.information.length;
                 // for(var i=0;i<len;i++)
@@ -107,13 +107,11 @@ new Vue({
                 //         this.removedInformation(index);
                 //     }
                 // }
-                axios.get(BASE_URL + '/information').then(({data}) => {
+                window.axios.get(window.BASE_URL + '/information').then(({data}) => {
                     this.information = data;
                 });
-
             } catch (e) {
-
-                console.error(e.toString());
+                //
             }
         },
         updatedCode(code) {
@@ -126,8 +124,7 @@ new Vue({
                 this.storedCode(this.codes);
 
             } catch (e) {
-
-                console.error(e.toString());
+                //
             }
         }
     }

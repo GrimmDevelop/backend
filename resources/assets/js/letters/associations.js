@@ -2,7 +2,7 @@ import '../bootstrap';
 
 import typeahead from '../utils/Typeahead.vue';
 
-new Vue({
+new window.Vue({
     el: '#app-container',
 
     data: {
@@ -16,11 +16,11 @@ new Vue({
 
     mounted() {
         this.$nextTick(() => {
-            if (PERSON_MODEL !== null) {
-                this.person = PERSON_MODEL;
+            if (window.PERSON_MODEL !== null) {
+                this.person = window.PERSON_MODEL;
             }
 
-            $('#addOccurrence').on('shown.bs.modal', (e) => {
+            window.$('#addOccurrence').on('shown.bs.modal', () => {
                 this.$refs.storeOccurrence.focus();
             });
         });

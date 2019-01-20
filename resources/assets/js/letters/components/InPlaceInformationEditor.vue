@@ -5,15 +5,14 @@
         </td>
         <td v-if="editing">
             <select ref="codeInput" v-model="editingCode">
-                <option v-for="code in itemCodes" :value="code.id" v-text="code.name"
-                        class="form-control"
-                        v-on:keyup.enter="saveItem()">
+                <option v-for="itemCode in itemCodes" :key="itemCode.id" :value="itemCode.id" v-text="itemCode.name"
+                        class="form-control" @keyup.enter="saveItem()">
                 </option>
             </select>
         </td>
         <td colspan="2" v-if="!editing">
             <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><i class="fa fa-edit"></i></a>
-            {{ this.selectedItem.name}}
+            {{ selectedItem.name }}
         </td>
         <td v-if="editing">
             <textarea rows="5" cols="30" class="form-control input-sm" v-model="editingData"
@@ -41,12 +40,12 @@
                 editing: false,
                 existing: true,
                 saving: false,
-                selectedItem:'',
+                selectedItem: '',
                 code: '',
                 data: '',
                 editingCode: '',
                 editingData: ''
-            }
+            };
         },
 
         mounted() {
@@ -73,7 +72,7 @@
 
             saveItem() {
                 this.saving = true;
-                axios.put(this.baseUrl + '/' + this.itemId, {
+                window.axios.put(this.baseUrl + '/' + this.itemId, {
                     code: this.editingCode,
                     data: this.editingData
                 }).then(({data}) => {
@@ -86,9 +85,9 @@
                 });
             },
 
-            deleteItem(index) {
+            deleteItem() {
                 if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
-                    axios.delete(this.baseUrl + '/' + this.itemId).then((response) => {
+                    window.axios.delete(this.baseUrl + '/' + this.itemId).then(() => {
                         this.existing = false;
                         this.$emit('removed-info');
                     });
@@ -101,5 +100,5 @@
                 }).bind(this));
             }
         }
-    }
+    };
 </script>

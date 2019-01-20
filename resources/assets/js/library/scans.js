@@ -2,7 +2,7 @@ import '../bootstrap';
 
 import Upload from '../utils/Upload.vue';
 
-new Vue({
+new window.Vue({
     el: '#app-container',
 
     data: {

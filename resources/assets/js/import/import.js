@@ -5,11 +5,11 @@ import Echo from 'laravel-echo';
 
 window.Echo = new Echo({
     'broadcaster': 'pusher',
-    'key': PUSHER_KEY,
-    'cluster': PUSHER_CLUSTER,
+    'key': window.PUSHER_KEY,
+    'cluster': window.PUSHER_CLUSTER,
 });
 
-new Vue({
+new window.Vue({
     el: '#app-container',
 
     data: {
@@ -20,7 +20,7 @@ new Vue({
     },
 
     mounted() {
-        window.Echo.private(`import.user.${USER_ID}`)
+        window.Echo.private(`import.user.${window.USER_ID}`)
             .listen('ImportProgress', (e) => {
                 this.messages.push({
                     type: "update",
@@ -29,7 +29,7 @@ new Vue({
                     total: e.total
                 });
             })
-            .listen('ImportDone', (e) => {
+            .listen('ImportDone', () => {
                 this.done = true;
                 this.started = false;
             });
@@ -39,7 +39,7 @@ new Vue({
 
     methods: {
         loadStatus() {
-            axios.get(BASE_URL + '/status').then((response) => {
+            window.axios.get(window.BASE_URL + '/status').then((response) => {
                 let status = response.data;
 
                 this.started = status.data.inProgress;
@@ -50,7 +50,7 @@ new Vue({
         startImport(event) {
             event.preventDefault();
 
-            axios.post(BASE_URL + '/trigger').then((response) => {
+            window.axios.post(window.BASE_URL + '/trigger').then((response) => {
                 this.messages.push({
                     type: "start"
                 });
@@ -58,7 +58,7 @@ new Vue({
                 this.books = response.data.data.books;
                 this.people = response.data.data.people;
                 this.started = true;
-            }).catch((response) => {
+            }).catch(() => {
                 alert('Der Import konnte nicht gestartet werden!');
             });
         },
@@ -71,7 +71,7 @@ new Vue({
     computed: {
         letterProgress: function () {
             let result = this.messages.filter((val) =>
-                val.type == 'update' && val.entity == 'letters'
+                val.type === 'update' && val.entity === 'letters'
             );
 
             if (result.length > 0) {
@@ -84,7 +84,7 @@ new Vue({
         },
         personProgress: function () {
             let result = this.messages.filter((val) =>
-                val.type == 'update' && val.entity == 'people'
+                val.type === 'update' && val.entity === 'people'
             );
 
             if (result.length > 0) {
@@ -97,7 +97,7 @@ new Vue({
         },
         bookProgress: function () {
             let result = this.messages.filter((val) =>
-                val.type == 'update' && val.entity == 'books'
+                val.type === 'update' && val.entity === 'books'
             );
 
             if (result.length > 0) {

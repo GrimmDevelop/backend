@@ -32,7 +32,7 @@
 
         methods: {
             clickEdit() {
-                if (this.editingEntry == '') {
+                if (this.editingEntry === '') {
                     this.editingEntry = this.inheritanceEntry;
                 }
                 this.editing = true;
@@ -46,9 +46,9 @@
             saveInheritance: function () {
                 this.saving = true;
 
-                axios.put(this.baseUrl + '/' + this.inheritanceId, {
+                window.axios.put(this.baseUrl + '/' + this.inheritanceId, {
                     entry: this.editingEntry,
-                }).then(({data}) => {
+                }).then(() => {
                     // this.inheritanceEntry = data.entry;
                     this.editing = false;
                     this.saving = false;
@@ -57,7 +57,7 @@
 
             deleteInheritance: function () {
                 if (window.confirm("Soll der Nachlass wirklich gelöscht werden?")) {
-                    axios.delete(this.baseUrl + '/' + this.inheritanceId).then(() => {
+                    window.axios.delete(this.baseUrl + '/' + this.inheritanceId).then(() => {
                         this.existing = false;
                     });
                 }
@@ -75,7 +75,7 @@
                 existing: true,
                 saving: false,
                 editingEntry: '',
-            }
+            };
         }
-    }
+    };
 </script>

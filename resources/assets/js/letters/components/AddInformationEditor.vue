@@ -13,22 +13,24 @@
                 <div class="form-group" rel="createItemForm">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="code">Code: </label>
-                            <select id="#selectCodes" v-model="createCode" ref="createCodeField">
-                                <option v-for="code in codesItem" :value="code.id" class="form-control"
+                            <label for="inputCodes">Code: </label>
+                            <select id="inputCodes" v-model="createCode" ref="createCodeField">
+                                <option v-for="code in codesItem" :key="code.id" :value="code.id" class="form-control"
                                         v-text="code.name">
                                 </option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="data">Werte: </label>
+                            <label for="inputData">Werte: </label>
                             <textarea rows="5" cols="30" class="form-control" name="data"
-                                      v-model="createdData">
+                                      id="inputData" v-model="createdData">
                             </textarea>
                         </div>
                         <div v-if="errors.length" class="list-group list-group-item-text">
                             <ul>
-                                <li v-for="error in errors" class="text-danger">{{error}}</li>
+                                <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">{{
+                                    error }}
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -59,26 +61,22 @@
         mounted() {
             this.$root.$on('code-added', (code) => {
 
-                $('.nav-tabs a[href="#information"]').tab('show');
-                $('#' + this.modal).modal('show');
+                window.$('.nav-tabs a[href="#information"]').tab('show');
+                window.$('#' + this.modal).modal('show');
 
                 this.createCode = code;
-
             });
+
             this.$nextTick(() => {
-                $('#' + this.modal).on('shown.bs.modal', (e) => {
-                    $(this.$refs.createCodeField).focus();
-
+                window.$('#' + this.modal).on('shown.bs.modal', () => {
+                    window.$(this.$refs.createCodeField).focus();
                 });
-
             });
         },
 
         methods: {
             storeItem() {
-                console.log(this.url);
-
-                axios.post(this.url, {
+                window.axios.post(this.url, {
                     code: this.createCode,
                     data: this.createdData
                 }).then(({data}) => {
@@ -88,8 +86,7 @@
                     this.createdData = '';
                     this.errors = [];
 
-                    $('#' + this.modal).modal('hide');
-
+                    window.$('#' + this.modal).modal('hide');
                 }).catch(err => {
                     this.errors = [];
                     let items = err.response.data.errors;
@@ -106,5 +103,5 @@
             }
 
         }
-    }
+    };
 </script>

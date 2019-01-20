@@ -240,52 +240,49 @@
             </div>
         </div>
     </div>
-    <portal to="help-modal-body">
-        Test
-    </portal>
+
+    <portal to="help-modal-body"></portal>
 
     <portal to="status-bar-left"></portal>
 
     <portal to="status-bar-right">
-        <div style="display: flex;">
-            @can('people.update')
-                @unless($person->trashed())
-                    <button type="button" class="btn btn-primary" @click="form.submit()">
-                        <span class="fa fa-floppy-o"></span>
-                        Speichern
-                    </button>
+        @can('people.update')
+            @unless($person->trashed())
+                <button type="button" class="btn btn-primary" @click="form.submit()">
+                    <span class="fa fa-floppy-o"></span>
+                    Speichern
+                </button>
 
-                    <button type="button" class="btn btn-default" @click="form.reset()">
-                        Änderungen verwerfen
-                    </button>
-                    <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
-                       class="btn btn-default">Abbrechen</a>
-                @endunless
-            @endcan
+                <button type="button" class="btn btn-default" @click="form.reset()">
+                    Änderungen verwerfen
+                </button>
+                <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
+                   class="btn btn-default">Abbrechen</a>
+            @endunless
+        @endcan
 
-            @can('people.delete')
-                @unless($person->trashed())
-                    <form id="danger-zone" action="{{ route('people.destroy', [$person->id]) }}"
-                          style="display: inline-block; margin: 0;"
-                          method="post"
-                          class="form-inline">
-                        {{ csrf_field() }}
-                        {{ method_field('delete') }}
-                        <button class="btn btn-danger">
-                            <span class="fa fa-trash"></span>
-                        </button>
-                    </form>
-                @endunless
-            @endcan
-        </div>
+        @can('people.delete')
+            @unless($person->trashed())
+                <form id="danger-zone" action="{{ route('people.destroy', [$person->id]) }}"
+                      style="display: inline-block; margin: 0;"
+                      method="post"
+                      class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>
+                    </button>
+                </form>
+            @endunless
+        @endcan
     </portal>
 @endsection
 
 @section('scripts')
     <script>
-        var BASE_URL = "{{ route('people.show', [$person->id]) }}";
+        window.BASE_URL = "{{ route('people.show', [$person->id]) }}";
     </script>
-    <script src="{{ url('js/persons.js') }}"></script>
+    <script src="{{ url('js/person.js') }}"></script>
     <script>
 
         // Tab auto selection

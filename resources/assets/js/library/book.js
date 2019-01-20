@@ -1,6 +1,6 @@
 import '../bootstrap';
 
-new Vue({
+new window.Vue({
     el: '#app-container',
 
     data: {
@@ -28,13 +28,13 @@ new Vue({
         },
 
         deleteRelation(bookId, relationType, person) {
-            axios({
+            window.axios({
                 method: 'delete',
                 url: `/librarybooks/${bookId}/relation/${relationType}`,
                 data: {
                     person
                 }
-            }).then(response => {
+            }).then(() => {
                 if (!this.inputChanged) {
                     location.reload(true);
                 } else {
@@ -43,8 +43,6 @@ new Vue({
                         "Da Änderungen im Formular vorgenommen wurden, " +
                         "wurde das automatische Neuladen unterbunden.");
                 }
-            }).catch(response => {
-                console.log(response);
             });
         }
     },

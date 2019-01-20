@@ -3,9 +3,7 @@
 @section('title', $letter->title() . ' | ')
 
 @section('content')
-    <portal to="help-modal-body">
-        Test
-    </portal>
+    <portal to="help-modal-body"></portal>
 
     <portal to="status-bar-left">
         @can('library.update')
@@ -472,8 +470,8 @@
 
 @section('scripts')
     <script>
-        var BASE_URL = "{{ route('letters.show', [$letter]) }}";
-        var LETTERS_FACSIMILE_STORE_URL = "{{ route('letters.facsimiles.store', [$letter]) }}";
+        window.BASE_URL = "{{ route('letters.show', [$letter]) }}";
+        window.LETTERS_FACSIMILE_STORE_URL = "{{ route('letters.facsimiles.store', [$letter]) }}";
     </script>
     <script src="{{ url('js/letter.js') }}"></script>
     <script>

@@ -1,0 +1,22 @@
+{
+    "env": {
+        "node": true,
+        "es6": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/essential"
+    ],
+    "parserOptions": {
+        "sourceType": "module",
+        "parser": "babel-eslint",
+        "ecmaVersion": 2017
+    },
+    "rules": {
+        "semi": ["error","always"],
+        "vue/html-indent": ["warning", 4],
+        "vue/attribute-hyphenation": [1, "always"],
+        "vue/mustache-interpolation-spacing": [1, "always"],
+        "vue/no-template-shadow": [1]
+    }
+}

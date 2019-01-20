@@ -5,11 +5,11 @@ import InheritanceInPlaceEditor from './components/InheritanceInPlaceEditor.vue'
 
 import levenshtein from '../utils/Levenshtein';
 
-Vue.component('in-place', InPlaceEditor);
-Vue.component('inheritance-in-place', InheritanceInPlaceEditor);
+window.Vue.component('in-place', InPlaceEditor);
+window.Vue.component('inheritance-in-place', InheritanceInPlaceEditor);
 
 
-new Vue({
+new window.Vue({
     el: '#prints',
 
     data: {
@@ -20,13 +20,13 @@ new Vue({
 
     mounted() {
         this.$nextTick(() => {
-            var url = BASE_URL + '/prints';
+            let url = window.BASE_URL + '/prints';
 
-            axios.get(url).then(({data}) => {
+            window.axios.get(url).then(({data}) => {
                 this.prints = data;
             });
 
-            $('#addPrint').on('shown.bs.modal', (e) => {
+            window.$('#addPrint').on('shown.bs.modal', () => {
                 this.$refs.createEntryField.focus();
             });
         });
@@ -34,24 +34,22 @@ new Vue({
 
     methods: {
         storePrint() {
-            var url = $('#createPrintForm').attr('action');
+            let url = window.$('#createPrintForm').attr('action');
 
-            console.log(url);
-
-            axios.post(url, {
+            window.axios.post(url, {
                 entry: this.createEntry,
                 year: this.createYear
             }).then(({data}) => {
                 this.prints = data;
                 this.createEntry = '';
                 this.createYear = '';
-                $('#addPrint').modal('hide');
+                window.$('#addPrint').modal('hide');
             });
         }
     }
 });
 
-new Vue({
+new window.Vue({
     el: '#inheritances',
 
     data: {
@@ -61,13 +59,13 @@ new Vue({
 
     mounted() {
         this.$nextTick(() => {
-            var url = BASE_URL + '/inheritances';
+            let url = window.BASE_URL + '/inheritances';
 
-            axios.get(url).then(({data}) => {
+            window.axios.get(url).then(({data}) => {
                 this.inheritances = data;
             });
 
-            $('#addInheritance').on('shown.bs.modal', (e) => {
+            window.$('#addInheritance').on('shown.bs.modal', () => {
                 this.$refs.createEntryField.focus();
             });
         });
@@ -75,19 +73,20 @@ new Vue({
 
     methods: {
         storeInheritance() {
-            var url = $('#createInheritanceForm').attr('action');
+            let url = window.$('#createInheritanceForm').attr('action');
 
-            axios.post(url, {
+            window.axios.post(url, {
                 entry: this.createEntry
             }).then(({data}) => {
                 this.inheritances = data;
                 this.createEntry = '';
-                $('#addInheritance').modal('hide');
+                window.$('#addInheritance').modal('hide');
             });
         }
     }
 });
-new Vue({
+
+new window.Vue({
     el: '#app-container',
     data: {
         form: null
@@ -102,13 +101,13 @@ new Vue({
  * we will ask if the user wants to really change the entry
  * to prevent accidental overwriting.
  */
-$('#person-editor').on('submit', function (event) {
-    let prevLastName = $('input[name=prev_last_name]').val();
-    let prevFirstName = $('input[name=prev_first_name]').val();
+window.$('#person-editor').on('submit', function (event) {
+    let prevLastName = window.$('input[name=prev_last_name]').val();
+    let prevFirstName = window.$('input[name=prev_first_name]').val();
     let prevName = `${prevLastName}, ${prevFirstName}`;
 
-    let currentLastName = $('input[name=last_name]').val();
-    let currentFirstName = $('input[name=first_name]').val();
+    let currentLastName = window.$('input[name=last_name]').val();
+    let currentFirstName = window.$('input[name=first_name]').val();
     let currentName = `${currentLastName}, ${currentFirstName}`;
 
     let distance = levenshtein(prevName, currentName);

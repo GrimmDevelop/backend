@@ -12,16 +12,17 @@
                autocomplete="off">
         <ul class="list-group">
             <li v-for="(item, index) in results"
+                :key="`result-${index}`"
                 @click="itemClicked(item)"
                 @mousemove="current = index"
                 class="list-group-item typeahead-item"
-                :class="{'active': index == current}">
+                :class="{'active': index === current}">
             <slot name="list-item"
                   :item="item">
                 <span v-html="item"></span>
             </slot>
             </li>
-            <li v-show="searched && results.length == 0"
+            <li v-show="searched && results.length === 0"
                 class="list-group-item">
                 <span v-html="empty"></span>
             </li>
@@ -38,7 +39,7 @@
 <script type="text/babel">
     import '../bootstrap';
 
-    var ___debouncer;
+    let ___debouncer;
 
     export default {
         props: [
@@ -61,11 +62,11 @@
                 this.$refs.searchPerson.focus();
             });
 
-            this.$watch('value', (newValue, oldValue) => {
+            this.$watch('value', (value) => {
                 clearTimeout(___debouncer);
 
                 ___debouncer = setTimeout(() => {
-                    axios.get(this.src + encodeURIComponent(newValue)).then(({data}) => {
+                    window.axios.get(this.src + encodeURIComponent(value)).then(({data}) => {
                         this.results = this.preparation(data);
                         this.searched = true;
                         this.current = 0;
@@ -112,5 +113,5 @@
                 }
             }
         }
-    }
+    };
 </script>
