@@ -145,7 +145,7 @@
                                     data-target="#activity-{{ $activity->id }}">
                                     @include('logs.actions.' . $activity->log['action'])
                                     <p style="font-weight: 300;">
-                                        {{ $activity->created_at->diffForHumans() }} von {{ $activity->user->name }}
+                                        {{ $activity->created_at->diffForHumans() }} von {{ optional($activity->user)->name ?? 'Unbekannt' }}
                                     </p>
                                 </li>
                             @endforeach
