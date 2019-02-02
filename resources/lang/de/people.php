@@ -28,4 +28,8 @@ return [
     'auto_generated' => 'Generiert',
     'created_at' => 'Erstellt am',
     'updated_at' => 'Zuletzt geändert',
+
+    'prints' => 'Drucke',
+    'references' => 'Referenzen',
+    'inheritances' => 'Nachlässe',
 ];

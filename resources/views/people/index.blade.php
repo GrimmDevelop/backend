@@ -98,7 +98,9 @@
                     <ul class="dropdown-menu">
                         @foreach(\Grimm\Person::gridColumns(true) as $column)
                             <li {!! active_if($column->isActive()) !!}>
-                                <a href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">{{ $column->name() }}</a>
+                                <a href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">
+                                    {{ trans('people.' . $column->name()) }}
+                                </a>
                             </li>
                         @endforeach
                     </ul>

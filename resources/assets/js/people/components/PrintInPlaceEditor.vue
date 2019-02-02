@@ -51,6 +51,7 @@
                     entry: this.editingEntry,
                     year: this.editingYear
                 }).then(() => {
+                    this.$emit('stored');
                     this.editing = false;
                     this.saving = false;
                 });

@@ -1,98 +1,29 @@
 import '../bootstrap';
 
-import InPlaceEditor from './components/PrintInPlaceEditor.vue';
-import InheritanceInPlaceEditor from './components/InheritanceInPlaceEditor.vue';
+import PrintsList from './components/PrintsList';
+import InheritancesList from './components/InheritancesList';
+import ReferencesList from './components/ReferencesList';
+import BooksList from './components/BooksList';
 
 import levenshtein from '../utils/Levenshtein';
 
-window.Vue.component('in-place', InPlaceEditor);
-window.Vue.component('inheritance-in-place', InheritanceInPlaceEditor);
-
-
 new window.Vue({
-    el: '#prints',
 
-    data: {
-        prints: [],
-        createEntry: '',
-        createYear: ''
-    },
-
-    mounted() {
-        this.$nextTick(() => {
-            let url = window.BASE_URL + '/prints';
-
-            window.axios.get(url).then(({data}) => {
-                this.prints = data;
-            });
-
-            window.$('#addPrint').on('shown.bs.modal', () => {
-                this.$refs.createEntryField.focus();
-            });
-        });
-    },
-
-    methods: {
-        storePrint() {
-            let url = window.$('#createPrintForm').attr('action');
-
-            window.axios.post(url, {
-                entry: this.createEntry,
-                year: this.createYear
-            }).then(({data}) => {
-                this.prints = data;
-                this.createEntry = '';
-                this.createYear = '';
-                window.$('#addPrint').modal('hide');
-            });
-        }
-    }
-});
-
-new window.Vue({
-    el: '#inheritances',
-
-    data: {
-        inheritances: [],
-        createEntry: ''
-    },
-
-    mounted() {
-        this.$nextTick(() => {
-            let url = window.BASE_URL + '/inheritances';
-
-            window.axios.get(url).then(({data}) => {
-                this.inheritances = data;
-            });
-
-            window.$('#addInheritance').on('shown.bs.modal', () => {
-                this.$refs.createEntryField.focus();
-            });
-        });
-    },
-
-    methods: {
-        storeInheritance() {
-            let url = window.$('#createInheritanceForm').attr('action');
-
-            window.axios.post(url, {
-                entry: this.createEntry
-            }).then(({data}) => {
-                this.inheritances = data;
-                this.createEntry = '';
-                window.$('#addInheritance').modal('hide');
-            });
-        }
-    }
-});
-
-new window.Vue({
     el: '#app-container',
+
     data: {
         form: null
     },
+
     mounted() {
         this.form = this.$refs.personForm;
+    },
+
+    components: {
+        PrintsList,
+        InheritancesList,
+        ReferencesList,
+        BooksList,
     }
 });
 

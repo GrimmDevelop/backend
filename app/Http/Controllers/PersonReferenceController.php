@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StorePersonReferenceRequest;
+use Grimm\Person;
 use Grimm\PersonReference;
 use Illuminate\Http\Request;
 
@@ -9,37 +11,38 @@ class PersonReferenceController extends Controller
 {
 
     /**
-     * @param Request $request
+     * Display a listing of the resource.
+     *
+     * @param $person
+     *
+     * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function create(Request $request)
+    public function index($person)
     {
-        // Form with unidirectional / bidirectional
+        $this->authorize('people.*');
+
+        /** @var Person $person */
+        $person = Person::withTrashed()->findOrFail($person);
+
+        return $person->references()->with('reference')->get();
     }
 
     /**
-     * @param Request $request
+     * @param StorePersonReferenceRequest $request
+     * @param Person $person
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function store(Request $request)
+    public function store(StorePersonReferenceRequest $request, Person $person)
     {
+        $reference = new PersonReference();
 
-    }
+        $reference->reference()->associate($request->input('reference'));
+        $reference->notes = (string)$request->input('notes');
 
-    /**
-     * @param Request $request
-     * @param PersonReference $reference
-     */
-    public function edit(Request $request, PersonReference $reference)
-    {
+        $person->references()->save($reference);
 
-    }
-
-    /**
-     * @param Request $request
-     * @param PersonReference $reference
-     */
-    public function update(Request $request, PersonReference $reference)
-    {
-
+        return $person->references()->with('reference')->get();
     }
 
     /**

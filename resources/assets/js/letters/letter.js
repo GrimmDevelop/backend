@@ -5,7 +5,7 @@ import InPlaceInformationEditor from './components/InPlaceInformationEditor.vue'
 import InPlaceCodeEditor from './components/InPlaceCodeEditor.vue';
 import AddItemEditor from './components/AddItemEditor.vue';
 import AddInformationEditor from './components/AddInformationEditor.vue';
-import AddCodeEditor from './components/AddCodeEditor.vue' ;
+import AddCodeEditor from './components/AddCodeEditor.vue';
 
 
 window.Vue.component('in-place-editor', InPlaceEditor);
@@ -114,15 +114,14 @@ new window.Vue({
                 //
             }
         },
+
         updatedCode(code) {
             try {
-
                 this.codes[code.id].name = code.name;
                 this.codes[code.id].error_generated = code.error_generated;
                 this.codes[code.id].internal = code.internal;
 
                 this.storedCode(this.codes);
-
             } catch (e) {
                 //
             }

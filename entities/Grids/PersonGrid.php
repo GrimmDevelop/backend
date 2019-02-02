@@ -5,6 +5,9 @@ namespace Grimm\Grids;
 use App\Grid\Column;
 use App\Grid\Grid;
 use Grimm\Person;
+use Grimm\PersonInheritance;
+use Grimm\PersonPrint;
+use Grimm\PersonReference;
 
 class PersonGrid extends Grid
 {
@@ -34,9 +37,21 @@ class PersonGrid extends Grid
             new Column('source', true, function () use ($person) {
                 return str_limit($person->source, 20, '[...]');
             }),
-            new Column('created_at', false),
-            new Column('updated_at', false),
-            new Column('deleted_at', false),
+            new Column('prints', false, function () use ($person) {
+                return $person->prints->map(function (PersonPrint $print) {
+                    return $print->entry;
+                })->implode('; ');
+            }, 'prints.entry'),
+            new Column('references', false, function () use ($person) {
+                return $person->references->map(function (PersonReference $reference) {
+                    return $reference->reference->fullName();
+                })->implode('; ');
+            }, 'references.entry'),
+            new Column('inheritances', false, function () use ($person) {
+                return $person->inheritances->map(function (PersonInheritance $inheritance) {
+                    return $inheritance->entry;
+                })->implode('; ');
+            }, 'inheritances.entry'),
         ]);
     }
 }

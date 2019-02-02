@@ -10,6 +10,7 @@ use Grimm\Grids\PersonGrid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * @property integer id
@@ -24,10 +25,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property boolean auto_generated
  * @property string source
  *
- * @property PersonInformation[] information
- * @property PersonPrint[] prints
- * @property PersonInheritance[] inheritances
- * @property BookPersonAssociation[] bookAssociations
+ * @property Collection|PersonInformation[] information
+ * @property Collection|PersonPrint[] prints
+ * @property Collection|PersonInheritance[] inheritances
+ * @property Collection|BookPersonAssociation[] bookAssociations
+ * @property Collection|PersonReference[] references
  *
  * @property Carbon created_at
  */
@@ -176,6 +178,7 @@ class Person extends Model implements IsGridable
                 $query->orderBy('year', 'asc');
             },
             'inheritances',
+            'references',
             'bookAssociations.book' => function ($query) {
                 $query->orderBy('books.title');
             },

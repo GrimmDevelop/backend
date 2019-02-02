@@ -17,10 +17,10 @@
                 @mousemove="current = index"
                 class="list-group-item typeahead-item"
                 :class="{'active': index === current}">
-            <slot name="list-item"
-                  :item="item">
-                <span v-html="item"></span>
-            </slot>
+                <slot name="list-item"
+                      :item="item">
+                    <span v-html="item"></span>
+                </slot>
             </li>
             <li v-show="searched && results.length === 0"
                 class="list-group-item">
@@ -39,7 +39,7 @@
 <script type="text/babel">
     import '../bootstrap';
 
-    let ___debouncer;
+    import debounce from 'lodash/debounce';
 
     export default {
         props: [
@@ -57,21 +57,19 @@
             };
         },
 
+        watch: {
+            value: debounce(function (value) {
+                window.axios.get(this.src + encodeURIComponent(value)).then(({data}) => {
+                    this.results = this.preparation(data);
+                    this.searched = true;
+                    this.current = 0;
+                });
+            }, 500),
+        },
+
         mounted() {
             this.$nextTick(() => {
                 this.$refs.searchPerson.focus();
-            });
-
-            this.$watch('value', (value) => {
-                clearTimeout(___debouncer);
-
-                ___debouncer = setTimeout(() => {
-                    window.axios.get(this.src + encodeURIComponent(value)).then(({data}) => {
-                        this.results = this.preparation(data);
-                        this.searched = true;
-                        this.current = 0;
-                    });
-                }, 500);
             });
         },
 

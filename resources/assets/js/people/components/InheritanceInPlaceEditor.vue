@@ -49,7 +49,7 @@
                 window.axios.put(this.baseUrl + '/' + this.inheritanceId, {
                     entry: this.editingEntry,
                 }).then(() => {
-                    // this.inheritanceEntry = data.entry;
+                    this.$emit('saved');
                     this.editing = false;
                     this.saving = false;
                 });

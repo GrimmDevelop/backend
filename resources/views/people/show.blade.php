@@ -89,87 +89,15 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="prints">
-                        @unless($person->trashed())
-                            <div class="add-button">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addPrint">
-                                    <i class="fa fa-plus"></i> Druck hinzufügen
-                                </button>
-                            </div>
-                        @endunless
-                        <table class="table table-responsive">
-                            <thead>
-                            <tr>
-                                <th colspan="2">Eintrag</th>
-                                <th colspan="2">Jahr</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="print in prints" is="in-place"
-                                :print-id="print.id" :print-entry="print.entry" :print-year="print.year"
-                                base-url="{{ route('people.prints.index', [$person->id]) }}"
-                                editable="{{ !$person->trashed() }}">
-                            </tr>
-                            </tbody>
-                        </table>
-                        @include('people.printDialog')
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="inheritances">
-                        @unless($person->trashed())
-                            <div class="add-button">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addInheritance">
-                                    <i class="fa fa-plus"></i> Nachlass hinzufügen
-                                </button>
-                            </div>
-                        @endunless
-                        <table class="table table-responsive">
-                            <thead>
-                            <tr>
-                                <th colspan="3">Eintrag</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="inheritance in inheritances" is="inheritance-in-place"
-                                :inheritance-id="inheritance.id" :inheritance-entry="inheritance.entry"
-                                base-url="{{ route('people.inheritances.index', [$person->id]) }}"
-                                editable="{{ !$person->trashed() }}">
-                            </tr>
-                            </tbody>
-                        </table>
-                        @include('people.inheritanceDialog')
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="references">
-                        @unless($person->trashed())
-                            <div class="add-button">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addReference">
-                                    <i class="fa fa-plus"></i> Referenz hinzufügen
-                                </button>
-                            </div>
-                        @endunless
-                        <table class="table table-responsive">
-                            <thead>
-                            <tr>
-                                <th># Person</th>
-                                <th>Name</th>
-                                <th>Notiz</th>
-                                <th class="action-column"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($person->references as $reference)
-                                <tr>
-                                    <td>{{ $reference->reference->id }}</td>
-                                    <td>{{ $reference->reference->fullName() }}</td>
-                                    <td>{{ $reference->notes }}</td>
-                                    <td>ä</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                    <prints-list index-url="{{ route('people.prints.index', [$person]) }}"
+                                 store-url="{{ route('people.prints.store', [$person]) }}"
+                    ></prints-list>
+                    <inheritances-list index-url="{{ route('people.inheritances.index', [$person]) }}"
+                                       store-url="{{ route('people.inheritances.store', [$person]) }}"
+                    ></inheritances-list>
+                    <references-list index-url="{{ route('people.references.index', [$person]) }}"
+                                     store-url="{{ route('people.references.store', [$person]) }}"
+                    ></references-list>
                     <div role="tabpanel" class="tab-pane" id="books">
                         @unless($person->trashed())
                             <div class="add-button">
