@@ -32,6 +32,7 @@ return [
                     base_path('.idea'),
                     base_path('.git'),
                     storage_path(),
+                    public_path('media'),
                 ],
 
                 /*
