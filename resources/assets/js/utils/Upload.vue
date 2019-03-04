@@ -20,7 +20,7 @@
         <input ref="flowFileInput" type="file" style="visibility: hidden; position: absolute;">
 
         <ul class="upload__file-list" v-show="files.length > 0">
-            <li v-for="file in files" class="upload__file-list__item">
+            <li v-for="(file, index) in files" :key="`file-${index}`" class="upload__file-list__item">
                 {{ file.name }}
                 <span class="upload__file-list__item__size">
                     {{ Math.round(file.size / 1024 * 10) / 10 }}KB
@@ -65,7 +65,7 @@
                 fileSelected: false,
                 uploadRunning: false,
                 uploadCompleted: false,
-            }
+            };
         },
 
         mounted() {
@@ -79,7 +79,7 @@
                 this.flow = new Flow({
                     target: this.target,
                     headers: {
-                        'X-CSRF-TOKEN': Laravel.csrfToken
+                        'X-CSRF-TOKEN': window.Laravel.csrfToken
                     },
                     query: {}
                 });
@@ -88,7 +88,7 @@
             },
 
             flowBindEvents() {
-                this.flow.on('fileAdded', (file, event) => {
+                this.flow.on('fileAdded', (file) => {
                     this.fileSelected = true;
                     this.files.push({
                         name: file.name,
@@ -98,7 +98,7 @@
                     });
                 });
 
-                this.flow.on('fileProgress', (file, event) => {
+                this.flow.on('fileProgress', (file) => {
                     this.uploadRunning = true;
 
                     this.files.forEach(item => {
@@ -108,7 +108,7 @@
                     });
                 });
 
-                this.flow.on('fileSuccess', (file, message) => {
+                this.flow.on('fileSuccess', (file) => {
                     this.uploadCompleted = true;
 
                     this.files.forEach(item => {
@@ -134,7 +134,7 @@
                     }
                 });
 
-                this.flow.on('fileError', (file, message) => {
+                this.flow.on('fileError', (file) => {
                     this.uploadCompleted = false;
 
                     this.files.forEach(item => {
@@ -146,7 +146,7 @@
             },
 
             flowOpenFileDialog() {
-                $(this.$refs.flowFileInput).click();
+                window.$(this.$refs.flowFileInput).click();
             },
 
             flowStartUpload() {
@@ -178,5 +178,5 @@
                 return "progress-bar";
             }
         }
-    }
+    };
 </script>

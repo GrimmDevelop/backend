@@ -41,7 +41,7 @@ class AuthServiceProvider extends ServiceProvider
         $groups = Permission::selectRaw("SUBSTRING_INDEX(`name`, '.', 1) as topic, GROUP_CONCAT(name) as permissions")->groupBy('topic')->get();
 
         /** @var Permission $permission */
-        foreach($groups as $permissionGroup) {
+        foreach ($groups as $permissionGroup) {
             $permissions = explode(",", $permissionGroup->permissions);
             foreach ($permissions as $permission) {
                 Gate::define($permission, function (User $user) use ($permission) {
@@ -49,7 +49,7 @@ class AuthServiceProvider extends ServiceProvider
                 });
             }
 
-            Gate::define($permissionGroup->topic . '.*', function(User $user) use($permissions) {
+            Gate::define($permissionGroup->topic . '.*', function (User $user) use ($permissions) {
                 foreach ($permissions as $permission) {
                     if ($user->hasPermission($permission)) {
                         return true;

@@ -2,7 +2,7 @@ import '../bootstrap';
 
 import typeahead from '../utils/Typeahead.vue';
 
-new Vue({
+new window.Vue({
     el: '#app-container',
 
     data: {
@@ -17,9 +17,8 @@ new Vue({
     mounted() {
         this.$nextTick(() => {
             this.form = this.$refs.associationsForm;
-            var url = BASE_URL + '/associations';
 
-            $('#addOccurrence').on('shown.bs.modal', (e) => {
+            window.$('#addOccurrence').on('shown.bs.modal', () => {
                 this.$refs.storeOccurrence.focus();
             });
         });

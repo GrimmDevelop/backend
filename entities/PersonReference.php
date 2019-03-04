@@ -5,6 +5,11 @@ namespace Grimm;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property Person person
+ * @property Person reference
+ * @property string notes
+ */
 class PersonReference extends Model
 {
 

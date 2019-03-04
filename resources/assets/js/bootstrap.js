@@ -27,9 +27,9 @@ window.axios.defaults.headers.common = {
 
 window.Vue = require('vue');
 
-import PortalVue from 'portal-vue'
-import StatusBar from './ui/components/StatusBar'
+import PortalVue from 'portal-vue';
+import StatusBar from './ui/components/StatusBar';
 
-Vue.use(PortalVue);
+window.Vue.use(PortalVue);
 
-Vue.component('status-bar', StatusBar);
+window.Vue.component('status-bar', StatusBar);

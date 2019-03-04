@@ -13,20 +13,23 @@
                 <div class="form-group" rel="createItemForm">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="code">Code: </label>
-                            <input type="text" class="form-control" v-model="createCode">
+                            <label for="inputCode">Code: </label>
+                            <input type="text" id="inputCode" class="form-control" v-model="createCode">
                         </div>
                         <div>
-                            <label for="errorGenerated">Error Generated: </label>
-                            <input type="checkbox" class="checkbox-inline" v-model="createErrorGenerated">
+                            <label for="inputErrorGenerated">Error Generated: </label>
+                            <input type="checkbox" id="inputErrorGenerated" class="checkbox-inline"
+                                   v-model="createErrorGenerated">
                         </div>
                         <div>
-                            <label for="internal">Internal: </label>
-                            <input type="checkbox" class="checkbox-inline" v-model="createInternal">
+                            <label for="inputInternal">Internal: </label>
+                            <input type="checkbox" id="inputInternal" class="checkbox-inline" v-model="createInternal">
                         </div>
                         <div v-if="errors.length" class="list-group list-group-item-text">
                             <ul>
-                                <li v-for="error in errors" class="text-danger">{{error}}</li>
+                                <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">{{
+                                    error }}
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -57,8 +60,8 @@
 
         mounted() {
             this.$nextTick(() => {
-                $('#' + this.modal).on('shown.bs.modal', (e) => {
-                    $(this.$refs.createCodeField).focus();
+                window.$('#' + this.modal).on('shown.bs.modal', () => {
+                    window.$(this.$refs.createCodeField).focus();
                 });
 
             });
@@ -66,44 +69,34 @@
 
         methods: {
             storeItem() {
-                console.log(this.url);
-
-                axios.post(this.url, {
+                window.axios.post(this.url, {
                     codeName: this.createCode,
                     codeErrorGenerated: this.createErrorGenerated,
                     codeInternal: this.createInternal
-
                 }).then(({data}) => {
                     this.onStored(data);
 
                     if (!this.createErrorGenerated) {
-
-                        $('#' + this.modal).modal('hide');
+                        window.$('#' + this.modal).modal('hide');
 
                         this.$root.$emit('code-added', Object.keys(data).pop());
-
                     }
+
                     this.errors = [];
                     this.createCode = '';
                     this.createErrorGenerated = false;
                     this.createInternal = false;
-
-
                 }).catch(err => {
                     this.errors = [];
                     let items = err.response.data.errors;
 
                     Object.keys(items).forEach(key => {
-
                         Object.keys(items[key]).forEach((element) => {
-
                             this.errors.push(items[key][element]);
                         });
                     });
-
                 });
             }
-
         }
-    }
+    };
 </script>

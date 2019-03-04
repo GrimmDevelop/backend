@@ -4,11 +4,11 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
-                <h1><a class="prev-link" href="{{ referrer_url('last_person_index', route('people.index')) }}"><i
+                <h1><a class="prev-link" href="{{ route('people.show', [$person]) }}#books"><i
                                 class="fa fa-caret-left"></i></a> Buch hinzufügen</h1>
             </div>
             <div class="col-md-12 page-content">
-                <form action="{{ route('people.add-book', [$person->id]) }}" class="form-horizontal"
+                <form action="{{ route('people.add-book', [$person]) }}" class="form-horizontal"
                       method="GET">
                     <div class="row">
                         <label class="col-sm-2 control-label">Buch suchen</label>
@@ -23,7 +23,7 @@
                                        value="{{ request()->get('search') }}"
                                        placeholder="Buchtitel">
                                 <div class="input-group-btn">
-                                    <a href="{{ route('people.add-book', [$person->id]) }}"
+                                    <a href="{{ route('people.add-book', [$person]) }}"
                                        class="btn btn-default"><i class="fa fa-times"></i></a>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                     </div>
                 </form>
 
-                <form action="{{ route('people.add-book.store', [$person->id]) }}" class="form-horizontal"
+                <form action="{{ route('people.add-book.store', [$person]) }}" class="form-horizontal"
                       method="POST">
                     {{ csrf_field() }}
 
@@ -187,7 +187,7 @@
 
 @section('scripts')
     {{-- <script>
-        var BASE_URL = "{{ route('people.create') }}";
+        window.BASE_URL = "{{ route('people.create') }}";
     </script>
     <script src="{{ url('js/persons.js') }}"></script>
     <script>

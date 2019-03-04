@@ -188,9 +188,9 @@
             </div>
         </div>
     </div>
-    <portal to="help-modal-body">
-        Test
-    </portal>
+
+    <portal to="help-modal-body"></portal>
+
     <portal to="status-bar-right">
         @can('books.update')
             @unless($book->trashed())
@@ -210,7 +210,7 @@
 
 @section('scripts')
     <script>
-        var BASE_URL = "{{ route('books.show', [$book->id]) }}";
+        window.BASE_URL = "{{ route('books.show', [$book->id]) }}";
     </script>
     <script src="{{ url('js/associations.js') }}"></script>
     <script>

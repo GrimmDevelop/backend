@@ -38,23 +38,23 @@
 </template>
 
 <script>
-    import Modal from './Modal'
+    import Modal from './Modal';
 
     export default {
         data() {
             return {
                 // 
-            }
+            };
         },
 
         methods: {
             openHelpModal() {
-                $(this.$refs.helpModal.$el).modal('show');
+                window.$(this.$refs.helpModal.$el).modal('show');
             }
         },
 
         components: {
             Modal
         }
-    }
+    };
 </script>

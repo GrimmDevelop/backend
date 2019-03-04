@@ -10,6 +10,7 @@ $this->resource('letters.codes', 'LetterCodeController', ['except' => ['show', '
 
 $this->resource('people.prints', 'PersonPrintController', ['except' => ['edit']]);
 $this->resource('people.inheritances', 'PersonInheritanceController', ['except' => ['edit']]);
+$this->resource('people.references', 'PersonReferenceController', ['except' => ['edit']]);
 
 $this->post('admin/publish/trigger',
     ['as' => 'admin.deployment.trigger', 'uses' => 'DeploymentController@triggerDeployment']);

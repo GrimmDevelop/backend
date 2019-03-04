@@ -109,7 +109,7 @@
 
 @section('scripts')
     <script>
-        var PERSON_MODEL = {!! json_encode($association->person) !!};
+        window.PERSON_MODEL = {!! json_encode($association->person) !!};
     </script>
     <script src="{{ url('js/letters/associations.js') }}"></script>
 @endsection

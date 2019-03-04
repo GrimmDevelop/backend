@@ -38,7 +38,7 @@
                 year: '',
                 editingEntry: '',
                 editingYear: ''
-            }
+            };
         },
 
         mounted() {
@@ -48,10 +48,10 @@
 
         methods: {
             clickEdit() {
-                if (this.editingYear == '') {
+                if (this.editingYear === '') {
                     this.editingYear = this.year;
                 }
-                if (this.editingEntry == '') {
+                if (this.editingEntry === '') {
                     this.editingEntry = this.entry;
                 }
                 this.editing = true;
@@ -64,7 +64,7 @@
 
             saveItem() {
                 this.saving = true;
-                axios.put(this.baseUrl + '/' + this.itemId, {
+                window.axios.put(this.baseUrl + '/' + this.itemId, {
                     entry: this.editingEntry,
                     year: this.editingYear
                 }).then(({data}) => {
@@ -77,7 +77,7 @@
 
             deleteItem() {
                 if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
-                    axios.delete(this.baseUrl + '/' + this.itemId).then((response) => {
+                    window.axios.delete(this.baseUrl + '/' + this.itemId).then(() => {
                         this.existing = false;
                     });
                 }
@@ -89,5 +89,5 @@
                 }).bind(this));
             }
         }
-    }
+    };
 </script>

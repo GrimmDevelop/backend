@@ -102,11 +102,11 @@
 
 @section('scripts')
     <script>
-        var BASE_URL = "{{ route('admin.deployment.index') }}";
-        var HISTORY_URL = "{{ route('history.since') }}";
-        var PUSHER_KEY = "{{ config('broadcasting.connections.pusher.key') }}";
-        var PUSHER_CLUSTER = "{{ config('broadcasting.connections.pusher.options.cluster') }}";
-        var USER_ID = "{{ auth()->user()->id }}";
+        window.BASE_URL = "{{ route('admin.deployment.index') }}";
+        window.HISTORY_URL = "{{ route('history.since') }}";
+        window.PUSHER_KEY = "{{ config('broadcasting.connections.pusher.key') }}";
+        window.PUSHER_CLUSTER = "{{ config('broadcasting.connections.pusher.options.cluster') }}";
+        window.USER_ID = "{{ auth()->user()->id }}";
     </script>
     <script src="{{ url('js/deployment.js') }}"></script>
 @endsection

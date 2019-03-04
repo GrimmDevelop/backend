@@ -2,7 +2,7 @@ import '../bootstrap';
 
 import Typeahead from '../utils/Typeahead.vue';
 
-new Vue({
+new window.Vue({
     el: '#app-container',
 
     data: {

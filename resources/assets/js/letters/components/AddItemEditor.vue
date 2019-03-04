@@ -13,14 +13,15 @@
                 <div class="form-inline" rel="createItemForm">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="entry">Eintrag: </label>
+                            <label for="inputEntry">Eintrag: </label>
                             <input type="text" class="form-control input-sm"
-                                   name="entry"
+                                   id="inputEntry" name="entry"
                                    ref="createEntryField" v-model="createEntry">
                         </div>
                         <div class="form-group">
-                            <label for="year">Jahr: </label>
-                            <input type="text" class="form-control input-sm" name="year"
+                            <label for="inputYear">Jahr: </label>
+                            <input type="text" class="form-control input-sm"
+                                   id="inputYear" name="year"
                                    v-model="createYear">
                         </div>
                     </div>
@@ -49,17 +50,15 @@
 
         mounted() {
             this.$nextTick(() => {
-                $('#' + this.modal).on('shown.bs.modal', (e) => {
-                    $(this.$refs.createEntryField).focus();
+                window.$('#' + this.modal).on('shown.bs.modal', () => {
+                    window.$(this.$refs.createEntryField).focus();
                 });
             });
         },
 
         methods: {
             storeItem() {
-                console.log(this.url);
-
-                axios.post(this.url, {
+                window.axios.post(this.url, {
                     entry: this.createEntry,
                     year: this.createYear
                 }).then(({data}) => {
@@ -68,9 +67,9 @@
                     this.createEntry = '';
                     this.createYear = '';
 
-                    $('#' + this.modal).modal('hide');
+                    window.$('#' + this.modal).modal('hide');
                 });
             }
         }
-    }
+    };
 </script>

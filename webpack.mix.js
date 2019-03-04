@@ -14,7 +14,7 @@ let mix = require('laravel-mix');
 mix.js('resources/assets/js/misc.js', 'public/js')
     .js('resources/assets/js/associations/associations.js', 'public/js')
     .js('resources/assets/js/letters/associations.js', 'public/js/letters')
-    .js('resources/assets/js/persons/persons.js', 'public/js')
+    .js('resources/assets/js/people/person.js', 'public/js')
     .js('resources/assets/js/library/relation.js', 'public/js/library-relation.js')
     .js('resources/assets/js/library/books.js', 'public/js/library-books.js')
     .js('resources/assets/js/library/book.js', 'public/js/library-book.js')

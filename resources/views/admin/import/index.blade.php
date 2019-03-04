@@ -90,10 +90,10 @@
 
 @section('scripts')
     <script>
-        var BASE_URL = "{{ route('admin.import.index') }}";
-        var PUSHER_KEY = "{{ config('broadcasting.connections.pusher.key') }}";
-        var PUSHER_CLUSTER = "{{ config('broadcasting.connections.pusher.options.cluster') }}";
-        var USER_ID = "{{ auth()->user()->id }}";
+        window.BASE_URL = "{{ route('admin.import.index') }}";
+        window.PUSHER_KEY = "{{ config('broadcasting.connections.pusher.key') }}";
+        window.PUSHER_CLUSTER = "{{ config('broadcasting.connections.pusher.options.cluster') }}";
+        window.USER_ID = "{{ auth()->user()->id }}";
     </script>
     <script src="{{ url('js/import.js') }}"></script>
 @endsection

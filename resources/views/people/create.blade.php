@@ -38,7 +38,7 @@
 
 @section('scripts')
     {{-- <script>
-        var BASE_URL = "{{ route('people.create') }}";
+        window.BASE_URL = "{{ route('people.create') }}";
     </script>
     <script src="{{ url('js/persons.js') }}"></script>
     <script>

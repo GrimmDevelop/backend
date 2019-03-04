@@ -89,87 +89,15 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="prints">
-                        @unless($person->trashed())
-                            <div class="add-button">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addPrint">
-                                    <i class="fa fa-plus"></i> Druck hinzufügen
-                                </button>
-                            </div>
-                        @endunless
-                        <table class="table table-responsive">
-                            <thead>
-                            <tr>
-                                <th colspan="2">Eintrag</th>
-                                <th colspan="2">Jahr</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="print in prints" is="in-place"
-                                :print-id="print.id" :print-entry="print.entry" :print-year="print.year"
-                                base-url="{{ route('people.prints.index', [$person->id]) }}"
-                                editable="{{ !$person->trashed() }}">
-                            </tr>
-                            </tbody>
-                        </table>
-                        @include('people.printDialog')
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="inheritances">
-                        @unless($person->trashed())
-                            <div class="add-button">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addInheritance">
-                                    <i class="fa fa-plus"></i> Nachlass hinzufügen
-                                </button>
-                            </div>
-                        @endunless
-                        <table class="table table-responsive">
-                            <thead>
-                            <tr>
-                                <th colspan="3">Eintrag</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="inheritance in inheritances" is="inheritance-in-place"
-                                :inheritance-id="inheritance.id" :inheritance-entry="inheritance.entry"
-                                base-url="{{ route('people.inheritances.index', [$person->id]) }}"
-                                editable="{{ !$person->trashed() }}">
-                            </tr>
-                            </tbody>
-                        </table>
-                        @include('people.inheritanceDialog')
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="references">
-                        @unless($person->trashed())
-                            <div class="add-button">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addReference">
-                                    <i class="fa fa-plus"></i> Referenz hinzufügen
-                                </button>
-                            </div>
-                        @endunless
-                        <table class="table table-responsive">
-                            <thead>
-                            <tr>
-                                <th># Person</th>
-                                <th>Name</th>
-                                <th>Notiz</th>
-                                <th class="action-column"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($person->references as $reference)
-                                <tr>
-                                    <td>{{ $reference->reference->id }}</td>
-                                    <td>{{ $reference->reference->fullName() }}</td>
-                                    <td>{{ $reference->notes }}</td>
-                                    <td>ä</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                    <prints-list index-url="{{ route('people.prints.index', [$person]) }}"
+                                 store-url="{{ route('people.prints.store', [$person]) }}"
+                    ></prints-list>
+                    <inheritances-list index-url="{{ route('people.inheritances.index', [$person]) }}"
+                                       store-url="{{ route('people.inheritances.store', [$person]) }}"
+                    ></inheritances-list>
+                    <references-list index-url="{{ route('people.references.index', [$person]) }}"
+                                     store-url="{{ route('people.references.store', [$person]) }}"
+                    ></references-list>
                     <div role="tabpanel" class="tab-pane" id="books">
                         @unless($person->trashed())
                             <div class="add-button">
@@ -240,52 +168,49 @@
             </div>
         </div>
     </div>
-    <portal to="help-modal-body">
-        Test
-    </portal>
+
+    <portal to="help-modal-body"></portal>
 
     <portal to="status-bar-left"></portal>
 
     <portal to="status-bar-right">
-        <div style="display: flex;">
-            @can('people.update')
-                @unless($person->trashed())
-                    <button type="button" class="btn btn-primary" @click="form.submit()">
-                        <span class="fa fa-floppy-o"></span>
-                        Speichern
-                    </button>
+        @can('people.update')
+            @unless($person->trashed())
+                <button type="button" class="btn btn-primary" @click="form.submit()">
+                    <span class="fa fa-floppy-o"></span>
+                    Speichern
+                </button>
 
-                    <button type="button" class="btn btn-default" @click="form.reset()">
-                        Änderungen verwerfen
-                    </button>
-                    <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
-                       class="btn btn-default">Abbrechen</a>
-                @endunless
-            @endcan
+                <button type="button" class="btn btn-default" @click="form.reset()">
+                    Änderungen verwerfen
+                </button>
+                <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
+                   class="btn btn-default">Abbrechen</a>
+            @endunless
+        @endcan
 
-            @can('people.delete')
-                @unless($person->trashed())
-                    <form id="danger-zone" action="{{ route('people.destroy', [$person->id]) }}"
-                          style="display: inline-block; margin: 0;"
-                          method="post"
-                          class="form-inline">
-                        {{ csrf_field() }}
-                        {{ method_field('delete') }}
-                        <button class="btn btn-danger">
-                            <span class="fa fa-trash"></span>
-                        </button>
-                    </form>
-                @endunless
-            @endcan
-        </div>
+        @can('people.delete')
+            @unless($person->trashed())
+                <form id="danger-zone" action="{{ route('people.destroy', [$person->id]) }}"
+                      style="display: inline-block; margin: 0;"
+                      method="post"
+                      class="form-inline">
+                    {{ csrf_field() }}
+                    {{ method_field('delete') }}
+                    <button class="btn btn-danger">
+                        <span class="fa fa-trash"></span>
+                    </button>
+                </form>
+            @endunless
+        @endcan
     </portal>
 @endsection
 
 @section('scripts')
     <script>
-        var BASE_URL = "{{ route('people.show', [$person->id]) }}";
+        window.BASE_URL = "{{ route('people.show', [$person->id]) }}";
     </script>
-    <script src="{{ url('js/persons.js') }}"></script>
+    <script src="{{ url('js/person.js') }}"></script>
     <script>
 
         // Tab auto selection

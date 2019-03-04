@@ -1,6 +1,6 @@
 import '../bootstrap';
 
-new Vue({
+new window.Vue({
     el: '#app-container',
 
     methods: {
