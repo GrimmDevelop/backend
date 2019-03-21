@@ -265,6 +265,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="print in prints" is="in-place-editor"
+                                :key="`print-${print.id}`"
                                 :item-id="print.id" :item-entry="print.entry" :item-year="print.year"
                                 base-url="{{ route('letters.prints.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
@@ -296,6 +297,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="transcription in transcriptions" is="in-place-editor"
+                                :key="`transcription-${transcription.id}`"
                                 :item-id="transcription.id" :item-entry="transcription.entry"
                                 :item-year="transcription.year"
                                 base-url="{{ route('letters.transcriptions.index', [$letter]) }}"
@@ -328,6 +330,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="attachment in attachments" is="in-place-editor"
+                                :key="`attachment-${attachment.id}`"
                                 :item-id="attachment.id" :item-entry="attachment.entry" :item-year="attachment.year"
                                 base-url="{{ route('letters.attachments.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
@@ -359,6 +362,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="draft in drafts" is="in-place-editor"
+                                :key="`draft-${draft.id}`"
                                 :item-id="draft.id" :item-entry="draft.entry" :item-year="draft.year"
                                 base-url="{{ route('letters.drafts.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
@@ -390,6 +394,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="facsimile in facsimiles" is="in-place-editor"
+                                :key="`facsimile-${facsimile.id}`"
                                 :item-id="facsimile.id" :item-entry="facsimile.entry" :item-year="facsimile.year"
                                 base-url="{{ route('letters.facsimiles.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
