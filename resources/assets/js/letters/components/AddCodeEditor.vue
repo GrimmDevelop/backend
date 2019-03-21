@@ -69,7 +69,7 @@
 
         methods: {
             storeItem() {
-                window.axios.post(this.url, {
+                this.$http.post(this.url, {
                     codeName: this.createCode,
                     codeErrorGenerated: this.createErrorGenerated,
                     codeInternal: this.createInternal

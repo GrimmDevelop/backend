@@ -29,37 +29,41 @@ new window.Vue({
         codes: [],
     },
 
+    computed: {
+        letterId() {
+            return window.letterId;
+        }
+    },
+
     mounted() {
         this.form = this.$refs.letterForm;
 
-        this.$nextTick(() => {
-            window.axios.get(window.BASE_URL + '/prints').then(({data}) => {
-                this.prints = data;
-            });
+        this.$http.get(`/api/letters/${this.letterId}/prints`).then(({data}) => {
+            this.prints = data;
+        });
 
-            window.axios.get(window.BASE_URL + '/transcriptions').then(({data}) => {
-                this.transcriptions = data;
-            });
+        this.$http.get(`/api/letters/${this.letterId}/transcriptions`).then(({data}) => {
+            this.transcriptions = data;
+        });
 
-            window.axios.get(window.BASE_URL + '/attachments').then(({data}) => {
-                this.attachments = data;
-            });
+        this.$http.get(`/api/letters/${this.letterId}/attachments`).then(({data}) => {
+            this.attachments = data;
+        });
 
-            window.axios.get(window.BASE_URL + '/drafts').then(({data}) => {
-                this.drafts = data;
-            });
+        this.$http.get(`/api/letters/${this.letterId}/drafts`).then(({data}) => {
+            this.drafts = data;
+        });
 
-            window.axios.get(window.BASE_URL + '/facsimiles').then(({data}) => {
-                this.facsimiles = data;
-            });
-            window.axios.get(window.BASE_URL + '/codes').then(({data}) => {
-                this.codes = data;
+        this.$http.get(`/api/letters/${this.letterId}/facsimiles`).then(({data}) => {
+            this.facsimiles = data;
+        });
 
-                window.axios.get(window.BASE_URL + '/information').then(({data}) => {
-                    this.information = data;
-                });
-            });
+        this.$http.get(`/api/letters/${this.letterId}/codes`).then(({data}) => {
+            this.codes = data;
 
+            this.$http.get(`/api/letters/${this.letterId}/information`).then(({data}) => {
+                this.information = data;
+            });
         });
     },
 
@@ -97,22 +101,9 @@ new window.Vue({
         },
 
         removedCode() {
-            try {
-                // let len = this.information.length;
-                // for(var i=0;i<len;i++)
-                // {
-                //     if(this.information[i].letter_code_id===index)
-                //     {
-                //         this.delete(this.information,index);
-                //         this.removedInformation(index);
-                //     }
-                // }
-                window.axios.get(window.BASE_URL + '/information').then(({data}) => {
-                    this.information = data;
-                });
-            } catch (e) {
-                //
-            }
+            this.$http.get(`/api/letters/${this.letterId}/information`).then(({data}) => {
+                this.information = data;
+            });
         },
 
         updatedCode(code) {
@@ -126,5 +117,5 @@ new window.Vue({
                 //
             }
         }
-    }
+    },
 });

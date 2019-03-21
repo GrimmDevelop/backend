@@ -28,7 +28,7 @@ new window.Vue({
         },
 
         deleteRelation(bookId, relationType, person) {
-            window.axios({
+            this.$http({
                 method: 'delete',
                 url: `/librarybooks/${bookId}/relation/${relationType}`,
                 data: {

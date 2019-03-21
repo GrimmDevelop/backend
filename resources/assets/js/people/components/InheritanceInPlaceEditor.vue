@@ -46,7 +46,7 @@
             saveInheritance: function () {
                 this.saving = true;
 
-                window.axios.put(this.baseUrl + '/' + this.inheritanceId, {
+                this.$http.put(this.baseUrl + '/' + this.inheritanceId, {
                     entry: this.editingEntry,
                 }).then(() => {
                     this.$emit('saved');
@@ -57,7 +57,7 @@
 
             deleteInheritance: function () {
                 if (window.confirm("Soll der Nachlass wirklich gelöscht werden?")) {
-                    window.axios.delete(this.baseUrl + '/' + this.inheritanceId).then(() => {
+                    this.$http.delete(this.baseUrl + '/' + this.inheritanceId).then(() => {
                         this.existing = false;
                     });
                 }

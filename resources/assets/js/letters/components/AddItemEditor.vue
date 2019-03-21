@@ -58,7 +58,7 @@
 
         methods: {
             storeItem() {
-                window.axios.post(this.url, {
+                this.$http.post(this.url, {
                     entry: this.createEntry,
                     year: this.createYear
                 }).then(({data}) => {

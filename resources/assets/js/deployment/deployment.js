@@ -39,14 +39,14 @@ new window.Vue({
             this.started = false;
         });
 
-        window.axios.get(window.BASE_URL + '/status').then((response) => {
+        this.$http.get(window.BASE_URL + '/status').then((response) => {
             let status = response.data;
 
             this.started = status.data.inProgress;
             this.last = new Date(status.data.last);
             this.blank = status.data.blank;
             if (!this.blank) {
-                window.axios.get(window.HISTORY_URL, {params: {date: this.last.toISOString()}}).then((response) => {
+                this.$http.get(window.HISTORY_URL, {params: {date: this.last.toISOString()}}).then((response) => {
                     this.history = response.data.data.history;
                 });
             }
@@ -56,7 +56,7 @@ new window.Vue({
     methods: {
         deploy(event) {
             event.preventDefault();
-            window.axios.post(window.BASE_URL + '/trigger').then((response) => {
+            this.$http.post(window.BASE_URL + '/trigger').then((response) => {
                 this.messages.push({
                     type: "start"
                 });

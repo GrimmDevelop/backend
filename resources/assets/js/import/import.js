@@ -39,7 +39,7 @@ new window.Vue({
 
     methods: {
         loadStatus() {
-            window.axios.get(window.BASE_URL + '/status').then((response) => {
+            this.$http.get(window.BASE_URL + '/status').then((response) => {
                 let status = response.data;
 
                 this.started = status.data.inProgress;
@@ -50,7 +50,7 @@ new window.Vue({
         startImport(event) {
             event.preventDefault();
 
-            window.axios.post(window.BASE_URL + '/trigger').then((response) => {
+            this.$http.post(window.BASE_URL + '/trigger').then((response) => {
                 this.messages.push({
                     type: "start"
                 });

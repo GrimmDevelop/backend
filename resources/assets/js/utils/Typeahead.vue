@@ -59,7 +59,7 @@
 
         watch: {
             value: debounce(function (value) {
-                window.axios.get(this.src + encodeURIComponent(value)).then(({data}) => {
+                this.$http.get(this.src + encodeURIComponent(value)).then(({data}) => {
                     this.results = this.preparation(data);
                     this.searched = true;
                     this.current = 0;

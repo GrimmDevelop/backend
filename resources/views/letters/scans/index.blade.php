@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $letter->id . ': ' . $letter->title() . ' | ')
+@section('title', $letter->title() . ' | ')
 
 @section('content')
     <div class="container" id="letters-scans">

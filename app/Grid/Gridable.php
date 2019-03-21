@@ -2,14 +2,16 @@
 
 namespace App\Grid;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 /**
- * Trait Gridable
- * @package Grimm
- *
  * @method Grid grid()
+ * @method static \Illuminate\Database\Eloquent\Builder|static search($term)
  */
 trait Gridable
 {
@@ -30,6 +32,63 @@ trait Gridable
     public static function applyGrid()
     {
         static::gridStatic()->apply();
+    }
+
+    public function scopeSearch(Builder $query, $term)
+    {
+        $table = $query->getModel()->getTable();
+
+        $query->select($table . '.*');
+        $query->groupBy("$table.{$this->getKeyName()}");
+
+        $query->where(function () use ($query, $table, $term) {
+            foreach ($this->getSearchableColumns() as $column) {
+                if ($column instanceof \Closure) {
+                    $query->orWhere(function ($q) use ($column, $term) {
+                        $column($q, $term);
+                    });
+                } elseif (Str::contains($column, '.')) {
+                    [$relationName, $column] = explode('.', $column);
+
+                    /** @var Relation $relation */
+                    $relation = $this->{$relationName}();
+
+                    if ($relation instanceof HasOneOrMany) {
+                        $this->joinOneOrMany($query, $relation, $column, $term);
+                    } else {
+                        throw new \Exception("Search algorithm for relation {$relationName} not defined");
+                    }
+                } else {
+                    // $query->orWhereRaw("match($column) against (? in boolean mode)", [$term]);
+                    $query->orWhere("{$table}.{$column}", 'LIKE', "%$term%");
+                }
+            }
+        });
+    }
+
+    /**
+     * @return Collection|string[]
+     */
+    protected function getSearchableColumns()
+    {
+        return $this->grid()->columns()->map(function (Column $column) {
+            return $column->searchKey();
+        })->values()->unique();
+    }
+
+    protected function joinOneOrMany(Builder $query, Relation $relation, string $column, string $term)
+    {
+        $relationTable = uniqid('join_');
+
+        $query->leftJoin($relation->getModel()->getTable() . ' as ' . $relationTable,
+            function (JoinClause $join) use ($relationTable, $term, $relation) {
+                $join->on(
+                    $relation->getQualifiedParentKeyName(),
+                    '=',
+                    $relationTable . '.' . $relation->getForeignKeyName()
+                );
+            })
+            ->orWhere($relationTable . '.' . $column, 'LIKE', "%$term%");
     }
 
     /**

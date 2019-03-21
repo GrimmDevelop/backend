@@ -55,6 +55,7 @@ return [
     'prints' => 'Drucke',
 
     'facsimile' => 'Faksimile',
+    'facsimiles' => 'Faksimiles',
 
     'transcription' => 'Abschrift',
     'transcriptions' => 'Abschriften',

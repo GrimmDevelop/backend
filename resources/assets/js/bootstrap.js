@@ -18,14 +18,16 @@ window._ = require('lodash');
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+let axios = window.axios = require('axios');
 
-window.axios.defaults.headers.common = {
+axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.Laravel.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
 };
 
-window.Vue = require('vue');
+let Vue = window.Vue = require('vue');
+
+Vue.prototype.$http = axios;
 
 import PortalVue from 'portal-vue';
 import StatusBar from './ui/components/StatusBar';

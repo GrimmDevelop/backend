@@ -12,6 +12,12 @@
                 <span class="fa fa-picture-o"></span>
                 Scans verwalten
             </a>
+
+            <a href="{{ route('letters.apparatuses.index', [$letter]) }}" role="button"
+               class="btn btn-default">
+                <span class="fa fa-language"></span>
+                Apparate und Sachkommentare
+            </a>
         @endcan
     </portal>
 
@@ -470,7 +476,7 @@
 
 @section('scripts')
     <script>
-        window.BASE_URL = "{{ route('letters.show', [$letter]) }}";
+        window.letterId = "{{ $letter->getRouteKey() }}";
         window.LETTERS_FACSIMILE_STORE_URL = "{{ route('letters.facsimiles.store', [$letter]) }}";
     </script>
     <script src="{{ url('js/letter.js') }}"></script>

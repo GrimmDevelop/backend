@@ -11,6 +11,8 @@ use Grimm\LetterAttachment;
 use Grimm\LetterCode;
 use Grimm\LetterPrint;
 use Grimm\LetterTranscription;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\JoinClause;
 
 class LetterGrid extends Grid
 {
@@ -24,7 +26,14 @@ class LetterGrid extends Grid
                     ->get()
                     ->pluck('data')
                     ->implode('; ');
-            }, 'information.data');
+            }, function (Builder $query, $search) use ($code) {
+                $query->whereHas('information', function (Builder $q) use ($code, $search) {
+                    $q->join('letter_codes', function (JoinClause $join) use ($code) {
+                        $join->on('letter_codes.id', '=', 'letter_informations.letter_code_id')
+                            ->where('letter_codes.name', $code->name);
+                    })->where('data', 'LIKE', "%$search%");
+                });
+            });
         });
 
         parent::__construct('letters', collect([
@@ -46,7 +55,12 @@ class LetterGrid extends Grid
                         return $association->assignment_source;
                     })
                     ->implode(' / ');
-            }, 'personAssociations.assignment_source'),
+            }, function (Builder $query, $search) {
+                $query->whereHas('personAssociations', function (Builder $q) use ($search) {
+                    $q->where('type', 0)
+                        ->where('assignment_source', 'LIKE', "%$search%");
+                });
+            }),
             new Column('from_location_historical', false, function () use ($letter) {
                 return $letter->from_location_historical ?? '[nicht angegeben]';
             }),
@@ -62,7 +76,12 @@ class LetterGrid extends Grid
                         return $association->assignment_source;
                     })
                     ->implode(' / ');
-            }, 'personAssociations.assignment_source'),
+            }, function (Builder $query, $search) {
+                $query->whereHas('personAssociations', function (Builder $q) use ($search) {
+                    $q->where('type', 1)
+                        ->where('assignment_source', 'LIKE', "%$search%");
+                });
+            }),
             new Column('to_location_historical', false, function () use ($letter) {
                 return $letter->to_location_historical ?? '[nicht angegeben]';
             }),

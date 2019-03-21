@@ -72,7 +72,7 @@
 
             saveItem() {
                 this.saving = true;
-                window.axios.put(this.baseUrl + '/' + this.itemId, {
+                this.$http.put(this.baseUrl + '/' + this.itemId, {
                     code: this.editingCode,
                     data: this.editingData
                 }).then(({data}) => {
@@ -87,7 +87,7 @@
 
             deleteItem() {
                 if (window.confirm("Soll der Eintrag wirklich gelöscht werden?")) {
-                    window.axios.delete(this.baseUrl + '/' + this.itemId).then(() => {
+                    this.$http.delete(this.baseUrl + '/' + this.itemId).then(() => {
                         this.existing = false;
                         this.$emit('removed-info');
                     });
