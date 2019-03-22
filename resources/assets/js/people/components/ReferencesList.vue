@@ -45,7 +45,7 @@
                                            :prepare-response="prepareResponse"
                                            :on-hit="personSelected"
                                            empty="Es wurde keine Person gefunden!"
-                                           refs="createReferencedPerson"
+                                           ref="createReferencedPerson"
                                 >
                                     <template slot="list-item" slot-scope="props">
                                         {{ fullName(props.item) }}

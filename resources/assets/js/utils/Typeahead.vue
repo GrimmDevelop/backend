@@ -3,7 +3,7 @@
         <input class="form-control"
                :id="id"
                :placeholder="placeholder"
-               ref="searchPerson"
+               ref="searchInput"
                v-model="value"
                @keydown.up="up"
                @keydown.down="down"
@@ -67,12 +67,6 @@
             }, 500),
         },
 
-        mounted() {
-            this.$nextTick(() => {
-                this.$refs.searchPerson.focus();
-            });
-        },
-
         methods: {
             preparation(response) {
                 if (typeof this.prepareResponse == 'function') {
@@ -109,7 +103,11 @@
                 if (this.current < this.results.length - 1) {
                     this.current++;
                 }
-            }
+            },
+
+            focus() {
+                this.$refs.searchInput.focus();
+            },
         }
     };
 </script>
