@@ -51,6 +51,8 @@ return [
     'sender' => 'Absender',
     'receiver' => 'Empfänger',
 
+    'assignment_source' => 'Person (Quellenangabe)',
+
     'print' => 'Druck',
     'prints' => 'Drucke',
 

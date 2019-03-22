@@ -28,7 +28,8 @@
                                        src="{{ url('people/search') }}?name="
                                        :prepare-response="prepareResponse"
                                        :on-hit="personSelected"
-                                       empty="Es wurde keine Person gefunden!">
+                                       empty="Es wurde keine Person gefunden!"
+                                       ref="searchPerson">
                                 <template slot="list-item" slot-scope="props">
                                     @{{ props.item.last_name }}, @{{ props.item.first_name }} <em
                                             class='pull-right'>@{{ props.item.bio_data }}</em>
@@ -38,7 +39,7 @@
                     </div>
                 </form>
 
-                <form action="{{ route('letters.associations.store', [$letter]) }}" class="form-horizontal"
+                <form action="{{ route('letters.associations.store', [$letter]) }}?type={{ $type }}" class="form-horizontal"
                       method="POST">
                     {{ csrf_field() }}
 

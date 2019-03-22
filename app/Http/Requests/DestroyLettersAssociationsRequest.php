@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use Grimm\Letter;
 use Grimm\LetterPersonAssociation;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DestroyLettersAssociationsRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,11 +31,13 @@ class DestroyLettersAssociationsRequest extends FormRequest
     }
 
     /**
-     * @param Letter $letter
      * @param LetterPersonAssociation $association
      */
-    public function persist(Letter $letter, LetterPersonAssociation $association)
+    public function persist(LetterPersonAssociation $association)
     {
-
+        try {
+            $association->delete();
+        } catch (\Exception $e) {
+        }
     }
 }

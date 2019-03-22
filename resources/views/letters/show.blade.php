@@ -41,7 +41,7 @@
 
         @can('letters.delete')
             @unless($letter->trashed())
-                <form id="danger-zone" action="{{ route('letters.destroy', [$letter->id]) }}"
+                <form id="danger-zone" action="{{ route('letters.destroy', [$letter]) }}"
                       style="display: inline-block; margin: 0;"
                       method="post"
                       class="form-inline">

@@ -116,6 +116,14 @@ new window.Vue({
             } catch (e) {
                 //
             }
+        },
+
+        deletePersonAssociation(associationId) {
+            if(confirm('Soll die Verknüpfung wirklich gelöscht werden?')) {
+                this.$http.delete(`/letters/${this.letterId}/associations/${associationId}`).then(() => {
+                    location.reload();
+                });
+            }
         }
     },
 });

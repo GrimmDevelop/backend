@@ -44,7 +44,11 @@ class StoreLettersAssociationsRequest extends FormRequest
 
         $association->letter()->associate($letter);
 
-        $association->makePersonSender();
+        if ($this->input('type', 'sender') === 'receiver') {
+            $association->makePersonReceiver();
+        } else {
+            $association->makePersonSender();
+        }
 
         $assignment_source = $this->input('assignment_source');
 

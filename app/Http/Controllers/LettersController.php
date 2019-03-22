@@ -150,13 +150,11 @@ class LettersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param DestroyLetterRequest $request
-     * @param  int $id
+     * @param Letter $letter
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(DestroyLetterRequest $request, $id)
+    public function destroy(DestroyLetterRequest $request, Letter $letter)
     {
-        /** @var Letter $letter */
-        $letter = Letter::query()->findOrFail($id);
-
         $request->persist($letter);
 
         return redirect()

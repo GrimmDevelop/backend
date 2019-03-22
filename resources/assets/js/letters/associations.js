@@ -16,13 +16,11 @@ new window.Vue({
 
     mounted() {
         this.$nextTick(() => {
-            if (window.PERSON_MODEL !== null) {
+            if (typeof window.PERSON_MODEL !== 'undefined') {
                 this.person = window.PERSON_MODEL;
             }
 
-            window.$('#addOccurrence').on('shown.bs.modal', () => {
-                this.$refs.storeOccurrence.focus();
-            });
+            this.$refs.searchPerson.focus();
         });
     },
 
@@ -34,7 +32,6 @@ new window.Vue({
         personSelected(person) {
             this.person = person;
             this.placeholder = person.last_name + ', ' + person.first_name;
-            this.$refs.pageField.focus();
         },
 
         prepareResponse(response) {
