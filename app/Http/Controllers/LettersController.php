@@ -110,7 +110,7 @@ class LettersController extends Controller
      */
     public function create()
     {
-        return view('letters.create', compact('letter'));
+        return view('letters.create');
     }
 
     /**
@@ -154,10 +154,14 @@ class LettersController extends Controller
      */
     public function destroy(DestroyLetterRequest $request, $id)
     {
-        /** @var Letter $book */
+        /** @var Letter $letter */
         $letter = Letter::query()->findOrFail($id);
 
         $request->persist($letter);
+
+        return redirect()
+            ->route('letters.index')
+            ->with('success', trans('letters.deleted_success'));
     }
 
     /**

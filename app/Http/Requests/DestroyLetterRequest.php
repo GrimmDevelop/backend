@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests;
 
+use Grimm\Letter;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DestroyLetterRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,8 +30,14 @@ class DestroyLetterRequest extends FormRequest
         ];
     }
 
-    public function persist($letter)
+    /**
+     * @param Letter $letter
+     */
+    public function persist(Letter $letter)
     {
-        //$letter->delete();
+        try {
+            $letter->delete();
+        } catch (\Exception $e) {
+        }
     }
 }
