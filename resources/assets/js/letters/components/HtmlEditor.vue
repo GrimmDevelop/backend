@@ -38,6 +38,7 @@
                 skin: false,
                 plugins: ['paste', 'code'],
                 toolbar: this.toolbar,
+                content_css : "/css/formats.css",
                 init_instance_callback: (editor) => {
                     editor.on('Change', () => {
                         this.$emit('input', editor.getContent());

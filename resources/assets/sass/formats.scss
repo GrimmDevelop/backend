@@ -1,0 +1,211 @@
+
+p.Leerzeile, li.Leerzeile, div.Leerzeile {
+    margin: 0 0 .0001pt;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.Brieftext, li.Brieftext, div.Brieftext {
+    margin: 0 0 .0001pt;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.BrieftextEinzug, li.BrieftextEinzug, div.BrieftextEinzug {
+    margin: 0 0 .0001pt;
+    text-indent: 17.0pt;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.Apparat, li.Apparat, div.Apparat {
+    margin: 0 0 .0001pt;
+    text-autospace: none;
+    font-size: 10.0pt;
+    font-family: Bodoni;
+}
+
+span.ApparatHerausgebertext {
+    font-style: italic;
+}
+
+span.Herausgebertext {
+    font-style: italic;
+}
+
+p.ApparatBlock, li.ApparatBlock, div.ApparatBlock {
+    margin: 0 0 .0001pt;
+    text-align: justify;
+    text-autospace: none;
+    font-size: 10.0pt;
+    font-family: Bodoni;
+}
+
+p.BrftextBlock, li.BrftextBlock, div.BrftextBlock {
+    margin: 0 0 .0001pt;
+    text-align: justify;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.BrftextEBlock, li.BrftextEBlock, div.BrftextEBlock {
+    margin: 0 0 .0001pt;
+    text-align: justify;
+    text-indent: 17.0pt;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.DatumTabulator, li.DatumTabulator, div.DatumTabulator {
+    margin: 0 0 .0001pt;
+    tab-stops: 241.0pt;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.Date5, li.Date5, div.Date5 {
+    margin: 0 0 .0001pt;
+    text-align: right;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.BrieftextZitatEinz3cm, li.BrieftextZitatEinz3cm, div.BrieftextZitatEinz3cm {
+    margin: 0 0 .0001pt 70.9pt;
+    tab-stops: 99.25pt;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.Titel2, li.Titel2, div.Titel2 {
+    margin: 40.0pt 0 .0001pt;
+    text-align: center;
+    page-break-after: avoid;
+    text-autospace: none;
+    font-size: 19.0pt;
+    font-family: Bodoni;
+    text-transform: uppercase;
+    letter-spacing: .5pt;
+}
+
+p.Bild2, li.Bild2, div.Bild2 {
+    margin: 0 0 .0001pt;
+    text-align: center;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.Titel2a, li.Titel2a, div.Titel2a {
+    margin: 10.0pt 0 .0001pt;
+    text-align: center;
+    text-autospace: none;
+    font-size: 19.0pt;
+    font-family: Bodoni;
+    text-transform: uppercase;
+    letter-spacing: .5pt;
+}
+
+p.Hrs, li.Hrs, div.Hrs {
+    margin: 28.0pt 0 .0001pt;
+    text-align: center;
+    page-break-after: avoid;
+    text-autospace: none;
+    font-size: 16.0pt;
+    font-family: Bodoni;
+    text-transform: uppercase;
+    letter-spacing: .5pt;
+}
+
+p.Date4, li.Date4, div.Date4 {
+    margin: 0 0 .0001pt;
+    text-align: right;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+span.berschrift1Herausgebertext {
+    font-style: italic;
+}
+
+p.BrfZit, li.BrfZit, div.BrfZit {
+    margin: 0 0 .0001pt 70.9pt;
+    text-align: justify;
+    tab-stops: 99.25pt;
+    text-autospace: none;
+    font-size: 12.0pt;
+    font-family: Bodoni;
+}
+
+p.ZitatAbst, li.ZitatAbst, div.ZitatAbst {
+    margin: 0 0 .0001pt;
+    text-autospace: none;
+    font-size: 5.0pt;
+    font-family: Bodoni;
+}
+
+span.Lettertitle {
+    font-weight: bold;
+}
+
+p.AppLangtext, li.AppLangtext, div.AppLangtext {
+    margin: 0 0 .0001pt;
+    text-align: justify;
+    text-autospace: none;
+    font-size: 10.0pt;
+    font-family: Bodoni_E;
+}
+
+p.AppLangtextEinzug, li.AppLangtextEinzug, div.AppLangtextEinzug {
+    margin: 0 0 .0001pt;
+    text-align: justify;
+    text-indent: 17.0pt;
+    text-autospace: none;
+    font-size: 10.0pt;
+    font-family: Bodoni_E;
+}
+
+p.LeerzimApp, li.LeerzimApp, div.LeerzimApp {
+    margin: 0 0 .0001pt;
+    text-align: justify;
+    text-autospace: none;
+    font-size: 5.0pt;
+    font-family: Bodoni_E;
+}
+
+p.AppZitVerse, li.AppZitVerse, div.AppZitVerse {
+    margin: 0 0 .0001pt 70.9pt;
+    text-autospace: none;
+    font-size: 10.0pt;
+    font-family: Bodoni_E;
+    font-style: italic;
+}
+
+span.BrieftextZchn {
+    font-family: Bodoni;
+}
+
+span.BrieftextEinzugZchn {
+    font-family: Bodoni;
+}
+
+span.BrftextEBlockZchn {
+    font-family: Bodoni;
+}
+
+ol {
+    margin-bottom: 0;
+}
+
+ul {
+    margin-bottom: 0;
+}

@@ -27,4 +27,5 @@ mix.js('resources/assets/js/misc.js', 'public/js')
     .js('resources/assets/js/letters/apparatuses.js', 'public/js/letters-apparatuses.js')
     .js('resources/assets/js/deployment/deployment.js', 'public/js')
     .js('resources/assets/js/import/import.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css');
+    .sass('resources/assets/sass/app.scss', 'public/css')
+    .sass('resources/assets/sass/formats.scss', 'public/css');
