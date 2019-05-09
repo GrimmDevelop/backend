@@ -32,7 +32,7 @@
     <portal to="status-bar-right">
         @can('library.update')
             @unless($letter->trashed())
-                <button type="button" class="btn btn-primary" @click="save">
+                <button type="button" class="btn btn-primary" @click.prevent="save">
                     <span class="fa fa-floppy-o"></span>
                     Speichern
                 </button>

@@ -17,6 +17,7 @@
         data() {
             return {
                 toolbar: 'bold italic strikethrough underline subscript superscript | alignleft aligncenter alignright alignjustify | code',
+                instance: null,
             };
         },
 
@@ -29,7 +30,16 @@
             }
         },
 
+        watch: {
+            value(content) {
+                if (this.instance !== null && content !== this.instance.getContent()) {
+                    this.instance.setContent(content);
+                }
+            }
+        },
+
         mounted() {
+            let that = this;
             tinymce.init({
                 target: this.$refs.editor,
                 branding: false,
@@ -38,11 +48,14 @@
                 skin: false,
                 plugins: ['paste', 'code'],
                 toolbar: this.toolbar,
-                init_instance_callback: (editor) => {
+                content_css: "/css/formats.css",
+                setup(editor) {
                     editor.on('Change', () => {
-                        this.$emit('input', editor.getContent());
+                        that.$emit('input', editor.getContent());
                     });
                 }
+            }).then(([editor]) => {
+                this.instance = editor;
             });
         }
     };

@@ -185,6 +185,9 @@
                         <a href="#attachments" data-toggle="tab">Beilagen</a>
                     </li>
                     <li>
+                        <a href="#auction_catalogues" data-toggle="tab">Auktionskataloge</a>
+                    </li>
+                    <li>
                         <a href="#drafts" data-toggle="tab">Entwürfe</a>
                     </li>
                     <li>
@@ -310,6 +313,38 @@
                                          :on-stored="storedTranscription"
                                          modal="addTranscription"
                                          title="Abschriften"></add-item-editor>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="auction_catalogues">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addCatalogue">
+                                    <i class="fa fa-plus"></i> Katalog hinzufügen
+                                </button>
+                            </div>
+                        @endunless
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Eintrag</th>
+                                <th colspan="2">Jahr</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="auctionCatalogue in auctionCatalogues" is="in-place-editor"
+                                :key="`auctionCatalogue-${auctionCatalogue.id}`"
+                                :item-id="auctionCatalogue.id" :item-entry="auctionCatalogue.entry" :item-year="auctionCatalogue.year"
+                                base-url="{{ route('letters.auction-catalogues.index', [$letter]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <add-item-editor url="{{ route('letters.auction-catalogues.store', [$letter]) }}"
+                                         :on-stored="storedCatalogue"
+                                         modal="addCatalogue"
+                                         title="Auktionskataloge"></add-item-editor>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="attachments">

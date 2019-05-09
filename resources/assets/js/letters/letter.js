@@ -25,6 +25,7 @@ new window.Vue({
         attachments: [],
         drafts: [],
         facsimiles: [],
+        auctionCatalogues: [],
         information: [],
         codes: [],
     },
@@ -65,6 +66,10 @@ new window.Vue({
                 this.information = data;
             });
         });
+
+        this.$http.get(`/api/letters/${this.letterId}/auction-catalogues`).then(({data}) => {
+            this.auctionCatalogues = data;
+        });
     },
 
     methods: {
@@ -86,6 +91,10 @@ new window.Vue({
 
         storedFacsimile(facsimiles) {
             this.facsimiles = facsimiles;
+        },
+
+        storedCatalogue(catalogues) {
+            this.auctionCatalogues = catalogues;
         },
 
         storedInformation(information) {
@@ -119,7 +128,7 @@ new window.Vue({
         },
 
         deletePersonAssociation(associationId) {
-            if(confirm('Soll die Verknüpfung wirklich gelöscht werden?')) {
+            if (confirm('Soll die Verknüpfung wirklich gelöscht werden?')) {
                 this.$http.delete(`/letters/${this.letterId}/associations/${associationId}`).then(() => {
                     location.reload();
                 });
