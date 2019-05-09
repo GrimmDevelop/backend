@@ -7,6 +7,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::resource('letters.attachments', 'Letters\\AttachmentController', ['except' => ['show', 'create', 'edit']]);
     Route::resource('letters.facsimiles', 'LetterFacsimileController', ['except' => ['show', 'create', 'edit']]);
     Route::resource('letters.drafts', 'LetterDraftController', ['except' => ['show', 'create', 'edit']]);
+    Route::resource('letters.auction-catalogues', 'Letters\\AuctionCataloguesController', ['except' => ['show', 'create', 'edit']]);
     Route::resource('letters.information', 'LetterInformationController', ['except' => ['show', 'create', 'edit']]);
     Route::resource('letters.codes', 'LetterCodeController', ['except' => ['show', 'create', 'edit']]);
 

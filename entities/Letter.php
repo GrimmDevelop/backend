@@ -66,6 +66,7 @@ use Spatie\MediaLibrary\Models\Media;
  * @property \Illuminate\Support\Collection|Draft[] drafts
  * @property \Illuminate\Support\Collection|Facsimile[] facsimiles
  * @property \Illuminate\Support\Collection|LetterAttachment[] attachments
+ * @property \Illuminate\Support\Collection|AuctionCatalogue[] auctionCatalogues
  * @property \Illuminate\Support\Collection|LetterInformation[] information
  * @property LetterApparatus apparatus
  * @property LetterComment comment
@@ -213,6 +214,14 @@ class Letter extends Model implements IsGridable, HasMedia
     public function apparatus()
     {
         return $this->hasOne(LetterApparatus::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function auctionCatalogues()
+    {
+        return $this->hasMany(AuctionCatalogue::class);
     }
 
     /**

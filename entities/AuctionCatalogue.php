@@ -5,6 +5,7 @@ namespace Grimm;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int id
  * @property string entry
  * @property int|null year
  */
