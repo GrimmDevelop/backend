@@ -4,6 +4,7 @@ namespace Grimm\Grids;
 
 use App\Grid\Column;
 use App\Grid\Grid;
+use Grimm\AuctionCatalogue;
 use Grimm\Draft;
 use Grimm\Facsimile;
 use Grimm\Letter;
@@ -112,6 +113,11 @@ class LetterGrid extends Grid
                     return $facsimile->entry;
                 })->implode('; ');
             }, 'facsimiles.entry'),
+            new Column('auctionCatalogues', false, function () use ($letter) {
+                return $letter->auctionCatalogues->map(function (AuctionCatalogue $catalogue) {
+                    return $catalogue->entry;
+                })->implode('; ');
+            }, 'auctionCatalogues.entry'),
             new Column('addition', true),
         ])->merge($codes)->toArray());
     }
