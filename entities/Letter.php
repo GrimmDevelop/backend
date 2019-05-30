@@ -2,7 +2,6 @@
 
 namespace Grimm;
 
-use App\Grid\Column;
 use App\Grid\Grid;
 use App\Grid\Gridable;
 use App\Grid\IsGridable;
@@ -11,7 +10,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
-use Sofa\Eloquence\Eloquence;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
@@ -68,12 +66,15 @@ use Spatie\MediaLibrary\Models\Media;
  * @property \Illuminate\Support\Collection|Draft[] drafts
  * @property \Illuminate\Support\Collection|Facsimile[] facsimiles
  * @property \Illuminate\Support\Collection|LetterAttachment[] attachments
+ * @property \Illuminate\Support\Collection|AuctionCatalogue[] auctionCatalogues
  * @property \Illuminate\Support\Collection|LetterInformation[] information
+ * @property LetterApparatus apparatus
+ * @property LetterComment comment
  */
 class Letter extends Model implements IsGridable, HasMedia
 {
 
-    use SoftDeletes, HasActivity, Gridable, HasMediaTrait, Eloquence;
+    use SoftDeletes, HasActivity, Gridable, HasMediaTrait;
 
     /**
      * Returns the field used by router
@@ -208,6 +209,30 @@ class Letter extends Model implements IsGridable, HasMedia
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function apparatus()
+    {
+        return $this->hasOne(LetterApparatus::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function auctionCatalogues()
+    {
+        return $this->hasMany(AuctionCatalogue::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function comment()
+    {
+        return $this->hasOne(LetterComment::class);
+    }
+
+    /**
      * @return \Illuminate\Support\Collection
      */
     public function senders()
@@ -248,21 +273,5 @@ class Letter extends Model implements IsGridable, HasMedia
         $ids = $this->getMedia($collection)->pluck('id')->toArray();
 
         Media::setNewOrder($ids);
-    }
-
-    /**
-     * Columns used by Eloquence
-     *
-     * @return array
-     */
-    public function getSearchableColumns()
-    {
-        $columns = $this->grid()->columns()->map(function (Column $column) {
-            return $column->searchKey();
-        })->values()->unique()->toArray();
-
-        $columns = array_combine($columns, array_fill(0, count($columns), 1));
-
-        return $columns;
     }
 }

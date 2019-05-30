@@ -85,15 +85,13 @@
 
         methods: {
             loadInheritances() {
-                window.axios.get(window.BASE_URL + '/inheritances').then(({data}) => {
+                this.$http.get(this.indexUrl).then(({data}) => {
                     this.inheritances = data;
                 });
             },
 
             storeInheritance() {
-                let url = window.$('#createInheritanceForm').attr('action');
-
-                window.axios.post(url, {
+                this.$http.post(this.storeUrl, {
                     entry: this.createEntry
                 }).then(({data}) => {
                     this.inheritances = data;

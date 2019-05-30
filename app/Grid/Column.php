@@ -27,7 +27,7 @@ class Column
     private $callback;
 
     /**
-     * key used by Eloquence
+     * key used by grid search
      *
      * @var string
      */

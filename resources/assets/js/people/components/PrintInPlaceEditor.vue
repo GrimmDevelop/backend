@@ -47,7 +47,7 @@
 
             savePrint() {
                 this.saving = true;
-                window.axios.put(this.baseUrl + '/' + this.printId, {
+                this.$http.put(this.baseUrl + '/' + this.printId, {
                     entry: this.editingEntry,
                     year: this.editingYear
                 }).then(() => {
@@ -59,7 +59,7 @@
 
             deletePrint() {
                 if (window.confirm("Soll der Druck wirklich gelöscht werden?")) {
-                    window.axios.delete(this.baseUrl + '/' + this.printId).then(() => {
+                    this.$http.delete(this.baseUrl + '/' + this.printId).then(() => {
                         this.existing = false;
                     });
                 }

@@ -2,6 +2,9 @@
 
 namespace App\Grid;
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder|static search($term)
+ */
 interface IsGridable
 {
 

@@ -12,6 +12,12 @@
                 <span class="fa fa-picture-o"></span>
                 Scans verwalten
             </a>
+
+            <a href="{{ route('letters.apparatuses.index', [$letter]) }}" role="button"
+               class="btn btn-default">
+                <span class="fa fa-language"></span>
+                Apparate und Sachkommentare
+            </a>
         @endcan
     </portal>
 
@@ -35,7 +41,7 @@
 
         @can('letters.delete')
             @unless($letter->trashed())
-                <form id="danger-zone" action="{{ route('letters.destroy', [$letter->id]) }}"
+                <form id="danger-zone" action="{{ route('letters.destroy', [$letter]) }}"
                       style="display: inline-block; margin: 0;"
                       method="post"
                       class="form-inline">
@@ -179,6 +185,9 @@
                         <a href="#attachments" data-toggle="tab">Beilagen</a>
                     </li>
                     <li>
+                        <a href="#auction_catalogues" data-toggle="tab">Auktionskataloge</a>
+                    </li>
+                    <li>
                         <a href="#drafts" data-toggle="tab">Entwürfe</a>
                     </li>
                     <li>
@@ -259,6 +268,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="print in prints" is="in-place-editor"
+                                :key="`print-${print.id}`"
                                 :item-id="print.id" :item-entry="print.entry" :item-year="print.year"
                                 base-url="{{ route('letters.prints.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
@@ -290,6 +300,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="transcription in transcriptions" is="in-place-editor"
+                                :key="`transcription-${transcription.id}`"
                                 :item-id="transcription.id" :item-entry="transcription.entry"
                                 :item-year="transcription.year"
                                 base-url="{{ route('letters.transcriptions.index', [$letter]) }}"
@@ -302,6 +313,38 @@
                                          :on-stored="storedTranscription"
                                          modal="addTranscription"
                                          title="Abschriften"></add-item-editor>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="auction_catalogues">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addCatalogue">
+                                    <i class="fa fa-plus"></i> Katalog hinzufügen
+                                </button>
+                            </div>
+                        @endunless
+                        <table class="table table-responsive">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Eintrag</th>
+                                <th colspan="2">Jahr</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="auctionCatalogue in auctionCatalogues" is="in-place-editor"
+                                :key="`auctionCatalogue-${auctionCatalogue.id}`"
+                                :item-id="auctionCatalogue.id" :item-entry="auctionCatalogue.entry" :item-year="auctionCatalogue.year"
+                                base-url="{{ route('letters.auction-catalogues.index', [$letter]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <add-item-editor url="{{ route('letters.auction-catalogues.store', [$letter]) }}"
+                                         :on-stored="storedCatalogue"
+                                         modal="addCatalogue"
+                                         title="Auktionskataloge"></add-item-editor>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="attachments">
@@ -322,6 +365,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="attachment in attachments" is="in-place-editor"
+                                :key="`attachment-${attachment.id}`"
                                 :item-id="attachment.id" :item-entry="attachment.entry" :item-year="attachment.year"
                                 base-url="{{ route('letters.attachments.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
@@ -353,6 +397,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="draft in drafts" is="in-place-editor"
+                                :key="`draft-${draft.id}`"
                                 :item-id="draft.id" :item-entry="draft.entry" :item-year="draft.year"
                                 base-url="{{ route('letters.drafts.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
@@ -384,6 +429,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="facsimile in facsimiles" is="in-place-editor"
+                                :key="`facsimile-${facsimile.id}`"
                                 :item-id="facsimile.id" :item-entry="facsimile.entry" :item-year="facsimile.year"
                                 base-url="{{ route('letters.facsimiles.index', [$letter]) }}"
                                 editable="{{ !$letter->trashed() }}">
@@ -470,7 +516,7 @@
 
 @section('scripts')
     <script>
-        window.BASE_URL = "{{ route('letters.show', [$letter]) }}";
+        window.letterId = "{{ $letter->getRouteKey() }}";
         window.LETTERS_FACSIMILE_STORE_URL = "{{ route('letters.facsimiles.store', [$letter]) }}";
     </script>
     <script src="{{ url('js/letter.js') }}"></script>

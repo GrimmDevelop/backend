@@ -32,6 +32,11 @@
 @endif
 
 <a href="{{ route('letters.associations.edit', [$letter, $association]) }}"
-   class="btn btn-default" data-toggle="tooltip" title="bearbeiten">
+   class="btn btn-default" data-toggle="tooltip" title="Verknüpfung bearbeiten">
     <span class="fa fa-pencil"></span>
 </a>
+
+<button @click.prevent="deletePersonAssociation({{ $association->id }})"
+   class="btn btn-link" data-toggle="tooltip" title="Verknüpfung löschen">
+    <span class="fa fa-trash"></span>
+</button>

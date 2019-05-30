@@ -3,7 +3,7 @@
         <input class="form-control"
                :id="id"
                :placeholder="placeholder"
-               ref="searchPerson"
+               ref="searchInput"
                v-model="value"
                @keydown.up="up"
                @keydown.down="down"
@@ -59,18 +59,12 @@
 
         watch: {
             value: debounce(function (value) {
-                window.axios.get(this.src + encodeURIComponent(value)).then(({data}) => {
+                this.$http.get(this.src + encodeURIComponent(value)).then(({data}) => {
                     this.results = this.preparation(data);
                     this.searched = true;
                     this.current = 0;
                 });
             }, 500),
-        },
-
-        mounted() {
-            this.$nextTick(() => {
-                this.$refs.searchPerson.focus();
-            });
         },
 
         methods: {
@@ -109,7 +103,11 @@
                 if (this.current < this.results.length - 1) {
                     this.current++;
                 }
-            }
+            },
+
+            focus() {
+                this.$refs.searchInput.focus();
+            },
         }
     };
 </script>

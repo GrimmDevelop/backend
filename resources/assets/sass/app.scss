@@ -2,6 +2,7 @@
 
 @import "variables";
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "~tinymce/skins/lightgray/skin.min.css";
 
 body {
     font-family: 'Lato', sans-serif;
@@ -312,4 +313,9 @@ table.collapse.in {
     border-right: 1px solid darken($pagination-bg, 5%);
 
     background-color: #fff;
+}
+
+.mce-tinymce {
+    box-sizing: border-box !important;
+    box-shadow: none;
 }

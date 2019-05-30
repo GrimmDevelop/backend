@@ -45,7 +45,7 @@
                                            :prepare-response="prepareResponse"
                                            :on-hit="personSelected"
                                            empty="Es wurde keine Person gefunden!"
-                                           refs="createReferencedPerson"
+                                           ref="createReferencedPerson"
                                 >
                                     <template slot="list-item" slot-scope="props">
                                         {{ fullName(props.item) }}
@@ -104,13 +104,13 @@
 
         methods: {
             loadReferences() {
-                window.axios.get(window.BASE_URL + '/references').then(({data}) => {
+                this.$http.get(this.indexUrl).then(({data}) => {
                     this.references = data;
                 });
             },
 
             storeReference() {
-                window.axios.post(this.storeUrl, {
+                this.$http.post(this.storeUrl, {
                     reference: this.createReferencedPerson.id,
                     notes: this.createNotes
                 }).then(({data}) => {

@@ -110,7 +110,7 @@ class LettersController extends Controller
      */
     public function create()
     {
-        return view('letters.create', compact('letter'));
+        return view('letters.create');
     }
 
     /**
@@ -150,14 +150,16 @@ class LettersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param DestroyLetterRequest $request
-     * @param  int $id
+     * @param Letter $letter
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(DestroyLetterRequest $request, $id)
+    public function destroy(DestroyLetterRequest $request, Letter $letter)
     {
-        /** @var Letter $book */
-        $letter = Letter::query()->findOrFail($id);
-
         $request->persist($letter);
+
+        return redirect()
+            ->route('letters.index')
+            ->with('success', trans('letters.deleted_success'));
     }
 
     /**
@@ -211,7 +213,7 @@ class LettersController extends Controller
                     return $this->sortByPersonAssociation($builder, $key, $direction);
                 }
 
-                if (in_array($key, ['prints', 'transcriptions', 'drafts', 'facsimiles', 'attachments'])) {
+                if (in_array($key, ['prints', 'transcriptions', 'drafts', 'facsimiles', 'attachments', 'auctionCatalogues'])) {
                     return $this->sortByEntryAssociation($builder, $key, $direction);
                 }
 
@@ -242,7 +244,7 @@ class LettersController extends Controller
 
     private function sortByEntryAssociation($builder, $key, $direction)
     {
-        $table = $key;
+        $table = Str::snake($key);
 
         if ($key == 'prints' || $key == 'transcriptions' || $key == 'attachments') {
             $table = 'letter_' . $key;

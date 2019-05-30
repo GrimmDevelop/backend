@@ -91,15 +91,13 @@
 
         methods: {
             loadPrints() {
-                window.axios.get(window.BASE_URL + '/prints').then(({data}) => {
+                this.$http.get(this.indexUrl).then(({data}) => {
                     this.prints = data;
                 });
             },
 
             storePrint() {
-                let url = window.$('#createPrintForm').attr('action');
-
-                window.axios.post(url, {
+                this.$http.post(this.storeUrl, {
                     entry: this.createEntry,
                     year: this.createYear
                 }).then(({data}) => {

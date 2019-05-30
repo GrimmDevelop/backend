@@ -51,10 +51,13 @@ return [
     'sender' => 'Absender',
     'receiver' => 'Empfänger',
 
+    'assignment_source' => 'Person (Quellenangabe)',
+
     'print' => 'Druck',
     'prints' => 'Drucke',
 
     'facsimile' => 'Faksimile',
+    'facsimiles' => 'Faksimiles',
 
     'transcription' => 'Abschrift',
     'transcriptions' => 'Abschriften',

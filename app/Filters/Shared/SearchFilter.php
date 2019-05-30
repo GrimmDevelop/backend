@@ -16,13 +16,7 @@ class SearchFilter implements Filter
 
     public function apply(Builder $query, Collection $values)
     {
-        if ($query instanceof \Sofa\Eloquence\Builder) {
-            $query->search($values->get('search'));
-
-            // remove 'relevance' field from ORDER BY
-            // note: order by's from other filters need to apply afterwards
-            $query->getQuery()->orders = null;
-        }
+        $query->search($values->get('search'));
     }
 
     public function shouldPreserve()

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Letters;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\DestroyLettersAssociationsRequest;
 use App\Http\Requests\StoreLettersAssociationsRequest;
 use App\Http\Requests\UpdateLettersAssociationsRequest;
 use Grimm\Letter;
 use Grimm\LetterPersonAssociation;
-use App\Http\Controllers\Controller;
 
 class AssociationsController extends Controller
 {
@@ -20,7 +20,9 @@ class AssociationsController extends Controller
      */
     public function create(Letter $letter)
     {
-        return view('letters.associations.create', compact('letter'));
+        $type = request()->input('type');
+
+        return view('letters.associations.create', compact('letter', 'type'));
     }
 
     /**
@@ -81,13 +83,12 @@ class AssociationsController extends Controller
      * @param DestroyLettersAssociationsRequest $request
      * @param Letter $letter
      * @param LetterPersonAssociation $association
-     * @return void
      */
     public function destroy(
         DestroyLettersAssociationsRequest $request,
         Letter $letter,
         LetterPersonAssociation $association
     ) {
-        $request->persist($letter, $association);
+        $request->persist($association);
     }
 }
