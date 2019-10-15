@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\LetterCodeRule;
 use App\Transformers\UniqueIdTransformer;
 use Grimm\Letter;
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,7 +28,7 @@ class StoreLetterRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'string|required',
+            'code' => ['required', new LetterCodeRule],
             'date' => 'string|required',
         ];
     }
@@ -47,7 +48,7 @@ class StoreLetterRequest extends FormRequest
 
         $letter->unique_code = $transformer->transform($letter->id);
 
-        $letter->code = number_format($this->input('code'), 4, '.', '');
+        $letter->code = number_format($this->normalizeCode($this->input('code')), 4, '.', '');
 
         $letter->date = $this->input('date');
 
@@ -57,5 +58,10 @@ class StoreLetterRequest extends FormRequest
         $letter->save();
 
         return $letter;
+    }
+
+    protected function normalizeCode($code)
+    {
+        return str_replace(',', '.', $code);
     }
 }
