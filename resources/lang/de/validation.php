@@ -118,6 +118,7 @@ return [
         'bio_data_source' => 'Die Quelle der biogr. Daten',
         'add_data' => 'Die zusätzlichen Daten',
         'source' => 'Die Quelle',
+        'date' => 'Das Datum',
         'book' => 'Buch',
         'page' => 'Seite',
         'page_to' => '"Seite bis"',
