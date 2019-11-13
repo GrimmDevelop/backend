@@ -22,7 +22,7 @@
                     Der komplette Brieftext.
                 </p>
 
-                <full_text-index letter-id="{{ $letter->getRouteKey() }}" ref="full_text"></full_text-index>
+                <lettertext-index letter-id="{{ $letter->getRouteKey() }}" ref="lettertext"></lettertext-index>
             </div>
         </div>
     </div>
@@ -45,5 +45,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ url('js/letters-full-text.js') }}"></script>
+    <script src="{{ url('js/letters-lettertext') }}"></script>
 @endsection

@@ -1,6 +1,6 @@
 import '../bootstrap';
 
-import FullTextIndex from './full_text/FullTextIndex';
+import LetterTextIndex from './lettertext/LetterTextIndex';
 
 new window.Vue({
     el: '#app-container',
@@ -14,6 +14,6 @@ new window.Vue({
     },
 
     components: {
-        FullTextIndex
+        LetterTextIndex
     }
 });
