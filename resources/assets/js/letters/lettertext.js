@@ -9,7 +9,7 @@ new window.Vue({
 
     methods: {
         save() {
-            this.$refs.full_text.save();
+            this.$refs.lettertext.save();
         }
     },
 
