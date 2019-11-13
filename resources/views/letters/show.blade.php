@@ -18,6 +18,12 @@
                 <span class="fa fa-language"></span>
                 Apparate und Sachkommentare
             </a>
+
+            <a href="{{ route('letters.full_text.index', [$letter]) }}" role="button"
+               class="btn btn-default">
+                <span class="fa fa-language"></span>
+                Brieftext
+            </a>
         @endcan
     </portal>
 

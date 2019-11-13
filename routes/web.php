@@ -104,3 +104,6 @@ $this->group(['middleware' => 'auth'], function () {
         ->name('admin.import.upload');
     $this->post('admin/import/upload', 'ImportController@uploadPost');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
