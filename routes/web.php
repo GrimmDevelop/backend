@@ -32,6 +32,8 @@ $this->group(['middleware' => 'auth'], function () {
 
     $this->resource('letters.apparatuses', 'LetterApparatusesController')->only(['index']);
 
+    $this->resource('letters.lettertext', 'LetterTextController')->only(['index']);
+
     $this->resource('letters.associations', 'Letters\\AssociationsController', ['except' => ['index', 'show']]);
 
     // Conversations
@@ -99,11 +101,7 @@ $this->group(['middleware' => 'auth'], function () {
     $this->get('admin/import/remove', 'ImportController@remove');
     $this->get('admin/import/status', 'ImportController@status');
     $this->post('admin/import/trigger', 'ImportController@trigger');
-
     $this->get('admin/import/upload', 'ImportController@uploadGet')
         ->name('admin.import.upload');
     $this->post('admin/import/upload', 'ImportController@uploadPost');
 });
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

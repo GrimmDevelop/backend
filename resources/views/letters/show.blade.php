@@ -21,7 +21,7 @@
 
             <a href="{{ route('letters.lettertext.index', [$letter]) }}" role="button"
                class="btn btn-default">
-                <span class="fa fa-language"></span>
+                <span class="fa fa-envelope-open-o  "></span>
                 Brieftext
             </a>
         @endcan

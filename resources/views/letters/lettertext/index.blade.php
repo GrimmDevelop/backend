@@ -45,5 +45,5 @@
 @endsection
 
 @section('scripts')
-    <script src="{{ url('js/letters-lettertext') }}"></script>
+    <script src="{{ url('js/letters-lettertext.js') }}"></script>
 @endsection
