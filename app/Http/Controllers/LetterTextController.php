@@ -15,6 +15,6 @@ class LetterTextController extends Controller
      */
     public function index(Letter $letter)
     {
-        return view('letters.lettertext.index', compact('letter'));
+        return view('letters.letter-text.index', compact('letter'));
     }
 }

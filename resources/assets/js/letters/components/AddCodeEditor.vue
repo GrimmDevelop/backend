@@ -13,8 +13,8 @@
                 <div class="form-group" rel="createItemForm">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="inputCode">Code: </label>
-                            <input type="text" id="inputCode" class="form-control" v-model="createCode">
+                            <label for="inputInformationCode">Code: </label>
+                            <input type="text" id="inputInformationCode" class="form-control" v-model="createCode">
                         </div>
                         <div>
                             <label for="inputErrorGenerated">Error Generated: </label>
@@ -27,8 +27,8 @@
                         </div>
                         <div v-if="errors.length" class="list-group list-group-item-text">
                             <ul>
-                                <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">{{
-                                    error }}
+                                <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">
+                                    {{ error }}
                                 </li>
                             </ul>
                         </div>

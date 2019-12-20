@@ -13,15 +13,15 @@
                 <div class="form-inline" rel="createItemForm">
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="inputEntry">Eintrag: </label>
+                            <label :for="`inputEntry${modal}`">Eintrag: </label>
                             <input type="text" class="form-control input-sm"
-                                   id="inputEntry" name="entry"
+                                   :id="`inputEntry${modal}`" name="entry"
                                    ref="createEntryField" v-model="createEntry">
                         </div>
                         <div class="form-group">
-                            <label for="inputYear">Jahr: </label>
+                            <label :for="`inputYear${modal}`">Jahr: </label>
                             <input type="text" class="form-control input-sm"
-                                   id="inputYear" name="year"
+                                   :id="`inputYear${modal}`" name="year"
                                    v-model="createYear">
                         </div>
                     </div>

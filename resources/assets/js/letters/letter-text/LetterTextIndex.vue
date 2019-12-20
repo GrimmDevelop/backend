@@ -1,8 +1,8 @@
 <template>
-    <div v-if="lettertext">
+    <div v-if="letterText">
         <h3>Brieftext</h3>
 
-        <html-editor v-model="lettertext.entry" height="250px"></html-editor>
+        <html-editor v-model="letterText.entry" height="250px"></html-editor>
     </div>
 </template>
 
@@ -20,7 +20,7 @@
 
         data() {
             return {
-                full_text: null,
+                letterText: null,
             };
         },
 
@@ -30,14 +30,14 @@
 
         methods: {
             loadLetterText() {
-                this.$http.get(`/api/letters/${this.letterId}/lettertext`).then((response) => {
-                    this.lettertext = response.data.data;
+                this.$http.get(`/api/letters/${this.letterId}/letter-text`).then((response) => {
+                    this.letterText = response.data.data;
                 });
             },
 
             save() {
-                this.$http.put(`/api/letters/${this.letterId}/lettertext/${this.full_text.id}`, {
-                    entry: this.lettertext.entry,
+                this.$http.put(`/api/letters/${this.letterId}/letter-text/${this.letterText.id}`, {
+                    entry: this.letterText.entry,
                 }).then(() => this.loadLetterText());
             }
         },

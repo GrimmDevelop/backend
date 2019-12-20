@@ -22,7 +22,7 @@
                     Der komplette Brieftext.
                 </p>
 
-                <lettertext-index letter-id="{{ $letter->getRouteKey() }}" ref="lettertext"></lettertext-index>
+                <letter-text-index letter-id="{{ $letter->getRouteKey() }}" ref="lettertext"></letter-text-index>
             </div>
         </div>
     </div>

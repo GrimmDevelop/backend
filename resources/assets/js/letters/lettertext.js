@@ -1,6 +1,6 @@
 import '../bootstrap';
 
-import LetterTextIndex from './lettertext/LetterTextIndex';
+import LetterTextIndex from './letter-text/LetterTextIndex';
 
 new window.Vue({
     el: '#app-container',
