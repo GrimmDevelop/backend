@@ -21,7 +21,7 @@
                 <p>
                     Der komplette Brieftext.
                 </p>
-
+                <div class = 'col-lg-6'>{!! $letter->text !!}</div>
                 <letter-text-index letter-id="{{ $letter->getRouteKey() }}" ref="lettertext"></letter-text-index>
             </div>
         </div>

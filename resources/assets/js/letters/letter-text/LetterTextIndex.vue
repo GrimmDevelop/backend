@@ -1,27 +1,24 @@
 <template>
     <div v-if="letterText">
         <h3>Brieftext</h3>
-
-        <html-editor v-model="letterText.entry" height="250px"></html-editor>
+        <div v-html="letterText.entry" style="width:138mm" />
     </div>
 </template>
 
 <script>
-    import HtmlEditor from "../components/HtmlEditor";
-
     export default {
         name: "LetterTextIndex",
-
-        props: {
-            letterId: {
-                required: true,
-            },
-        },
 
         data() {
             return {
                 letterText: null,
             };
+        },
+
+        props: {
+            letterId: {
+                required: true,
+            },
         },
 
         mounted() {
@@ -44,7 +41,6 @@
 
 
         components: {
-            HtmlEditor
         },
     };
 </script>

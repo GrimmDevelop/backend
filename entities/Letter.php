@@ -25,6 +25,7 @@ use Spatie\MediaLibrary\Models\Media;
  * @property float code
  * @property bool valid
  *
+ * @property string text
  * @property string date
  *
  * @property string addition
