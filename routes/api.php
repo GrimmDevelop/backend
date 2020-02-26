@@ -14,7 +14,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::resource('letters.apparatuses', 'Letters\\ApparatusesController', ['only' => ['index', 'update', 'delete']]);
     Route::resource('letters.comments', 'Letters\\CommentsController', ['only' => ['index', 'update', 'delete']]);
 
-    Route::resource('letters.letter-text', 'Letters\\CommentsController', ['only' => ['index', 'update', 'delete']]);
+    Route::resource('letters.letter-text', 'Letters\\TextController', ['only' => ['index', 'update', 'delete']]);
 
     Route::resource('people.prints', 'PersonPrintController', ['except' => ['edit']]);
     Route::resource('people.inheritances', 'PersonInheritanceController', ['except' => ['edit']]);

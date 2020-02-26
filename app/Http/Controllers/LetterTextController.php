@@ -17,4 +17,9 @@ class LetterTextController extends Controller
     {
         return view('letters.letter-text.index', compact('letter'));
     }
+
+    public function update(Letter $letter)
+    {
+        $letter->text = request('text');
+    }
 }

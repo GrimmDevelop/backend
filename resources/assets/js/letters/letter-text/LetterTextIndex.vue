@@ -1,7 +1,8 @@
 <template>
     <div v-if="letterText">
         <h3>Brieftext</h3>
-        <div v-html="letterText.entry" style="width:138mm" />
+        <div v-html="letterText.entry" style="width:138mm"></div>
+        <textarea v-model="letterText.entry" style="width: 100%;" rows="20"></textarea>
     </div>
 </template>
 
