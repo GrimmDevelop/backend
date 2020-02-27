@@ -26,7 +26,7 @@ class LetterCodeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param Letter $letter
      * @return LetterCode[]\Illuminate\Http\RedirectResponse|mixed
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -115,10 +115,8 @@ class LetterCodeController extends Controller
     {
         $codes = LetterCode::all('id', 'name', 'error_generated', 'internal');
 
-        $codes = $codes->mapWithKeys(function ($item) {
+        return $codes->mapWithKeys(function ($item) {
             return [$item->id => $item];
         });
-        return $codes;
     }
-
 }

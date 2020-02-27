@@ -1,4 +1,5 @@
 {
+    "/frontend/js/frontend.js": "/frontend/js/frontend.js",
     "/js/associations.js": "/js/associations.js",
     "/js/deployment.js": "/js/deployment.js",
     "/js/import.js": "/js/import.js",
@@ -16,5 +17,6 @@
     "/js/misc.js": "/js/misc.js",
     "/css/app.css": "/css/app.css",
     "/css/formats.css": "/css/formats.css",
+    "/frontend/css/app.css": "/frontend/css/app.css",
     "/js/person.js": "/js/person.js"
 }

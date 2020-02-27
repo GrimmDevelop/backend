@@ -8,7 +8,7 @@ use Grimm\LibraryBook;
 use Grimm\Person;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class DashboardController extends Controller
 {
 
     /**
@@ -38,7 +38,7 @@ class HomeController extends Controller
         $latestBooksUpdated = Book::orderBy('updated_at', 'desc')->take($take)->get();
 
         return view(
-            'home',
+            'dashboard',
             compact('latestLettersCreated', 'latestPeopleCreated', 'latestBooksCreated', 'latestLibraryBooksCreated', 'latestPeopleUpdated',
                 'latestBooksUpdated')
         );
