@@ -65,8 +65,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('admin/import/remove', 'ImportController@remove');
     Route::get('admin/import/status', 'ImportController@status');
     Route::post('admin/import/trigger', 'ImportController@trigger');
-
     Route::get('admin/import/upload', 'ImportController@uploadGet')
         ->name('admin.import.upload');
+
     Route::post('admin/import/upload', 'ImportController@uploadPost');
 });

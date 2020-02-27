@@ -19,5 +19,7 @@ Route::resource('letters.scans', 'LetterScansController');
 Route::resource('letters.apparatuses', 'LetterApparatusesController')
     ->only(['index']);
 
+Route::resource('letters.lettertext', 'LetterTextController')->only(['index']);
+
 Route::resource('letters.associations', 'Letters\\AssociationsController')
     ->except(['index', 'show']);

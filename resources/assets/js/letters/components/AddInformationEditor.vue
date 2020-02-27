@@ -28,8 +28,8 @@
                         </div>
                         <div v-if="errors.length" class="list-group list-group-item-text">
                             <ul>
-                                <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">{{
-                                    error }}
+                                <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">
+                                    {{ error }}
                                 </li>
                             </ul>
                         </div>

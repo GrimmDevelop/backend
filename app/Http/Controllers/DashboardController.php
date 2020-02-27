@@ -16,30 +16,28 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
-
     }
 
     /**
      * Show the application dashboard.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function index(Request $request)
     {
         $take = max(min((int)$request->get('take', 4), 50), 0);
-
-        $latestLettersCreated = Letter::latest()->take($take)->get();
-        $latestPeopleCreated = Person::latest()->take($take)->get();
-        $latestBooksCreated = Book::latest()->take($take)->get();
-        $latestLibraryBooksCreated = LibraryBook::latest()->take($take)->get();
-
-        $latestPeopleUpdated = Person::orderBy('updated_at', 'desc')->take($take)->get();
-        $latestBooksUpdated = Book::orderBy('updated_at', 'desc')->take($take)->get();
+        $latestLettersCreated = Letter::query()->latest()->take($take)->get();
+        $latestPeopleCreated = Person::query()->latest()->take($take)->get();
+        $latestBooksCreated = Book::query()->latest()->take($take)->get();
+        $latestLibraryBooksCreated = LibraryBook::query()->latest()->take($take)->get();
+        $latestPeopleUpdated = Person::query()->orderBy('updated_at', 'desc')->take($take)->get();
+        $latestBooksUpdated = Book::query()->orderBy('updated_at', 'desc')->take($take)->get();
 
         return view(
             'dashboard',
-            compact('latestLettersCreated', 'latestPeopleCreated', 'latestBooksCreated', 'latestLibraryBooksCreated', 'latestPeopleUpdated',
+            compact('latestLettersCreated', 'latestPeopleCreated', 'latestBooksCreated', 'latestLibraryBooksCreated',
+                'latestPeopleUpdated',
                 'latestBooksUpdated')
         );
     }

@@ -29,6 +29,7 @@ mix
     .js('resources/assets/js/letters/letter.js', 'public/js')
     .js('resources/assets/js/letters/scans.js', 'public/js/letters-scans.js')
     .js('resources/assets/js/letters/apparatuses.js', 'public/js/letters-apparatuses.js')
+    .js('resources/assets/js/letters/lettertext.js', 'public/js/letters-lettertext.js')
     .js('resources/assets/js/deployment/deployment.js', 'public/js')
     .js('resources/assets/js/import/import.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
