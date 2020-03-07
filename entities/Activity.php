@@ -4,6 +4,7 @@ namespace Grimm;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 /**
  * Class Activity
@@ -54,7 +55,7 @@ class Activity extends Model
         $type = strtolower(last(explode('\\', $this->model_type)));
 
         if ($pluralize) {
-            return str_plural($type);
+            return Str::plural($type);
         }
 
         return $type;

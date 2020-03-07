@@ -1,7 +1,9 @@
 <template>
-    <svg class="icon fill-current" :class="format">
-        <use :href="iconHref"></use>
-    </svg>
+    <span class="icon inline-block" :class="format">
+        <svg class="w-full h-full fill-current">
+            <use :href="iconHref"></use>
+        </svg>
+    </span>
 </template>
 
 <script>
@@ -9,9 +11,10 @@
         name: "Icon",
 
         props: {
-            icon: {
-                required: true,
+            spinner: {
+                default: false,
             },
+            icon: {},
             format: {
                 default: '',
             },

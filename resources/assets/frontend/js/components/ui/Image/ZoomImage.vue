@@ -1,6 +1,6 @@
 <template>
     <div ref="container" class="relative w-full h-full" @wheel.prevent="scroll">
-        <img class="absolute" style="top: 0; left: 0;" ref="image" :src="src" alt="Brief">
+        <img class="absolute max-w-none" style="top: 0; left: 0;" ref="image" :src="src" alt="Brief" @load="test">
     </div>
 </template>
 
@@ -26,13 +26,17 @@
         },
 
         methods: {
+            test() {
+                console.log('done');
+            },
+
             measureContainer() {
                 this.containerWidth = this.$refs.container.clientWidth;
                 this.containerHeight = this.$refs.container.clientHeight;
             },
 
             getTransformation(imageX, imageY, w, h, scroll, mouseX, mouseY) {
-                const newW = w + scroll;
+                const newW = Math.max(w + scroll, 10);
                 const scale = (newW / w);
 
                 const newH = h * scale;
@@ -61,7 +65,7 @@
                 /** @var {WheelEvent} event */
                 if (event.ctrlKey) {
                     // zoom
-                    const scroll = -event.deltaY;
+                    const scroll = -this.deltaY(event);
 
                     const mouseX = event.clientX - this.$refs.container.offsetLeft;
                     const mouseY = event.clientY - this.$refs.container.offsetTop;
@@ -97,6 +101,15 @@
                 this.$refs.image.style.left = `${x}px`;
                 this.$refs.image.style.top = `${y}px`;
                 this.$refs.image.style.width = `${width}px`;
+            },
+
+            deltaY(event) {
+                let factor = 7.5;
+                if (event.shiftKey) {
+                    factor = 0.8;
+                }
+
+                return event.deltaY * factor;
             },
         },
     };

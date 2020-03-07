@@ -6,7 +6,7 @@
             <div class="col-md-12 page-title">
                 <h1><a class="prev-link" href="{{ route('books.show', [$book]) }}"><i
                                 class="fa fa-caret-left"></i></a> Personen
-                    in {{ str_limit($book->short_title, 60) }} {{-- isset($book->year) ? '(' . $book->year . ')' : '' --}}
+                    in {{ \Illuminate\Support\Str::limit($book->short_title, 60) }} {{-- isset($book->year) ? '(' . $book->year . ')' : '' --}}
                 </h1>
             </div>
             <div class="col-md-12 page-content">

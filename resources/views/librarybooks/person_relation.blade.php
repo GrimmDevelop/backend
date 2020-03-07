@@ -19,7 +19,7 @@
             <th width="40%">Notizen</th>
             <th width="5%"></th>
         </tr>
-        @forelse($book->{str_plural($name)} as $person)
+        @forelse($book->{\Illuminate\Support\Str::plural($name)} as $person)
             <tr>
                 <td>
                     <a href="{{ route('librarypeople.show', [$person]) }}">

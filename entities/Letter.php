@@ -275,4 +275,16 @@ class Letter extends Model implements IsGridable, HasMedia
 
         Media::setNewOrder($ids);
     }
+
+    /**
+     * @param Media|null $media
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     */
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+            ->width(200)
+            ->height(300)
+            ->performOnCollections('letters.scans.handwriting_location');
+    }
 }

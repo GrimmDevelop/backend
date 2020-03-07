@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
 class LetterInformation extends Model
 {
 
+    protected $table = 'letter_informations';
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -6,7 +6,6 @@ use App\Import\ImportService;
 use App\Jobs\ImportDBFDatabases;
 use Flow\Config;
 use Flow\File;
-use Illuminate\Support\Facades\Input;
 
 class ImportController extends Controller
 {
@@ -134,7 +133,7 @@ class ImportController extends Controller
      */
     private function saveUploadedFile(File $file)
     {
-        $filename = Input::get('flowRelativePath');
+        $filename = request()->get('flowRelativePath');
 
         $path = storage_path() . '/import/';
 

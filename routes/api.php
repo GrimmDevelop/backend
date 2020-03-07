@@ -1,5 +1,8 @@
 <?php
 
+
+use Illuminate\Support\Facades\Route;
+
 Route::group(['prefix' => 'api'], function () {
     Route::resource('letters.prints', 'LetterPrintController', ['except' => ['show', 'create', 'edit']]);
     Route::resource('letters.transcriptions', 'Letters\\TranscriptionController',

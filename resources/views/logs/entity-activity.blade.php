@@ -1,6 +1,6 @@
 <table class="table table-responsive table-striped">
     <tbody>
-    @forelse($entity->activity as $activity)
+    @forelse($entity->activities as $activity)
         @if ($activity->isUpdatingActivity())
             <tr>
                 <td>

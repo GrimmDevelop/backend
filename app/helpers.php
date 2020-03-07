@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 if (!function_exists('sort_link')) {
     /**
      * @param $url
@@ -128,7 +130,7 @@ if (!function_exists('model_type')) {
         $type = strtolower(last(explode('\\', $reflection->getShortName())));
 
         if ($pluralize) {
-            return str_plural($type);
+            return Str::plural($type);
         }
 
         return $type;

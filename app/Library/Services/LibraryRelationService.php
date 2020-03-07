@@ -5,6 +5,7 @@ namespace App\Library\Services;
 use App\Library\Services\Exceptions\InvalidRelationTypeException;
 use Grimm\LibraryBook;
 use Grimm\LibraryPerson;
+use Illuminate\Support\Str;
 
 class LibraryRelationService
 {
@@ -28,7 +29,7 @@ class LibraryRelationService
         $this->guardAgainstUnknownRelationType($relation);
 
         /** @var \Illuminate\Database\Eloquent\Relations\BelongsToMany $relationQuery */
-        $relationQuery = $book->{str_plural($relation)}();
+        $relationQuery = $book->{Str::plural($relation)}();
 
         try {
             $relationQuery->save($person);
@@ -51,7 +52,7 @@ class LibraryRelationService
         $this->guardAgainstUnknownRelationType($relation);
 
         /** @var \Illuminate\Database\Eloquent\Relations\BelongsToMany $relationQuery */
-        $relationQuery = $book->{str_plural($relation)}();
+        $relationQuery = $book->{Str::plural($relation)}();
 
         try {
             $relationQuery->detach([$person->id]);

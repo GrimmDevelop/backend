@@ -69,7 +69,7 @@
                     title="{{ addslashes($letter->title()) }}">
                     <a class="prev-link"
                        href="{{ referrer_url('last_letter_index', route('letters.index'), '#letter-' . $letter->id) }}">
-                        <i class="fa fa-caret-left"></i></a> Briefdaten: {{ str_limit($letter->title(), 60) }}
+                        <i class="fa fa-caret-left"></i></a> Briefdaten: {{ \Illuminate\Support\Str::limit($letter->title(), 60) }}
                 </h1>
             </div>
 
@@ -161,7 +161,7 @@
                             <div class="col-sm-10 col-sm-offset-2">
                                 @foreach($letter->getMedia('letters.scans.handwriting_location') as $index => $media)
                                     <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img
-                                                src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
+                                                src="{{ $media->getFullUrl('thumb') }}" style="width: 10%;"></a>
                                 @endforeach
                             </div>
                         </div>

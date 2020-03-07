@@ -6,7 +6,7 @@
             <div class="col-md-12 page-title">
                 <h1><a class="prev-link" href="{{ route('letters.show', [$letter]) }}"><i
                                 class="fa fa-caret-left"></i></a> Personen
-                    in {{ str_limit($letter->title(), 60) }}
+                    in {{ \Illuminate\Support\Str::limit($letter->title(), 60) }}
                 </h1>
             </div>
             <div class="col-md-12 page-content">

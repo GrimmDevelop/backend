@@ -43,6 +43,10 @@ class Kernel extends HttpKernel
             'auth:api',
             'bindings',
         ],
+
+        'data' => [
+            'bindings',
+        ],
     ];
 
     /**

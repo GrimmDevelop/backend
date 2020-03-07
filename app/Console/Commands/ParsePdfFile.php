@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Gufy\PdfToHtml\Pdf;
 use Illuminate\Console\Command;
-use Smalot\PdfParser\Documen    t;
+use Smalot\PdfParser\Document;
 use Smalot\PdfParser\Element;
 use Smalot\PdfParser\Parser;
 use Smalot\PdfParser\PDFObject;

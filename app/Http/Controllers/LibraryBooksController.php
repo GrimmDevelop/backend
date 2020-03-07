@@ -29,7 +29,6 @@ use App\Upload\UploadsFiles;
 use Carbon\Carbon;
 use Flow\File;
 use Grimm\LibraryBook;
-use Illuminate\Support\Facades\Input;
 
 
 class LibraryBooksController extends Controller
@@ -209,7 +208,7 @@ class LibraryBooksController extends Controller
      */
     private function saveUploadedFile(File $file, LibraryBook $book)
     {
-        $filename = Input::get('flowRelativePath');
+        $filename = request()->get('flowRelativePath');
 
         $tmp = uniqid(null, true);
 
