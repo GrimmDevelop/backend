@@ -6,15 +6,15 @@
             <div class="col-md-12 page-title">
                 <h1><a class="prev-link"
                        href="{{ referrer_url('last_book_index', route('books.index'), "#book-" . $book->id) }}"><i
-                                class="fa fa-caret-left"></i></a> Buchdaten</h1>
+                            class="fa fa-caret-left"></i></a> Buchdaten</h1>
             </div>
             @if($book->trashed())
                 <div class="col-md-12 deleted-record-info">
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-1">
+                        <div class="col-md-8 offset-md-1">
                             <div class="media">
                                 <div class="media-left">
-                                    <i class="fa fa-trash-o fa-5x"></i>
+                                    <span class="fa fa-trash-o fa-5x"></span>
                                 </div>
                                 <div class="media-body media-middle">
                                     <h4 class="media-heading">Das Buch wurde gelöscht</h4>
@@ -34,7 +34,7 @@
             @endif
             <div class="col-md-12 page-content">
                 <div class="panel-body">
-                    <form class="form-horizontal" action="{{ route('books.update', ['id' => $book->id]) }}"
+                    <form class="form-horizontal" action="{{ route('books.update', [$book]) }}"
                           method="post" ref="bookForm">
                         {{ csrf_field() }}
                         {{ method_field('PUT') }}
@@ -55,25 +55,25 @@
                 </div>
 
                 <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#associations" data-toggle="tab">Assoziationen</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#associations" data-toggle="tab">Assoziationen</a>
                     </li>
-                    <li>
-                        <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#changes" data-toggle="tab">Änderungsverlauf</a>
                     </li>
                 </ul>
 
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="associations">
+                    <div role="tabpanel" class="tab-pane show active" id="associations">
                         @unless($book->trashed())
                             <div class="add-button">
-                                <a href="{{ route('books.associations.index', [$book->id]) }}"
+                                <a href="{{ route('books.associations.index', [$book]) }}"
                                    class="btn btn-primary btn-sm">
-                                    <i class="fa fa-plus"></i> Person hinzufügen
+                                    <span class="fa fa-plus"></span> Person hinzufügen
                                 </a>
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -89,7 +89,7 @@
                             @foreach($book->personAssociations as $personAssociation)
                                 <tr>
                                     <td>
-                                        <a href="{{ route('people.show', ['id' => $personAssociation->person->id]) }}">{{ $personAssociation->person->id }}</a>
+                                        <a href="{{ route('people.show', [$personAssociation->person]) }}">{{ $personAssociation->person->id }}</a>
                                     </td>
                                     <td>{{ $personAssociation->person->last_name }}</td>
                                     <td>{{ $personAssociation->person->first_name }}</td>
@@ -125,7 +125,7 @@
     <portal to="status-bar-left">
         @can('books.delete')
             @unless($book->trashed())
-                <form id="danger-zone" action="{{ route('books.destroy', ['id' => $book->id]) }}"
+                <form id="danger-zone" action="{{ route('books.destroy', [$book]) }}"
                       method="post" class="form-inline">
                     {{ csrf_field() }}
                     {{ method_field('delete') }}
@@ -145,12 +145,12 @@
                     Speichern
                 </button>
 
-                <button type="button" class="btn btn-default" @click="form.reset()">
+                <button type="button" class="btn btn-secondary" @click="form.reset()">
                     Änderungen verwerfen
                 </button>
 
                 <a href="{{ referrer_url('last_book_index', route('books.index')) }}"
-                   class="btn btn-default">
+                   class="btn btn-secondary">
                     Abbrechen
                 </a>
             @endunless

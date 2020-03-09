@@ -6,7 +6,7 @@
             <div class="col-md-12 page-title">
                 <div class="button-container">
                     <div class="generic">
-                        <a href="{{ route('users.create') }}" role="button" class="btn btn-default btn-sm">
+                        <a href="{{ route('users.create') }}" role="button" class="btn btn-secondary btn-sm">
                             <span class="fa fa-plus"></span>
                             {{ trans('users.store') }}
                         </a>
@@ -17,12 +17,12 @@
             <div class="col-md-12 tabs-container">
 
                 <ul class="nav nav-tabs nav-justified" role="tablist">
-                    <li role="presentation" class="active">
-                        <a href="#users" aria-controls="users" role="tab"
+                    <li role="presentation" class="nav-item active">
+                        <a class="nav-link" href="#users" aria-controls="users" role="tab"
                            data-toggle="tab">{{ trans('users.users') }}</a>
                     </li>
-                    <li role="presentation">
-                        <a href="#roles" aria-controls="roles" role="tab"
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" href="#roles" aria-controls="roles" role="tab"
                            data-toggle="tab">{{ trans('users.roles.title') }}</a>
                     </li>
                 </ul>
@@ -31,29 +31,29 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="users">
                         {{ $users->links() }}
-                        <table class="table table-responsive table-hover">
+                        <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th>{{ trans('users.name') }}</th>
                                 <th>{{ trans('users.email') }}</th>
-                                <th><i class="fa fa-desktop"></i> / <i class="fa fa-user"></i></th>
+                                <th><span class="fa fa-desktop"></span> / <span class="fa fa-user"></span></th>
                                 <th>{{ trans('users.created_at') }}</th>
                                 <th>{{ trans('users.updated_at') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($users->items() as $user)
-                                <tr onclick="location.href='{{ route('users.show', ['id' => $user->id]) }}'"
+                                <tr onclick="location.href='{{ route('users.show', [$user]) }}'"
                                     style="cursor: pointer;">
                                     <td>{{ $user->id }}</td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         @if($user->api_only)
-                                            <i class="fa fa-desktop"></i>
+                                            <span class="fa fa-desktop"></span>
                                         @else
-                                            <i class="fa fa-user"></i>
+                                            <span class="fa fa-user"></span>
                                         @endif
                                     </td>
                                     <td>{{ $user->created_at->format('d.m.Y H:i:s') }}</td>
@@ -69,11 +69,11 @@
                     <div role="tabpanel" class="tab-pane" id="roles">
                         <div class="add-button">
                             <a class="btn btn-primary btn-sm" href="{{ route('roles.create') }}">
-                                <i class="fa fa-plus"></i> Rolle hinzufügen
+                                <span class="fa fa-plus"></span> Rolle hinzufügen
                             </a>
                         </div>
                         {{ $roles->links() }}
-                        <table class="table table-responsive table-hover">
+                        <table class="table table-hover">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -84,7 +84,7 @@
                             </thead>
                             <tbody>
                             @foreach($roles->items() as $role)
-                                <tr onclick="location.href='{{ route('roles.show', ['id' => $role->id]) }}'"
+                                <tr onclick="location.href='{{ route('roles.show', [$role]) }}'"
                                     style="cursor: pointer;">
                                     <td>{{ $role->id }}</td>
                                     <td>{{ $role->name }}</td>

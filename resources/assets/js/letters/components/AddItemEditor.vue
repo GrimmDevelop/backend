@@ -1,43 +1,36 @@
 <template>
-    <div class="modal fade" :id="modal" role="dialog" aria-labelledby="addItemTitle">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" data-dismiss="modal" aria-label="Schließen">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="addItemTitle">
-                        {{ title }} hinzufügen
-                    </h4>
-                </div>
-                <div class="form-inline" rel="createItemForm">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label :for="`inputEntry${modal}`">Eintrag: </label>
-                            <input type="text" class="form-control input-sm"
-                                   :id="`inputEntry${modal}`" name="entry"
-                                   ref="createEntryField" v-model="createEntry">
-                        </div>
-                        <div class="form-group">
-                            <label :for="`inputYear${modal}`">Jahr: </label>
-                            <input type="text" class="form-control input-sm"
-                                   :id="`inputYear${modal}`" name="year"
-                                   v-model="createYear">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            Schließen
-                        </button>
-                        <button type="button" class="btn btn-primary" @click.prevent="storeItem">Speichern</button>
-                    </div>
-                </div>
+    <modal :namespace="modal" :ref="`${modal}Modal`" @shown="shown">
+        <template slot="title">
+            {{ title }} hinzufügen
+        </template>
+
+        <template slot="body">
+            <div class="m-2">
+                <label :for="`inputEntry${modal}`">Eintrag: </label>
+                <input type="text" class="form-control form-control-sm"
+                       :id="`inputEntry${modal}`" name="entry"
+                       ref="focusField" v-model="createEntry">
             </div>
-        </div>
-    </div>
+            <div class="m-2">
+                <label :for="`inputYear${modal}`">Jahr: </label>
+                <input type="text" class="form-control form-control-sm"
+                       :id="`inputYear${modal}`" name="year"
+                       v-model="createYear">
+            </div>
+        </template>
+
+        <template slot="footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Schließen
+            </button>
+            <button type="button" class="btn btn-primary" @click.prevent="storeItem">Speichern</button>
+        </template>
+    </modal>
 </template>
 
 <script>
+    import Modal from "../../ui/components/Modal";
+
     export default {
         props: ['url', 'modal', 'title', 'on-stored'],
 
@@ -48,15 +41,11 @@
             };
         },
 
-        mounted() {
-            this.$nextTick(() => {
-                window.$('#' + this.modal).on('shown.bs.modal', () => {
-                    window.$(this.$refs.createEntryField).focus();
-                });
-            });
-        },
-
         methods: {
+            shown() {
+                this.$refs.focusField.focus();
+            },
+
             storeItem() {
                 this.$http.post(this.url, {
                     entry: this.createEntry,
@@ -70,6 +59,8 @@
                     window.$('#' + this.modal).modal('hide');
                 });
             }
-        }
+        },
+
+        components: {Modal},
     };
 </script>

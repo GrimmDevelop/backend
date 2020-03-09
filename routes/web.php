@@ -9,6 +9,7 @@ Auth::routes([
 ]);
 
 Route::get('/', 'Frontend\\AppController@index')->name('frontend');
+Route::get('/loader', 'Frontend\\AppController@loader')->name('loader');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', 'DashboardController@index')

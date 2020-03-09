@@ -2,6 +2,18 @@ let mix = require('laravel-mix');
 
 const tailwindcss = require('tailwindcss');
 
+Mix.listen('configReady', webpackConfig => {
+    webpackConfig.module.rules.forEach(rule => {
+        if (Array.isArray(rule.use)) {
+            rule.use.forEach(ruleUse => {
+                if (ruleUse.loader === 'resolve-url-loader') {
+                    ruleUse.options.engine = 'postcss';
+                }
+            });
+        }
+    });
+});
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -38,9 +50,9 @@ mix
     .js('resources/assets/frontend/js/frontend.js', 'public/frontend/js')
     .sass('resources/assets/frontend/sass/app.scss', 'public/frontend/css/')
     .options({
+        processCssUrls: true,
         postCss: [
             tailwindcss('./tailwind.config.js'),
         ]
     })
-    .sourceMaps()
-;
+    .sourceMaps();

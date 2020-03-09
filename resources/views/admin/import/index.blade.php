@@ -50,9 +50,9 @@
                     </table>
                 </div>
 
-                <div class="pull-right">
+                <div class="float-right">
                     <button class="btn btn-success" @click="startImport($event)" :disabled="started">
-                        <i class="fa fa-circle-o-notch fa-btn fa-spin" v-if="started"></i>
+                        <span class="fa fa-circle-o-notch fa-btn fa-spin" v-if="started"></span>
                         Import jetzt starten
                     </button>
                 </div>

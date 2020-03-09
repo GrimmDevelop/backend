@@ -4,7 +4,7 @@
     <div class="button-container">
         <div class="generic">
             <a href="{{ route('librarybooks.relation', [$book, $name]) }}"
-               role="button" class="btn btn-default btn-sm"
+               role="button" class="btn btn-secondary btn-sm"
                @click="checkForChanges">
                 <span class="fa fa-plus"></span>
                 {{ trans('librarybooks.relations.' . $name . '.name') }} hinzufügen

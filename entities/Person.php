@@ -182,7 +182,7 @@ class Person extends Model implements IsGridable
             'bookAssociations.book' => function ($query) {
                 $query->orderBy('books.title');
             },
-            'activity' => function ($query) {
+            'activities' => function ($query) {
                 $query->latest()->with('user');
             },
         ]);

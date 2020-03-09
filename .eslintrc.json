@@ -14,7 +14,7 @@
     },
     "rules": {
         "semi": ["error","always"],
-        "vue/html-indent": ["warning", 4],
+        "vue/html-indent": ["warn", 4],
         "vue/attribute-hyphenation": [1, "always"],
         "vue/mustache-interpolation-spacing": [1, "always"],
         "vue/no-template-shadow": [1]

@@ -24,7 +24,7 @@
                     @include('partials.form.boolean', ['field' => 'auto_generated', 'model' => 'people'])
 
                     <div class="button-bar row">
-                        <div class="col-sm-10 col-md-offset-2">
+                        <div class="col-sm-10 offset-md-2">
                             <button type="submit" class="btn btn-primary">Speichern</button>
                             <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
                                class="btn btn-link">Abbrechen</a>

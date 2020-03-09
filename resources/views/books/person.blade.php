@@ -9,7 +9,7 @@
             <div class="col-md-12 page-content">
                 <div class="row">
                     <div class="col-md-9">
-                        <table class="table table-responsive">
+                        <table class="table">
                             <tr>
                                 <th class="text-center">
                                     Person
@@ -24,7 +24,7 @@
                                     <a href="{{ route('people.show', [$association->person->id]) }}"
                                        data-toggle="tooltip"
                                        title="{{ trans('people.open') }}">
-                                        <i class="fa fa-arrow-left"></i>
+                                        <span class="fa fa-arrow-left"></span>
                                     </a>
                                     {{ $association->person->id }}
                                 </td>
@@ -38,7 +38,7 @@
                                     <a href="{{ route('books.show', [$association->book->id]) }}"
                                        data-toggle="tooltip"
                                        title="{{ trans('books.open') }}">
-                                        <i class="fa fa-arrow-right"></i>
+                                        <span class="fa fa-arrow-right"></span>
                                     </a>
                                 </td>
                             </tr>
@@ -73,7 +73,7 @@
                         <div class="thumbnail">
                             <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQyIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0MiAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTUzYWFkZjYzZDEgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNTNhYWRmNjNkMSI+PHJlY3Qgd2lkdGg9IjI0MiIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI4OS44NTE1NjI1IiB5PSIxMDUuMzYyNSI+MjQyeDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg=="
                                  alt="placeholder"
-                                 class="img-responsive">
+                                 class="img-fluid">
                             <div class="caption">
                                 <p class="text-danger text-center">
                                     Kein Scan vorhanden
@@ -95,7 +95,7 @@
                                     {{ csrf_field() }}
                                     {{ method_field('delete') }}
                                     <button type="submit" class="btn btn-danger">
-                                        <i class="fa fa-trash"></i>
+                                        <span class="fa fa-trash"></span>
                                         Verknüpfung aufheben
                                     </button>
                                 </form>

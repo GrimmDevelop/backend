@@ -17,5 +17,7 @@
     "/js/library-scans.js": "/js/library-scans.js",
     "/js/misc.js": "/js/misc.js",
     "/css/formats.css": "/css/formats.css",
-    "/js/person.js": "/js/person.js"
+    "/frontend/css/app.css": "/frontend/css/app.css",
+    "/js/person.js": "/js/person.js",
+    "/css/app.css": "/css/app.css"
 }

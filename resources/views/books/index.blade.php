@@ -7,7 +7,7 @@
                 <div class="button-container">
                     <div class="search {{ request()->has('title') ? 'active' : '' }}">
                         <form action="{{ url('books') }}" method="get">
-                            <input type="text" class="form-control input-sm" name="title" maxlength="64"
+                            <input type="text" class="form-control form-control-sm" name="title" maxlength="64"
                                    placeholder="Suche" value="{{ request()->has('title') ? request('title') : '' }}"/>
                             <button id="search-btn" type="submit" class="btn btn-primary btn-sm"><i
                                         class="fa fa-search"></i></button>
@@ -16,12 +16,12 @@
                     </div>
                     @if(request()->has('title'))
                         <div class="reset-search">
-                            <a href="{{ url()->filtered(['-name']) }}" class="btn btn-default btn-sm"><i
+                            <a href="{{ url()->filtered(['-name']) }}" class="btn btn-secondary btn-sm"><i
                                         class="fa fa-times"></i></a>
                         </div>
                     @endif
                     <div class="generic">
-                        <a href="{{ route('books.create') }}" role="button" class="btn btn-default btn-sm">
+                        <a href="{{ route('books.create') }}" role="button" class="btn btn-secondary btn-sm">
                             <span class="fa fa-plus"></span>
                             {{ trans('books.store') }}
                         </a>
@@ -36,7 +36,7 @@
                 {{ $books->appends($filter->delta())->links() }}
             </div>
             <div class="col-md-12 list-content">
-                <table class="table table-responsive table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th><a href="{{ sort_link('books', 'id') }}"># {!! sort_arrow('id') !!}</a></th>
@@ -57,7 +57,7 @@
                     <tbody>
                     @foreach($books->items() as $book)
                         <tr id="book-{{ $book->id }}"
-                            onclick="location.href='{{ route('books.show', ['id' => $book->id]) }}'"
+                            onclick="location.href='{{ route('books.show', [$book]) }}'"
                             style="cursor: pointer;" class="@if($book->trashed()) bg-danger @endif">
                             <td>{{ $book->id }}</td>
                             <td>{{ $book->short_title }}</td>

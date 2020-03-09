@@ -1,52 +1,45 @@
 <template>
-    <div class="modal fade" :id="modal" role="dialog" aria-labelledby="addItemTitle">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" data-dismiss="modal" aria-label="Schließen">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="addItemTitle">
-                        {{ title }} hinzufügen
-                    </h4>
-                </div>
-                <div class="form-group" rel="createItemForm">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="inputCodes">Code: </label>
-                            <select id="inputCodes" v-model="createCode" ref="createCodeField">
-                                <option v-for="code in codesItem" :key="code.id" :value="code.id" class="form-control"
-                                        v-text="code.name">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputData">Werte: </label>
-                            <textarea rows="5" cols="30" class="form-control" name="data"
-                                      id="inputData" v-model="createdData">
-                            </textarea>
-                        </div>
-                        <div v-if="errors.length" class="list-group list-group-item-text">
-                            <ul>
-                                <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">
-                                    {{ error }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            Schließen
-                        </button>
-                        <button type="button" class="btn btn-primary" @click.prevent="storeItem">Speichern</button>
-                    </div>
-                </div>
+    <modal :namespace="modal" :ref="`${modal}Modal`" @shown="shown">
+        <template slot="title">
+            {{ title }} hinzufügen
+        </template>
+
+        <template slot="body">
+            <div class="m-2">
+                <label for="inputCodes">Code: </label>
+                <select class="form-control form-control-sm" id="inputCodes" v-model="createCode" ref="focusField">
+                    <option v-for="code in codesItem" :key="code.id" :value="code.id" class="form-control"
+                            v-text="code.name">
+                    </option>
+                </select>
             </div>
-        </div>
-    </div>
+            <div class="m-2">
+                <label for="inputData">Werte: </label>
+                <textarea rows="5" cols="30" class="form-control" name="data"
+                          id="inputData" v-model="createdData">
+                            </textarea>
+            </div>
+            <div v-if="errors.length" class="list-group list-group-item-text">
+                <ul>
+                    <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">
+                        {{ error }}
+                    </li>
+                </ul>
+            </div>
+        </template>
+
+        <template slot="footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Schließen
+            </button>
+            <button type="button" class="btn btn-primary" @click.prevent="storeItem">Speichern</button>
+        </template>
+    </modal>
 </template>
 
 <script>
+    import Modal from "../../ui/components/Modal";
+
     export default {
         props: ['url', 'modal', 'codesItem', 'title', 'on-stored'],
 
@@ -66,15 +59,13 @@
 
                 this.createCode = code;
             });
-
-            this.$nextTick(() => {
-                window.$('#' + this.modal).on('shown.bs.modal', () => {
-                    window.$(this.$refs.createCodeField).focus();
-                });
-            });
         },
 
         methods: {
+            shown() {
+                this.$refs.focusField.focus();
+            },
+
             storeItem() {
                 this.$http.post(this.url, {
                     code: this.createCode,
@@ -101,7 +92,8 @@
 
                 });
             }
+        },
 
-        }
+        components: {Modal},
     };
 </script>

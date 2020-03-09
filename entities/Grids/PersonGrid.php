@@ -8,6 +8,7 @@ use Grimm\Person;
 use Grimm\PersonInheritance;
 use Grimm\PersonPrint;
 use Grimm\PersonReference;
+use Illuminate\Support\Str;
 
 class PersonGrid extends Grid
 {
@@ -24,18 +25,18 @@ class PersonGrid extends Grid
             new Column('birth_date', false),
             new Column('death_date', false),
             new Column('bio_data_source', true, function () use ($person) {
-                return str_limit($person->bio_data_source, 20, '[...]');
+                return Str::limit($person->bio_data_source, 20, '[...]');
             }),
             new Column('bio_data', true, function () use ($person) {
-                return str_limit($person->bio_data, 20, '[...]');
+                return Str::limit($person->bio_data, 20, '[...]');
             }),
             new Column('add_bio_data', true, function () use ($person) {
-                return str_limit($person->add_bio_data, 20, '[...]');
+                return Str::limit($person->add_bio_data, 20, '[...]');
             }),
             new Column('is_organization', false),
             new Column('auto_generated', false),
             new Column('source', true, function () use ($person) {
-                return str_limit($person->source, 20, '[...]');
+                return Str::limit($person->source, 20, '[...]');
             }),
             new Column('prints', false, function () use ($person) {
                 return $person->prints->map(function (PersonPrint $print) {

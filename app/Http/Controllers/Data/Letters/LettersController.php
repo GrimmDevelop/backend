@@ -11,7 +11,6 @@ class LettersController extends Controller
 
     public function show(Letter $letter)
     {
-        sleep(5);
         return fractal($letter, function (Letter $letter) {
             return [
                 'id' => $letter->id,

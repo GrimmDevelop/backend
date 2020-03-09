@@ -1,6 +1,6 @@
 <template>
     <div ref="container" class="relative w-full h-full" @wheel.prevent="scroll">
-        <img class="absolute max-w-none" style="top: 0; left: 0;" ref="image" :src="src" alt="Brief" @load="test">
+        <img class="absolute max-w-none" style="top: 0; left: 0;" ref="image" :src="src" alt="Brief">
     </div>
 </template>
 
@@ -26,10 +26,6 @@
         },
 
         methods: {
-            test() {
-                console.log('done');
-            },
-
             measureContainer() {
                 this.containerWidth = this.$refs.container.clientWidth;
                 this.containerHeight = this.$refs.container.clientHeight;

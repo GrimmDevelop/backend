@@ -3,10 +3,10 @@
         <div class="add-button" v-if="!deleted">
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#addReference">
-                <i class="fa fa-plus"></i> Referenz hinzufügen
+                <span class="fa fa-plus"></span> Referenz hinzufügen
             </button>
         </div>
-        <table class="table table-responsive">
+        <table class="table">
             <thead>
             <tr>
                 <th>#</th>
@@ -55,12 +55,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="inputNote">Notizen: </label>
-                                <textarea type="text" class="form-control input-sm" name="entry"
+                                <textarea type="text" class="form-control form-control-sm" name="entry"
                                           ref="createNotesField" v-model="createNotes" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Schließen
                             </button>
                             <button type="submit" class="btn btn-primary">Speichern</button>

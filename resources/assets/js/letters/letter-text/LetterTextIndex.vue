@@ -13,6 +13,9 @@
         data() {
             return {
                 letterText: null,
+                document: null,
+
+                debug: "<document><page><line>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</line><line>Cupiditate doloribus, eos fuga ipsam itaque maxime perferendis quo quos?</line></page><page><line>Autem corporis facere ipsum minima natus,</line><line>nesciunt non repellat repellendus totam veniam.</line></page></document>",
             };
         },
 
@@ -24,6 +27,8 @@
 
         mounted() {
             this.loadLetterText();
+
+            this.parse();
         },
 
         methods: {
@@ -37,11 +42,16 @@
                 this.$http.put(`/api/letters/${this.letterId}/letter-text/${this.letterText.id}`, {
                     entry: this.letterText.entry,
                 }).then(() => this.loadLetterText());
-            }
+            },
+
+            parse() {
+                let parser = new DOMParser();
+                let xml = parser.parseFromString(this.debug, "text/xml");
+
+                console.log(xml.childNodes[0].childNodes);
+            },
         },
 
-
-        components: {
-        },
+        components: {},
     };
 </script>

@@ -95,7 +95,7 @@ class Book extends Model
                     ->orderBy('book_person.line');
             },
             'personAssociations.person',
-            'activity' => function ($query) {
+            'activities' => function ($query) {
                 $query->latest()->with('user');
             },
         ]);

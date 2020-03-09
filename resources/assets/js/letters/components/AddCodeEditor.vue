@@ -1,51 +1,48 @@
 <template>
-    <div class="modal fade" :id="modal" role="dialog" aria-labelledby="addItemTitle">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" data-dismiss="modal" aria-label="Schließen">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="addItemTitle">
-                        {{ title }} hinzufügen
-                    </h4>
-                </div>
-                <div class="form-group" rel="createItemForm">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="inputInformationCode">Code: </label>
-                            <input type="text" id="inputInformationCode" class="form-control" v-model="createCode">
-                        </div>
-                        <div>
-                            <label for="inputErrorGenerated">Error Generated: </label>
-                            <input type="checkbox" id="inputErrorGenerated" class="checkbox-inline"
-                                   v-model="createErrorGenerated">
-                        </div>
-                        <div>
-                            <label for="inputInternal">Internal: </label>
-                            <input type="checkbox" id="inputInternal" class="checkbox-inline" v-model="createInternal">
-                        </div>
-                        <div v-if="errors.length" class="list-group list-group-item-text">
-                            <ul>
-                                <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">
-                                    {{ error }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            Schließen
-                        </button>
-                        <button type="button" class="btn btn-primary" @click.prevent="storeItem">Speichern</button>
-                    </div>
-                </div>
+    <modal :namespace="modal" :ref="`${modal}Modal`" @shown="shown">
+        <template slot="title">
+            {{ title }} hinzufügen
+        </template>
+
+        <template slot="body">
+            <div class="m-2">
+                <label for="inputInformationCode">Code: </label>
+                <input ref="focusField" type="text" id="inputInformationCode" class="form-control" v-model="createCode">
             </div>
-        </div>
-    </div>
+            <div class="m-2">
+                <label for="inputErrorGenerated">
+                    <input type="checkbox" id="inputErrorGenerated" class="form-check-inline"
+                           v-model="createErrorGenerated">
+                    Error Generated
+                </label>
+            </div>
+            <div class="m-2">
+                <label for="inputInternal">
+                    <input type="checkbox" id="inputInternal" class="form-check-inline" v-model="createInternal">
+                    Internal
+                </label>
+            </div>
+            <div v-if="errors.length" class="list-group list-group-item-text">
+                <ul>
+                    <li v-for="(error, index) in errors" :key="`error-${index}`" class="text-danger">
+                        {{ error }}
+                    </li>
+                </ul>
+            </div>
+        </template>
+
+        <template slot="footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                Schließen
+            </button>
+            <button type="button" class="btn btn-primary" @click.prevent="storeItem">Speichern</button>
+        </template>
+    </modal>
 </template>
 
 <script>
+    import Modal from "../../ui/components/Modal";
+
     export default {
         props: ['url', 'modal', 'title', 'on-stored'],
 
@@ -58,16 +55,11 @@
             };
         },
 
-        mounted() {
-            this.$nextTick(() => {
-                window.$('#' + this.modal).on('shown.bs.modal', () => {
-                    window.$(this.$refs.createCodeField).focus();
-                });
-
-            });
-        },
-
         methods: {
+            shown() {
+                this.$refs.focusField.focus();
+            },
+
             storeItem() {
                 this.$http.post(this.url, {
                     codeName: this.createCode,
@@ -97,6 +89,8 @@
                     });
                 });
             }
-        }
+        },
+
+        components: {Modal},
     };
 </script>

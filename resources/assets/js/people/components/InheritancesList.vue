@@ -3,10 +3,10 @@
         <div class="add-button" v-if="!deleted">
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#addInheritance">
-                <i class="fa fa-plus"></i> Nachlass hinzufügen
+                <span class="fa fa-plus"></span> Nachlass hinzufügen
             </button>
         </div>
-        <table class="table table-responsive">
+        <table class="table">
             <thead>
             <tr>
                 <th colspan="3">Eintrag</th>
@@ -37,12 +37,12 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="inputEntry">Eintrag: </label>
-                                <input type="text" class="form-control input-sm"
+                                <input type="text" class="form-control form-control-sm"
                                        id="inputEntry" name="entry" ref="createEntryField" v-model="createEntry">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Schließen
                             </button>
                             <button type="submit" class="btn btn-primary">Speichern</button>

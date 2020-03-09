@@ -4,10 +4,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Zuletzt hinzugefügt</div>
+                <div class="card">
+                    <div class="card-header">Zuletzt hinzugefügt</div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         <h3>Briefe</h3>
 
                         <ul>
@@ -63,41 +63,41 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Schnellstart</div>
-                    <div class="panel-body">
+                <div class="card">
+                    <div class="card-header">Schnellstart</div>
+                    <div class="card-body">
                         <div class="row button-box">
                             @can('letters.store')
                                 <div>
-                                    <a href="{{ route('letters.create') }}"><i class="fa fa-envelope-o fa-4x"></i>
+                                    <a href="{{ route('letters.create') }}"><span class="fa fa-envelope-o fa-4x"></span>
                                         <h5>Brief anlegen</h5></a>
                                 </div>
                             @endcan
                             @can('people.store')
                                 <div>
-                                    <a href="{{ route('people.create') }}"><i class="fa fa-users fa-4x"></i>
+                                    <a href="{{ route('people.create') }}"><span class="fa fa-users fa-4x"></span>
                                         <h5>Neue Person</h5></a>
                                 </div>
                             @endcan
                             @can('books.store')
                                 <div>
-                                    <a href="{{ route('books.create') }}"><i class="fa fa-book fa-4x"></i>
+                                    <a href="{{ route('books.create') }}"><span class="fa fa-book fa-4x"></span>
                                         <h5>Neues Buch</h5></a>
                                 </div>
                             @endcan
                             @can('library.store')
                                 <div>
-                                    <a href="{{ route('librarybooks.create') }}"><i class="fa fa-institution fa-4x"></i>
+                                    <a href="{{ route('librarybooks.create') }}"><span class="fa fa-institution fa-4x"></span>
                                         <h5>Neuer Biblio.-Eintrag</h5></a>
                                 </div>
                             @endcan
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Zahlen und Fakten - Grimmbriefe</div>
+                <div class="card">
+                    <div class="card-header">Zahlen und Fakten - Grimmbriefe</div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="row button-box">
                             <div class="col-md-4">
                                 <h2>{{ \Grimm\Letter::count() }}</h2>
@@ -114,10 +114,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Zahlen und Fakten - Grimmbibliothek</div>
+                <div class="card">
+                    <div class="card-header">Zahlen und Fakten - Grimmbibliothek</div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         <div class="row button-box">
                             <div class="col-md-6">
                                 <h2>{{ \Grimm\LibraryBook::count() }}</h2>
@@ -135,10 +135,10 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Letzte Änderungen</div>
+                <div class="card">
+                    <div class="card-header">Letzte Änderungen</div>
 
-                    <div class="panel-body">
+                    <div class="card-body">
                         <ul class="list-group">
                             @foreach(Grimm\Activity::with(['user', 'model'])->latest()->take(25)->get() as $activity)
                                 <li class="list-group-item" data-toggle="collapse"

@@ -9,7 +9,7 @@
                 <h1>
                     <a class="prev-link"
                        href="{{ route('letters.show', [$letter]) }}">
-                        <i class="fa fa-caret-left"></i>
+                        <span class="fa fa-caret-left"></span>
                     </a>
 
                     Brief: {{ $letter->title() }}
@@ -52,10 +52,10 @@
         @if($letter->transcriptions()->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
-                    <h1 class="pull-left">{{ trans('letters.transcription') }}</h1>
+                    <h1 class="float-left">{{ trans('letters.transcription') }}</h1>
 
-                    <p class="pull-right" style="margin-top: 9px;">
-                        <a href="{{ route('letters.show', [$letter]) }}#transcriptions" class="btn btn-default">
+                    <p class="float-right" style="margin-top: 9px;">
+                        <a href="{{ route('letters.show', [$letter]) }}#transcriptions" class="btn btn-secondary">
                             <span class="fa fa-plus"></span>
                             {{ trans('letters.transcription') }} hizufügen
                         </a>
@@ -73,10 +73,10 @@
         @if($letter->prints()->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
-                    <h1 class="pull-left">{{ trans('letters.print') }}</h1>
+                    <h1 class="float-left">{{ trans('letters.print') }}</h1>
 
-                    <p class="pull-right" style="margin-top: 9px;">
-                        <a href="{{ route('letters.show', [$letter]) }}#prints" class="btn btn-default">
+                    <p class="float-right" style="margin-top: 9px;">
+                        <a href="{{ route('letters.show', [$letter]) }}#prints" class="btn btn-secondary">
                             <span class="fa fa-plus"></span>
                             {{ trans('letters.print') }} hizufügen
                         </a>
@@ -94,10 +94,10 @@
         @if($letter->attachments()->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
-                    <h1 class="pull-left">{{ trans('letters.attachment') }}</h1>
+                    <h1 class="float-left">{{ trans('letters.attachment') }}</h1>
 
-                    <p class="pull-right" style="margin-top: 9px;">
-                        <a href="{{ route('letters.show', [$letter]) }}#attachments" class="btn btn-default">
+                    <p class="float-right" style="margin-top: 9px;">
+                        <a href="{{ route('letters.show', [$letter]) }}#attachments" class="btn btn-secondary">
                             <span class="fa fa-plus"></span>
                             {{ trans('letters.attachment') }} hizufügen
                         </a>
@@ -115,10 +115,10 @@
         @if($letter->drafts()->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">
-                    <h1>{{ trans('letters.draft') }}</h1>
+                    <h1 class="float-left">{{ trans('letters.draft') }}</h1>
 
-                    <p class="pull-right" style="margin-top: 9px;">
-                        <a href="{{ route('letters.show', [$letter]) }}#drafts" class="btn btn-default">
+                    <p class="float-right" style="margin-top: 9px;">
+                        <a href="{{ route('letters.show', [$letter]) }}#drafts" class="btn btn-secondary">
                             <span class="fa fa-plus"></span>
                             {{ trans('letters.draft') }} hizufügen
                         </a>

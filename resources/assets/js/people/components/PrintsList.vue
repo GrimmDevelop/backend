@@ -3,10 +3,10 @@
         <div class="add-button" v-if="!deleted">
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#addPrint">
-                <i class="fa fa-plus"></i> Druck hinzufügen
+                <span class="fa fa-plus"></span> Druck hinzufügen
             </button>
         </div>
-        <table class="table table-responsive">
+        <table class="table">
             <thead>
             <tr>
                 <th colspan="2">Eintrag</th>
@@ -37,17 +37,17 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label for="entry">Eintrag: </label>
-                                <input type="text" class="form-control input-sm" name="entry"
+                                <input type="text" class="form-control form-control-sm" name="entry"
                                        ref="createEntryField" v-model="createEntry">
                             </div>
                             <div class="form-group">
                                 <label for="year">Jahr: </label>
-                                <input type="text" class="form-control input-sm" name="year"
+                                <input type="text" class="form-control form-control-sm" name="year"
                                        v-model="createYear">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Schließen
                             </button>
                             <button type="submit" class="btn btn-primary">Speichern</button>

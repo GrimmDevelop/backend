@@ -11,4 +11,9 @@ class AppController extends Controller
     {
         return view('frontend.app');
     }
+
+    public function loader()
+    {
+        return view('frontend.loader');
+    }
 }

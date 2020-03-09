@@ -12,22 +12,22 @@
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
 
-                    <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                        <label for="inputName" class="col-sm-2 control-label">{{ trans('users.name') }}</label>
+                    <div class="form-group row{{ $errors->has('name') ? ' has-error' : '' }}">
+                        <label for="inputName" class="col-sm-2 col-form-label text-right">{{ trans('users.name') }}</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="inputName" name="name"
                                    value="{{ old('name', $role->name) }}" placeholder="{{ trans('users.name') }}">
 
                             @if ($errors->has('name'))
-                                <span class="help-block">
+                                <span class="form-text">
                                             <strong>{{ $errors->first('name') }}</strong>
                                         </span>
                             @endif
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label text-right">
                             {{ trans('users.users') }}
                         </label>
                         <div class="col-sm-10">
@@ -39,12 +39,12 @@
                         </div>
                     </div>
                     <h3>{{ trans('users.permissions') }}</h3>
-                    <div class="form-group">
+                    <div class="form-group row">
                         <div class="col-md-12">
                             <div class="list-group">
                                 @foreach($permissions as $permission)
                                     <div class="list-group-item">
-                                        <div class="checkbox">
+                                        <div class="form-check">
                                             <label>
                                                 <input {{ checked_if($role->permissions->contains('id', $permission->id)) }} type="checkbox" name="permissions[]"
                                                        value="{{ $permission->id }}">
@@ -58,13 +58,13 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
+                    <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
                             <button type="submit" class="btn btn-primary">
                                 <span class="fa fa-floppy-disk"></span> {{ trans('form.save') }}
                             </button>
 
-                            <a href="{{ route('users.index') }}" role="button" class="btn btn-default">
+                            <a href="{{ route('users.index') }}" role="button" class="btn btn-secondary">
                                 {{ trans('form.abort') }}
                             </a>
                         </div>
