@@ -28,19 +28,7 @@
             </div>
 
             <window-portal :open="open.text" @closed="open.text = false">
-                <div class="w-1/2 mx-auto">
-                    <h1 class="text-lg">letter text</h1>
-                    {{ letter.text }}
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium asperiores blanditiis eaque
-                        magni quidem rem totam ullam? Dicta eaque exercitationem facere inventore laudantium, minima
-                        nulla quaerat quo quod veritatis voluptas?</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque beatae consectetur delectus ea
-                        eos maxime mollitia, natus rerum, sint totam ut vitae. Ad animi, est laboriosam quibusdam rem
-                        repellat sit.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid animi cupiditate
-                        dolore doloremque facere illo impedit inventore ipsum iste, labore laborum nihil nobis, non odit
-                        officiis praesentium quam temporibus.</p>
-                </div>
+                <letter-text :text="letter.text"></letter-text>
             </window-portal>
         </template>
     </div>
@@ -49,6 +37,7 @@
 <script>
     import ZoomImage from "../../components/ui/Image/ZoomImage";
     import WindowPortal from "../../components/ui/windows/WindowPortal";
+    import LetterText from "./LetterText";
 
     export default {
         name: "Letter",
@@ -116,6 +105,7 @@
         },
 
         components: {
+            LetterText,
             WindowPortal,
             ZoomImage
         }
