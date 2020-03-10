@@ -6,13 +6,15 @@
              :key="`group-${groupIndex}`">
             <div v-for="(line, index) in lines(group)"
                  :key="`line-${groupIndex}-${index}`"
-                 class="line">
-                <div class="line-no" :class="lineNo(line, index) % 5 === 4 ? 'is-five' : ''">
-                    {{ lineNo(line, index) + 1 }}
+                 class="line"
+                 :style="lineStyle(line)">
+                <div class="line-no"
+                     :class="numberClass(line, index)">
+                    {{ lineNo(line, index) }}
                 </div>
                 <div class="line-text"
-                     :class="classFor(line, index)"
-                     :style="styleFor(line, index)"
+                     :class="textClass(line, index)"
+                     :style="textStyle(line, index)"
                      v-html="line.innerHTML"></div>
             </div>
         </div>
@@ -25,8 +27,9 @@
 
         data() {
             return {
-                /** @var {Document} data  */
-                data: null
+                data: null,
+                lineGroupTag: 'line-group',
+                lineTag: 'line',
             };
         },
 
@@ -43,7 +46,7 @@
              * @return {NodeList}
              */
             lineGroups() {
-                return this.xml().querySelectorAll("letter > line-group");
+                return this.xml().querySelectorAll(`letter > ${this.lineGroupTag}`);
             },
         },
 
@@ -61,7 +64,7 @@
             },
 
             lines(group) {
-                return group.querySelectorAll("line");
+                return group.querySelectorAll(this.lineTag);
             },
 
             /**
@@ -72,48 +75,39 @@
             lineNo(line, index) {
                 let group = line.parentNode;
 
-                let indexs = 0;
-                while ((group = group.previousElementSibling)) {
-                    console.log(group);
-                    indexs++;
-
-                    if(indexs > 10) {
-                        console.log("fishy!");
-                        break;
-                    }
-                }
-
                 let lines = 0;
-
-                for (let i = 0; i < this.lineGroups.length; i++) {
-                    let group = this.lineGroups.item(i);
-
-                    if (group === parent) {
-                        break;
-                    }
-
+                while ((group = group.previousElementSibling) && group.tagName === this.lineGroupTag) {
                     lines += this.lines(group).length;
                 }
 
-                return lines + index;
+                return lines + index + 1;
             },
 
-            classFor(line, index) {
-                let next = line.nextElementSibling;
+            lineStyle(line) {
+                return {
+                    'margin-top': line.getAttribute('top') + "px",
+                };
+            },
 
-                console.log(next);
+            numberClass(line, index) {
+                return {
+                    'is-five': this.lineNo(line, index) % 5 === 0,
+                };
+            },
 
-                let isLast = next && next.getAttribute("new-paragraph") === 'new-paragraph';
+            textClass(line) {
+                let isFirst = !line.previousElementSibling;
+                let isLast = !line.nextElementSibling;
 
                 return {
-                    'np': line.getAttribute("new-paragraph") === 'new-paragraph',
+                    'np': isFirst,
                     'align-left': isLast || line.getAttribute("align") === 'left',
                     'align-right': line.getAttribute("align") === 'right',
                     'align-center': line.getAttribute("align") === 'center',
                 };
             },
 
-            styleFor(line) {
+            textStyle(line) {
                 return {
                     'margin-left': line.getAttribute('left') + "px",
                 };
