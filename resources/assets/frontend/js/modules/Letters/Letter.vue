@@ -15,16 +15,42 @@
                           @click="increment"></icon>
                 </div>
             </div>
-            <div class="w-16 bg-blue-800 text-white py-4 flex flex-col items-center">
-                <div class="flex-grow flex flex-col items-center">
-                    <icon icon="document" :format="windowClass(open.text)" @click="open.text = !open.text"></icon>
-
+            <div class="sidebar bg-blue-800 text-white px-2 py-4 flex flex-col"
+                 :class="sidebarOpen ? 'open' : ''">
+                <div class="window-link hover:bg-blue-900" :class="linkClass(open.text)"
+                     @click="open.text = !open.text">
+                    <icon icon="document"></icon>
+                    <span class="caption">Brieftext</span>
                 </div>
-                <div>
-                    <a href="/dashboard">
-                        <icon icon="layers"></icon>
-                    </a>
+                <div class="window-link hover:bg-blue-900">
+                    <icon icon="user-group"></icon>
+                    <span class="caption">Personen</span>
                 </div>
+                <div class="window-link hover:bg-blue-900">
+                    <icon icon="location"></icon>
+                    <span class="caption">Orte</span>
+                </div>
+                <div class="window-link hover:bg-blue-900">
+                    <icon icon="conversation"></icon>
+                    <span class="caption">Konversation</span>
+                </div>
+                <div class="window-link hover:bg-blue-900">
+                    <icon icon="library"></icon>
+                    <span class="caption">Apparate</span>
+                </div>
+                <div class="window-link hover:bg-blue-900">
+                    <icon icon="light-bulb"></icon>
+                    <span class="caption">Sachkommentare</span>
+                </div>
+                <div class="window-link hover:bg-blue-900" @click="sidebarOpen = !sidebarOpen">
+                    <icon :icon="sidebarOpen ? 'cheveron-right' : 'cheveron-left'"></icon>
+                    <span class="caption">einklappen</span>
+                </div>
+                <div class="flex-grow"></div>
+                <a href="/dashboard" class="window-link hover:bg-blue-900">
+                    <icon icon="layers"></icon>
+                    <span class="caption">Verwaltung</span>
+                </a>
             </div>
 
             <window-portal :open="open.text" @closed="open.text = false">
@@ -44,6 +70,7 @@
 
         data() {
             return {
+                sidebarOpen: true,
                 letter: null,
                 active: 1,
                 open: {
@@ -99,8 +126,10 @@
                 this.active = Math.max(1, Math.min(this.scanCount, page));
             },
 
-            windowClass(isOpen) {
-                return 'cursor-pointer window-link' + (isOpen ? ' open' : '');
+            linkClass(isOpen) {
+                return {
+                    'open': isOpen
+                };
             },
         },
 
@@ -114,6 +143,16 @@
 
 <style scoped lang="scss">
     @import "../../../../sass/variables";
+
+    .sidebar {
+        /*width: 4rem;*/
+        align-items: center;
+
+        &.open {
+            min-width: 13rem;
+            align-items: flex-start;
+        }
+    }
 
     .image-pagination {
         $w: 80px;
@@ -138,11 +177,35 @@
     }
 
     .window-link {
-        margin: .5rem 0;
+        margin: .1rem 0;
+        padding: .4rem .2rem;
         color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
 
-        &.open {
-            color: $purple;
+        .sidebar.open & {
+            width: 100%;
+        }
+
+        .caption {
+            display: none;
+            margin-left: .25rem;
+            line-height: 0;
+            flex-grow: 1;
+
+            .sidebar.open & {
+                display: block;
+                width: 100%;
+            }
+        }
+
+        &.open::after {
+            content: '•';
+            margin-left: .25rem;
+            font-size: 18pt;
+            line-height: 0;
+            color: $red;
         }
     }
 
