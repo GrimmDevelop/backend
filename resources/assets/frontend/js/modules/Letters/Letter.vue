@@ -17,37 +17,30 @@
             </div>
             <div class="sidebar bg-blue-800 text-white px-2 py-4 flex flex-col"
                  :class="sidebarOpen ? 'open' : ''">
-                <div class="window-link hover:bg-blue-900" :class="linkClass(open.text)"
+                <div class="sidebar-link hover:bg-blue-900" :class="linkClass(open.text)"
                      @click="open.text = !open.text">
                     <icon icon="document"></icon>
                     <span class="caption">Brieftext</span>
                 </div>
-                <div class="window-link hover:bg-blue-900">
-                    <icon icon="user-group"></icon>
-                    <span class="caption">Personen</span>
+                <div class="sidebar-link-desc">
+                    {{ letter.inc }}
                 </div>
-                <div class="window-link hover:bg-blue-900">
-                    <icon icon="location"></icon>
-                    <span class="caption">Orte</span>
-                </div>
-                <div class="window-link hover:bg-blue-900">
-                    <icon icon="conversation"></icon>
-                    <span class="caption">Konversation</span>
-                </div>
-                <div class="window-link hover:bg-blue-900">
+                <div class="sidebar-link hover:bg-blue-900">
                     <icon icon="library"></icon>
-                    <span class="caption">Apparate</span>
+                    <span class="caption">Apparate zum Text</span>
                 </div>
-                <div class="window-link hover:bg-blue-900">
+                <div class="sidebar-link hover:bg-blue-900">
                     <icon icon="light-bulb"></icon>
                     <span class="caption">Sachkommentare</span>
                 </div>
-                <div class="window-link hover:bg-blue-900" @click="sidebarOpen = !sidebarOpen">
+                <div class="sidebar-link hover:bg-blue-900" @click="sidebarOpen = !sidebarOpen">
                     <icon :icon="sidebarOpen ? 'cheveron-right' : 'cheveron-left'"></icon>
                     <span class="caption">einklappen</span>
                 </div>
+
                 <div class="flex-grow"></div>
-                <a href="/dashboard" class="window-link hover:bg-blue-900">
+
+                <a href="/dashboard" class="sidebar-link hover:bg-blue-900">
                     <icon icon="layers"></icon>
                     <span class="caption">Verwaltung</span>
                 </a>
@@ -176,7 +169,7 @@
         }
     }
 
-    .window-link {
+    .sidebar-link {
         margin: .1rem 0;
         padding: .4rem .2rem;
         color: white;
@@ -206,6 +199,16 @@
             font-size: 18pt;
             line-height: 0;
             color: $red;
+        }
+    }
+
+    .sidebar-link-desc {
+        display: none;
+        color: rgba(255, 255, 255, .5);
+
+        .sidebar.open & {
+            display: block;
+            width: 100%;
         }
     }
 

@@ -2,34 +2,38 @@
     <div class="letter">
         <h1 class="title" v-html="title"></h1>
 
-        <div v-for="(group, groupIndex) in lineGroups"
+        <div v-for="(paragraph, groupIndex) in paragraphs"
              :key="`group-${groupIndex}`">
-            <div v-for="(line, index) in lines(group)"
+            <div v-for="(line, index) in paragraph"
                  :key="`line-${groupIndex}-${index}`"
                  class="line"
                  :style="lineStyle(line)">
                 <div class="line-no"
-                     :class="numberClass(line, index)">
-                    {{ lineNo(line, index) }}
+                     :class="numberClass(line.number)">
+                    {{ line.number }}
                 </div>
                 <div class="line-text"
-                     :class="textClass(line, index)"
-                     :style="textStyle(line, index)"
-                     v-html="line.innerHTML"></div>
+                     :class="textClass(line)"
+                     :style="textStyle(line)"
+                     v-html="line.text"></div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import {nodeMap} from "../../../../js/utils/Nodes";
+
     export default {
         name: "LetterText",
 
         data() {
             return {
                 data: null,
-                lineGroupTag: 'line-group',
-                lineTag: 'line',
+                paragraphTag: 'p',
+                lineBreakTag: 'lb',
+                title: null,
+                paragraphs: [],
             };
         },
 
@@ -37,20 +41,13 @@
             text: {},
         },
 
-        computed: {
-            title() {
-                return this.xml().querySelector("letter > title").innerHTML;
+        watch: {
+            text: {
+                immediate: true,
+                handler() {
+                    this.parseXml();
+                },
             },
-
-            /**
-             * @return {NodeList}
-             */
-            lineGroups() {
-                return this.xml().querySelectorAll(`letter > ${this.lineGroupTag}`);
-            },
-        },
-
-        mounted() {
         },
 
         methods: {
@@ -63,39 +60,63 @@
                 return this.data;
             },
 
-            lines(group) {
-                return group.querySelectorAll(this.lineTag);
+            parseXml() {
+                this.title = this.xml().querySelector("letter > title").innerHTML;
+
+                let paragraphs = this.xml().querySelectorAll(`letter > ${this.paragraphTag}`);
+
+                let lineNo = 1;
+
+                this.paragraphs = nodeMap(paragraphs, (p) => {
+                    let paragraph = [];
+
+                    let line = "";
+                    p.childNodes.forEach((node) => {
+                        if (this.isTextNode(node)) {
+                            line += node.textContent.trim();
+                        } else if (this.isLineBreak(node)) {
+                            paragraph.push({
+                                number: lineNo++,
+                                text: line,
+                            });
+                            line = "";
+                        } else {
+                            // format
+                            line += this.format(node);
+                        }
+                    });
+
+                    if (line !== "") {
+                        paragraph.push({
+                            number: lineNo++,
+                            text: line,
+                        });
+                    }
+
+                    return paragraph;
+                }).filter((a) => a);
             },
 
-            /**
-             * @param {Node} line
-             * @param {Number} index
-             * @return {Number} number of line starting with 0
-             */
-            lineNo(line, index) {
-                let group = line.parentNode;
-
-                let lines = 0;
-                while ((group = group.previousElementSibling) && group.tagName === this.lineGroupTag) {
-                    lines += this.lines(group).length;
-                }
-
-                return lines + index + 1;
+            paragraph(group) {
+                console.log(group, group.childNodes);
+                return group.childNodes;
             },
 
             lineStyle(line) {
+                return null;
                 return {
                     'margin-top': line.getAttribute('top') + "px",
                 };
             },
 
-            numberClass(line, index) {
+            numberClass(line) {
                 return {
-                    'is-five': this.lineNo(line, index) % 5 === 0,
+                    'is-five': line % 5 === 0,
                 };
             },
 
             textClass(line) {
+                return;
                 let isFirst = !line.previousElementSibling;
                 let isLast = !line.nextElementSibling;
 
@@ -108,9 +129,28 @@
             },
 
             textStyle(line) {
+                return;
                 return {
                     'margin-left': line.getAttribute('left') + "px",
                 };
+            },
+
+            format(node) {
+                if (this.isTextNode(node)) {
+                    return node.textContent;
+                }
+
+                return nodeMap(node.childNodes, (childNode) => {
+                    return this.format(childNode);
+                }).join('');
+            },
+
+            isTextNode(node) {
+                return node.nodeType === 3;
+            },
+
+            isLineBreak(node) {
+                return node.nodeType === 1 && node.tagName === this.lineBreakTag;
             }
         },
     };

@@ -15,6 +15,7 @@ class LettersController extends Controller
             return [
                 'id' => $letter->id,
                 'handwriting_location' => $letter->handwriting_location,
+                'inc' => $letter->inc,
                 'text' => $letter->text,
                 'scans' => $letter->getMedia('letters.scans.handwriting_location')->map(function (Media $media) {
                     return [
