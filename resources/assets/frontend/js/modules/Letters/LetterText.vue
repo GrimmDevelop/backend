@@ -107,7 +107,6 @@
                 margin: 0;
                 font-size: 16px;
                 text-align: justify;
-                /*text-align-last: justify;*/
                 white-space: nowrap;
                 text-indent: 1.5rem;
 

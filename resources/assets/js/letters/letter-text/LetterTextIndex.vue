@@ -37,8 +37,6 @@
 
         mounted() {
             this.loadLetterText();
-
-            this.parse();
         },
 
         methods: {
@@ -52,13 +50,6 @@
                 this.$http.put(`/api/letters/${this.letterId}/letter-text/${this.letterText.id}`, {
                     entry: this.letterText.entry,
                 }).then(() => this.loadLetterText());
-            },
-
-            parse() {
-                let parser = new DOMParser();
-                let xml = parser.parseFromString(this.debug, "text/xml");
-
-                console.log(xml.childNodes[0].childNodes);
             },
         },
 
