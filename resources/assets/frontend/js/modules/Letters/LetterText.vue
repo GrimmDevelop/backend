@@ -97,11 +97,6 @@
                 }).filter((a) => a);
             },
 
-            paragraph(group) {
-                console.log(group, group.childNodes);
-                return group.childNodes;
-            },
-
             lineStyle(line) {
                 return null;
                 return {
@@ -141,6 +136,7 @@
                 }
 
                 return nodeMap(node.childNodes, (childNode) => {
+                    // TODO: apply css
                     return this.format(childNode);
                 }).join('');
             },
@@ -160,6 +156,7 @@
 
     .letter {
         width: 600px;
+        max-width: 100%;
         margin: auto;
     }
 

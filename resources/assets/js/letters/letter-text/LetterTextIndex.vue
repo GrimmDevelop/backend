@@ -1,12 +1,22 @@
 <template>
     <div v-if="letterText">
         <h3>Brieftext</h3>
-        <div v-html="letterText.entry" style="width:138mm"></div>
-        <textarea v-model="letterText.entry" style="width: 100%;" rows="20"></textarea>
+        <div class="row">
+            <div class="col-6">
+                <h5>Editor (Code-Modus)</h5>
+                <textarea v-model="letterText.entry" style="width: 100%;" rows="50"></textarea>
+            </div>
+            <div class="col-6">
+                <h5>Vorschau</h5>
+                <letter-text :text="letterText.entry"></letter-text>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import LetterText from "../../../frontend/js/modules/Letters/LetterText";
+
     export default {
         name: "LetterTextIndex",
 
@@ -52,6 +62,8 @@
             },
         },
 
-        components: {},
+        components: {
+            LetterText
+        },
     };
 </script>
