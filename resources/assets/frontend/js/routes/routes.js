@@ -1,4 +1,3 @@
-import VueRouter from "vue-router";
 
 import Letter from "../modules/Letters/Letter";
 
