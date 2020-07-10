@@ -13,7 +13,8 @@
 
         <script>
             window.Laravel = {
-                csrfToken: '{{ csrf_token() }}'
+                csrfToken: '{{ csrf_token() }}',
+                adminUrl: '{{ route('dashboard') }}'
             };
         </script>
 

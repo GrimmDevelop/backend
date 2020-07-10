@@ -9,7 +9,7 @@
                           @click="decrement"></icon>
                     <span class="text-gray-900 whitespace-no-wrap">
                         <input :value="active" @input="setPage($event.target.value)" @focus="$event.target.select()"
-                               class="page-input"> / {{ scanCount }}
+                               class="page-input cursor-pointer"> / {{ scanCount }}
                     </span>
                     <icon icon="cheveron-right" format="cursor-pointer text-gray-600 hover:text-gray-900"
                           @click="increment"></icon>
@@ -40,7 +40,7 @@
 
                 <div class="flex-grow"></div>
 
-                <a href="/dashboard" class="sidebar-link hover:bg-blue-900">
+                <a :href="adminUrl" class="sidebar-link hover:bg-blue-900">
                     <icon icon="layers"></icon>
                     <span class="caption">Verwaltung</span>
                 </a>
@@ -87,6 +87,10 @@
 
             hasImages() {
                 return this.scanCount > 0;
+            },
+
+            adminUrl() {
+                return window.Laravel.adminUrl;
             },
         },
 
