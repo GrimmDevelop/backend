@@ -19,7 +19,7 @@
         "jquery": "^3.4.1",
         "laravel-echo": "^1.4.0",
         "laravel-mix": "^4.0.15",
-        "lodash": "^4.17.11",
+        "lodash": "^4.17.19",
         "portal-vue": "^1.4.0",
         "pusher-js": "^3.0.0",
         "tinymce": "^4.9.3",
