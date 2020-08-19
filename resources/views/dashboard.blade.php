@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">Zuletzt hinzugefügt</div>
@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-header">Schnellstart</div>
                     <div class="card-body">
                         <div class="row button-box">
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card mb-4">
                     <div class="card-header">Zahlen und Fakten - Grimmbriefe</div>
 
                     <div class="card-body">
