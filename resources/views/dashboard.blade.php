@@ -140,7 +140,7 @@
 
                     <div class="card-body">
                         <ul class="list-group">
-                            @foreach(Grimm\Activity::with(['user', 'model'])->latest()->take(25)->get() as $activity)
+                            @foreach($activities as $activity)
                                 <li class="list-group-item" data-toggle="collapse"
                                     data-target="#activity-{{ $activity->id }}">
                                     @include('logs.actions.' . $activity->log['action'])

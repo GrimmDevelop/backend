@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Grimm\Activity;
 use Grimm\Book;
 use Grimm\Letter;
 use Grimm\LibraryBook;
@@ -34,11 +35,22 @@ class DashboardController extends Controller
         $latestPeopleUpdated = Person::query()->orderBy('updated_at', 'desc')->take($take)->get();
         $latestBooksUpdated = Book::query()->orderBy('updated_at', 'desc')->take($take)->get();
 
+        $activities = Activity::with(['user', 'model' => fn($q) => $q->withTrashed()])
+            ->latest()
+            ->take(25)
+            ->get();
+
         return view(
             'dashboard',
-            compact('latestLettersCreated', 'latestPeopleCreated', 'latestBooksCreated', 'latestLibraryBooksCreated',
+            compact(
+                'activities',
+                'latestLettersCreated',
+                'latestPeopleCreated',
+                'latestBooksCreated',
+                'latestLibraryBooksCreated',
                 'latestPeopleUpdated',
-                'latestBooksUpdated')
+                'latestBooksUpdated'
+            )
         );
     }
 }
