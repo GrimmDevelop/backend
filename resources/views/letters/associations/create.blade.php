@@ -6,22 +6,22 @@
             <div class="col-md-12 page-title">
                 <h1><a class="prev-link" href="{{ route('letters.show', [$letter]) }}"><i
                                 class="fa fa-caret-left"></i></a> Personen
-                    in {{ str_limit($letter->title(), 60) }}
+                    in {{ \Illuminate\Support\Str::limit($letter->title(), 60) }}
                 </h1>
             </div>
             <div class="col-md-12 page-content">
                 <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="bookTitle" class="col-sm-2 control-label">Brief:</label>
+                    <div class="form-group row">
+                        <label for="bookTitle" class="col-sm-2 col-form-label text-right">Brief:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static">
+                            <p class="form-control-plaintext">
                                 {{ $letter->title() }}
                             </p>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="searchPerson" class="col-sm-2 control-label">Person suchen:</label>
+                    <div class="form-group row">
+                        <label for="searchPerson" class="col-sm-2 col-form-label text-right">Person suchen:</label>
                         <div class="col-sm-10">
                             <typeahead id="searchPerson"
                                        placeholder="Person suchen"
@@ -32,7 +32,7 @@
                                        ref="searchPerson">
                                 <template slot="list-item" slot-scope="props">
                                     @{{ props.item.last_name }}, @{{ props.item.first_name }} <em
-                                            class='pull-right'>@{{ props.item.bio_data }}</em>
+                                            class='float-right'>@{{ props.item.bio_data }}</em>
                                 </template>
                             </typeahead>
                         </div>
@@ -43,9 +43,9 @@
                       method="POST">
                     {{ csrf_field() }}
 
-                    <div class="form-group{{ $errors->has('person') ? ' has-error' : '' }}">
+                    <div class="form-group row {{ $errors->has('person') ? ' has-error' : '' }}">
                         <input type="hidden" name="person" :value="person.id">
-                        <label class="col-sm-2 control-label">Person</label>
+                        <label class="col-sm-2 col-form-label text-right">Person</label>
                         <div class="col-sm-5">
                             <input class="form-control" readonly
                                    :value="person.last_name">
@@ -56,8 +56,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group" v-if="person">
-                        <div class="col-sm-offset-2 col-sm-5">
+                    <div class="form-group row" v-if="person">
+                        <div class="offset-sm-2 col-sm-5">
                             <input class="form-control" readonly
                                    :value="person.bio_data">
                         </div>
@@ -67,18 +67,18 @@
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('person') ? ' has-error' : '' }}">
-                        <div class="col-sm-offset-2 col-sm-10">
+                    <div class="form-group row {{ $errors->has('person') ? ' has-error' : '' }}">
+                        <div class="offset-sm-2 col-sm-10">
                             @if ($errors->has('person'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('person') }}</strong>
                                 </span>
                             @endif
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('assignment_source') ? ' has-error' : '' }}">
-                        <label class="col-sm-2 control-label"
+                    <div class="form-group row {{ $errors->has('assignment_source') ? ' has-error' : '' }}">
+                        <label class="col-sm-2 col-form-label text-right"
                                for="inputAssignmentSource">{{ trans('letters.assignment_source') }}</label>
                         <div class="col-sm-10">
                             <input class="form-control" id="inputAssignmentSource"
@@ -86,7 +86,7 @@
                                    :placeholder="placeholder"
                                    value="{{ old('assignment_source') }}">
                             @if ($errors->has('assignment_source'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('assignment_source') }}</strong>
                                 </span>
                             @endif
@@ -95,7 +95,7 @@
 
 
                     <div class="button-bar row">
-                        <div class="col-sm-10 col-md-offset-2">
+                        <div class="col-sm-10 offset-md-2">
                             <button type="submit" class="btn btn-primary">Speichern</button>
                             <a href="{{ route('letters.show', [$letter]) }}"
                                class="btn btn-link">Abbrechen</a>

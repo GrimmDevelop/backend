@@ -4,6 +4,7 @@ namespace App\Filters\People;
 
 use App\Filters\BooleanFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class BioDataDuplicateFilter extends BooleanFilter
 {
@@ -20,6 +21,6 @@ class BioDataDuplicateFilter extends BooleanFilter
 
     protected function filterQuery(Builder $query)
     {
-        $query->where('bio_data', \DB::raw("CONCAT(IFNULL(birth_date,''), '-', IFNULL(death_date,''))"));
+        $query->where('bio_data', DB::raw("CONCAT(IFNULL(birth_date,''), '-', IFNULL(death_date,''))"));
     }
 }

@@ -5,15 +5,15 @@
         </div>
 
         <p class="btn-group">
-            <button type="button" class="btn btn-default"
+            <button type="button" class="btn btn-secondary"
                     v-on:click="flowOpenFileDialog()">
-                <span class="glyphicon glyphicon-file"></span>
+                <span class="fa fa-file"></span>
             </button>
 
             <button type="button" class="btn btn-primary" v-show="fileSelected"
                     v-on:click="flowStartUpload()"
                     :disabled="uploadCompleted">
-                <span class="glyphicon glyphicon-upload"></span>
+                <span class="fa fa-upload"></span>
             </button>
         </p>
 
@@ -168,11 +168,11 @@
 
             progressBarClass(file) {
                 if (file.state === 'error') {
-                    return "progress-bar progress-bar-danger";
+                    return "progress-bar bg-danger";
                 }
 
                 if (file.state === 'complete') {
-                    return "progress-bar progress-bar-success";
+                    return "progress-bar bg-success";
                 }
 
                 return "progress-bar";

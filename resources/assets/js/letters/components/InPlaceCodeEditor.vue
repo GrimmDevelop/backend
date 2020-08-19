@@ -1,35 +1,36 @@
 <template>
     <tr v-if="existing" :class="{'bg-danger': code.error_generated}">
         <td v-if="editing">
-            <a href="#" class="btn btn-link btn-sm" v-on:click.prevent="stopEdit"><i class="fa fa-times"></i></a>
+            <a href="#" class="btn btn-link btn-sm" v-on:click.prevent="stopEdit"><span class="fa fa-times"></span></a>
         </td>
         <td v-if="editing">
-            <input type="text" class="form-control input-sm" v-model="editingCode.name" ref="EntryInput"
+            <input type="text" class="form-control form-control-sm" v-model="editingCode.name" ref="EntryInput"
                    v-on:keyup.enter="saveItem()"/>
         </td>
         <td colspan="2" v-if="!editing">
-            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><i class="fa fa-edit"></i></a> {{ code.name }}
+            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><span class="fa fa-edit"></span></a> {{ code.name
+            }}
         </td>
         <td v-if="editing">
-            <input type="checkbox" class="checkbox" v-model="editingCode.error_generated">
+            <input type="checkbox" class="form-check" v-model="editingCode.error_generated">
         </td>
         <td colspan="2" v-if="!editing">
-            <a v-if="code.error_generated"><i class="fa fa-check-circle"></i></a>
-            <a v-else-if="!code.error_generated"><i class="fa fa-times-circle"></i></a>
+            <a v-if="code.error_generated"><span class="fa fa-check-circle"></span></a>
+            <a v-else-if="!code.error_generated"><span class="fa fa-times-circle"></span></a>
         </td>
         <td v-if="editing">
-            <input type="checkbox" class="checkbox" v-model="editingCode.internal">
+            <input type="checkbox" class="form-check" v-model="editingCode.internal">
         </td>
         <td v-if="editing">
-            <button type="button" class="btn btn-primary btn-sm" v-on:click="saveItem()"><i
-                    class="fa fa-spinner fa-spin" v-if="saving"></i> Speichern
+            <button type="button" class="btn btn-primary btn-sm" v-on:click="saveItem()"><span
+                class="fa fa-spinner fa-spin" v-if="saving"></span> Speichern
             </button>
         </td>
         <td cola="2" v-if="!editing">
-            <a v-if="this.code.internal"><i class="fa fa-check-circle"></i></a>
-            <a v-else-if="!code.internal"><i class="fa fa-times-circle"></i></a>
-            <a href="#" v-on:click.prevent="deleteItem" v-if="editable"><i
-                    class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Löschen"></i></a>
+            <a v-if="this.code.internal"><span class="fa fa-check-circle"></span></a>
+            <a v-else-if="!code.internal"><span class="fa fa-times-circle"></span></a>
+            <a href="#" v-on:click.prevent="deleteItem" v-if="editable"><span
+                class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Löschen"></span></a>
         </td>
     </tr>
 </template>
@@ -100,7 +101,9 @@
                     this.$refs.EntryInput.focus();
                 }).bind(this));
             }
-        }, watch: {
+        },
+
+        watch: {
             codeName() {
                 this.$emit('update:itemName', this.codeName);
             },

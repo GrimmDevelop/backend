@@ -36,5 +36,7 @@ class Deploy extends Command
     public function handle()
     {
         $this->call('grimm:permissions-update');
+
+        return 0;
     }
 }

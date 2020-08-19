@@ -7,7 +7,7 @@
                 <div class="button-container">
                     <div class="search {{ request()->has('search') ? 'active' : '' }}">
                         <form action="{{ url('letters') }}" method="get">
-                            <input type="text" class="form-control input-sm" name="search" maxlength="64"
+                            <input type="text" class="form-control form-control-sm" name="search" maxlength="64"
                                    placeholder="Suche" value="{{ request('search') ?: '' }}"/>
                             <button id="search-btn" type="submit" class="btn btn-primary btn-sm"><i
                                         class="fa fa-search"></i></button>
@@ -16,13 +16,13 @@
                     </div>
                     @if(request()->has('search'))
                         <div class="reset-search">
-                            <a href="{{ url()->filtered(['-search']) }}" class="btn btn-default btn-sm"><i
+                            <a href="{{ url()->filtered(['-search']) }}" class="btn btn-secondary btn-sm"><i
                                         class="fa fa-times"></i></a>
                         </div>
                     @endif
 
                     <div class="generic">
-                        <a href="{{ route('letters.create') }}" role="button" class="btn btn-default btn-sm">
+                        <a href="{{ route('letters.create') }}" role="button" class="btn btn-secondary btn-sm">
                             <span class="fa fa-plus"></span>
                             {{ trans('letters.store') }}
                         </a>
@@ -37,7 +37,7 @@
             <div class="col-md-12 list-content">
                 <div class="add-button">
                 </div>
-                <table class="table table-responsive table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         {{--<th>
@@ -93,17 +93,17 @@
 
             <div class="dropup">
                 <div class="btn-group">
-                    <a href="#" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Spalten <span
+                    <a href="#" data-toggle="dropdown" class="btn btn-secondary dropdown-toggle">Spalten <span
                                 class="caret"></span></a>
-                    <ul class="dropdown-menu" style="width: 600px;">
+                    <div class="dropdown-menu dropdown-menu-right" style="width: 600px;">
                         @foreach(\Grimm\Letter::gridColumns(true, true) as $column)
-                            <li {!! active_if($column->isActive()) !!} style="float: left; width: 31.33%; margin: 0 1%;">
-                                <a href="{{ url()->filtered_grid(route('letters.index'), [$column->name() => (int) !$column->isActive()]) }}">
-                                    {{ trans('letters.' . $column->name()) }}
-                                </a>
-                            </li>
+                            <a class="dropdown-item {{ active_if($column->isActive()) }}"
+                               style="float: left; width: calc(33.33% - 1rem); margin: 0 0.5rem; clear:none;"
+                               href="{{ url()->filtered_grid(route('letters.index'), [$column->name() => (int) !$column->isActive()]) }}">
+                                {{ trans('letters.' . $column->name()) }}
+                            </a>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
             </div>
 
@@ -111,8 +111,8 @@
                 <div class="btn-group">
                     <a href="{{ url()->filtered(['-correspondence']) }}" class="btn btn-danger"
                        data-toggle="tooltip" title="Correspondence-Filter entfernen">
-                        <i class="fa fa-envelope"></i>
-                        <i class="fa fa-times"></i>
+                        <span class="fa fa-envelope"></span>
+                        <span class="fa fa-times"></span>
                     </a>
                 </div>
             @endif
@@ -127,7 +127,7 @@
                     {{ csrf_field() }}
                     <button type="submit" class="btn btn-info"
                             data-toggle="tooltip" title="Daten exportieren">
-                        <i class="fa fa-download"></i>
+                        <span class="fa fa-download"></span>
                     </button>
                 </form>
             </div>

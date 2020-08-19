@@ -24,15 +24,15 @@
                     @include('partials.form.textarea', ['field' => 'notes', 'model' => 'books'])
                     @include('partials.form.boolean', ['field' => 'grimm', 'model' => 'books'])
 
-                    <div class="form-group">
-                        <div class="col-sm-10 col-sm-offset-2">
+                    <div class="form-group row">
+                        <div class="col-sm-10 offset-sm-2">
                             @can('books.store')
                             <button type="submit" class="btn btn-primary">
                                 <span class="fa fa-floppy-o"></span>
                                 Speichern
                             </button>
 
-                            <a href="{{ route('books.index') }}" role="button" class="btn btn-default">
+                            <a href="{{ route('books.index') }}" role="button" class="btn btn-secondary">
                                 {{ trans('form.abort') }}
                             </a>
                             @endcan

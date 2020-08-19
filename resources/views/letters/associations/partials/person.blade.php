@@ -17,7 +17,7 @@
     @endif
 
     <a href="{{ route('letters.index') }}?correspondence={{ $association->person->id }}"
-       class="btn btn-default" data-toggle="tooltip"
+       class="btn btn-secondary" data-toggle="tooltip"
        title="Korrespondenz"
        style="margin-left: 2em;">
         <span class="fa fa-envelope"></span>
@@ -32,7 +32,7 @@
 @endif
 
 <a href="{{ route('letters.associations.edit', [$letter, $association]) }}"
-   class="btn btn-default" data-toggle="tooltip" title="Verknüpfung bearbeiten">
+   class="btn btn-secondary" data-toggle="tooltip" title="Verknüpfung bearbeiten">
     <span class="fa fa-pencil"></span>
 </a>
 

@@ -14,10 +14,10 @@
             @if($person->trashed())
                 <div class="col-md-12 deleted-record-info">
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-1">
+                        <div class="col-md-8 offset-md-1">
                             <div class="media">
                                 <div class="media-left">
-                                    <i class="fa fa-trash-o fa-5x"></i>
+                                    <span class="fa fa-trash-o fa-5x"></span>
                                 </div>
                                 <div class="media-body media-middle">
                                     <h4 class="media-heading">Die Person wurde gelöscht</h4>
@@ -44,8 +44,8 @@
                     @include('partials.form.field', ['field' => 'note', 'model' => $person])
 
                     @unless($person->trashed())
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
+                        <div class="form-group row">
+                            <div class="col-sm-10 offset-sm-2">
                                 @can('library.update')
                                     <button type="submit" class="btn btn-primary">
                                         <span class="fa fa-floppy-o"></span>

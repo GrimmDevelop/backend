@@ -38,5 +38,7 @@ class MonthlyReport extends Command
     {
         // TODO: create report
         // send it to administrators (maybe with Role "receives reports"?)
+
+        return 0;
     }
 }

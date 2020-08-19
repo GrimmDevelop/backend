@@ -8,7 +8,7 @@
             <div class="col-md-12 page-title">
                 <div class="button-container">
                     <div class="generic">
-                        <a href="{{ route('librarybooks.create') }}" role="button" class="btn btn-default btn-sm">
+                        <a href="{{ route('librarybooks.create') }}" role="button" class="btn btn-secondary btn-sm">
                             <span class="fa fa-plus"></span>
                             {{ trans('librarybooks.store') }}
                         </a>
@@ -21,10 +21,10 @@
             @if($book->trashed())
                 <div class="col-md-12 deleted-record-info">
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-1">
+                        <div class="col-md-8 offset-md-1">
                             <div class="media">
                                 <div class="media-left">
-                                    <i class="fa fa-trash-o fa-5x"></i>
+                                    <span class="fa fa-trash-o fa-5x"></span>
                                 </div>
                                 <div class="media-body media-middle">
                                     <h4 class="media-heading">Das Buch wurde gelöscht</h4>
@@ -44,21 +44,21 @@
             @endif
             <div class="col-md-12 page-content">
                 <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#author" data-toggle="tab">{{ trans('librarybooks.relations.author.name') }}</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#author" data-toggle="tab">{{ trans('librarybooks.relations.author.name') }}</a>
                     </li>
-                    <li>
-                        <a href="#editor" data-toggle="tab">{{ trans('librarybooks.relations.editor.name') }}</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#editor" data-toggle="tab">{{ trans('librarybooks.relations.editor.name') }}</a>
                     </li>
-                    <li>
-                        <a href="#translator"
+                    <li class="nav-item">
+                        <a class="nav-link" href="#translator"
                            data-toggle="tab">{{ trans('librarybooks.relations.translator.name') }}</a>
                     </li>
-                    <li>
-                        <a href="#illustrator" data-toggle="tab">Illustrator</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#illustrator" data-toggle="tab">Illustrator</a>
                     </li>
-                    <li>
-                        <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#changes" data-toggle="tab">Änderungsverlauf</a>
                     </li>
                 </ul>
 
@@ -102,8 +102,8 @@
 
                     @include('partials.form.field', ['field' => 'series_title', 'model' => $book, 'disabled' => $book->trashed()])
 
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
+                    <div class="form-group row">
+                        <div class="offset-md-2 col-md-10">
                             <a href @click.prevent="moreFields = !moreFields">
                                 weitere Felder
 
@@ -152,11 +152,11 @@
                     <span class="fa fa-floppy-o"></span>
                     Speichern
                 </button>
-                <button type="button" class="btn btn-default" @click="form.reset()">
+                <button type="button" class="btn btn-secondary" @click="form.reset()">
                     Änderungen verwerfen
                 </button>
                 <a href="{{ referrer_url('last_book_index', route('librarybooks.index')) }}"
-                   class="btn btn-default">
+                   class="btn btn-secondary">
                     Abbrechen
                 </a>
             @endunless

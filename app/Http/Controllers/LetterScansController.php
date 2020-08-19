@@ -6,9 +6,9 @@ use App\Http\Requests\IndexLetterRequest;
 use App\Upload\UploadsFiles;
 use Flow\File;
 use Grimm\Letter;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class LetterScansController extends Controller
 {
@@ -31,17 +31,17 @@ class LetterScansController extends Controller
      *
      * @param Letter $letter
      * @param Media $scan
-     * @return \Illuminate\Http\Response
+     * @return Responsable
      */
     public function show(Letter $letter, Media $scan)
     {
-        return $scan->toResponse(request());
+        return $scan;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param Letter $letter
      * @param Media $scan
      * @return \Illuminate\Http\RedirectResponse
@@ -133,9 +133,9 @@ class LetterScansController extends Controller
      */
     private function saveUploadedFile(File $file, Letter $letter)
     {
-        $filename = Input::get('flowRelativePath');
+        $filename = request()->get('flowRelativePath');
 
-        $collection = Input::get('collection', 'default');
+        $collection = request()->get('collection', 'default');
 
         $tmp = uniqid(null, true);
 

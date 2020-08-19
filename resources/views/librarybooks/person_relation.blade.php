@@ -4,7 +4,7 @@
     <div class="button-container">
         <div class="generic">
             <a href="{{ route('librarybooks.relation', [$book, $name]) }}"
-               role="button" class="btn btn-default btn-sm"
+               role="button" class="btn btn-secondary btn-sm"
                @click="checkForChanges">
                 <span class="fa fa-plus"></span>
                 {{ trans('librarybooks.relations.' . $name . '.name') }} hinzufügen
@@ -19,7 +19,7 @@
             <th width="40%">Notizen</th>
             <th width="5%"></th>
         </tr>
-        @forelse($book->{str_plural($name)} as $person)
+        @forelse($book->{\Illuminate\Support\Str::plural($name)} as $person)
             <tr>
                 <td>
                     <a href="{{ route('librarypeople.show', [$person]) }}">

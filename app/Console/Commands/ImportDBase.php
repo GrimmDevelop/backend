@@ -3,12 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Import\Books\Converter\BookConverter;
-use App\Import\Converter\DBFRecordConverter;
 use App\Import\DbfProcessor;
 use App\Import\Letters\Converter\LetterConverter;
 use App\Import\Persons\Converter\PersonConverter;
-use DB;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use XBase\Record;
 
 class ImportDBase extends Command
@@ -55,7 +54,7 @@ class ImportDBase extends Command
         if (!is_readable($this->argument('folder'))) {
             $this->error('The given folder is not readable!');
 
-            return;
+            return 1;
         }
 
         $importPersons = !$this->option('exclude-persons');
@@ -69,19 +68,19 @@ class ImportDBase extends Command
         if (!file_exists($personDbase) && $importPersons) {
             $this->error('Person DBase File (persreg.DBF) does not exist!');
 
-            return;
+            return 1;
         }
 
         if (!file_exists($letterDbase) && $importLetters) {
             $this->error('Letter DBase File (CORPUS.DBF) does not exist!');
 
-            return;
+            return 1;
         }
 
         if (!file_exists($bookDbase) && $importBooks) {
             $this->error('Book DBase File (DRUCKE.DBF) does not exist!');
 
-            return;
+            return 1;
         }
 
         if ($importPersons) {
@@ -96,6 +95,7 @@ class ImportDBase extends Command
             $this->importBooks($bookDbase, $processor, $bookConverter);
         }
 
+        return 0;
     }
 
     /**

@@ -12,19 +12,19 @@
                   class="form-inline" method="POST">
                 <div class="modal-body">
                     {{ csrf_field() }}
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label for="entry">Eintrag: </label>
-                        <input type="text" class="form-control input-sm" name="entry"
+                        <input type="text" class="form-control form-control-sm" name="entry"
                                ref="createEntryField" v-model="createEntry">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label for="year">Jahr: </label>
-                        <input type="text" class="form-control input-sm" name="year"
+                        <input type="text" class="form-control form-control-sm" name="year"
                                v-model="createYear">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         Schließen
                     </button>
                     <button type="submit" class="btn btn-primary">Speichern</button>

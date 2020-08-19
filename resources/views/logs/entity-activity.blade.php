@@ -1,6 +1,6 @@
-<table class="table table-responsive table-striped">
+<table class="table table-striped">
     <tbody>
-    @forelse($entity->activity as $activity)
+    @forelse($entity->activities as $activity)
         @if ($activity->isUpdatingActivity())
             <tr>
                 <td>
@@ -14,7 +14,7 @@
                         @foreach($activity->after() as $field => $value)
                             <tr>
                                 <th style="width: 30%">{{ trans($activity->getType() . '.' . $field) }}</th>
-                                <td>{{ $activity->before($field) }} <i class="fa fa-long-arrow-right"></i>{{ $value }}</td>
+                                <td>{{ $activity->before($field) }} <span class="fa fa-long-arrow-right"></span>{{ $value }}</td>
                             </tr>
                         @endforeach
                         </tbody>

@@ -6,17 +6,17 @@
             <div class="col-md-12 page-title">
                 <h1><a class="prev-link" href="{{ route('books.show', [$book]) }}"><i
                                 class="fa fa-caret-left"></i></a> Personen
-                    in {{ str_limit($book->short_title, 60) }} {{-- isset($book->year) ? '(' . $book->year . ')' : '' --}}
+                    in {{ \Illuminate\Support\Str::limit($book->short_title, 60) }} {{-- isset($book->year) ? '(' . $book->year . ')' : '' --}}
                 </h1>
             </div>
             <div class="col-md-12 page-content">
                 <form class="form-horizontal">
                     @include('partials.form.field', ['field' => 'short_title', 'model' => $book, 'disabled' => true])
                     @include('partials.form.field', ['field' => 'title', 'model' => $book, 'disabled' => true])
-                    <div class="form-group">
-                        <label for="bookTitle" class="col-sm-2 control-label">Band:</label>
+                    <div class="form-group row">
+                        <label for="bookTitle" class="col-sm-2 col-form-label text-right">Band:</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static">
+                            <p class="form-control-plaintext">
                                 {{ $book->volume or '?' }}
                                 @if ($book->volume_irregular !== null)
                                     .{{ $book->volume_irregular }}
@@ -26,8 +26,8 @@
                                 @endif</p>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="searchPerson" class="col-sm-2 control-label">Person suchen:</label>
+                    <div class="form-group row">
+                        <label for="searchPerson" class="col-sm-2 col-form-label text-right">Person suchen:</label>
                         <div class="col-sm-10">
                             <typeahead id="searchPerson"
                                        placeholder="Person suchen"
@@ -37,7 +37,7 @@
                                        empty="Es wurde keine Person gefunden!">
                                 <template slot="list-item" slot-scope="props">
                                     @{{ props.item.last_name }}, @{{ props.item.first_name }} <em
-                                            class='pull-right'>@{{ props.item.bio_data }}</em>
+                                            class='float-right'>@{{ props.item.bio_data }}</em>
                                 </template>
                             </typeahead>
                         </div>
@@ -48,9 +48,9 @@
                       method="POST" ref="associationsForm">
                     {{ csrf_field() }}
 
-                    <div class="form-group{{ $errors->has('person') ? ' has-error' : '' }}">
+                    <div class="form-group row {{ $errors->has('person') ? ' has-error' : '' }}">
                         <input type="hidden" name="person" :value="person.id">
-                        <label class="col-sm-2 control-label">Person</label>
+                        <label class="col-sm-2 col-form-label text-right">Person</label>
                         <div class="col-sm-5">
                             <input class="form-control" readonly
                                    :value="person.last_name">
@@ -61,8 +61,8 @@
                         </div>
                     </div>
 
-                    <div class="form-group" v-if="person">
-                        <div class="col-sm-offset-2 col-sm-5">
+                    <div class="form-group row" v-if="person">
+                        <div class="offset-sm-2 col-sm-5">
                             <input class="form-control" readonly
                                    :value="person.bio_data">
                         </div>
@@ -72,63 +72,63 @@
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('person') ? ' has-error' : '' }}">
-                        <div class="col-sm-offset-2 col-sm-10">
+                    <div class="form-group row {{ $errors->has('person') ? ' has-error' : '' }}">
+                        <div class="offset-sm-2 col-sm-10">
                             @if ($errors->has('person'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('person') }}</strong>
                                 </span>
                             @endif
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('page') || $errors->has('page_to') || $errors->has('line') ? ' has-error' : '' }}">
-                        <label class="col-sm-2 control-label">Seite</label>
+                    <div class="form-group row {{ $errors->has('page') || $errors->has('page_to') || $errors->has('line') ? ' has-error' : '' }}">
+                        <label class="col-sm-2 col-form-label text-right">Seite</label>
                         <div class="col-sm-2">
                             <input class="form-control" name="page"
                                    ref="pageField"
                                    value="{{ old('page') }}">
                         </div>
-                        <label class="col-sm-1 control-label" style="text-align: center;">bis</label>
+                        <label class="col-sm-1 col-form-label" style="text-align: center;">bis</label>
                         <div class="col-sm-2">
                             <input class="form-control" name="page_to"
                                    value="{{ old('page_to') }}">
                         </div>
-                        <label class="col-sm-2 control-label">Zeile</label>
+                        <label class="col-sm-2 col-form-label text-right">Zeile</label>
                         <div class="col-sm-3">
                             <input class="form-control" name="line"
                                    value="{{ old('line') }}">
                         </div>
                     </div>
-                    <div class="form-group{{ $errors->has('page') || $errors->has('page_to') || $errors->has('line') ? ' has-error' : '' }}">
-                        <div class="col-sm-offset-2 col-sm-10">
+                    <div class="form-group row {{ $errors->has('page') || $errors->has('page_to') || $errors->has('line') ? ' has-error' : '' }}">
+                        <div class="offset-sm-2 col-sm-10">
                             @if ($errors->has('page'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('page') }}</strong>
                                 </span>
                             @endif
 
                             @if ($errors->has('page_to'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('page_to') }}</strong>
                                 </span>
                             @endif
 
                             @if ($errors->has('line'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('line') }}</strong>
                                 </span>
                             @endif
                         </div>
                     </div>
-                    <div class="form-group{{ $errors->has('page_description') ? ' has-error' : '' }}">
-                        <label class="col-sm-2 control-label">Notiz</label>
+                    <div class="form-group row {{ $errors->has('page_description') ? ' has-error' : '' }}">
+                        <label class="col-sm-2 col-form-label text-right">Notiz</label>
                         <div class="col-sm-10">
                             <input class="form-control" name="page_description"
                                    value="{{ old('page_description') }}">
 
                             @if ($errors->has('page_description'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('page_description') }}</strong>
                                 </span>
                             @endif
@@ -178,7 +178,7 @@
                             </td>
                             <td>
                                 <button @click="fillOccurrenceForm({{ $person }})" class="btn btn-sm btn-primary">
-                                    <i class="fa fa-plus"></i>
+                                    <span class="fa fa-plus"></span>
                                 </button>
                             </td>
                         </tr>
@@ -198,11 +198,11 @@
                     <span class="fa fa-floppy-o"></span>
                     Speichern
                 </button>
-                <button type="button" class="btn btn-default" @click="form.reset()">
+                <button type="button" class="btn btn-secondary" @click="form.reset()">
                     Änderungen verwerfen
                 </button>
                 <a href="{{ route('books.show', [$book->id]) }}#books"
-                   class="btn btn-default">Abbrechen</a>
+                   class="btn btn-secondary">Abbrechen</a>
             @endunless
         @endcan
     </portal>

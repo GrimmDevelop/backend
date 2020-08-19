@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 if (!function_exists('sort_link')) {
     /**
      * @param $url
@@ -40,9 +42,9 @@ if (!function_exists('sort_arrow')) {
         if ($currentSort === $key) {
             $direction = intval(request()->get('direction', 0));
             if ($direction == 0) {
-                return '<i class="fa fa-caret-up"></i>';
+                return '<span class="fa fa-caret-up"></span>';
             } else {
-                return '<i class="fa fa-caret-down"></i>';
+                return '<span class="fa fa-caret-down"></span>';
             }
         }
 
@@ -82,7 +84,7 @@ if (!function_exists('active_if')) {
      */
     function active_if($condition)
     {
-        return ($condition) ? ' class="active"' : '';
+        return ($condition) ? 'active' : '';
     }
 }
 
@@ -109,7 +111,7 @@ if (!function_exists('selected_if')) {
 }
 
 if (!function_exists('referrer_url')) {
-    function referrer_url($key, $dest, $hashtag='')
+    function referrer_url($key, $dest, $hashtag = '')
     {
         $params = session($key);
         if (!$params) {
@@ -123,12 +125,13 @@ if (!function_exists('referrer_url')) {
 }
 
 if (!function_exists('model_type')) {
-    function model_type($model, $pluralize=true) {
+    function model_type($model, $pluralize = true)
+    {
         $reflection = new ReflectionClass($model);
         $type = strtolower(last(explode('\\', $reflection->getShortName())));
 
         if ($pluralize) {
-            return str_plural($type);
+            return Str::plural($type);
         }
 
         return $type;
@@ -136,14 +139,16 @@ if (!function_exists('model_type')) {
 }
 
 if (!function_exists('field_name')) {
-    function field_name($field, $model) {
+    function field_name($field, $model)
+    {
         $langFile = (is_string($model)) ? $model : model_type($model);
         return trans($langFile . '.' . $field);
     }
 }
 
 if (!function_exists('toggle_active_filters')) {
-    function toggle_active_filters($filter) {
+    function toggle_active_filters($filter)
+    {
         return url()->filtered($filter->selected()->keys()->toArray());
     }
 }

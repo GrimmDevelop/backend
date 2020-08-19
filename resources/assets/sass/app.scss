@@ -1,7 +1,7 @@
 @import "~font-awesome/scss/font-awesome";
 
 @import "variables";
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "bootstrap/bootstrap";
 @import "~tinymce/skins/lightgray/skin.min.css";
 
 body {
@@ -30,7 +30,7 @@ body {
         color: #fff;
         margin-top: 10px;
         font-weight: 100;
-        font-size: $font-size-h2;
+        font-size: $h2-font-size;
     }
 
     a.prev-link {
@@ -57,7 +57,6 @@ body {
     .pagination {
         border-radius: 0;
         padding: 0;
-        display: block;
         margin: 0 auto;
     }
 
@@ -174,10 +173,10 @@ body {
 
 @keyframes target-danger-fade {
     0% {
-        background-color: fade-in($state-danger-bg, .1);
+        background-color: fade-in(#F2DEDE, .1);
     }
     100% {
-        background-color: $state-danger-bg;
+        background-color: #F2DEDE;
     }
 }
 
@@ -214,6 +213,8 @@ body {
 .button-box {
     display: flex;
     justify-content: center;
+    flex-wrap: nowrap;
+
     div {
         text-align: center;
         padding-left: 10px;
@@ -222,6 +223,11 @@ body {
 
     a {
         display: block;
+    }
+
+    h5 {
+        margin-top: .5rem;
+        font-size: $font-size-base;
     }
 }
 
@@ -238,10 +244,12 @@ body {
 
 p.collapse-head {
     cursor: pointer;
+
     &::after {
         content: ' \25BC';
-        font-size: $font-size-small;
+        font-size: $font-size-sm;
     }
+
     &.collapsed {
         &::after {
             content: ' \25B2';

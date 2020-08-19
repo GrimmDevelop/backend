@@ -1,17 +1,17 @@
 <template>
     <tr v-if="existing">
         <td v-if="editing">
-            <a href="#" class="btn btn-link btn-sm" v-on:click.prevent="stopEdit"><i class="fa fa-times"></i></a>
+            <a href="#" class="btn btn-link btn-sm" v-on:click.prevent="stopEdit"><span class="fa fa-times"></span></a>
         </td>
         <td v-if="editing">
-            <input type="text" class="form-control input-sm" v-model="editingEntry" ref="entryInput"
+            <input type="text" class="form-control form-control-sm" v-model="editingEntry" ref="entryInput"
                    v-on:keyup.enter="savePrint()"/>
         </td>
         <td colspan="2" v-if="!editing">
-            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><i class="fa fa-edit"></i></a> {{ printEntry }}
+            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><span class="fa fa-edit"></span></a> {{ printEntry }}
         </td>
         <td v-if="editing">
-            <input type="text" class="form-control input-sm" v-model="editingYear" v-on:keyup.enter="savePrint()"/>
+            <input type="text" class="form-control form-control-sm" v-model="editingYear" v-on:keyup.enter="savePrint()"/>
         </td>
         <td v-if="editing">
             <button type="button" class="btn btn-primary btn-sm" v-on:click="savePrint()"><i

@@ -21,8 +21,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <img src="{{ $media->getFullUrl() }}" class="img-responsive">
+        <div class="col-md-6 offset-md-3">
+            <img src="{{ $media->getFullUrl() }}" class="img-fluid">
         </div>
     </div>
     <div class="row" style="margin-top: 1.5em;">
@@ -33,13 +33,13 @@
                     {{ method_field('put') }}
 
                     @unless($media->order_column == 1)
-                        <button class="btn btn-default" type="submit" name="left" value="1">
+                        <button class="btn btn-secondary" type="submit" name="left" value="1">
                             <span class="fa fa-arrow-up"></span>
                         </button>
                     @endunless
 
                     @unless($media->order_column == $letter->getMedia('letters.scans.' . $collection)->count())
-                        <button class="btn btn-default" type="submit" name="right" value="1">
+                        <button class="btn btn-secondary" type="submit" name="right" value="1">
                             <span class="fa fa-arrow-down"></span>
                         </button>
                     @endunless

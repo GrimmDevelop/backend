@@ -1,7 +1,7 @@
 try {
     window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap-sass');
+    require('bootstrap/dist/js/bootstrap.bundle');
 } catch (e) {
     //
 }

@@ -39,7 +39,7 @@
                                 <strong>{{ $media->getHumanReadableSizeAttribute() }}</strong>
                             </div>
                             <div class="col-md-2">
-                                <img src="{{ $media->getFullUrl() }}" class="img-responsive">
+                                <img src="{{ $media->getFullUrl() }}" class="img-fluid">
                             </div>
                         </div>
                     @endforeach

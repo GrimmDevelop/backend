@@ -18,13 +18,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        ImportDBase::class,
-        Deploy::class,
-        UpdatePermissionsTable::class,
-        ClearBeanstalkdQueue::class,
-        FillDeneckeTeitgeFromTitle::class,
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.

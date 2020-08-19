@@ -7,18 +7,18 @@
                 <div class="button-container">
                     <div class="search {{ request()->has('name') ? 'active' : '' }}">
                         <form action="{{ url('librarypeople') }}" method="get">
-                            <input type="text" class="form-control input-sm" name="name" maxlength="64"
+                            <input type="text" class="form-control form-control-sm" name="name" maxlength="64"
                                    placeholder="Suche" value="{{ request('name') ?: '' }}"/>
 
                             <button id="search-btn" type="submit" class="btn btn-primary btn-sm">
-                                <i class="fa fa-search"></i>
+                                <span class="fa fa-search"></span>
                             </button>
                         </form>
                     </div>
                     @if(request()->has('name'))
                         <div class="reset-search">
-                            <a href="{{ url()->filtered(['-name']) }}" class="btn btn-default btn-sm">
-                                <i class="fa fa-times"></i>
+                            <a href="{{ url()->filtered(['-name']) }}" class="btn btn-secondary btn-sm">
+                                <span class="fa fa-times"></span>
                             </a>
                         </div>
                     @endif
@@ -33,7 +33,7 @@
                 {{ $people->appends($filter->delta())->links() }}
             </div>
             <div class="col-md-12 list-content">
-                <table class="table table-responsive table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>
@@ -49,7 +49,7 @@
                     <tbody>
                     @forelse($people->items() as $person)
                         <tr id="person-{{ $person->id }}"
-                            onclick="location.href='{{ route('librarypeople.show', ['id' => $person->id]) }}'"
+                            onclick="location.href='{{ route('librarypeople.show', [$person]) }}'"
                             style="cursor: pointer;"
                             class="@if($person->trashed()) bg-danger @endif">
                             <td width="15%">{{ $person->id }}</td>

@@ -10,7 +10,7 @@
                     <div class="button-container">
                         <div class="generic">
                             <a href="{{ route('letters.index') }}?correspondence={{ $person->id }}" role="button"
-                               class="btn btn-default btn-sm">
+                               class="btn btn-secondary btn-sm">
                                 <span class="fa fa-envelope"></span>
                                 {{ trans('people.correspondence') }}
                             </a>
@@ -24,10 +24,10 @@
             @if($person->trashed())
                 <div class="col-md-12 deleted-record-info">
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-1">
+                        <div class="col-md-8 offset-md-1">
                             <div class="media">
                                 <div class="media-left">
-                                    <i class="fa fa-trash-o fa-5x"></i>
+                                    <span class="fa fa-trash-o fa-5x"></span>
                                 </div>
                                 <div class="media-body media-middle">
                                     <h4 class="media-heading">Die Person wurde gelöscht</h4>
@@ -46,7 +46,7 @@
                 </div>
             @endif
             <div class="col-md-12 page-content">
-                <form id="person-editor" action="{{ route('people.update', ['people' => $person->id]) }}"
+                <form id="person-editor" action="{{ route('people.update', [$person]) }}"
                       class="form-horizontal" ref="personForm"
                       method="POST">
                     {{ method_field('PUT') }}
@@ -68,23 +68,23 @@
                 </form>
 
                 <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#prints" data-toggle="tab">Drucke</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#prints" data-toggle="tab">Drucke</a>
                     </li>
-                    <li>
-                        <a href="#inheritances" data-toggle="tab">Nachlässe</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#inheritances" data-toggle="tab">Nachlässe</a>
                     </li>
-                    <li>
-                        <a href="#references" data-toggle="tab">Referenzen</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#references" data-toggle="tab">Referenzen</a>
                     </li>
-                    <li>
-                        <a href="#books" data-toggle="tab">Bücher</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#books" data-toggle="tab">Bücher</a>
                     </li>
-                    <li>
-                        <a href="#information" data-toggle="tab">Informationen</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#information" data-toggle="tab">Informationen</a>
                     </li>
-                    <li>
-                        <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#changes" data-toggle="tab">Änderungsverlauf</a>
                     </li>
                 </ul>
 
@@ -104,12 +104,12 @@
                                 @can('books.assign')
                                     <a href="{{ route('people.add-book', [$person->id]) }}" role="button"
                                        class="btn btn-primary btn-sm">
-                                        <i class="fa fa-plus"></i> Buch hinzufügen
+                                        <span class="fa fa-plus"></span> Buch hinzufügen
                                     </a>
                                 @endcan
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th># Buch</th>
@@ -135,7 +135,7 @@
                                     <td>{{ $bookAssociation->line }}</td>
                                     <td class="action-column">
                                         <a href="{{ route('people.book', [$bookAssociation->id]) }}">
-                                            <i class="fa fa-link"></i>
+                                            <span class="fa fa-link"></span>
                                         </a>
                                     </td>
                                 </tr>
@@ -144,7 +144,7 @@
                         </table>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="information">
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th>Code</th>
@@ -181,17 +181,17 @@
                     Speichern
                 </button>
 
-                <button type="button" class="btn btn-default" @click="form.reset()">
+                <button type="button" class="btn btn-secondary" @click="form.reset()">
                     Änderungen verwerfen
                 </button>
                 <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
-                   class="btn btn-default">Abbrechen</a>
+                   class="btn btn-secondary">Abbrechen</a>
             @endunless
         @endcan
 
         @can('people.delete')
             @unless($person->trashed())
-                <form id="danger-zone" action="{{ route('people.destroy', [$person->id]) }}"
+                <form id="danger-zone" action="{{ route('people.destroy', [$person]) }}"
                       style="display: inline-block; margin: 0;"
                       method="post"
                       class="form-inline">
@@ -208,7 +208,7 @@
 
 @section('scripts')
     <script>
-        window.BASE_URL = "{{ route('people.show', [$person->id]) }}";
+        window.BASE_URL = "{{ route('people.show', [$person]) }}";
     </script>
     <script src="{{ url('js/person.js') }}"></script>
     <script>

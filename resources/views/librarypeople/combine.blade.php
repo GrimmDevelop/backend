@@ -12,8 +12,8 @@
 
             <div class="col-md-12 page-content">
                 <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="searchPerson" class="col-sm-2 control-label">Person suchen:</label>
+                    <div class="form-group row">
+                        <label for="searchPerson" class="col-sm-2 col-form-label text-right">Person suchen:</label>
                         <div class="col-sm-10">
                             <typeahead id="searchPerson"
                                        placeholder="Person suchen"
@@ -35,9 +35,9 @@
                       method="POST">
                     {{ csrf_field() }}
 
-                    <div class="form-group{{ $errors->has('person') ? ' has-error' : '' }}">
+                    <div class="form-group row {{ $errors->has('person') ? ' has-error' : '' }}">
                         <input type="hidden" name="person" :value="person.id">
-                        <label class="col-sm-2 control-label">Person</label>
+                        <label class="col-sm-2 col-form-label text-right">Person</label>
                         <div class="col-sm-5">
                             <input class="form-control" readonly
                                    :value="person.name">
@@ -48,10 +48,10 @@
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('person') ? ' has-error' : '' }}">
-                        <div class="col-sm-offset-2 col-sm-10">
+                    <div class="form-group row {{ $errors->has('person') ? ' has-error' : '' }}">
+                        <div class="offset-sm-2 col-sm-10">
                             @if ($errors->has('person'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('person') }}</strong>
                                 </span>
                             @endif
@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="button-bar row">
-                        <div class="col-sm-10 col-md-offset-2">
+                        <div class="col-sm-10 offset-md-2">
                             <p class="text-danger">
                                 Achtung! Diese Person wird gelöscht. Die ausgewählte Person bleibt bestehen
                                 und wird um die Bücher ergänzt.

@@ -49,7 +49,7 @@ class BackupStatusReader
             return 'success';
         }
 
-        return ($this->lastBackupStatus() == 'fail') ? 'danger' : 'default';
+        return ($this->lastBackupStatus() == 'fail') ? 'danger' : 'secondary';
     }
 
     public function lastBackupName()

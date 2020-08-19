@@ -8,15 +8,21 @@
     <portal to="status-bar-left">
         @can('library.update')
             <a href="{{ route('letters.scans.index', [$letter]) }}" role="button"
-               class="btn btn-default">
+               class="btn btn-secondary">
                 <span class="fa fa-picture-o"></span>
                 Scans verwalten
             </a>
 
             <a href="{{ route('letters.apparatuses.index', [$letter]) }}" role="button"
-               class="btn btn-default">
+               class="btn btn-secondary">
                 <span class="fa fa-language"></span>
                 Apparate und Sachkommentare
+            </a>
+
+            <a href="{{ route('letters.lettertext.index', [$letter]) }}" role="button"
+               class="btn btn-secondary">
+                <span class="fa fa-envelope-open-o  "></span>
+                Brieftext
             </a>
         @endcan
     </portal>
@@ -29,11 +35,11 @@
                     Speichern
                 </button>
 
-                <button type="button" class="btn btn-default" @click="form.reset()">
+                <button type="button" class="btn btn-secondary" @click="form.reset()">
                     Änderungen verwerfen
                 </button>
                 <a href="{{ referrer_url('last_letter_index', route('letters.index')) }}"
-                   class="btn btn-default">
+                   class="btn btn-secondary">
                     Abbrechen
                 </a>
             @endunless
@@ -63,17 +69,17 @@
                     title="{{ addslashes($letter->title()) }}">
                     <a class="prev-link"
                        href="{{ referrer_url('last_letter_index', route('letters.index'), '#letter-' . $letter->id) }}">
-                        <i class="fa fa-caret-left"></i></a> Briefdaten: {{ str_limit($letter->title(), 60) }}
+                        <span class="fa fa-caret-left"></span></a> Briefdaten: {{ \Illuminate\Support\Str::limit($letter->title(), 60) }}
                 </h1>
             </div>
 
             @if($letter->trashed())
                 <div class="col-md-12 deleted-record-info">
                     <div class="row">
-                        <div class="col-md-8 col-md-offset-1">
+                        <div class="col-md-8 offset-md-1">
                             <div class="media">
                                 <div class="media-left">
-                                    <i class="fa fa-trash-o fa-5x"></i>
+                                    <span class="fa fa-trash-o fa-5x"></span>
                                 </div>
                                 <div class="media-body media-middle">
                                     <h4 class="media-heading">Der Brief wurde gelöscht</h4>
@@ -97,10 +103,10 @@
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">IDs</label>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label text-right">IDs</label>
                         <div class="col-sm-10">
-                            <p class="form-control-static">
+                            <p class="form-control-plaintext">
                                 {{ $letter->id_till_2018 }} [2018]
                                 @if($letter->id_till_1997)
                                     &nbsp;&nbsp;<strong>|</strong>&nbsp;&nbsp;{{ $letter->id_till_1997 }} [1997]
@@ -132,8 +138,8 @@
                     @include('partials.form.field', ['field' => 'couvert', 'model' => $letter])
 
                     @if($letter->couvert != null)
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
+                        <div class="form-group row">
+                            <div class="col-sm-10 offset-sm-2">
                                 @foreach($letter->getMedia('letters.scans.couvert') as $index => $media)
                                     <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img
                                                 src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
@@ -151,11 +157,11 @@
                     @include('partials.form.field', ['field' => 'reconstructed_from', 'model' => $letter])
 
                     @if($letter->handwriting_location != null)
-                        <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
+                        <div class="form-group row">
+                            <div class="col-sm-10 offset-sm-2">
                                 @foreach($letter->getMedia('letters.scans.handwriting_location') as $index => $media)
                                     <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img
-                                                src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
+                                                src="{{ $media->getFullUrl('thumb') }}" style="width: 10%;"></a>
                                 @endforeach
                             </div>
                         </div>
@@ -169,55 +175,55 @@
                 <h3>Verknüpfungen</h3>
 
                 <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#send" data-toggle="tab">Sender</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#send" data-toggle="tab">Sender</a>
                     </li>
-                    <li>
-                        <a href="#receive" data-toggle="tab">Empfänger</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#receive" data-toggle="tab">Empfänger</a>
                     </li>
-                    <li>
-                        <a href="#transcriptions" data-toggle="tab">Abschriften</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#transcriptions" data-toggle="tab">Abschriften</a>
                     </li>
-                    <li>
-                        <a href="#prints" data-toggle="tab">Drucke</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#prints" data-toggle="tab">Drucke</a>
                     </li>
-                    <li>
-                        <a href="#attachments" data-toggle="tab">Beilagen</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#attachments" data-toggle="tab">Beilagen</a>
                     </li>
-                    <li>
-                        <a href="#auction_catalogues" data-toggle="tab">Auktionskataloge</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#auction_catalogues" data-toggle="tab">Auktionskataloge</a>
                     </li>
-                    <li>
-                        <a href="#drafts" data-toggle="tab">Entwürfe</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#drafts" data-toggle="tab">Entwürfe</a>
                     </li>
-                    <li>
-                        <a href="#facsimiles" data-toggle="tab">Faksimiles</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#facsimiles" data-toggle="tab">Faksimiles</a>
                     </li>
-                    <li>
-                        <a href="#information" data-toggle="tab">Informationen</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#information" data-toggle="tab">Informationen</a>
                     </li>
-                    <li>
-                        <a href="#codes" data-toggle="tab">Codes</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#codes" data-toggle="tab">Codes</a>
                     </li>
-                    <li>
-                        <a href="#changes" data-toggle="tab">Änderungsverlauf</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#changes" data-toggle="tab">Änderungsverlauf</a>
                     </li>
                 </ul>
 
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="send">
                         <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label text-right"
                                        for="inputFrom">{{ trans('letters.sender') }}</label>
                                 <div class="col-sm-10">
                                     @foreach($letter->senders() as $sender)
-                                        <p class="form-control-static">
+                                        <p class="form-control-plaintext">
                                             @include('letters.associations.partials.person', ['association' => $sender])
                                         </p>
                                     @endforeach
                                     <p>
-                                        <a class="btn btn-default"
+                                        <a class="btn btn-secondary"
                                            href="{{ route('letters.associations.create', [$letter]) }}?type=sender">
                                             <span class="fa fa-plus"></span>
                                             Absender hinzufügen
@@ -229,17 +235,17 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="receive">
                         <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label"
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label text-right"
                                        for="inputFrom">{{ trans('letters.receiver') }}</label>
                                 <div class="col-sm-10">
                                     @foreach($letter->receivers() as $receiver)
-                                        <p class="form-control-static">
+                                        <p class="form-control-plaintext">
                                             @include('letters.associations.partials.person', ['association' => $receiver])
                                         </p>
                                     @endforeach
                                     <p>
-                                        <a class="btn btn-default"
+                                        <a class="btn btn-secondary"
                                            href="{{ route('letters.associations.create', [$letter]) }}?type=receiver">
                                             <span class="fa fa-plus"></span>
                                             Empfänger hinzufügen
@@ -254,12 +260,12 @@
                         @unless($letter->trashed())
                             <div class="add-button">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addPrint">
-                                    <i class="fa fa-plus"></i> Druck hinzufügen
+                                        data-target="#addPrint-modal">
+                                    <span class="fa fa-plus"></span> Druck hinzufügen
                                 </button>
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th colspan="2">Eintrag</th>
@@ -286,12 +292,12 @@
                         @unless($letter->trashed())
                             <div class="add-button">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addTranscription">
-                                    <i class="fa fa-plus"></i> Abschrift hinzufügen
+                                        data-target="#addTranscription-modal">
+                                    <span class="fa fa-plus"></span> Abschrift hinzufügen
                                 </button>
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th colspan="2">Eintrag</th>
@@ -319,12 +325,12 @@
                         @unless($letter->trashed())
                             <div class="add-button">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addCatalogue">
-                                    <i class="fa fa-plus"></i> Katalog hinzufügen
+                                        data-target="#addCatalogue-modal">
+                                    <span class="fa fa-plus"></span> Katalog hinzufügen
                                 </button>
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th colspan="2">Eintrag</th>
@@ -351,12 +357,12 @@
                         @unless($letter->trashed())
                             <div class="add-button">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addAttachment">
-                                    <i class="fa fa-plus"></i> Beilage hinzufügen
+                                        data-target="#addAttachment-modal">
+                                    <span class="fa fa-plus"></span> Beilage hinzufügen
                                 </button>
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th colspan="2">Eintrag</th>
@@ -383,12 +389,12 @@
                         @unless($letter->trashed())
                             <div class="add-button">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addDraft">
-                                    <i class="fa fa-plus"></i> Entwurf hinzufügen
+                                        data-target="#addDraft-modal">
+                                    <span class="fa fa-plus"></span> Entwurf hinzufügen
                                 </button>
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th colspan="2">Eintrag</th>
@@ -415,12 +421,12 @@
                         @unless($letter->trashed())
                             <div class="add-button">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addFacsimile">
-                                    <i class="fa fa-plus"></i> Faksimile hinzufügen
+                                        data-target="#addFacsimile-modal">
+                                    <span class="fa fa-plus"></span> Faksimile hinzufügen
                                 </button>
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th colspan="2">Eintrag</th>
@@ -448,12 +454,12 @@
                             <div class="add-button">
                                 <button id="addInformationButton" type="button" class="btn btn-primary btn-sm"
                                         data-toggle="modal"
-                                        data-target="#addInformation">
-                                    <i class="fa fa-plus"></i> Information hinzufügen
+                                        data-target="#addInformation-modal">
+                                    <span class="fa fa-plus"></span> Information hinzufügen
                                 </button>
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th colspan="2">Code</th>
@@ -478,12 +484,12 @@
                         @unless($letter->trashed())
                             <div class="add-button">
                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addCode">
-                                    <i class="fa fa-plus"></i> Code hinzufügen
+                                        data-target="#addCode-modal">
+                                    <span class="fa fa-plus"></span> Code hinzufügen
                                 </button>
                             </div>
                         @endunless
-                        <table class="table table-responsive">
+                        <table class="table">
                             <thead>
                             <tr>
                                 <th colspan="2">Name</th>

@@ -26,7 +26,7 @@ class LetterDraftController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param Letter $letter
      * @return Draft[]|\Illuminate\Http\Response|\Illuminate\Support\Collection
      * @throws \Illuminate\Auth\Access\AuthorizationException
@@ -50,7 +50,7 @@ class LetterDraftController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @param Letter $letter
      * @param $draftId
      * @return Draft
@@ -61,7 +61,7 @@ class LetterDraftController extends Controller
         $this->authorize('letters.update');
 
         /** @var Draft $draft */
-        $draft = $letter->facsimiles()->find($draftId);
+        $draft = $letter->drafts()->find($draftId);
 
         $draft->entry = $request->get('entry');
         $draft->year = $request->get('year');
