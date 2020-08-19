@@ -68,12 +68,10 @@ class SenderReceiverParser implements FieldParser
     {
         $string = preg_replace("/;([\\/~><])/", ":$1", $string);
 
-        $persons = collect(explode(';', $string))
+        return collect(explode(';', $string))
             ->map(function ($item) {
                 return trim($item);
             })->filter();
-
-        return $persons;
     }
 
     private function lookUpPerson($person)

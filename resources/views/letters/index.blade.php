@@ -10,14 +10,14 @@
                             <input type="text" class="form-control form-control-sm" name="search" maxlength="64"
                                    placeholder="Suche" value="{{ request('search') ?: '' }}"/>
                             <button id="search-btn" type="submit" class="btn btn-primary btn-sm"><i
-                                    class="fa fa-search"></i></button>
+                                        class="fa fa-search"></i></button>
 
                         </form>
                     </div>
                     @if(request()->has('search'))
                         <div class="reset-search">
                             <a href="{{ url()->filtered(['-search']) }}" class="btn btn-secondary btn-sm"><i
-                                    class="fa fa-times"></i></a>
+                                        class="fa fa-times"></i></a>
                         </div>
                     @endif
 
@@ -94,8 +94,8 @@
             <div class="dropup">
                 <div class="btn-group">
                     <a href="#" data-toggle="dropdown" class="btn btn-secondary dropdown-toggle">Spalten <span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu" style="width: 600px;">
+                                class="caret"></span></a>
+                    <div class="dropdown-menu dropdown-menu-right" style="width: 600px;">
                         @foreach(\Grimm\Letter::gridColumns(true, true) as $column)
                             <a class="dropdown-item {{ active_if($column->isActive()) }}"
                                style="float: left; width: calc(33.33% - 1rem); margin: 0 0.5rem; clear:none;"
@@ -103,7 +103,7 @@
                                 {{ trans('letters.' . $column->name()) }}
                             </a>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
             </div>
 

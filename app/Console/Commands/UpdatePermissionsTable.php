@@ -46,6 +46,8 @@ class UpdatePermissionsTable extends Command
 
         $this->removeUnusedPermissions();
         $this->addMissingPermissions();
+
+        return 0;
     }
 
     protected function removeUnusedPermissions()

@@ -41,21 +41,22 @@ class ReformatLetterTextCommand extends Command
      */
     public function handle(Filesystem $filesystem)
     {
-       $path = $this->argument('path');
+        $path = $this->argument('path');
 
-       if($filesystem->isDirectory($path)) {
-           foreach($filesystem->allFiles($path) as $file) {
-               $this->info($file);
-               $this->format($file->getContents());
-           }
-       }
+        if ($filesystem->isDirectory($path)) {
+            foreach ($filesystem->allFiles($path) as $file) {
+                $this->info($file);
+                $this->format($file->getContents());
+            }
+        }
 
-       if(!file_exists($path)) {
-           throw new FileNotFoundException();
-       }
+        if (!file_exists($path)) {
+            throw new FileNotFoundException();
+        }
 
-       $this->format(file_get_contents($path));
+        $this->format(file_get_contents($path));
 
+        return 0;
     }
 
     protected function format($html)

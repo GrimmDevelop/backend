@@ -145,13 +145,10 @@
                 @can('users.delete')
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                <h1 class="panel-title">Gefahrenzone</h1>
-                            </div>
+                        <div class="card card-danger">
+                            <div class="card-header">Gefahrenzone</div>
 
-                            <div class="panel-body">
-                                <p>
+                            <div class="card-body">
                                 <form id="danger-zone" action="{{ route('users.destroy', [$user->id]) }}" method="post"
                                       class="form-inline">
                                     {{ csrf_field() }}
@@ -161,7 +158,6 @@
                                         {{ trans('users.delete') }}
                                     </button>
                                 </form>
-                                </p>
                             </div>
                         </div>
                     </div>

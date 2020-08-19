@@ -1,10 +1,16 @@
 
+import Home from "../modules/Home/Home";
+import Letters from "../modules/Letters/Letters";
 import Letter from "../modules/Letters/Letter";
 
 const routes = [
     {
         path: '/',
-        component: Letter
+        component: Home
+    },
+    {
+        path: '/',
+        component: Letters
     },
     {
         path: '/letters/:id',

@@ -184,11 +184,9 @@ class FilterApplicator
      */
     public function selectable()
     {
-        $selectable = collect($this->filters)->filter(function ($value) {
+        return collect($this->filters)->filter(function ($value) {
             return $value instanceof SelectableFilter;
         });
-
-        return $selectable;
     }
 
     /**
@@ -237,15 +235,13 @@ class FilterApplicator
      */
     protected function flags(Collection $deltaCollection)
     {
-        $flags = $deltaCollection->filter(function ($value, $key) {
+        return $deltaCollection->filter(function ($value, $key) {
             return is_numeric($key) && !Str::startsWith($value, '-');
         })->flatMap(function ($value, $key) {
             $filter = $this->filterFor($value);
 
             return [$value => $filter->nextValue()];
         });
-
-        return $flags;
     }
 
     /**

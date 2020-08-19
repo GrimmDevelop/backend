@@ -157,7 +157,6 @@ class LibraryBooksController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function uploadGet(IndexLibraryRequest $request, $id)
     {
@@ -179,7 +178,6 @@ class LibraryBooksController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function uploadPost(IndexLibraryRequest $request, $id)
     {
@@ -204,7 +202,6 @@ class LibraryBooksController extends Controller
      * @throws \Exception
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     private function saveUploadedFile(File $file, LibraryBook $book)
     {

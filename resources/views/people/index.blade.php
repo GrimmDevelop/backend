@@ -10,14 +10,14 @@
                             <input type="text" class="form-control form-control-sm" name="name" maxlength="64"
                                    placeholder="Suche" value="{{ request('name') ?: '' }}"/>
                             <button id="search-btn" type="submit" class="btn btn-primary btn-sm"><i
-                                    class="fa fa-search"></i></button>
+                                        class="fa fa-search"></i></button>
 
                         </form>
                     </div>
                     @if(request()->has('name'))
                         <div class="reset-search">
                             <a href="{{ url()->filtered(['-name']) }}" class="btn btn-secondary btn-sm"><i
-                                    class="fa fa-times"></i></a>
+                                        class="fa fa-times"></i></a>
                         </div>
                     @endif
                     <div class="generic">
@@ -94,16 +94,16 @@
             <div class="dropup">
                 <div class="btn-group">
                     <a href="#" data-toggle="dropdown" class="btn btn-secondary dropdown-toggle">Spalten <span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu">
+                                class="caret"></span></a>
+                    <div class="dropdown-menu dropdown-menu-right" style="width: 600px;">
                         @foreach(\Grimm\Person::gridColumns(true) as $column)
-                            <li class="{{ active_if($column->isActive()) }}">
-                                <a href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">
-                                    {{ trans('people.' . $column->name()) }}
-                                </a>
-                            </li>
+                            <a class="dropdown-item {{ active_if($column->isActive()) }}"
+                               style="float: left; width: calc(33.33% - 1rem); margin: 0 0.5rem; clear:none;"
+                               href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">
+                                {{ trans('people.' . $column->name()) }}
+                            </a>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
             </div>
 

@@ -8,7 +8,7 @@ use Flow\File;
 use Grimm\Letter;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class LetterScansController extends Controller
 {
