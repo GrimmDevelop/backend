@@ -14,6 +14,7 @@ use Grimm\LetterPrint;
 use Grimm\LetterTranscription;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Str;
 
 class LetterGrid extends Grid
 {
