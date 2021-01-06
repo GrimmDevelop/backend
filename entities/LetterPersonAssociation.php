@@ -21,6 +21,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class LetterPersonAssociation extends Model
 {
+    const SENDER = 0;
+    const RECEIVER = 1;
+    const MENTION = 2;
 
     protected $table = 'letter_person';
 
@@ -42,31 +45,31 @@ class LetterPersonAssociation extends Model
 
     public function isSender()
     {
-        return $this->type === 0;
+        return $this->type === static::SENDER;
     }
 
     public function isReceiver()
     {
-        return $this->type === 1;
+        return $this->type === static::RECEIVER;
     }
 
     public function isMention()
     {
-        return $this->type === 2;
+        return $this->type === static::MENTION;
     }
 
     public function makePersonSender()
     {
-        $this->type = 0;
+        $this->type = static::SENDER;
     }
 
     public function makePersonReceiver()
     {
-        $this->type = 1;
+        $this->type = static::RECEIVER;
     }
 
     public function makePersonMentioned()
     {
-        $this->type = 2;
+        $this->type = static::MENTION;
     }
 }
