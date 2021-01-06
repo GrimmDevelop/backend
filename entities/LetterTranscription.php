@@ -3,6 +3,7 @@
 namespace Grimm;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property string entry
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class LetterTranscription extends Model
 {
+    use SoftDeletes;
 
     public function letter()
     {

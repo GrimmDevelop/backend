@@ -1,5 +1,5 @@
 <p>
-    {{ trans($activity->getType() . '.' . $activity->getType(false)) }} erstellt <a href="{{ route($activity->getType().'.show', [$activity->model]) }}" title="Details"><span class="fa fa-link"></span></a>
+    {{ trans($activity->getType() . '.' . $activity->getType(false)) }} erstellt <a href="{{ route($activity->getRoute(), [$activity->getRouteModel()]) }}" title="Details"><span class="fa fa-link"></span></a>
 </p>
 
 <table class="table table-striped collapse" id="activity-{{ $activity->id }}">

@@ -13,6 +13,9 @@ use Illuminate\Support\Str;
  * @property integer id
  * @property integer model_id
  * @property string model_type
+ * @property int parent_id
+ * @property string parent_type
+ * @property Model parent
  * @property array log
  * @property integer user_id
  * @property \Carbon\Carbon created_at
@@ -28,6 +31,8 @@ class Activity extends Model
     protected $fillable = [
         'model_id',
         'model_type',
+        'parent_id',
+        'parent_type',
         'log',
         'user_id'
     ];
@@ -50,6 +55,14 @@ class Activity extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function parent()
+    {
+        return $this->morphTo('parent');
+    }
+
     public function getType($pluralize = true)
     {
         $type = strtolower(last(explode('\\', $this->model_type)));
@@ -59,6 +72,31 @@ class Activity extends Model
         }
 
         return $type;
+    }
+
+    public function getParentType($pluralize = true)
+    {
+        $type = strtolower(last(explode('\\', $this->parent_type)));
+
+        if ($pluralize) {
+            return Str::plural($type);
+        }
+
+        return $type;
+    }
+
+    public function getRoute()
+    {
+        return ($this->parent === null ? $this->getType() : $this->getParentType()) . '.show';
+    }
+
+    public function getRouteModel()
+    {
+        if(($this->parent === null ? $this->model : $this->parent) === null) {
+            dd($this, $this->model, $this->parent);
+        }
+
+        return $this->parent === null ? $this->model : $this->parent;
     }
 
     public function action()

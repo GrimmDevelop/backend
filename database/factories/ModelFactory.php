@@ -11,44 +11,6 @@
 |
 */
 
-$factory->define(Grimm\User::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
-        'api_token' => str_random(60),
-        'api_only' => true
-    ];
-});
-
-$factory->define(Grimm\Person::class, function (Faker\Generator $faker) {
-
-    $birthDate = \Carbon\Carbon::now()->subYears($faker->randomNumber(3));
-
-    return [
-        'last_name' => $faker->lastName,
-        'first_name' => $faker->firstName,
-        'birth_date' => $birthDate->format('Y'),
-        'death_date' => $birthDate->addYears($faker->randomNumber(2))->format('Y'),
-        'is_organization' => $faker->boolean(20),
-    ];
-});
-
-$factory->define(Grimm\LibraryBook::class, function (Faker\Generator $faker) {
-
-    $catalog_id = $faker->numberBetween(1, 10000);
-
-    if ($faker->boolean(20)) {
-        $catalog_id .= $faker->randomLetter();
-    }
-
-    return [
-        'catalog_id' => $catalog_id,
-        'title' => $faker->sentence,
-    ];
-});
-
 $factory->define(Grimm\Book::class, function (Faker\Generator $faker) {
 
     if ($faker->boolean(80)) {

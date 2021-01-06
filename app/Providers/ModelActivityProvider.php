@@ -3,10 +3,19 @@
 namespace App\Providers;
 
 use Grimm\Activity;
+use Grimm\AuctionCatalogue;
 use Grimm\Book;
 use Grimm\Letter;
+use Grimm\LetterApparatus;
+use Grimm\LetterAttachment;
+use Grimm\LetterComment;
+use Grimm\LetterPrint;
+use Grimm\LetterTranscription;
 use Grimm\LibraryBook;
+use Grimm\LibraryPerson;
 use Grimm\Person;
+use Grimm\PersonInheritance;
+use Grimm\PersonPrint;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,13 +33,22 @@ class ModelActivityProvider extends ServiceProvider
             return;
         }
 
-        $this->registerLetter();
+        $this->registerModel(Letter::class);
+        $this->registerModel(LetterApparatus::class, 'letter');
+        $this->registerModel(LetterAttachment::class, 'letter');
+        $this->registerModel(LetterComment::class, 'letter');
+        $this->registerModel(LetterPrint::class, 'letter');
+        $this->registerModel(LetterTranscription::class, 'letter');
+        $this->registerModel(AuctionCatalogue::class, 'letter');
 
-        $this->registerBook();
+        $this->registerModel(Book::class);
 
-        $this->registerPerson();
+        $this->registerModel(Person::class);
+        $this->registerModel(PersonInheritance::class, 'person');
+        $this->registerModel(PersonPrint::class, 'person');
 
-        $this->registerLibrary();
+        $this->registerModel(LibraryBook::class);
+        $this->registerModel(LibraryPerson::class);
     }
 
     /**
@@ -43,101 +61,47 @@ class ModelActivityProvider extends ServiceProvider
         //
     }
 
-    protected function registerBook()
+    protected function registerModel($class, $parentModel = null)
     {
-        Book::created(function (Model $model) {
-            $this->logCreating($model);
+        $class::created(function (Model $model) use ($parentModel) {
+            $this->logCreating($model, $parentModel);
         });
 
-        Book::updating(function (Model $model) {
-            $this->logUpdating($model);
+        $class::updating(function (Model $model) use ($parentModel) {
+            $this->logUpdating($model, $parentModel);
         });
 
-        Book::deleting(function (Model $model) {
-            $this->logDeleting($model);
+        $class::deleting(function (Model $model) use ($parentModel) {
+            $this->logDeleting($model, $parentModel);
         });
 
-        Book::restored(function (Model $model) {
-            $this->logRestoring($model);
+        $class::restored(function (Model $model) use ($parentModel) {
+            $this->logRestoring($model, $parentModel);
         });
     }
 
-    protected function registerPerson()
+    protected function log($model, $log, $parent = null)
     {
-        Person::created(function (Model $model) {
-            $this->logCreating($model);
-        });
-
-        Person::updating(function (Model $model) {
-            $this->logUpdating($model);
-        });
-
-        Person::deleting(function (Model $model) {
-            $this->logDeleting($model);
-        });
-
-        Person::restored(function (Model $model) {
-            $this->logRestoring($model);
-        });
-    }
-
-    protected function registerLibrary()
-    {
-        LibraryBook::created(function (Model $model) {
-            $this->logCreating($model);
-        });
-
-        LibraryBook::updating(function (Model $model) {
-            $this->logUpdating($model);
-        });
-
-        LibraryBook::deleting(function (Model $model) {
-            $this->logDeleting($model);
-        });
-
-        LibraryBook::restored(function (Model $model) {
-            $this->logRestoring($model);
-        });
-    }
-
-    protected function registerLetter()
-    {
-        Letter::created(function (Model $model) {
-            $this->logCreating($model);
-        });
-
-        Letter::updating(function (Model $model) {
-            $this->logUpdating($model);
-        });
-
-        Letter::deleting(function (Model $model) {
-            $this->logDeleting($model);
-        });
-
-        Letter::restored(function (Model $model) {
-            $this->logRestoring($model);
-        });
-    }
-
-    protected function log($model, $log)
-    {
-        Activity::create([
+        Activity::create(array_merge([
             'model_id' => $model->id,
             'model_type' => get_class($model),
             'log' => $log,
             'user_id' => auth()->user()->id,
-        ]);
+        ], $parent !== null ? [
+            'parent_id' => $model->{$parent}->id,
+            'parent_type' => $model->{$parent}->getMorphClass(),
+        ] : []));
     }
 
-    protected function logCreating(Model $model)
+    protected function logCreating(Model $model, $parentModel)
     {
         $this->log($model, [
             'action' => 'creating',
             'after' => $model->getDirty(),
-        ]);
+        ], $parentModel);
     }
 
-    protected function logUpdating(Model $model)
+    protected function logUpdating(Model $model, $parentModel)
     {
         $before = $this->getBeforeFromModel($model);
 
@@ -146,24 +110,24 @@ class ModelActivityProvider extends ServiceProvider
                 'action' => 'updating',
                 'before' => $before,
                 'after' => $model->getDirty(),
-            ]);
+            ], $parentModel);
         }
     }
 
-    protected function logDeleting(Model $model)
+    protected function logDeleting(Model $model, $parentModel)
     {
         $this->log($model, [
             'action' => 'deleting',
             'before' => $model->getOriginal(),
-        ]);
+        ], $parentModel);
     }
 
-    protected function logRestoring(Model $model)
+    protected function logRestoring(Model $model, $parentModel)
     {
         $this->log($model, [
             'action' => 'restoring',
-            'after' => $model->getOriginal()
-        ]);
+            'after' => $model->getOriginal(),
+        ], $parentModel);
     }
 
     protected function getBeforeFromModel(Model $model)

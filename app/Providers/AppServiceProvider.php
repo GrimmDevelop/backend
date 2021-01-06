@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Person::$unknownName = trans('people.unknownName');
 
         Passport::withoutCookieSerialization();
-        //Paginator::useBootstrapThree();
+        Paginator::useBootstrap();
 
         Validator::extend('equals', function ($attribute, $value, $parameters, $validator) {
             if (!isset($parameters[0])) {
