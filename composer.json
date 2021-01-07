@@ -27,7 +27,7 @@
         "pusher/pusher-php-server": "^4.0",
         "spatie/laravel-backup": "^6.0",
         "spatie/laravel-fractal": "^5.0",
-        "spatie/laravel-medialibrary": "^8.0",
+        "spatie/laravel-medialibrary": "^8.7.1",
         "spatie/valuestore": "^1.0"
     },
     "require-dev": {

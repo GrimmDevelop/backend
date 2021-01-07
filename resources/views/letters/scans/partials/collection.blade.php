@@ -29,8 +29,8 @@
         <div class="col-md-12" style="text-align: center;">
             <div class="btn-group">
                 <form action="{{ route('letters.scans.update', [$letter, $media]) }}" method="post">
-                    {{ csrf_field() }}
-                    {{ method_field('put') }}
+                    @csrf
+                    @method('put')
 
                     @unless($media->order_column == 1)
                         <button class="btn btn-secondary" type="submit" name="left" value="1">
