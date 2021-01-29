@@ -10,6 +10,7 @@
     "require": {
         "php": ">=7.4.0",
         "ext-redis": ">=5.0",
+        "beyondcode/laravel-websockets": "^1.9",
         "cviebrock/laravel-elasticsearch": "^8.0",
         "doctrine/dbal": "^2.5",
         "facade/ignition": "^2.3.6",

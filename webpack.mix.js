@@ -48,6 +48,7 @@ mix
     .sass('resources/assets/sass/formats.scss', 'public/css')
     // frontend
     .js('resources/assets/frontend/js/frontend.js', 'public/frontend/js')
+    .js('resources/assets/frontend/js/window.js', 'public/frontend/js')
     .sass('resources/assets/frontend/sass/app.scss', 'public/frontend/css/')
     .options({
         processCssUrls: true,

@@ -1,5 +1,6 @@
 {
     "/frontend/js/frontend.js": "/frontend/js/frontend.js",
+    "/frontend/js/window.js": "/frontend/js/window.js",
     "/js/associations.js": "/js/associations.js",
     "/js/deployment.js": "/js/deployment.js",
     "/js/import.js": "/js/import.js",

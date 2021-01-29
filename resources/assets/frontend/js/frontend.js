@@ -26,6 +26,19 @@ const router = new VueRouter({
     routes,
 });
 
+import Echo from "laravel-echo";
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: window.Laravel.broadcasting.key,
+    cluster: window.Laravel.broadcasting.options.cluster,
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    disableStats: true,
+});
+
 new Vue({
     el: '#app',
 

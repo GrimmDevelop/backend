@@ -11,6 +11,8 @@ Auth::routes([
 Route::domain(config('grimm.frontend'))->group(function() {
     Route::get('/', 'Frontend\\AppController@index')->name('frontend');
     Route::get('/loader', 'Frontend\\AppController@loader')->name('loader');
+
+    include "frontend/letters.php";
 });
 
 Route::group(['middleware' => 'auth', 'domain' => config('grimm.backend')], function () {

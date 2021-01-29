@@ -1,5 +1,6 @@
 <template>
     <div ref="container" class="relative w-full h-full" @wheel.prevent="scroll">
+        <div class="absolute"></div>
         <img class="absolute max-w-none" style="top: 0; left: 0;" ref="image" :src="src" alt="Brief">
     </div>
 </template>

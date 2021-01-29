@@ -22,7 +22,7 @@
         "lodash": "^4.17.20",
         "popper.js": "^1.16.1",
         "portal-vue": "^1.5.1",
-        "pusher-js": "^6.0.0",
+        "pusher-js": "^7.0.0",
         "tailwindcss": "^1.4.6",
         "tinymce": "^4.9.10",
         "vue": "^2.6.11",

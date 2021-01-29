@@ -14,7 +14,11 @@
         <script>
             window.Laravel = {
                 csrfToken: '{{ csrf_token() }}',
-                adminUrl: '{{ route('dashboard') }}'
+                adminUrl: '{{ route('dashboard') }}',
+                broadcasting: @json([
+                    'options' => config('broadcasting.connections.pusher.options'),
+                    'key' => config('broadcasting.connections.pusher.key'),
+                ]),
             };
         </script>
 

@@ -1,10 +1,7 @@
 <?php
 
-use Grimm\AuctionCatalogue;
 use Grimm\LetterApparatus;
-use Grimm\LetterAttachment;
 use Grimm\LetterComment;
-use Grimm\LetterTranscription;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

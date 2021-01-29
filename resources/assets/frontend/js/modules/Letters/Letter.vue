@@ -7,7 +7,7 @@
                 <div class="image-pagination flex justify-between items-center">
                     <icon icon="cheveron-left" format="cursor-pointer text-gray-600 hover:text-gray-900"
                           @click="decrement"></icon>
-                    <span class="text-gray-900 whitespace-no-wrap">
+                    <span class="text-gray-900 whitespace-nowrap">
                         <input :value="active" @input="setPage($event.target.value)" @focus="$event.target.select()"
                                class="page-input cursor-pointer"> / {{ scanCount }}
                     </span>
@@ -18,7 +18,7 @@
             <div class="sidebar bg-blue-800 text-white px-2 py-4 flex flex-col"
                  :class="sidebarOpen ? 'open' : ''">
                 <div class="sidebar-link hover:bg-blue-900" :class="linkClass(open.text)"
-                     @click="open.text = !open.text">
+                     @click="openText">
                     <icon icon="document"></icon>
                     <span class="caption">Brieftext</span>
                 </div>
@@ -57,6 +57,7 @@
     import ZoomImage from "../../components/ui/Image/ZoomImage";
     import WindowPortal from "../../components/ui/windows/WindowPortal";
     import LetterText from "./LetterText";
+    import Bus from "../../bus/Bus";
 
     export default {
         name: "Letter",
@@ -69,6 +70,7 @@
                 open: {
                     text: false,
                 },
+                bus: new Bus,
             };
         },
 
@@ -127,6 +129,11 @@
                 return {
                     'open': isOpen
                 };
+            },
+
+            openText() {
+                //this.open.text = !this.open.text;
+                this.bus.open(location.origin + `/letters/${this.id}/text`);
             },
         },
 
