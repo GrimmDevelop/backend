@@ -52,7 +52,7 @@ class UsersController extends Controller
         $user->email = $request->get('email');
         $user->password = bcrypt($request->get('password'));
         $user->api_only = $request->get('api_only');
-        $user->api_token = str_random(60);
+        $user->api_token = Str::random(60);
 
         $user->save();
 
