@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Data\Letters;
 
 use App\Http\Controllers\Controller;
 use Grimm\Letter;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class LettersController extends Controller
 {
