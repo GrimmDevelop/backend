@@ -27,6 +27,7 @@ Mix.listen('configReady', webpackConfig => {
 
 mix
     // backend
+    .vue()
     .js('resources/assets/js/misc.js', 'public/js')
     .js('resources/assets/js/associations/associations.js', 'public/js')
     .js('resources/assets/js/letters/associations.js', 'public/js/letters')
