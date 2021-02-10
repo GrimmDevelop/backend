@@ -2,9 +2,11 @@
 /.idea
 /node_modules
 /public/storage
+/public/mix-manifest.json
 Homestead.yaml
 Homestead.json
 .env
 *.cache
 
 _ide_helper.php
+
