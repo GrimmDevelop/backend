@@ -17,6 +17,19 @@ body {
     margin-bottom: 20px;
 }
 
+.border-bottom{
+    box-shadow: 0px 3px 0px 0px $gray-200;
+    // $env is the variable from mix.sass
+    // This info is stored in $APP_ENV for the conditions
+    $APP_ENV: $env;
+    @if ($APP_ENV == 'local'){
+        box-shadow: 0px 3px 0px 0px $warning;
+    }
+    @if ($APP_ENV == 'test'){
+        box-shadow: 0px 3px 0px 0px $info;
+    }
+}
+
 .page-title {
     background: #35495D;
     border: 1px solid darken(#35495D, 10%);
@@ -27,14 +40,14 @@ body {
     }
 
     h1 {
-        color: #fff;
+        color: $white;
         margin-top: 10px;
         font-weight: 100;
         font-size: $h2-font-size;
     }
 
     a.prev-link {
-        color: #fff;
+        color: $white;
     }
 
     &--subtitle {
