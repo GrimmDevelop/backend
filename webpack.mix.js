@@ -46,7 +46,7 @@ mix
     .js('resources/assets/js/deployment/deployment.js', 'public/js')
     .js('resources/assets/js/import/import.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css', {
-        prependData: "$env: \'" + process.env.APP_ENV + "\';"
+        prependData: "$APP_ENV: \'" + process.env.APP_ENV + "\';"
     }) 
     .sass('resources/assets/sass/formats.scss', 'public/css')
     // frontend

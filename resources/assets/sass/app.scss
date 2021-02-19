@@ -13,15 +13,14 @@ body {
 }
 
 .page {
-    box-shadow: 7px 2px 3px -3px lighten(rgba(201, 201, 201, 1), 10%);
+    box-shadow: 7px 2px 3px -3px lighten($light_gray, 10%);
     margin-bottom: 20px;
 }
 
 .border-bottom{
     box-shadow: 0px 3px 0px 0px $gray-200;
-    // $env is the variable from mix.sass
+    // $APP_ENV is the variable from mix.sass
     // This info is stored in $APP_ENV for the conditions
-    $APP_ENV: $env;
     @if ($APP_ENV == 'local'){
         box-shadow: 0px 3px 0px 0px $warning;
     }
@@ -31,8 +30,8 @@ body {
 }
 
 .page-title {
-    background: #35495D;
-    border: 1px solid darken(#35495D, 10%);
+    background: $gray_blue;
+    border: 1px solid darken($gray_blue, 10%);
 
     &.error-title {
         background: $brand-danger;
@@ -51,8 +50,8 @@ body {
     }
 
     &--subtitle {
-        background: lighten(#35495D, 20%);
-        border: 1px solid lighten(#35495D, 10%);
+        background: lighten($gray_blue, 20%);
+        border: 1px solid lighten($gray_blue, 10%);
     }
 }
 
@@ -93,7 +92,7 @@ body {
 }
 
 .list-content, .page-content {
-    background: #fff;
+    background: $white;
     border-left: 1px solid darken($pagination-bg, 5%);
     border-right: 1px solid darken($pagination-bg, 5%);
     border-bottom: 1px solid darken($pagination-bg, 10%);
@@ -177,19 +176,19 @@ body {
 
 @keyframes target-fade {
     0% {
-        background-color: rgba(0, 0, 0, .1);
+        background-color: $black;
     }
     100% {
-        background-color: rgba(0, 0, 0, 0);
+        background-color: $black;
     }
 }
 
 @keyframes target-danger-fade {
     0% {
-        background-color: fade-in(#F2DEDE, .1);
+        background-color: fade-in($white_red, .1);
     }
     100% {
-        background-color: #F2DEDE;
+        background-color: $white_red;
     }
 }
 
@@ -275,7 +274,7 @@ table.collapse.in {
 }
 
 .letters-container {
-    background: #35495D;
+    background: $gray_blue;
     text-align: center;
     display: flex;
 
@@ -293,7 +292,7 @@ table.collapse.in {
             &.active {
 
                 a {
-                    background: darken(#35495D, 10%);
+                    background: darken($gray_blue, 10%);
                 }
             }
 
@@ -301,10 +300,10 @@ table.collapse.in {
                 display: inline-block;
                 text-decoration: none;
                 padding: 10px;
-                color: #fff;
+                color: $white;
 
                 &:hover {
-                    background: darken(#35495D, 5%);
+                    background: darken($gray_blue, 5%);
                 }
             }
         }
@@ -313,14 +312,14 @@ table.collapse.in {
 
 .deleted-record-info {
     background: $brand-danger;
-    color: #fff;
+    color: $white;
     padding-top: 10px;
     padding-bottom: 10px;
 
     .btn {
         background: $brand-danger;
-        color: #fff;
-        border: 1px solid #fff;
+        color: $white;
+        border: 1px solid $white;
         display: block;
         margin-top: 15px;
     }
@@ -333,7 +332,7 @@ table.collapse.in {
     border-left: 1px solid darken($pagination-bg, 5%);
     border-right: 1px solid darken($pagination-bg, 5%);
 
-    background-color: #fff;
+    background-color: $white;
 }
 
 .mce-tinymce {
