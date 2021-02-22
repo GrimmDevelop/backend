@@ -27,9 +27,6 @@ $grays: map-merge((
     "900": $gray-900
 ), $grays);
 
-$light_gray: #c9c9c9;
-$white_red: #F2DEDE;
-$gray_blue: #35495D;
 $blue: darken(#428bca, 6.5%) !default;
 $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;
@@ -68,6 +65,16 @@ $danger: $red !default;
 $light: $gray-100 !default;
 $lighter: $gray-200 !default;
 $dark: $gray-800 !default;
+
+//colors for app.scss
+$light_gray: #c9c9c9;
+$white_red: #F2DEDE;
+$gray_blue: #35495D;
+
+$color_dev: $info;
+$color_test: $warning;
+$color_master: $gray-200;
+$color_env: $color_master;
 
 $theme-colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
