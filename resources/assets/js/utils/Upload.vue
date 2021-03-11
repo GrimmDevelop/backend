@@ -40,9 +40,11 @@
     </div>
 </template>
 
-<style>
+
+<style lang="scss">
+    @import "../../sass/variables";
     .upload {
-        background-color: #e9e9e9;
+        background-color: $upload_bg_color;
         padding: 10px;
     }
 

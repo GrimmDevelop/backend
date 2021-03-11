@@ -208,7 +208,7 @@
 
     .sidebar-link-desc {
         display: none;
-        color: rgba(255, 255, 255, .5);
+        color: $sidebar_color;
 
         .sidebar.open & {
             display: block;

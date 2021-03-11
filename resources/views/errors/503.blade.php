@@ -5,7 +5,8 @@
 
         <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
-        <style>
+        <style lang="scss">
+            @import "../../assets/sass/variables";
             html, body {
                 height: 100%;
             }
@@ -14,7 +15,7 @@
                 margin: 0;
                 padding: 0;
                 width: 100%;
-                color: #B0BEC5;
+                color: $body_color;
                 display: table;
                 font-weight: 100;
                 font-family: 'Lato';
