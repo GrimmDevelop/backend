@@ -1,3 +1,11 @@
+<style lang="scss">
+    @import "../../assets/sass/variables";
+
+    .white_table {
+        background-color: $white;
+    }
+</style>
+
 <table class="table table-striped">
     <tbody>
     @forelse($entity->activities as $activity)
@@ -9,7 +17,7 @@
             </tr>
             <tr class="collapse" id="activity-{{ $activity->id }}">
                 <td>
-                    <table class="table" style="background-color: #ffffff;">
+                    <table class="white_table">
                         <tbody>
                         @foreach($activity->after() as $field => $value)
                             <tr>

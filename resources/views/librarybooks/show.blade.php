@@ -83,7 +83,15 @@
 
                 <div class="clearfix"></div>
 
-                <div style="margin: 2.5em 0; border-bottom: 1px solid #e2e2e2;"></div>
+                <style lang="scss">
+                    @import "../../assets/sass/variables";
+                    .div-style {
+                        margin: 2.5em 0; 
+                        border-bottom: 1px solid $box_border_bottom;
+                    }
+                </style>
+
+                <div class="div-style"></div>
 
                 <form id="book-editor" action="{{ route('librarybooks.update', [$book->id]) }}"
                       class="form-horizontal"
