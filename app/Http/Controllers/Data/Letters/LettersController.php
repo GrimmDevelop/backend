@@ -20,9 +20,9 @@ class LettersController extends Controller
                 'scans' => $letter->getMedia('letters.scans.handwriting_location')->map(function (Media $media) {
                     return [
                         'url' => $media->getFullUrl(),
-                        'thumb' => $media->getFullUrl('thumb')
+                        'thumb' => $media->getFullUrl('thumb'),
                     ];
-                })
+                }),
             ];
         });
     }

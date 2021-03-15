@@ -8,12 +8,12 @@ Auth::routes([
     'verify' => false,
 ]);
 
-Route::domain(config('grimm.frontend'))->group(function() {
+Route::domain(config('grimm.frontend'))->group(function () {
     Route::get('/', 'Frontend\\AppController@index')->name('frontend');
     Route::get('/loader', 'Frontend\\AppController@loader')->name('loader');
 });
 
-Route::group(['middleware' => 'auth', 'domain' => config('grimm.backend')], function () {
+Route::domain(config('grimm.backend'))->middleware(['auth'])->group(function () {
     Route::get('/', 'DashboardController@index')
         ->name('dashboard');
 
