@@ -1,0 +1,7 @@
+//stylesheet for resources\views\librarybooks\show.blade.php
+@import "variables";
+
+.div-style {
+  margin: 2.5em 0;
+  border-bottom: 1px solid $box_border_bottom;
+}

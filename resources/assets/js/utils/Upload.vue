@@ -41,7 +41,7 @@
 </template>
 
 
-<style lang="scss">
+<style scoped lang="scss">
     @import "../../sass/variables";
     .upload {
         background-color: $upload_bg_color;

@@ -3,6 +3,7 @@
 @section('title', $book->catalog_id . ': ' . $book->title . ' | ')
 
 @section('content')
+    <link rel="stylesheet" type="text/css" href="css/_show.style.css">
     <div class="container" id="library">
         <div class="row page">
             <div class="col-md-12 page-title">
@@ -82,14 +83,6 @@
                 </div>
 
                 <div class="clearfix"></div>
-
-                <style lang="scss">
-                    @import "../../assets/sass/variables";
-                    .div-style {
-                        margin: 2.5em 0; 
-                        border-bottom: 1px solid $box_border_bottom;
-                    }
-                </style>
 
                 <div class="div-style"></div>
 

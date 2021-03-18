@@ -49,6 +49,8 @@ mix
         prependData: "$APP_ENV: \'" + process.env.APP_ENV + "\';"
     }) 
     .sass('resources/assets/sass/formats.scss', 'public/css')
+    .sass('resources/assets/sass/_503.style.scss', 'public/css')
+    .sass('resources/assets/sass/_show.style.scss', 'public/css')
     // frontend
     .js('resources/assets/frontend/js/frontend.js', 'public/frontend/js')
     .sass('resources/assets/frontend/sass/app.scss', 'public/frontend/css/')

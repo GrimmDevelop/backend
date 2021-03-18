@@ -185,10 +185,10 @@ body {
 
 @keyframes target-danger-fade {
     0% {
-        background-color: fade-in($white_red, .1);
+        background-color: fade-in($rosa_gray, .1);
     }
     100% {
-        background-color: $white_red;
+        background-color: $rosa_gray;
     }
 }
 
