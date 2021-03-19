@@ -7,7 +7,7 @@
                 <div class="image-pagination flex justify-between items-center">
                     <icon icon="cheveron-left" format="cursor-pointer text-gray-600 hover:text-gray-900"
                           @click="decrement"></icon>
-                    <span class="text-gray-900 whitespace-no-wrap">
+                    <span class="text-gray-900 whitespace-nowrap">
                         <input :value="active" @input="setPage($event.target.value)" @focus="$event.target.select()"
                                class="page-input cursor-pointer"> / {{ scanCount }}
                     </span>

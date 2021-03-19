@@ -58,4 +58,5 @@ mix
             tailwindcss('./tailwind.config.js'),
         ]
     })
+    .copy('node_modules/tinymce/skins', 'public/frontend/js/skins')
     .sourceMaps();
