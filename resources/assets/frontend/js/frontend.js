@@ -1,10 +1,6 @@
 import Vue from 'vue';
 import axios from "axios";
 
-// tailwindcss 2.0 tinymce
-require('tinymce');
-require('tinymce/themes/silver');
-
 axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.Laravel.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'

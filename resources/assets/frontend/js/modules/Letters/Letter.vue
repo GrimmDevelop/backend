@@ -1,10 +1,19 @@
+<!-- Add icon library -->
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 <template>
     <div class="flex w-full h-screen">
         <template v-if="letter">
-            <div class="relative w-full h-full p-4 overflow-hidden">
-                <zoom-image v-if="hasImages" :src="imageUrl"></zoom-image>
-
-                <div class="image-pagination flex justify-between items-center">
+            <div class="megaBox relative w-full h-full p-4 overflow-hidden">
+<!--                <zoom-image v-if="hasImages" :src="imageUrl"></zoom-image>-->
+                <div class="gridBox justify-between flex">
+                  <div class="leftSide">
+                    <zoom-image v-if="hasImages" :src="imageUrl"></zoom-image>
+                  </div>
+                  <div class="rightSide">
+                    <icon icon="document"></icon> <!-- <icon icon="external-link-alt"></icon>-->
+                    <icon icon="document"></icon> <!-- <icon icon="times"></icon>-->
+                  </div>
+                  <div class="image-pagination flex justify-between items-center">
                     <icon icon="cheveron-left" format="cursor-pointer text-gray-600 hover:text-gray-900"
                           @click="decrement"></icon>
                     <span class="text-gray-900 whitespace-nowrap">
@@ -13,6 +22,25 @@
                     </span>
                     <icon icon="cheveron-right" format="cursor-pointer text-gray-600 hover:text-gray-900"
                           @click="increment"></icon>
+                  </div>
+                </div>
+                <div class="gridBox justify-between flex">
+                  <div class="leftSide">
+                    <div>bra</div>
+                  </div>
+                  <div class="rightSide">
+                    <icon icon="document"></icon> <!-- <icon icon="external-link-alt"></icon>-->
+                    <icon icon="document"></icon> <!-- <icon icon="times"></icon>-->
+                  </div>
+                </div>
+                <div class="gridBox justify-between flex">
+                  <div class="leftSide">
+                    <div>Metadata</div>
+                  </div>
+                  <div class="rightSide">
+                    <icon icon="document"></icon> <!-- <icon icon="external-link-alt"></icon>-->
+                    <icon icon="document"></icon> <!-- <icon icon="times"></icon>-->
+                  </div>
                 </div>
             </div>
             <div class="sidebar bg-blue-800 text-white px-2 py-4 flex flex-col"
@@ -140,6 +168,24 @@
 
 <style scoped lang="scss">
     @import "../../../../sass/variables";
+
+    .megaBox {
+      padding: 10px;
+      border: 4px solid green;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .gridBox {
+      background-color: white;
+      padding: 10px;
+      -webkit-box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 24px 27px rgba(0,0,0,0);
+      box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 24px 27px rgba(0,0,0,0);
+
+      /* schatten generiert mit
+      https://html-css-js.com/css/generator/box-shadow/ */
+
+    }
 
     .sidebar {
         /*width: 4rem;*/
