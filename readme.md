@@ -11,10 +11,10 @@
       </ul>
     </li>
     <li>
-      <a href="#hier-anfangen">Hier anfangen</a>
+      <a href="#Installation">Installation</a>
       <ul>
-        <li><a href="#vorraussetzungen">Vorraussetzungen</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#voraussetzungen">Voraussetzungen</a></li>
+        <li><a href="#schritt-für-schritt-anleitung">Schritt für Schritt Anleitung</a></li>
       </ul>
     </li>
     <li><a href="#modul:-briefe">Modul: Briefe</a></li>
@@ -41,7 +41,7 @@ Wir nutzen das Framework [Laravel](https://laravel.com).
 
 Um das Projekt bei sich lokal zum Laufen zum bringen, folgen Sie einfach diesen Schritten:
 
-### Vorraussetzungen
+### Voraussetzungen
 
 Betriebssystem:
 * Windows 10  
@@ -66,23 +66,39 @@ Programme:
   127.0.0.1 datenbank.grimm.test
   ```
   In Windows findet man das unter `C:\Windows\System32\drivers\etc`
-4. Mit einem Terminal im Repository folgende Befehle ausführen:
+4. php.ini anpassen
+
+    Folgende Extension müssen einkommentiert werden:
+    ```
+    extension=curl
+    extension=exif
+    extension=fileinfo
+    extension=gd2
+    extension=mbstring
+    extension=openssl
+    extension=sodium
+    ```
+    Und die hier muss hinzugefügt werden:
+    ```
+    extension=redis
+    ```
+5. Mit einem Terminal im Repository folgende Befehle ausführen:
   ```sh
   composer install
   npm ci
 
   npm run watch
   ```
-5. Docker starten
-6. Ein Terminal im Docker Ordner des Repositorys öffnen und folgenden Befehl ausführen:
+6. Docker starten
+7. Ein Terminal im Docker Ordner des Repositorys öffnen und folgenden Befehl ausführen:
     ```sh
     docker-compose up --build
     ```
-7. Mit einem neuen Terminal im gleichen Ordner ausführen:
+8. Mit einem neuen Terminal im gleichen Ordner ausführen:
   ```sh
   docker-compose exec php php artisan migrate
   ```
-8. Neuen Nutzer erstellen
+9. Neuen Nutzer erstellen
 ```sh
 docker-compose exec php php artisan tinker
 ```
