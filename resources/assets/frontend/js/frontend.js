@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import axios from "axios";
 
+
 axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.Laravel.csrfToken,
     'X-Requested-With': 'XMLHttpRequest'
@@ -25,10 +26,13 @@ const router = new VueRouter({
     routes,
 });
 
+import store from "./store";
+
 new Vue({
     el: '#app',
 
-    router,
+    router: router,
+    store: store,
 
     render: (h) => h(App),
 });
