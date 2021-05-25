@@ -57,7 +57,7 @@
                     <p class="float-right" style="margin-top: 9px;">
                         <a href="{{ route('letters.show', [$letter]) }}#transcriptions" class="btn btn-secondary">
                             <span class="fa fa-plus"></span>
-                            {{ trans('letters.transcription') }} hizufügen
+                            {{ trans('letters.transcription') }} hinzufügen
                         </a>
                     </p>
                 </div>
@@ -78,7 +78,7 @@
                     <p class="float-right" style="margin-top: 9px;">
                         <a href="{{ route('letters.show', [$letter]) }}#prints" class="btn btn-secondary">
                             <span class="fa fa-plus"></span>
-                            {{ trans('letters.print') }} hizufügen
+                            {{ trans('letters.print') }} hinzufügen
                         </a>
                     </p>
                 </div>
@@ -99,7 +99,7 @@
                     <p class="float-right" style="margin-top: 9px;">
                         <a href="{{ route('letters.show', [$letter]) }}#attachments" class="btn btn-secondary">
                             <span class="fa fa-plus"></span>
-                            {{ trans('letters.attachment') }} hizufügen
+                            {{ trans('letters.attachment') }} hinzufügen
                         </a>
                     </p>
                 </div>
@@ -120,7 +120,7 @@
                     <p class="float-right" style="margin-top: 9px;">
                         <a href="{{ route('letters.show', [$letter]) }}#drafts" class="btn btn-secondary">
                             <span class="fa fa-plus"></span>
-                            {{ trans('letters.draft') }} hizufügen
+                            {{ trans('letters.draft') }} hinzufügen
                         </a>
                     </p>
                 </div>
