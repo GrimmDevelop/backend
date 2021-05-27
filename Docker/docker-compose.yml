@@ -1,0 +1,71 @@
+version: '2.1'
+
+services:
+  grimm:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../:/grimm
+      - ./docker/config/grimm.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/config/certs/keys:/etc/ssl/private
+      - ./docker/config/certs/certs:/etc/ssl/certs
+    depends_on:
+      - php
+  
+  php:
+    restart: always
+    build:
+      context: docker/images/php
+      args:
+        workdir: /grimm
+    volumes:
+      - ../:/grimm
+      - ~/.ssh:/root/.ssh
+    depends_on:
+      - redis
+      - database
+    environment:
+      CONTAINER_ROLE: app
+  
+  queue:
+    restart: always
+    build:
+      context: docker/images/php
+      args:
+        workdir: /grimm
+    volumes:
+      - ../:/grimm
+    depends_on:
+      - php
+      - redis
+    environment:
+      CONTAINER_ROLE: queue
+
+  redis:
+    restart: always
+    image: redis:4-alpine
+    ports:
+      - "16379:6379"
+    volumes:
+      - redis:/data
+
+  database:
+    restart: always
+    image: mariadb:10.3
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=${DB_DATABASE:-grimm}
+      - MYSQL_USER=${DB_USERNAME:-grimm}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-grimm}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+volumes:
+  mariadb-data:
+    driver: "local"
+  redis:
+    driver: "local"
