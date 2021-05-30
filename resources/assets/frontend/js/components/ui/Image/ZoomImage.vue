@@ -1,6 +1,6 @@
 <template>
     <div ref="container" class="relative w-full h-full" @wheel.prevent="scroll">
-        <img class="absolute max-w-none" style="top: 0; left: 0;" ref="image" :src="src" alt="Brief">
+        <img class="absolute max-w-none" style="top: 0; left: 0;" ref="image" :src="src" alt="Handschrift">
     </div>
 </template>
 
@@ -23,7 +23,12 @@ export default {
         this.measureContainer();
 
         this.centerImage();
+    },
 
+    updated() {
+        this.measureContainer();
+
+        this.centerImage();
     },
 
     methods: {
@@ -88,7 +93,7 @@ export default {
         },
 
         centerImage() {
-            this.transformImage(this.containerWidth / 128 - this.containerWidth * 0.01, 100, this.containerWidth);
+            this.transformImage(this.containerWidth/64 - this.containerWidth * 0.01, 100, this.containerWidth);
         },
 
         transformImage(x, y, width, height) {

@@ -6,9 +6,9 @@
                 @popout="setWindow('scan')"
                 @close="setColumn('scan')">
             </window-buttons>
-            <scan-window
+            <scan-column
                 :letter="letter" :zoom-key="zoomKey">
-            </scan-window>
+            </scan-column>
         </div>
         <!-- Letter Text -->
         <div class="column-box scroll-box" v-if="this.$store.state.splitVisibility.text">
@@ -20,27 +20,25 @@
                 :letter="letter">
             </text-window>
         </div>
-        <!-- Problem: image is not shown in the new Window -->
-        <new-window :open="open.scan" @close="setColumn('scan')">
-            <scan-window
+        <new-window :letter="letter" :open="this.$store.state.open.scan" @opened="openedWindow" @close="setWindow('scan')">
+            <scan-column
                 :letter="letter" :zoom-key="zoomKey">
-            </scan-window>
+            </scan-column>
         </new-window>
-
-        <new-window :open="open.text" @close="setColumn('text')">
+        <new-window :open="this.$store.state.open.text" @opened="openedWindow" @close="setWindow('text')">
             <text-window
-                :letter="letter">
+                :letter="letter" :zoom-key="zoomKey">
             </text-window>
         </new-window>
+
 
     </div>
 
 </template>
 
 <script>
-import SplitColumn from "./SplitColumn";
 import LetterText from "../LetterText";
-import ScanWindow from "./scans/ScanWindow";
+import ScanColumn from "./scans/ScanColumn";
 import TextWindow from "./text/TextWindow";
 import WindowButtons from "../buttons/WindowButtons";
 import WindowPortal from "../../../components/ui/windows/WindowPortal";
@@ -51,7 +49,6 @@ export default {
 
     props: {
         letter: Object,
-        open: Object,
     },
 
     data() {
@@ -59,10 +56,18 @@ export default {
             active: 1,
             inColumns: true,
             zoomKey: 0,
-            scanWindow: null,
         };
     },
+    created() {
+        window.Echo.channel('update-letter').listen('ChangedLetter', e => {
+            this.$root.$emit('changing-letter', e.letterId.letterId)
+        });
 
+        window.Echo.channel('opened-window').listen('OpenedWindow', e => {
+            console.log("The window is open and I will center the image")
+            this.forceRender();
+        });
+    },
     mounted() {
         this.$root.$on('text-open', () => {
             this.setWindow('text')
@@ -76,6 +81,10 @@ export default {
             this.toggleFormation(type);
         });
 
+        this.$root.$on('mutate-sidebar', () => {
+            this.mutatedSidebar();
+        });
+
     },
 
     methods: {
@@ -87,11 +96,12 @@ export default {
             this.forceRender();
         },
 
-        setWindow(type) {
-            this.open[type] = !this.open[type];
-            this.setColumn(type);
-            // nicht richtig beim closen, zu spät, bei reload oder neudrücken macht er es (verspätet).
-            console.log('setWindow container', this.open[type], type);
+        setWindow(variant) {
+            this.setColumn(variant);
+            this.$store.dispatch({
+                type: 'changeOpen',
+                payload: variant,
+            });
         },
 
         toggleFormation(type) {
@@ -108,6 +118,16 @@ export default {
 
         forceRender() {
             this.zoomKey += 1;
+            console.log("I just rendered the scan!");
+        },
+
+        openedWindow() {
+            console.log("I am in the WindowContainer and the window opened");
+            this.$root.$emit('opened-window');
+        },
+
+        mutatedSidebar() {
+            this.forceRender();
         },
     },
 
@@ -124,11 +144,10 @@ export default {
 
 
     components: {
-        ScanWindow,
+        ScanColumn,
         TextWindow,
         LetterText,
         WindowPortal,
-        SplitColumn,
         WindowButtons,
         NewWindow,
     },
@@ -161,7 +180,6 @@ export default {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     border-radius: 5px;
-    /*border: #808080;*/
     box-shadow: -10px 0px 13px -7px #000000;
 }
 

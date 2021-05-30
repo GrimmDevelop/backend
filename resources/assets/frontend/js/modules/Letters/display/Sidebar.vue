@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar bg-blue-800 text-white px-2 py-4 flex flex-col"
-         :class="sidebarOpen ? 'open' : ''">
+         :class="sideBarOpen ? 'open' : ''">
         <div class="sidebar-link hover:bg-blue-900" :class="linkClass(open.text)"
              @click="textOpen">
             <icon icon="document"></icon>
@@ -17,12 +17,10 @@
         <div class="sidebar-link hover:bg-blue-900" v-bind:class="{ 'bg-blue-900': this.$store.state.splitVisibility.scan }" @click="setColumn('scan')">
             <icon icon="camera"></icon>
             <span class="caption">Handschrift(en)</span>
-            <input class="check-box" type="checkbox" v-model="this.$store.state.splitVisibility.scan">
         </div>
         <div class="sidebar-link hover:bg-blue-900" v-bind:class="{ 'bg-blue-900': this.$store.state.splitVisibility.text }" @click="setColumn('text')">
             <icon icon="document"></icon>
             <span class="caption">Text</span>
-            <input class="check-box" type="checkbox" v-model="this.$store.state.splitVisibility.text">
         </div>
 
         <div class="sidebar-link hover:bg-blue-900">
@@ -31,19 +29,19 @@
         </div>
 
         <div class="sidebar-link hover:bg-blue-900" @click="mutateSidebar()">
-            <icon :icon="sidebarOpen ? 'cheveron-right' : 'cheveron-left'"></icon>
+            <icon :icon="sideBarOpen ? 'cheveron-right' : 'cheveron-left'"></icon>
             <span class="caption">einklappen</span>
         </div>
 
-        <!--   is comming soon   -->
-        <!--        <div class="sidebar-link hover:bg-blue-900" @click="increaseID()">-->
-        <!--            <icon icon="layers"></icon>-->
-        <!--            <span class="caption">nächster Brief</span>-->
-        <!--        </div>-->
-        <!--        <div class="sidebar-link hover:bg-blue-900" @click="decreaseID()">-->
-        <!--            <icon icon="layers"></icon>-->
-        <!--            <span class="caption">verheriger Brief</span>-->
-        <!--        </div>-->
+        <!--   will be modified for the new data structure (conversations)   -->
+        <div class="sidebar-link hover:bg-blue-900" @click="increaseID()">
+            <icon icon="layers"></icon>
+            <span class="caption">nächster Brief</span>
+        </div>
+        <div class="sidebar-link hover:bg-blue-900" @click="decreaseID()">
+            <icon icon="layers"></icon>
+            <span class="caption">vorheriger Brief</span>
+        </div>
 
         <div class="flex-grow"></div>
 
@@ -71,6 +69,11 @@
 export default {
     name: "Sidebar",
 
+    data() {
+        return {
+            sideBarOpen: this.sidebarOpen,
+        };
+    },
     props: {
         open: Object,
         sidebarOpen: Boolean,
@@ -103,9 +106,10 @@ export default {
                 'open': isOpen
             };
         },
-
         mutateSidebar() {
-            this.sidebarOpen = !this.sidebarOpen;
+            console.log('I will mutate the sidebar');
+            this.sideBarOpen = !this.sideBarOpen;
+            this.$root.$emit('mutate-sidebar');
         },
 
         changeFormation(type) {
@@ -122,8 +126,6 @@ export default {
         getMetaVisibility() {
             return this.$store.getters.getVisibilityMeta;
         },
-
-
     },
 }
 </script>

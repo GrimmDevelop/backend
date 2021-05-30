@@ -23,7 +23,7 @@
         computed: {
             xml() {
                 let parser = new DOMParser();
-                return parser.parseFromString(this.text, "text/xml");
+                return parser.parseFromString(this.text, "text/html");
             },
 
             html() {
@@ -39,8 +39,9 @@
 
         methods: {
             title() {
-                const title = this.xml.querySelector("letter > title").innerHTML;
-
+                console.log("xml: ", this.xml)
+                const title = this.xml.querySelector("html > head").innerHTML;
+                console.log("Title: ", title)
                 return `<h1 class="title">${title}</h1>`;
             },
 
@@ -49,10 +50,10 @@
 
                 this.lineNo = 0;
 
-                body += this.format(this.xml.querySelector(`letter > body`));
+                body += this.format(this.xml.querySelector(`html > body`));
 
                 body += '</div>';
-
+                console.log("Body: ", body)
                 return body;
             },
 

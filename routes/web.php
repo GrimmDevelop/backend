@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use \App\Events\ChangedLetter;
+use \App\Events\OpenedWindow;
 
 Auth::routes([
     'register' => false,
@@ -11,6 +13,27 @@ Auth::routes([
 Route::domain(config('grimm.frontend'))->group(function () {
     Route::get('/', 'Frontend\\AppController@index')->name('frontend');
     Route::get('/loader', 'Frontend\\AppController@loader')->name('loader');
+    Route::post('/updateLetter', function () {
+        $letterId = request(['letterId']); //no checking, later: maybe only the id
+        event(
+            (new ChangedLetter($letterId))
+        );
+    });
+    Route::get('/updateLetter', function() {
+       $test = "I am in the get method of the updateLetter event";
+       print $test;
+       return $test;
+    });
+    Route::post('/openWindow', function () {
+       event(
+           (new OpenedWindow())
+       );
+    });
+    Route::get('/openWindow', function() {
+       $test = "I am in the get method of the openWindow event";
+       print $test;
+       return $test;
+    });
 });
 
 Route::domain(config('grimm.backend'))->middleware(['auth'])->group(function () {

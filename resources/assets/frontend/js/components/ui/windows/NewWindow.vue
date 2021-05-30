@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
 function copyStyles(sourceDoc, targetDoc) {
     Array.from(sourceDoc.styleSheets).forEach(styleSheet => {
         if (styleSheet.cssRules) {
@@ -38,7 +39,12 @@ export default {
         open: {
             type: Boolean,
             default: false,
-        }
+        },
+    },
+    computed: {
+        imageUrl() {
+            return this.letter.scans[this.active - 1].url;
+        },
     },
     data() {
         return {
@@ -60,14 +66,16 @@ export default {
             this.windowRef.document.body.appendChild(this.$el);
             copyStyles(window.document, this.windowRef.document);
             this.windowRef.addEventListener('beforeunload', this.closePortal);
+            this.$emit('opened');
         },
+
         closePortal() {
             if(this.windowRef) {
                 this.windowRef.close();
                 this.windowRef = null;
                 this.$emit('close');
             }
-        }
+        },
     },
     mounted() {
         if(this.open) {
@@ -78,7 +86,7 @@ export default {
         if (this.windowRef) {
             this.closePortal();
         }
-    }
+    },
 }
 </script>
 
