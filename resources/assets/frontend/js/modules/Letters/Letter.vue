@@ -54,8 +54,8 @@
 </template>
 
 <script>
-    import ZoomImage from "../../components/ui/Image/ZoomImage";
-    import WindowPortal from "../../components/ui/windows/WindowPortal";
+    import ZoomImage from "@/frontend/js/components/ui/Image/ZoomImage";
+    import WindowPortal from "@/frontend/js/components/ui/windows/WindowPortal";
     import LetterText from "./LetterText";
 
     export default {
@@ -140,7 +140,7 @@
 
 <style scoped lang="scss">
     @use "sass:math";
-    @import "../../../../sass/variables";
+    @import "~@/sass/variables";
 
     .sidebar {
         /*width: 4rem;*/
@@ -157,8 +157,11 @@
         position: absolute;
         bottom: 0;
         left: 50%;
-        margin-left: - math.div($w, 2);
         width: $w;
+    }
+
+    .image-pagination {
+        margin-left: - math.div($w, 2);
     }
 
     .page-input {

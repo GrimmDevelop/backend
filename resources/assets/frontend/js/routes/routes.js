@@ -1,7 +1,7 @@
 
-import Home from "../modules/Home/Home";
-import Letters from "../modules/Letters/Letters";
-import Letter from "../modules/Letters/Letter";
+import Home from "@/frontend/js/modules/Home/Home";
+import Letters from "@/frontend/js/modules/Letters/Letters";
+import Letter from "@/frontend/js/modules/Letters/Letter";
 
 const routes = [
     {

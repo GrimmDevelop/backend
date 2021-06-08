@@ -28,7 +28,7 @@ Mix.listen('configReady', webpackConfig => {
 
 mix
     // backend
-    .vue()
+    .vue({ version: 2 })
     .js('resources/assets/js/misc.js', 'public/js')
     .js('resources/assets/js/associations/associations.js', 'public/js')
     .js('resources/assets/js/letters/associations.js', 'public/js/letters')
@@ -64,4 +64,5 @@ mix
     .alias({
         '@': path.resolve(__dirname, 'resources/assets'),
     })
+    .version()
     .sourceMaps();

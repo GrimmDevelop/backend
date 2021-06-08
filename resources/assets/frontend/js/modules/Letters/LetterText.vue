@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import {nodeMap} from '../../../../js/utils/Nodes';
+    import {nodeMap} from '@/js/utils/Nodes';
 
     export default {
         name: "LetterText",
