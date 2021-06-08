@@ -1,4 +1,5 @@
 let mix = require('laravel-mix');
+let path = require('path');
 
 const tailwindcss = require('tailwindcss');
 
@@ -46,8 +47,8 @@ mix
     .js('resources/assets/js/deployment/deployment.js', 'public/js')
     .js('resources/assets/js/import/import.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css', {
-        prependData: "$APP_ENV: \'" + process.env.APP_ENV + "\';"
-    }) 
+        prependData: "$APP_ENV: '" + process.env.APP_ENV + "';"
+    })
     .sass('resources/assets/sass/formats.scss', 'public/css')
     // frontend
     .js('resources/assets/frontend/js/frontend.js', 'public/frontend/js')
@@ -59,4 +60,7 @@ mix
         ]
     })
     .copy('node_modules/tinymce/skins', 'public/frontend/js/skins')
+    .alias({
+        '@': path.resolve(__dirname, 'resources/assets'),
+    })
     .sourceMaps();
