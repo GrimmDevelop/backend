@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\AppController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -8,9 +9,11 @@ Auth::routes([
     'verify' => false,
 ]);
 
-Route::domain(config('grimm.frontend'))->group(function () {
-    Route::get('/', 'Frontend\\AppController@index')->name('frontend');
-    Route::get('/loader', 'Frontend\\AppController@loader')->name('loader');
+Route::domain(config('grimm.frontend'))->middleware('web')->group(function () {
+    Route::get('/', [AppController::class, 'index'])->name('frontend');
+    Route::get('/loader', [AppController::class, 'loader'])->name('loader');
+
+    Route::fallback([AppController::class, 'index']);
 });
 
 Route::domain(config('grimm.backend'))->middleware(['auth'])->group(function () {

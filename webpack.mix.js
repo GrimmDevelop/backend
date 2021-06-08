@@ -47,7 +47,7 @@ mix
     .js('resources/assets/js/deployment/deployment.js', 'public/js')
     .js('resources/assets/js/import/import.js', 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css', {
-        prependData: "$APP_ENV: '" + process.env.APP_ENV + "';"
+        additionalData: "$APP_ENV: '" + process.env.APP_ENV + "';"
     })
     .sass('resources/assets/sass/formats.scss', 'public/css')
     // frontend
@@ -60,6 +60,7 @@ mix
         ]
     })
     .copy('node_modules/tinymce/skins', 'public/frontend/js/skins')
+    .copy('node_modules/tinymce/icons', 'public/js/icons')
     .alias({
         '@': path.resolve(__dirname, 'resources/assets'),
     })

@@ -15,7 +15,7 @@
                           @click="increment"></icon>
                 </div>
             </div>
-            <div class="sidebar bg-blue-800 text-white px-2 py-4 flex flex-col"
+            <div class="sidebar bg-blue-600 text-white px-2 py-4 flex flex-col"
                  :class="sidebarOpen ? 'open' : ''">
                 <div class="sidebar-link hover:bg-blue-900" :class="linkClass(open.text)"
                      @click="open.text = !open.text">
@@ -98,7 +98,7 @@
             id: {
                 immediate: true,
                 handler() {
-                    this.$http.get(`data/letters/${this.id}`)
+                    this.$http.get(`/data/letters/${this.id}`)
                         .then((response) => this.letter = response.data.data);
                 }
             }
@@ -139,6 +139,7 @@
 </script>
 
 <style scoped lang="scss">
+    @use "sass:math";
     @import "../../../../sass/variables";
 
     .sidebar {
@@ -156,7 +157,7 @@
         position: absolute;
         bottom: 0;
         left: 50%;
-        margin-left: -($w / 2);
+        margin-left: - math.div($w, 2);
         width: $w;
     }
 
