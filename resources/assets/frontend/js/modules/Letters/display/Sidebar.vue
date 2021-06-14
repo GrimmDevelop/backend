@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar bg-blue-800 text-white px-2 py-4 flex flex-col"
+    <div class="sidebar overflow-auto bg-blue-800 text-white px-2 py-4 flex flex-col"
          :class="sideBarOpen ? 'open' : ''">
         <div class="sidebar-link hover:bg-blue-900" :class="linkClass(open.text)"
              @click="textOpen">
@@ -14,11 +14,13 @@
             <span class="caption">Apparate zum Text</span>
         </div>
 
-        <div class="sidebar-link hover:bg-blue-900" v-bind:class="{ 'bg-blue-900': this.$store.state.splitVisibility.scan }" @click="setColumn('scan')">
+        <div class="sidebar-link hover:bg-blue-900"
+             v-bind:class="{ 'bg-blue-900': this.$store.state.splitVisibility.scan }" @click="setColumn('scan')">
             <icon icon="camera"></icon>
             <span class="caption">Handschrift(en)</span>
         </div>
-        <div class="sidebar-link hover:bg-blue-900" v-bind:class="{ 'bg-blue-900': this.$store.state.splitVisibility.text }" @click="setColumn('text')">
+        <div class="sidebar-link hover:bg-blue-900"
+             v-bind:class="{ 'bg-blue-900': this.$store.state.splitVisibility.text }" @click="setColumn('text')">
             <icon icon="document"></icon>
             <span class="caption">Text</span>
         </div>
@@ -66,137 +68,137 @@
 </template>
 
 <script>
-export default {
-    name: "Sidebar",
+    export default {
+        name: "Sidebar",
 
-    data() {
-        return {
-            sideBarOpen: this.sidebarOpen,
-        };
-    },
-    props: {
-        open: Object,
-        sidebarOpen: Boolean,
-        letter: Object,
-        adminUrl: String,
-    },
-
-    methods: {
-        setColumn(type) {
-            this.$root.$emit('set-column', type)
-            console.log("in sidebar", type)
-        },
-
-        textOpen() {
-            this.$root.$emit('text-open')
-        },
-
-        increaseID() {
-            this.$root.$emit('increase-id')
-            console.log('increase letter')
-        },
-
-        decreaseID() {
-            this.$root.$emit('decrease-id')
-            console.log('decrease letter')
-        },
-
-        linkClass(isOpen) {
+        data() {
             return {
-                'open': isOpen
+                sideBarOpen: this.sidebarOpen,
             };
         },
-        mutateSidebar() {
-            console.log('I will mutate the sidebar');
-            this.sideBarOpen = !this.sideBarOpen;
-            this.$root.$emit('mutate-sidebar');
+
+        props: {
+            open: Object,
+            sidebarOpen: Boolean,
+            letter: Object,
+            adminUrl: String,
         },
 
-        changeFormation(type) {
-            console.log('changing the formation to: ', type);
-            this.$root.$emit('toggle-formation', type);
-        },
+        methods: {
+            setColumn(type) {
+                this.$root.$emit('set-column', type);
+                console.log("in sidebar", type);
+            },
 
-        getScanVisibility() {
-            return this.$store.getters.getVisibilityScan;
+            textOpen() {
+                this.$root.$emit('text-open');
+            },
+
+            increaseID() {
+                this.$root.$emit('increase-id');
+                console.log('increase letter');
+            },
+
+            decreaseID() {
+                this.$root.$emit('decrease-id');
+                console.log('decrease letter');
+            },
+
+            linkClass(isOpen) {
+                return {
+                    'open': isOpen
+                };
+            },
+            mutateSidebar() {
+                console.log('I will mutate the sidebar');
+                this.sideBarOpen = !this.sideBarOpen;
+                this.$root.$emit('mutate-sidebar');
+            },
+
+            changeFormation(type) {
+                console.log('changing the formation to: ', type);
+                this.$root.$emit('toggle-formation', type);
+            },
+
+            getScanVisibility() {
+                return this.$store.getters.getVisibilityScan;
+            },
+            getTextVisibility() {
+                return this.$store.getters.getVisibilityText;
+            },
+            getMetaVisibility() {
+                return this.$store.getters.getVisibilityMeta;
+            },
         },
-        getTextVisibility() {
-            return this.$store.getters.getVisibilityText;
-        },
-        getMetaVisibility() {
-            return this.$store.getters.getVisibilityMeta;
-        },
-    },
-}
+    };
 </script>
 
 <style scoped lang="scss">
-@import "../../../../../sass/variables";
+    @import "~@/sass/variables";
 
-.check-box {
-    margin: .75rem;
-}
-
-.column-configuration {
-    margin-block: auto;
-}
-
-.column-configuration > a{
-    margin-left: 1rem;
-    margin-top: 1px;
-}
-
-.sidebar {
-    /*width: 4rem;*/
-    align-items: center;
-
-    &.open {
-        min-width: 13rem;
-        align-items: flex-start;
-    }
-}
-
-.sidebar-link {
-    margin: .1rem 0;
-    padding: .4rem .2rem;
-    color: white;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-
-    .sidebar.open & {
-        width: 100%;
+    .check-box {
+        margin: .75rem;
     }
 
-    .caption {
+    .column-configuration {
+        margin-block: auto;
+    }
+
+    .column-configuration > a {
+        margin-left: 1rem;
+        margin-top: 1px;
+    }
+
+    .sidebar {
+        align-items: center;
+
+        &.open {
+            min-width: 13rem;
+            align-items: flex-start;
+        }
+    }
+
+    .sidebar-link {
+        margin: .1rem 0;
+        padding: .4rem .2rem;
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        .sidebar.open & {
+            width: 100%;
+        }
+
+        .caption {
+            display: none;
+            margin-left: .25rem;
+            line-height: 0;
+            flex-grow: 1;
+
+            .sidebar.open & {
+                display: block;
+                width: 100%;
+            }
+        }
+
+        &.open::after {
+            content: '•';
+            margin-left: .25rem;
+            font-size: 18pt;
+            line-height: 0;
+            color: $red;
+        }
+    }
+
+    .sidebar-link-desc {
         display: none;
-        margin-left: .25rem;
-        line-height: 0;
-        flex-grow: 1;
+        color: rgba(255, 255, 255, .5);
 
         .sidebar.open & {
             display: block;
             width: 100%;
         }
     }
-
-    &.open::after {
-        content: '•';
-        margin-left: .25rem;
-        font-size: 18pt;
-        line-height: 0;
-        color: $red;
-    }
-}
-
-.sidebar-link-desc {
-    display: none;
-    color: rgba(255, 255, 255, .5);
-
-    .sidebar.open & {
-        display: block;
-        width: 100%;
-    }
-}
 
 </style>

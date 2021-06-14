@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import {nodeMap} from '../../../../js/utils/Nodes';
+    import {nodeMap} from '@/js/utils/Nodes';
 
     export default {
         name: "LetterText",
@@ -39,9 +39,9 @@
 
         methods: {
             title() {
-                console.log("xml: ", this.xml)
+                console.log("xml: ", this.xml);
                 const title = this.xml.querySelector("html > head").innerHTML;
-                console.log("Title: ", title)
+                console.log("Title: ", title);
                 return `<h1 class="title">${title}</h1>`;
             },
 
@@ -53,7 +53,7 @@
                 body += this.format(this.xml.querySelector(`html > body`));
 
                 body += '</div>';
-                console.log("Body: ", body)
+                console.log("Body: ", body);
                 return body;
             },
 

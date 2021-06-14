@@ -23,6 +23,7 @@ VueRouter.install(Vue);
 import routes from "./routes/routes";
 
 const router = new VueRouter({
+    mode: "history",
     routes,
 });
 

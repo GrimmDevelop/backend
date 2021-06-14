@@ -8,12 +8,24 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class LettersController extends Controller
 {
+    public function index()
+    {
+        return fractal()->collection(
+            Letter::query()->whereHas('media')->paginate(),
+            $this->getTransformer()
+        );
+    }
 
     public function show(Letter $letter)
     {
-        return fractal($letter, function (Letter $letter) {
+        return fractal($letter, $this->getTransformer());
+    }
+
+    protected function getTransformer(): callable
+    {
+        return function (Letter $letter) {
             return [
-                'id' => $letter->id,
+                'id' => $letter->getRouteKey(),
                 'handwriting_location' => $letter->handwriting_location,
                 'inc' => $letter->inc,
                 'text' => $letter->text,
@@ -24,6 +36,6 @@ class LettersController extends Controller
                     ];
                 }),
             ];
-        });
+        };
     }
 }

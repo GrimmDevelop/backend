@@ -2,7 +2,7 @@
 
 @import "variables";
 @import "bootstrap/bootstrap";
-@import "~tinymce/skins/lightgray/skin.min.css";
+@import "~tinymce/skins/ui/oxide/skin.min.css";
 
 body {
     font-family: 'Lato', sans-serif;
@@ -17,13 +17,13 @@ body {
     margin-bottom: 20px;
 }
 
-.border-bottom{
+.border-bottom {
     /* TODO: extract statement to _variables.scss */
     $color_env: $color_master;
-    @if ($APP_ENV == 'local'){
+    @if ($APP_ENV == 'local') {
         $color_env: $color_dev;
     }
-    @if ($APP_ENV == 'test'){
+    @if ($APP_ENV == 'test') {
         $color_env: $color_test;
     }
     box-shadow: 0px 3px 0px 0px $color_env;
