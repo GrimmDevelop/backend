@@ -142,6 +142,8 @@
     @use "sass:math";
     @import "~@/sass/variables";
 
+    $w: 80px;
+
     .sidebar {
         /*width: 4rem;*/
         align-items: center;
@@ -153,7 +155,6 @@
     }
 
     .image-pagination {
-        $w: 80px;
         position: absolute;
         bottom: 0;
         left: 50%;
