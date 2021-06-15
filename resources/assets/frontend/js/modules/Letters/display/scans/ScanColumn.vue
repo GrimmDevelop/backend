@@ -27,10 +27,10 @@ import ZoomImage from "../../../../components/ui/Image/ZoomImage";
 
 export default {
     name: "ScanColumn",
-    data: function () {
+    data () {
         return {
             active: 1,
-        }
+        };
     },
 
     props: {
@@ -78,7 +78,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../../../../../../sass/variables";
+@import "~@/sass/variables";
 
 .gridItem {
     overflow: hidden;
