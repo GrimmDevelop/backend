@@ -9,10 +9,12 @@ const routes = [
         component: Home
     },
     {
+        name: 'letter-list',
         path: '/letters',
         component: Letters
     },
     {
+        name: 'letter-view',
         path: '/letters/:id',
         component: Letter
     },

@@ -113,6 +113,11 @@ export default {
 
             return event.deltaY * factor;
         },
+
+        resetPosition() {
+            // maybe there is more to do here in future
+            this.centerImage();
+        }
     },
 };
 </script>

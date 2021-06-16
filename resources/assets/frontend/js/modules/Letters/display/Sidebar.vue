@@ -1,6 +1,11 @@
 <template>
     <div class="sidebar overflow-auto bg-blue-800 text-white px-2 py-4 flex flex-col"
          :class="sideBarOpen ? 'open' : ''">
+        <div class="sidebar-link hover:bg-blue-900" @click="mutateSidebar()">
+            <icon :icon="sideBarOpen ? 'cheveron-right' : 'cheveron-left'"></icon>
+            <span class="caption">Seitenleiste ausblenden</span>
+        </div>
+
         <div class="sidebar-link hover:bg-blue-900" :class="linkClass(open.text)"
              @click="textOpen">
             <icon icon="document"></icon>
@@ -15,12 +20,12 @@
         </div>
 
         <div class="sidebar-link hover:bg-blue-900"
-             v-bind:class="{ 'bg-blue-900': this.$store.state.splitVisibility.scan }" @click="setColumn('scan')">
+             :class="{ 'bg-blue-900': visibility('scan') }" @click="setColumn('scan')">
             <icon icon="camera"></icon>
             <span class="caption">Handschrift(en)</span>
         </div>
         <div class="sidebar-link hover:bg-blue-900"
-             v-bind:class="{ 'bg-blue-900': this.$store.state.splitVisibility.text }" @click="setColumn('text')">
+             :class="{ 'bg-blue-900': visibility('text') }" @click="setColumn('text')">
             <icon icon="document"></icon>
             <span class="caption">Text</span>
         </div>
@@ -28,11 +33,6 @@
         <div class="sidebar-link hover:bg-blue-900">
             <icon icon="light-bulb"></icon>
             <span class="caption">Sachkommentare</span>
-        </div>
-
-        <div class="sidebar-link hover:bg-blue-900" @click="mutateSidebar()">
-            <icon :icon="sideBarOpen ? 'cheveron-right' : 'cheveron-left'"></icon>
-            <span class="caption">einklappen</span>
         </div>
 
         <!--   will be modified for the new data structure (conversations)   -->
@@ -110,9 +110,7 @@
                 };
             },
             mutateSidebar() {
-                console.log('I will mutate the sidebar');
                 this.sideBarOpen = !this.sideBarOpen;
-                this.$root.$emit('mutate-sidebar');
             },
 
             changeFormation(type) {
@@ -120,14 +118,8 @@
                 this.$root.$emit('toggle-formation', type);
             },
 
-            getScanVisibility() {
-                return this.$store.getters.getVisibilityScan;
-            },
-            getTextVisibility() {
-                return this.$store.getters.getVisibilityText;
-            },
-            getMetaVisibility() {
-                return this.$store.getters.getVisibilityMeta;
+            visibility(column) {
+                return this.$store.state.splitVisibility[column];
             },
         },
     };
@@ -173,7 +165,6 @@
         .caption {
             display: none;
             margin-left: .25rem;
-            line-height: 0;
             flex-grow: 1;
 
             .sidebar.open & {

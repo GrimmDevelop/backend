@@ -8,7 +8,8 @@
                    v-on:keyup.enter="saveItem()"/>
         </td>
         <td colspan="2" v-if="!editing">
-            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><span class="fa fa-edit"></span></a> {{ code.name
+            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><span class="fa fa-edit"></span></a> {{
+                code.name
             }}
         </td>
         <td v-if="editing">
@@ -27,7 +28,7 @@
             </button>
         </td>
         <td cola="2" v-if="!editing">
-            <a v-if="this.code.internal"><span class="fa fa-check-circle"></span></a>
+            <a v-if="code.internal"><span class="fa fa-check-circle"></span></a>
             <a v-else-if="!code.internal"><span class="fa fa-times-circle"></span></a>
             <a href="#" v-on:click.prevent="deleteItem" v-if="editable"><span
                 class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Löschen"></span></a>

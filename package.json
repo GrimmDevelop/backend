@@ -21,7 +21,7 @@
         "lodash": "^4.17.21",
         "popper.js": "^1.16.1",
         "portal-vue": "^1.5.1",
-        "postcss": "^8.2.8",
+        "postcss": "^8.3.4",
         "pusher-js": "^7.0.3",
         "tailwindcss": "^2.0.4",
         "tinymce": "^5.8.1",
@@ -30,7 +30,7 @@
         "vuex": "^3.6.2"
     },
     "devDependencies": {
-        "babel-eslint": "^10.1.0",
+        "@babel/eslint-parser": "^7.14.5",
         "eslint": "^7.28.0",
         "eslint-plugin-vue": "^7.10.0",
         "htmlclean": "^3.0.8",

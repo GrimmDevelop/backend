@@ -1,6 +1,16 @@
 import Vue from 'vue';
 import axios from "axios";
 
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
+
+window.Pusher = Pusher;
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    forceTLS: true
+});
 
 axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.Laravel.csrfToken,
@@ -28,6 +38,17 @@ const router = new VueRouter({
 });
 
 import store from "./store";
+import { randomString } from "@/js/utils";
+
+let token = () => {
+    if (!window.localStorage.getItem('user-token')) {
+        window.localStorage.setItem('user-token', randomString(32));
+    }
+
+    return window.localStorage.getItem('user-token');
+};
+
+store.commit('set_user', token());
 
 new Vue({
     el: '#app',
@@ -36,21 +57,4 @@ new Vue({
     store: store,
 
     render: (h) => h(App),
-});
-
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-
-import Echo from 'laravel-echo';
-// import 'pusher-js'
-window.Pusher = require('pusher-js');
-
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    forceTLS: true
 });

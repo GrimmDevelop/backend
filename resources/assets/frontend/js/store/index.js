@@ -5,6 +5,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        token: null,
         splitVisibility: {
             scan: true,
             text: true,
@@ -26,27 +27,33 @@ export default new Vuex.Store({
         },
     },
     mutations: {
-        changeScanVisibility (state) {
+        set_user(state, token) {
+            state.token = token;
+        },
+
+        changeScanVisibility(state) {
             state.splitVisibility.scan = !state.splitVisibility.scan;
         },
-        changeTextVisibility (state) {
+        changeTextVisibility(state) {
             state.splitVisibility.text = !state.splitVisibility.text;
         },
         changeScanOpen(state) {
-            state.open.scan =  !state.open.scan;
+            state.open.scan = !state.open.scan;
         },
         changeTextOpen(state) {
-            state.open.text =  !state.open.text;
+            state.open.text = !state.open.text;
         },
     },
     actions: {
-        changeVisibility ({commit, state}, type) {
+        changeVisibility({commit, state}, type) {
             if (type.payload === 'scan') {
                 commit({
-                    type: "changeScanVisibility"});
-            } else if (type.payload === 'text'){
+                    type: "changeScanVisibility"
+                });
+            } else if (type.payload === 'text') {
                 commit({
-                    type: "changeTextVisibility"});
+                    type: "changeTextVisibility"
+                });
             } else {
                 console.log(`An error occurred in method changeVisibility with the type of ${type}`);
                 return 1;
@@ -55,10 +62,12 @@ export default new Vuex.Store({
         changeOpen({commit, state}, type) {
             if (type.payload === 'scan') {
                 commit({
-                    type: "changeScanOpen"});
-            } else if (type.payload === 'text'){
+                    type: "changeScanOpen"
+                });
+            } else if (type.payload === 'text') {
                 commit({
-                    type: "changeTextOpen"});
+                    type: "changeTextOpen"
+                });
             } else {
                 console.log(`An error occurred in method changeOpen with the type of ${type}`);
                 return 1;

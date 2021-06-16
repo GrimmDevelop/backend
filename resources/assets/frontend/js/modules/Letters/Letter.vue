@@ -1,17 +1,21 @@
 <template>
-    <div class="flex w-full h-screen">
-        <template v-if="letter">
-            <window-container :letter="letter"></window-container>
+    <div class="flex w-full h-screen" v-if="letter">
+        <!--<window-container :letter="letter"></window-container>-->
+        <pop-out-window name="scan" pop-out-url="/letters/715/scan">
+            <scan-column :letter="letter"></scan-column>
+        </pop-out-window>
 
-            <sidebar v-if="sidebarOpen" :letter="letter" :open="this.$store.state.open" :sidebar-open="sidebarOpen"
-                     :admin-url="adminUrl"></sidebar>
-        </template>
+        <sidebar v-if="sidebarOpen" :letter="letter" :open="$store.state.open" :sidebar-open="sidebarOpen"
+                 :admin-url="adminUrl"></sidebar>
     </div>
 </template>
 
 <script>
     import WindowContainer from "./display/WindowContainer";
     import Sidebar from "./display/Sidebar";
+    import PopOutWindow from "@/frontend/js/components/ui/windows/PopOutWindow";
+    import ZoomImage from "@/frontend/js/components/ui/Image/ZoomImage";
+    import ScanColumn from "@/frontend/js/modules/Letters/display/scans/ScanColumn";
 
     export default {
         name: "Letter",
@@ -38,10 +42,7 @@
                 immediate: true,
                 handler() {
                     this.$http.get(`/data/letters/${this.id}`)
-                        .then((response) => {
-                            this.letter = response.data.data;
-                            console.log(response);
-                        });
+                        .then(response => this.letter = response.data.data);
                 },
             },
         },
@@ -62,13 +63,15 @@
                 this.openedWindow();
             });
             this.$root.$on('changing-letter', (id) => {
-                // still to be adjusted (setting of letterID)
-                this.$http.get(`data/letters/${id}`)
-                    .then((response) => {
-                        this.letter = response.data.data;
-                        console.log("I am in Letter.vue ", response);
-                    });
-                window.location.href = `#/letters/${id}`;
+                /*this.$http.get(`data/letters/${id}`)
+                    .then((response) => this.letter = response.data.data);*/
+                this.$router.push({
+                    name: 'letter-list',
+                    params: {
+                        id
+                    }
+                });
+                // window.location.href = `#/letters/${id}`;
             });
         },
 
@@ -82,10 +85,12 @@
                 console.log("sent that the window is open");
                 this.$http.post('/openWindow');
             },
-
         },
 
         components: {
+            ScanColumn,
+            ZoomImage,
+            PopOutWindow,
             WindowContainer,
             Sidebar,
         },
