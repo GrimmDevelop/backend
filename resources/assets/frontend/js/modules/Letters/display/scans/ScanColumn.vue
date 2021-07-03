@@ -1,9 +1,6 @@
 <template>
-    <div class="gridItem">
-        <div>
-            <zoom-image ref="zoomImage" v-if="hasImages" :src="imageUrl"></zoom-image>
-        </div>
-        <!-- Pagination of the "Handschriften" -->
+    <div class="w-full h-full p-4">
+        <zoom-image ref="zoomImage" v-if="hasImages" :src="imageUrl"></zoom-image>
         <div class="image-pagination">
             <icon icon="cheveron-left"
                   format="cursor-pointer text-gray-600 hover:text-gray-900"
@@ -27,6 +24,7 @@
 
     export default {
         name: "ScanColumn",
+
         data() {
             return {
                 active: 1,
@@ -66,6 +64,7 @@
                 if (isNaN(page)) {
                     return;
                 }
+
                 this.active = Math.max(1, Math.min(this.scanCount, page));
             },
 
@@ -83,14 +82,7 @@
 <style scoped lang="scss">
     @import "~@/sass/variables";
 
-    .gridItem {
-        overflow: hidden;
-        //position: absolute; //notwendig?
-        padding: 0.5rem;
-    }
-
     .image-pagination {
-        //background: #2c5282;
         border-radius: 5px;
         background-color: rgba(248, 239, 239, 0.5);
         display: flex;
@@ -101,7 +93,6 @@
         left: 50%;
         margin-left: -($w / 2);
         width: $w;
-
     }
 
     .page-input {

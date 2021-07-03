@@ -23,7 +23,7 @@
         computed: {
             xml() {
                 let parser = new DOMParser();
-                return parser.parseFromString(this.text, "text/html");
+                return parser.parseFromString(this.text, "application/xml");
             },
 
             html() {
@@ -39,9 +39,7 @@
 
         methods: {
             title() {
-                console.log("xml: ", this.xml);
-                const title = this.xml.querySelector("html > head").innerHTML;
-                console.log("Title: ", title);
+                const title = this.xml.querySelector("letter > title").innerHTML;
                 return `<h1 class="title">${title}</h1>`;
             },
 
@@ -50,10 +48,10 @@
 
                 this.lineNo = 0;
 
-                body += this.format(this.xml.querySelector(`html > body`));
+                body += this.format(this.xml.querySelector(`letter > body`));
 
                 body += '</div>';
-                console.log("Body: ", body);
+
                 return body;
             },
 
@@ -67,9 +65,9 @@
                     this.lineNo++;
                 } else {
                     // format
-                    if (node.tagName === this.formatTag) {
+                    if (node.tagName.toLowerCase() === this.formatTag) {
                         body += `<span class="${node.getAttribute('rendition').substr(1)}">${nodeMap(node.childNodes, this.format).join('')}</span>`;
-                    } else if (node.tagName === this.paragraphTag) {
+                    } else if (node.tagName.toLowerCase() === this.paragraphTag) {
                         body += `<div class="paragraph">${nodeMap(node.childNodes, this.format).join('')}</div>`;
                     } else {
                         body += nodeMap(node.childNodes, this.format).join('');
@@ -84,7 +82,7 @@
             },
 
             isLineBreak(node) {
-                return node.nodeType === 1 && node.tagName === this.lineBreakTag;
+                return node.nodeType === 1 && node.tagName.toLowerCase() === this.lineBreakTag;
             }
         },
     };

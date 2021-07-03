@@ -1,7 +1,8 @@
 
 import Home from "@/frontend/js/modules/Home/Home";
-import Letters from "@/frontend/js/modules/Letters/Letters";
-import Letter from "@/frontend/js/modules/Letters/Letter";
+import LettersList from "@/frontend/js/modules/Letters/Letters";
+import LettersView from "@/frontend/js/modules/Letters/Letter";
+import LetterWindowsScan from "@/frontend/js/modules/Letters/Windows/Scan";
 
 const routes = [
     {
@@ -9,14 +10,19 @@ const routes = [
         component: Home
     },
     {
-        name: 'letter-list',
+        name: 'letters-list',
         path: '/letters',
-        component: Letters
+        component: LettersList
     },
     {
-        name: 'letter-view',
+        name: 'letters-view',
         path: '/letters/:id',
-        component: Letter
+        component: LettersView
+    },
+    {
+        name: 'letters-windows-scan',
+        path: '/letters/:id/scan',
+        component: LetterWindowsScan
     },
     // {path: '/bar', component: Bar}
 ];

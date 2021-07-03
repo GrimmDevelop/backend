@@ -38,17 +38,6 @@ const router = new VueRouter({
 });
 
 import store from "./store";
-import { randomString } from "@/js/utils";
-
-let token = () => {
-    if (!window.localStorage.getItem('user-token')) {
-        window.localStorage.setItem('user-token', randomString(32));
-    }
-
-    return window.localStorage.getItem('user-token');
-};
-
-store.commit('set_user', token());
 
 new Vue({
     el: '#app',

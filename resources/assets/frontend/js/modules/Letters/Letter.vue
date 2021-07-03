@@ -1,28 +1,33 @@
 <template>
     <div class="flex w-full h-screen" v-if="letter">
-        <!--<window-container :letter="letter"></window-container>-->
-        <pop-out-window name="scan" pop-out-url="/letters/715/scan">
-            <scan-column :letter="letter"></scan-column>
-        </pop-out-window>
+        <div class="flex-grow grid" :class="gridClass">
+            <column namespace="letters" :entity="letter" name="scan">
+                <scan-column :letter="letter"/>
+            </column>
 
-        <sidebar v-if="sidebarOpen" :letter="letter" :open="$store.state.open" :sidebar-open="sidebarOpen"
+            <column namespace="letters" :entity="letter" name="text">
+                <letter-text :text="letter.text" class="p-4"/>
+            </column>
+        </div>
+
+        <sidebar :letter="letter"
+                 @increase-id="$router.push({name: 'letters-view', params: {id: parseInt(letter.id) + 1}})"
+                 @decrease-id="$router.push({name: 'letters-view', params: {id: parseInt(letter.id) - 1}})"
                  :admin-url="adminUrl"></sidebar>
     </div>
 </template>
 
 <script>
-    import WindowContainer from "./display/WindowContainer";
     import Sidebar from "./display/Sidebar";
-    import PopOutWindow from "@/frontend/js/components/ui/windows/PopOutWindow";
-    import ZoomImage from "@/frontend/js/components/ui/Image/ZoomImage";
     import ScanColumn from "@/frontend/js/modules/Letters/display/scans/ScanColumn";
+    import LetterText from "@/frontend/js/modules/Letters/LetterText";
+    import Column from "@/frontend/js/components/ui/windows/Column";
 
     export default {
         name: "Letter",
 
         data() {
             return {
-                sidebarOpen: true,
                 letter: null,
             };
         },
@@ -34,6 +39,16 @@
 
             adminUrl() {
                 return window.Laravel.adminUrl;
+            },
+
+            gridClass() {
+                return {
+                    'grid-flow-col': true,
+                    'grid-cols-auto': true,
+
+                    'grid-flow-row': false,
+                    'grid-rows-auto': false,
+                };
             },
         },
 
@@ -48,51 +63,31 @@
         },
 
         mounted() {
-            this.$root.$on('increase-id', () => {
-                let nID = parseInt(this.id) + 1;
-                console.log('I have to change the ID to: ', nID);
-                this.changedLetter(nID);
-            });
-            this.$root.$on('decrease-id', () => {
-                let nID = parseInt(this.id) - 1;
-                console.log('I have to change the ID to: ', nID);
-                this.changedLetter(nID);
-            });
-            this.$root.$on('opened-window', () => {
-                console.log("I am in Letter.vue and got the info, that the window is opened.");
-                this.openedWindow();
-            });
-            this.$root.$on('changing-letter', (id) => {
-                /*this.$http.get(`data/letters/${id}`)
-                    .then((response) => this.letter = response.data.data);*/
+            this.$on('changing-letter', (id) => {
                 this.$router.push({
                     name: 'letter-list',
                     params: {
                         id
                     }
                 });
-                // window.location.href = `#/letters/${id}`;
             });
         },
 
-        methods: {
-            changedLetter(id) {
-                console.log('I am in Letter.vue and I sent this id: ', id);
-                this.$http.post('/updateLetter', {letterId: id});
-            },
-
-            openedWindow() {
-                console.log("sent that the window is open");
-                this.$http.post('/openWindow');
-            },
-        },
-
         components: {
+            Column,
+            LetterText,
             ScanColumn,
-            ZoomImage,
-            PopOutWindow,
-            WindowContainer,
             Sidebar,
         },
     };
 </script>
+
+<style>
+    .grid-cols-auto {
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    }
+
+    .grid-rows-auto {
+        grid-template-rows: repeat(auto-fit, minmax(0, 1fr));
+    }
+</style>

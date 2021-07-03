@@ -6,7 +6,7 @@
             <span class="caption">Seitenleiste ausblenden</span>
         </div>
 
-        <div class="sidebar-link hover:bg-blue-900" :class="linkClass(open.text)"
+        <div class="sidebar-link hover:bg-blue-900" :class="linkClass('text')"
              @click="textOpen">
             <icon icon="document"></icon>
             <span class="caption">Brieftext - Fenster</span>
@@ -20,12 +20,12 @@
         </div>
 
         <div class="sidebar-link hover:bg-blue-900"
-             :class="{ 'bg-blue-900': visibility('scan') }" @click="setColumn('scan')">
+             :class="{ 'bg-blue-900': visibility('scan') }" @click="toggleColumn('scan')">
             <icon icon="camera"></icon>
             <span class="caption">Handschrift(en)</span>
         </div>
         <div class="sidebar-link hover:bg-blue-900"
-             :class="{ 'bg-blue-900': visibility('text') }" @click="setColumn('text')">
+             :class="{ 'bg-blue-900': visibility('text') }" @click="toggleColumn('text')">
             <icon icon="document"></icon>
             <span class="caption">Text</span>
         </div>
@@ -49,11 +49,11 @@
 
         <div class="column-configuration">
             <span class="caption">Anzeige:</span>
-            <a class="sidebar-link hover:bg-blue-900" @click="changeFormation('columns')">
+            <a class="sidebar-link hover:bg-blue-900" @click="changeFlow('columns')">
                 <icon icon="view-column"></icon>
                 <span class="caption">Spaltenweise</span>
             </a>
-            <a class="sidebar-link hover:bg-blue-900" @click="changeFormation('lines')">
+            <a class="sidebar-link hover:bg-blue-900" @click="changeFlow('rows')">
                 <icon icon="view-list"></icon>
                 <span class="caption">Zeilenweise</span>
             </a>
@@ -71,55 +71,50 @@
     export default {
         name: "Sidebar",
 
-        data() {
-            return {
-                sideBarOpen: this.sidebarOpen,
-            };
-        },
-
         props: {
-            open: Object,
-            sidebarOpen: Boolean,
             letter: Object,
             adminUrl: String,
         },
 
-        methods: {
-            setColumn(type) {
-                this.$root.$emit('set-column', type);
-                console.log("in sidebar", type);
-            },
+        computed: {
+            sideBarOpen() {
+                return this.$store.state.ui.sideBarOpen;
+            }
+        },
 
+        methods: {
             textOpen() {
-                this.$root.$emit('text-open');
+                this.$emit('text-open');
             },
 
             increaseID() {
-                this.$root.$emit('increase-id');
-                console.log('increase letter');
+                this.$emit('increase-id');
             },
 
             decreaseID() {
-                this.$root.$emit('decrease-id');
-                console.log('decrease letter');
+                this.$emit('decrease-id');
             },
 
-            linkClass(isOpen) {
+            linkClass(column) {
                 return {
-                    'open': isOpen
+                    'open': this.visibility(column),
                 };
             },
+
             mutateSidebar() {
-                this.sideBarOpen = !this.sideBarOpen;
+                this.$store.commit('ui/toggle-sidebar');
             },
 
-            changeFormation(type) {
-                console.log('changing the formation to: ', type);
-                this.$root.$emit('toggle-formation', type);
+            changeFlow(type) {
+                this.$store.commit('ui/window-flow', {type});
+            },
+
+            toggleColumn(column) {
+                return this.$store.commit('ui/toggle-column', {column});
             },
 
             visibility(column) {
-                return this.$store.state.splitVisibility[column];
+                return this.$store.state.ui.visibility[column];
             },
         },
     };
