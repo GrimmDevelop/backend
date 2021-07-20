@@ -83,7 +83,7 @@ class Person extends Model implements IsGridable
             return $name;
         }
 
-        return $this->full_name;
+        return $this->full_name ?? $this->last_name . ', ' . $this->first_name;
     }
 
     /**

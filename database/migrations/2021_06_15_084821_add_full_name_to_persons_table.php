@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddFullName extends Migration
+class AddFullNameToPersonsTable extends Migration
 {
 
     /**

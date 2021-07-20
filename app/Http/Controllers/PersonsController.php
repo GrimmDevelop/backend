@@ -115,7 +115,7 @@ class PersonsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -199,11 +199,13 @@ class PersonsController extends Controller
     /**
      * TODO: Extract this method
      *
-     * @param        $request
+     * @param Request $request
      * @param Person $person
      */
     private function updatePersonModel(Request $request, Person $person)
     {
+        $person->ddb_id = $request->get('ddb_id') ?: null;
+        $person->full_name = $request->get('full_name') ?: null;
         $person->last_name = $request->get('last_name');
         $person->first_name = $request->get('first_name') ?: null;
 
