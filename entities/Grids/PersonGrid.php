@@ -16,7 +16,6 @@ class PersonGrid extends Grid
     {
         parent::__construct('people', [
             new Column('full_name', true, function () use ($person) {
-
                 return $person->fullName();
             }),
             new Column('last_name', false),
