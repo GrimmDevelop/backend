@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
+                <h1>Bücherdatenbank</h1>
                 <div class="button-container">
                     <div class="search {{ request()->has('title') ? 'active' : '' }}">
                         <form action="{{ url('books') }}" method="get">
@@ -27,7 +28,6 @@
                         </a>
                     </div>
                 </div>
-                <h1>Bücherdatenbank</h1>
             </div>
 
             @include('partials.prefixSelection', ['route' => 'books'])

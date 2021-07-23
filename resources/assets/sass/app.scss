@@ -18,6 +18,9 @@ body {
 }
 
 .page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: #35495D;
     border: 1px solid darken(#35495D, 10%);
 
@@ -31,6 +34,7 @@ body {
         margin-top: 10px;
         font-weight: 100;
         font-size: $font-size-h2;
+        flex-grow: 1;
     }
 
     a.prev-link {
@@ -93,65 +97,35 @@ body {
 }
 
 .button-container {
-    float: right;
-    margin-top: 9px;
-    width: 300px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 
     .btn {
         height: 30px;
     }
-
-    .generic {
-        position: relative;
-
-        .btn {
-            position: absolute;
-            top: 5px;
-            right: 0;
-        }
-    }
-
-    .reset-search {
-        position: relative;
-        right: 100px;
-
-        .btn {
-            position: absolute;
-            top: 5px;
-        }
-    }
 }
 
 .search {
-    padding: 5px 0;
-    width: 230px;
-    height: 30px;
-
-    position: relative;
-    right: 100px;
-    float: left;
-    line-height: 22px;
+    form {
+        display: flex;
+    }
 
     .btn {
-        position: absolute;
-        right: 0;
-        top: 5px;
         border-radius: 1px;
     }
 
-    input {
-        position: absolute;
+    input, select {
         width: 0;
-        float: Left;
-        margin-left: 210px;
         -webkit-transition: all 0.7s ease-in-out;
         -moz-transition: all 0.7s ease-in-out;
         -o-transition: all 0.7s ease-in-out;
         transition: all 0.7s ease-in-out;
         height: 30px;
         line-height: 18px;
-        padding: 0 2px 0 2px;
         border-radius: 1px;
+        padding: 0;
+        border-width: 0;
     }
 }
 
@@ -181,9 +155,16 @@ body {
     }
 }
 
-.search:hover input, .search input:focus, .search.active input {
+.search:hover input, .search input:focus, .search.active input, .search select:focus + input {
     width: 200px;
-    margin-left: 0;
+    padding: 0 2px 0 2px;
+    border-width: 1px;
+}
+
+.search:hover select, .search select:focus, .search.active select, .search input:focus ~ select {
+    width: 80px;
+    padding: 0 2px 0 2px;
+    border-width: 1px;
 }
 
 .empty-list {
@@ -214,6 +195,7 @@ body {
 .button-box {
     display: flex;
     justify-content: center;
+
     div {
         text-align: center;
         padding-left: 10px;
@@ -238,10 +220,12 @@ body {
 
 p.collapse-head {
     cursor: pointer;
+
     &::after {
         content: ' \25BC';
         font-size: $font-size-small;
     }
+
     &.collapsed {
         &::after {
             content: ' \25B2';

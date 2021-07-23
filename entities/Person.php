@@ -35,7 +35,6 @@ use Illuminate\Support\Collection;
  */
 class Person extends Model implements IsGridable
 {
-
     use SoftDeletes, CollectPrefixes, HasActivity, Gridable;
 
     public static $unknownName = 'unknown';
