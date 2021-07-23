@@ -18,6 +18,9 @@ class AddFullNameToPersonsTable extends Migration
         Schema::table('persons', function (Blueprint $table) {
             $table->string('full_name')->nullable()->default(null)->after('last_name');
         });
+
+        DB::statement('ALTER TABLE persons DROP INDEX fx_person_name');
+        DB::statement('CREATE FULLTEXT INDEX fx_person_name ON persons (full_name, first_name, last_name)');
     }
 
     /**
@@ -28,9 +31,10 @@ class AddFullNameToPersonsTable extends Migration
     public function down()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->dropColumn(
-                'full_name'
-            );
+            DB::statement('ALTER TABLE persons DROP INDEX fx_person_name');
+            DB::statement('CREATE FULLTEXT INDEX fx_person_name ON persons (first_name, last_name)');
+
+            $table->dropColumn('full_name');
         });
     }
 }
