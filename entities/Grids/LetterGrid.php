@@ -107,7 +107,7 @@ class LetterGrid extends Grid
                 return $letter->drafts->map(function (Draft $draft) {
                     return $draft->entry;
                 })->implode('; ');
-            }),
+            }, 'drafts.entry'),
             new Column('facsimiles', false, function () use ($letter) {
                 return $letter->facsimiles->map(function (Facsimile $facsimile) {
                     return $facsimile->entry;
