@@ -121,6 +121,7 @@
 
                     @include('partials.form.field', ['field' => 'code', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'date', 'model' => $letter])
+                    @include('partials.form.field', ['field' => 'outgoing_notice', 'model' => $letter])
 
                     @include('partials.form.field', ['field' => 'from_location_historical', 'model' => $letter])
                     @include('partials.form.field', ['field' => 'from_location_derived', 'model' => $letter])
