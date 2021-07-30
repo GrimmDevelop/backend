@@ -89,6 +89,12 @@ class LetterGrid extends Grid
             }),
             new Column('to_date', false),
             new Column('reply_annotation', false),
+            new Column('comment', false, function () use ($letter) {
+                return Str::limit(strip_tags(optional($letter->comment)->entry), 20, '[...]');
+            }, 'comment.entry'),
+            new Column('apparatus', false, function () use ($letter) {
+                return Str::limit(strip_tags(optional($letter->apparatus)->entry), 20, '[...]');
+            }, 'apparatus.entry'),
             new Column('prints', false, function () use ($letter) {
                 return $letter->prints->map(function (LetterPrint $print) {
                     return $print->entry;

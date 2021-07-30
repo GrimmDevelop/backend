@@ -106,7 +106,7 @@
                 </li>
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                    <li class="nav-item"><a href="{{ url('/login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
                 @else
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
