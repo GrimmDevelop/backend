@@ -273,7 +273,6 @@ class FilterApplicator
             $filter = $this->filterFor($filter);
 
             if ($filter instanceof FilterWithOptionals) {
-                dump($key . " will be" . (in_array($key, $filter->optionals()) ? "" : " not") . " removed");
                 return in_array($key, $filter->optionals());
             }
 
