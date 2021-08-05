@@ -11,6 +11,7 @@ use App\Filters\People\NameFilter;
 use App\Filters\Shared\OnlyTrashedFilter;
 use App\Filters\Shared\PageSizeFilter;
 use App\Filters\Shared\PrefixFilter;
+use App\Filters\Shared\SearchFilter;
 use App\Filters\Shared\SortFilter;
 use App\Http\Requests\DestroyPersonRequest;
 use App\Http\Requests\IndexPersonRequest;
@@ -115,7 +116,7 @@ class PersonsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -228,7 +229,7 @@ class PersonsController extends Controller
     {
         return [
             new PageSizeFilter('people'),
-            new NameFilter(),
+            new SearchFilter(),
             new PrefixFilter('last_name'),
             new BioDataDuplicateFilter(),
             new OnlyTrashedFilter('people'),

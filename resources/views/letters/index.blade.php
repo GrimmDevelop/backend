@@ -4,22 +4,30 @@
     <div class="container" id="letters">
         <div class="row page">
             <div class="col-md-12 page-title">
+                <h1>Briefdatenbank</h1>
                 <div class="button-container">
                     <div class="search {{ request()->has('search') ? 'active' : '' }}">
                         <form action="{{ url('letters') }}" method="get">
+                            <select class="form-control input-sm" name="field">
+                                <option value="" {{ selected_if(!request()->get('field')) }}>alle Felder</option>
+                                @foreach(\Grimm\Letter::gridColumns() as $column)
+                                    <option value="{{ $column->name() }}" {{ selected_if(request()->get('field') === $column->name()) }}>
+                                        {{ trans('letters.' . $column->name()) }}
+                                    </option>
+                                @endforeach
+                            </select>
                             <input type="text" class="form-control input-sm" name="search" maxlength="64"
                                    placeholder="Suche" value="{{ request('search') ?: '' }}"/>
                             <button id="search-btn" type="submit" class="btn btn-primary btn-sm"><i
                                         class="fa fa-search"></i></button>
-
+                            @if(request()->has('search'))
+                                <div class="reset-search">
+                                    <a href="{{ url()->filtered(['-search']) }}" class="btn btn-default btn-sm"><i
+                                                class="fa fa-times"></i></a>
+                                </div>
+                            @endif
                         </form>
                     </div>
-                    @if(request()->has('search'))
-                        <div class="reset-search">
-                            <a href="{{ url()->filtered(['-search']) }}" class="btn btn-default btn-sm"><i
-                                        class="fa fa-times"></i></a>
-                        </div>
-                    @endif
 
                     <div class="generic">
                         <a href="{{ route('letters.create') }}" role="button" class="btn btn-default btn-sm">
@@ -28,7 +36,6 @@
                         </a>
                     </div>
                 </div>
-                <h1>Briefdatenbank</h1>
             </div>
 
             <div class="col-md-12 pagination-container">
@@ -39,39 +46,40 @@
                 </div>
                 <table class="table table-responsive table-hover">
                     <thead>
-                    <tr>
-                        {{--<th>
-                            <a href="{{ sort_link('letters', 'id') }}"># {!! sort_arrow('id') !!}</a>
-                        </th>--}}
-                        @foreach(\Grimm\Letter::gridColumns() as $column)
-                            <th>
-                                <a href="{{ sort_link('letters', $column->name()) }}">
-                                    {{ trans('letters.' . $column->name()) }}
-                                    {!! sort_arrow($column->name()) !!}
-                                </a>
-                            </th>
-                        @endforeach
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($letters->items() as $index => $letter)
-                        <tr id="letter-{{ $letter->id }}"
-                            onclick="location.href='{{ route('letters.show', [$letter]) }}'"
-                            style="cursor: pointer;"
-                            class="@if($letter->trashed()) bg-danger @endif">
-                            @foreach($letter->grid()->columns() as $column)
-                                <td>
-                                    {{ $letter->gridify($column) }}
-                                </td>
+                        <tr>
+                            {{--<th>
+                                <a href="{{ sort_link('letters', 'id') }}"># {!! sort_arrow('id') !!}</a>
+                            </th>--}}
+                            @foreach(\Grimm\Letter::gridColumns() as $column)
+                                <th>
+                                    <a href="{{ sort_link('letters', $column->name()) }}">
+                                        {{ trans('letters.' . $column->name()) }}
+                                        {!! sort_arrow($column->name()) !!}
+                                    </a>
+                                </th>
                             @endforeach
                         </tr>
-                    @empty
-                        <tr onclick="location.href='{{ route('letters.create') }}'" style="cursor: pointer;">
-                            <td class="empty-list" colspan="6">In der Datenbank ist kein Brief vorhanden. Möchten Sie
-                                einen erstellen?
-                            </td>
-                        </tr>
-                    @endforelse
+                    </thead>
+                    <tbody>
+                        @forelse($letters->items() as $index => $letter)
+                            <tr id="letter-{{ $letter->id }}"
+                                onclick="location.href='{{ route('letters.show', [$letter]) }}'"
+                                style="cursor: pointer;"
+                                class="@if($letter->trashed()) bg-danger @endif">
+                                @foreach($letter->grid()->columns() as $column)
+                                    <td>
+                                        {{ $letter->gridify($column) }}
+                                    </td>
+                                @endforeach
+                            </tr>
+                        @empty
+                            <tr onclick="location.href='{{ route('letters.create') }}'" style="cursor: pointer;">
+                                <td class="empty-list" colspan="6">In der Datenbank ist kein Brief vorhanden. Möchten
+                                    Sie
+                                    einen erstellen?
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>

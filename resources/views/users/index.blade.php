@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
+                <h1>Benutzerverwaltung</h1>
                 <div class="button-container">
                     <div class="generic">
                         <a href="{{ route('users.create') }}" role="button" class="btn btn-default btn-sm">
@@ -12,7 +13,6 @@
                         </a>
                     </div>
                 </div>
-                <h1>Benutzerverwaltung</h1>
             </div>
             <div class="col-md-12 tabs-container">
 
