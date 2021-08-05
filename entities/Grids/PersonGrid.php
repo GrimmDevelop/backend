@@ -16,6 +16,7 @@ class PersonGrid extends Grid
     public function __construct(Person $person)
     {
         parent::__construct('people', [
+            new Column('ddb_id', true),
             new Column('full_name', true, function () use ($person) {
                 return $person->fullName();
             }, function(Builder $q, $term) {

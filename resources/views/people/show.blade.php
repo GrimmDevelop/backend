@@ -53,6 +53,8 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="prev_last_name" value="{{ $person->last_name }}">
                     <input type="hidden" name="prev_first_name" value="{{ $person->first_name }}">
+                    @include('partials.form.field', ['field' => 'ddb_id', 'model' => $person])
+                    @include('partials.form.field', ['field' => 'full_name', 'model' => $person, 'placeholder' => $person->fullName()])
                     @include('partials.form.field', ['field' => 'last_name', 'model' => $person, 'disabled' => $person->trashed()])
                     @include('partials.form.field', ['field' => 'first_name', 'model' => $person, 'disabled' => $person->trashed()])
                     @include('partials.form.field', ['field' => 'birth_date', 'model' => $person, 'disabled' => $person->trashed()])

@@ -5,7 +5,8 @@
             <p class="form-control-static">{{ $model->{$field} }}</p>
         @else
             <input class="form-control" id="input{{ ucfirst($field) }}" name="{{ $field }}"
-                   value="{{ old($field, (isset($model) && !is_string($model)) ? $model->{$field}: null) }}">
+                   value="{{ old($field, (isset($model) && !is_string($model)) ? $model->{$field}: null) }}"
+                   placeholder="{{ $placeholder ?? '' }}">
         @endif
         @if ($errors->has($field))
             <span class="help-block">
