@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class LetterComment extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, TextWithLetterLinks;
 
     public $guarded = [];
 
