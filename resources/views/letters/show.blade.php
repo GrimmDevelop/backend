@@ -72,7 +72,148 @@
                         <span class="fa fa-caret-left"></span></a> Briefdaten: {{ \Illuminate\Support\Str::limit($letter->title(), 60) }}
                 </h1>
             </div>
+{{--            ######--}}
+{{--            ######--}}
+{{--            ######--}}
+            <div class="border col-md-12 page-content">
+                <div class="border">
+                    <h1>Allgemeine Infos</h1>
+                    <div class="flex-box border">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label text-right">IDs</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-plaintext">
+                                    {{ $letter->id_till_2018 }} [2018]
+                                    @if($letter->id_till_1997)
+                                        &nbsp;&nbsp;<strong>|</strong>&nbsp;&nbsp;{{ $letter->id_till_1997 }} [1997]
+                                    @endif
+                                    @if($letter->id_till_1992)
+                                        &nbsp;&nbsp;<strong>|</strong>&nbsp;&nbsp;{{ $letter->id_till_1992 }} [1992]
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                        @include('partials.form.field', ['field' => 'code', 'model' => $letter])
+                    </div>
+                    <div class="grid-box border">
+                        <div class="grid-sender">
+                            von
+                            @include('partials.form.field', ['field' => 'from_date', 'model' => $letter])
+                            @include('partials.form.field', ['field' => 'from_location_historical', 'model' => $letter])
+                            @include('partials.form.field', ['field' => 'from_location_derived', 'model' => $letter])
+                            <div class="flex-box border">
+                                <div class="input-description">
+                                    Ausgangsnotiz
+                                </div>
+                                <input class="input-value" type="text" name="Ausgangsnotiz"></input>
+                            </div>
+                        </div>
+                        <div class="grid-recipient">
+                            an
+                            @include('partials.form.field', ['field' => 'to_date', 'model' => $letter])
+                            @include('partials.form.field', ['field' => 'to_location_historical', 'model' => $letter])
+                        </div>
+                        <div class="grid-inc">
+                            @include('partials.form.textarea', ['field' => 'inc', 'model' => $letter, 'rows' => 2])
+                            @include('partials.form.field', ['field' => 'language', 'model' => $letter])
+                        </div>
+                        <div class="grid-notes">
+                            @include('partials.form.field', ['field' => 'receive_annotation', 'model' => $letter])
+                            @include('partials.form.field', ['field' => 'reply_annotation', 'model' => $letter])
+                            @include('partials.form.field', ['field' => 'addition', 'model' => $letter])
+                        </div>
+                    </div>
+                </div>
+                <div class="border">
+                    <h1>Scans</h1>
+                    @if($letter->handwriting_location != null)
+                        @include('partials.form.textarea', ['field' => 'handwriting_location', 'model' => $letter, 'rows' => 4])
+                        <div class="form-group row">
+                            <div class="col-sm-10 offset-sm-2">
+                                @foreach($letter->getMedia('letters.scans.handwriting_location') as $index => $media)
+                                    <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img
+                                                src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+                    @if($letter->couvert != null)
+                        @include('partials.form.textarea', ['field' => 'couvert', 'model' => $letter, 'rows' => 4])
+                        <div class="form-group row">
+                            <div class="col-sm-10 offset-sm-2">
+                                @foreach($letter->getMedia('letters.scans.couvert') as $index => $media)
+                                    <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img
+                                                src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+                </div>
+                <div class="border">
+                    <h1>Verweise</h1>
+                    <div role="tabpanel" class="tab-pane" id="prints">
+                        @unless($letter->trashed())
+                            <div class="add-button">
+                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#addPrint-modal">
+                                    <span class="fa fa-plus"></span> Druck hinzufügen
+                                </button>
+                            </div>
+                        @endunless
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th colspan="2">Eintrag</th>
+                                <th colspan="2">Jahr</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="print in prints" is="in-place-editor"
+                                :key="`print-${print.id}`"
+                                :item-id="print.id" :item-entry="print.entry" :item-year="print.year"
+                                base-url="{{ route('letters.prints.index', [$letter]) }}"
+                                editable="{{ !$letter->trashed() }}">
+                            </tr>
+                            </tbody>
+                        </table>
 
+                        <add-item-editor url="{{ route('letters.prints.store', [$letter]) }}"
+                                         :on-stored="storedPrint"
+                                         modal="addPrint"
+                                         title="Drucke"></add-item-editor>
+                    </div>
+                    <div class="flex-box border">
+                        <div class="input-description">
+                            Auktionskataloge
+                        </div>
+                        <input class="input-value" rows="4" name="Auktionskataloge"></input>
+                    </div>
+                    <div class="flex-box border">
+                        <div class="input-description">
+                            Faksimilies
+                        </div>
+                        <input class="input-value" rows="4" name="Faksimilies"></input>
+                    </div>
+                </div>
+                <div class="border">
+                    <h1>Sonstiges</h1>
+                    <div class="flex-box border">
+                        <div class="input-description">
+                            Informationen
+                        </div>
+                        <input class="input-value" rows="4" name="Informationen"></input>
+                    </div>
+                    <div class="flex-box border">
+                        <div class="input-description">
+                            Codes
+                        </div>
+                        <input class="input-value" rows="4" name="Codes"></input>
+                    </div>
+                </div>
+            </div>
+{{--            #######--}}
+{{--            #######--}}
+{{--            #######--}}
             @if($letter->trashed())
                 <div class="col-md-12 deleted-record-info">
                     <div class="row">
@@ -102,7 +243,6 @@
                       action="{{ route('letters.update', [$letter]) }}" method="post">
                     {{ method_field('PUT') }}
                     {{ csrf_field() }}
-
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label text-right">IDs</label>
                         <div class="col-sm-10">
@@ -161,7 +301,7 @@
                             <div class="col-sm-10 offset-sm-2">
                                 @foreach($letter->getMedia('letters.scans.handwriting_location') as $index => $media)
                                     <a href="{{ route('letters.scans.index', [$letter]) }}#scan-{{ $media->id }}"><img
-                                                src="{{ $media->getFullUrl('thumb') }}" style="width: 10%;"></a>
+                                                src="{{ $media->getFullUrl() }}" style="width: 10%;"></a>
                                 @endforeach
                             </div>
                         </div>
@@ -175,8 +315,8 @@
                 <h3>Verknüpfungen</h3>
 
                 <ul class="nav nav-tabs">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#send" data-toggle="tab">Sender</a>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#send" data-toggle="tab">Sender</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#receive" data-toggle="tab">Empfänger</a>
