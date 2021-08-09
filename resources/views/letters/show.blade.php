@@ -4,7 +4,6 @@
 
 @section('content')
     <portal to="help-modal-body"></portal>
-
     <portal to="status-bar-left">
         @can('library.update')
             <a href="{{ route('letters.scans.index', [$letter]) }}" role="button"
@@ -72,12 +71,14 @@
                         <span class="fa fa-caret-left"></span></a> Briefdaten: {{ \Illuminate\Support\Str::limit($letter->title(), 60) }}
                 </h1>
             </div>
+
 {{--            ######--}}
 {{--            ######--}}
 {{--            ######--}}
             <div class="border col-md-12 page-content">
                 <div class="border">
                     <h1>Allgemeine Infos</h1>
+                    <letter-editor></letter-editor>
                     <div class="flex-box border">
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label text-right">IDs</label>
@@ -662,8 +663,13 @@
 
 @section('scripts')
     <script>
+        import LetterEditor from "./LetterEditor";
+        import App from "../../assets/frontend/js/App";
         window.letterId = "{{ $letter->getRouteKey() }}";
         window.LETTERS_FACSIMILE_STORE_URL = "{{ route('letters.facsimiles.store', [$letter]) }}";
+        export default {
+            components: {App, LetterEditor}
+        }
     </script>
     <script src="{{ url('js/letter.js') }}"></script>
     <script>

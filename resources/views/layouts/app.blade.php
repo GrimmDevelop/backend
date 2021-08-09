@@ -12,7 +12,8 @@
 
         <!-- Styles -->
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
-
+        {{--Scripts--}}
+        <script src="{{ asset('js/app.js') }} defer"></script>
         <script>
 
             window.Laravel = {
@@ -22,37 +23,39 @@
         </script>
     </head>
     <body>
-        <div id="app-container">
-            @include('layouts.navigation.bar')
+        <div id="app">
+            <div id="app-container">
+                @include('layouts.navigation.bar')
 
-            <div style="margin-top: 1em; margin-bottom: 4em;">
-                @include('info')
-                @yield('content')
+                <div style="margin-top: 1em; margin-bottom: 4em;">
+                    @include('info')
+                    @yield('content')
+                </div>
+
+                <status-bar></status-bar>
+
+                <portal-target name="modal-container" multiple></portal-target>
             </div>
 
-            <status-bar></status-bar>
+            <!-- JavaScripts -->
+            <script src="/js/misc.js"></script>
+            <script>
 
-            <portal-target name="modal-container" multiple></portal-target>
-        </div>
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    $('[data-toggle="popover"]').popover({html: true});
 
-        <!-- JavaScripts -->
-        <script src="/js/misc.js"></script>
-        <script>
+                    $('#danger-zone').submit(function () {
+                        return window.confirm("Soll dieser Datensatz wirklich gelöscht werden?");
+                    });
 
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-                $('[data-toggle="popover"]').popover({html: true});
-
-                $('#danger-zone').submit(function () {
-                    return window.confirm("Soll dieser Datensatz wirklich gelöscht werden?");
+                    window.setTimeout(function () {
+                        $('.alert').alert('close');
+                    }, 2000);
                 });
+            </script>
 
-                window.setTimeout(function () {
-                    $('.alert').alert('close');
-                }, 2000);
-            });
-        </script>
-
-        @yield('scripts')
+            @yield('scripts')
+        </div>
     </body>
 </html>
