@@ -15,6 +15,7 @@ return [
     'correspondence' => 'Correspondence',
 
     'id' => 'ID',
+    'ddb_id' => 'DDB-ID',
     'last_name' => 'Nachname',
     'first_name' => 'Vorname',
     'full_name' => 'Name',

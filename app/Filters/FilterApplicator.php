@@ -261,6 +261,19 @@ class FilterApplicator
             return $filterClass->shouldPreserve() && !$toRemove->contains($key);
         }
 
-        return in_array($key, $this->optionalParameters);
+        return in_array($key, $this->optionalParameters) && !$this->isOptionalFromRemovedFilter($key, $toRemove);
+    }
+
+    protected function isOptionalFromRemovedFilter(string $key, Collection $toRemove): bool
+    {
+        return $toRemove->some(function ($filter) use ($key) {
+            $filter = $this->filterFor($filter);
+
+            if ($filter instanceof FilterWithOptionals) {
+                return in_array($key, $filter->optionals());
+            }
+
+            return false;
+        });
     }
 }

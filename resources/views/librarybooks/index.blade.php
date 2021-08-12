@@ -4,53 +4,32 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
+                <h1>Grimm-Bibliothek</h1>
                 <div class="button-container">
-                    {{-- <div class="search {{ request()->has('title') ? 'active' : '' }}">
+                    <div class="search {{ request()->has('cat_id') ? 'active' : '' }}">
                         <form action="{{ url('librarybooks') }}" method="get">
-                            <input type="text" class="form-control form-control-sm" name="title" maxlength="64"
-                                   placeholder="Suche" value="{{ request('title') ?: '' }}"/>
+                            <input type="text" class="form-control input-sm" name="cat_id" maxlength="64"
+                                   placeholder="Suche nach Buchnr." value="{{ request('cat_id') ?: '' }}"/>
 
                             <button id="search-btn" type="submit" class="btn btn-primary btn-sm">
                                 <i class="fa fa-search"></i>
                             </button>
                         </form>
                     </div>
-                    @if(request()->has('title'))
-                        <div class="reset-search">
-                            <a href="{{ url()->filtered(['-title']) }}" class="btn btn-secondary btn-sm">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    @endif --}}
-
-                    <div class="search {{ request()->has('cat_id') ? 'active' : '' }}">
-                        <form action="{{ url('librarybooks') }}" method="get">
-                            <input type="text" class="form-control form-control-sm" name="cat_id" maxlength="64"
-                                   placeholder="Suche nach Buchnr." value="{{ request('cat_id') ?: '' }}"/>
-
-                            <button id="search-btn" type="submit" class="btn btn-primary btn-sm">
-                                <span class="fa fa-search"></span>
-                            </button>
-                        </form>
-                    </div>
                     @if(request()->has('cat_id'))
                         <div class="reset-search">
-                            <a href="{{ url()->filtered(['-cat_id']) }}" class="btn btn-secondary btn-sm">
-                                <span class="fa fa-times"></span>
+                            <a href="{{ url()->filtered(['-cat_id']) }}" class="btn btn-default btn-sm">
+                                <i class="fa fa-times"></i>
                             </a>
                         </div>
                     @endif
                     <div class="generic">
-                        <a href="{{ route('librarybooks.create') }}" role="button" class="btn btn-secondary btn-sm">
+                        <a href="{{ route('librarybooks.create') }}" role="button" class="btn btn-default btn-sm">
                             <span class="fa fa-plus"></span>
                             {{ trans('librarybooks.store') }}
                         </a>
                     </div>
                 </div>
-
-                <h1>
-                    Grimm-Bibliothek
-                </h1>
             </div>
 
             @include('partials.prefixSelection', ['route' => 'library'])
@@ -58,7 +37,7 @@
                 {{ $books->appends($filter->delta())->links() }}
             </div>
             <div class="col-md-12 list-content">
-                <table class="table table-hover">
+                <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
                         <th>
@@ -75,7 +54,7 @@
                     <tbody>
                     @forelse($books->items() as $book)
                         <tr id="book-{{ $book->id }}"
-                            onclick="location.href='{{ route('librarybooks.show', [$book]) }}'"
+                            onclick="location.href='{{ route('librarybooks.show', ['id' => $book->id]) }}'"
                             style="cursor: pointer;"
                             class="@if($book->trashed()) bg-danger @endif">
                             <td width="15%">{{ $book->catalog_id }}</td>
@@ -108,9 +87,9 @@
                 @include('partials.filterSelection')
             </div>
 
-            <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary"
+            <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
                data-toggle="tooltip" title="Analyze starten">
-                <span class="fa fa-superpowers"></span>
+                <i class="fa fa-superpowers"></i>
             </a>
             <div class="btn-group">
                 <form action="{{ route('librarybooks.export') . '?' . http_build_query($filter->delta()) }}"
@@ -119,7 +98,7 @@
                     {{ csrf_field() }}
                     <button type="submit" class="btn btn-info"
                             data-toggle="tooltip" title="Daten exportieren">
-                        <span class="fa fa-download"></span>
+                        <i class="fa fa-download"></i>
                     </button>
                 </form>
             </div>

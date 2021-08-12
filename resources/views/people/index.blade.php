@@ -4,19 +4,28 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
+                <h1>Personendatenbank</h1>
                 <div class="button-container">
-                    <div class="search {{ request()->has('name') ? 'active' : '' }}">
+                    <div class="search {{ request()->has('search') ? 'active' : '' }}">
                         <form action="{{ url('people') }}" method="get">
-                            <input type="text" class="form-control form-control-sm" name="name" maxlength="64"
-                                   placeholder="Suche" value="{{ request('name') ?: '' }}"/>
-                            <button id="search-btn" type="submit" class="btn btn-primary btn-sm"><i
-                                        class="fa fa-search"></i></button>
-
+                            <select class="form-control input-sm" name="field">
+                                <option value="" {{ selected_if(!request()->get('field')) }}>alle Felder</option>
+                                @foreach(\Grimm\Person::gridColumns() as $column)
+                                    <option value="{{ $column->name() }}" {{ selected_if(request()->get('field') === $column->name()) }}>
+                                        {{ trans('people.' . $column->name()) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <input type="text" class="form-control input-sm" name="search" maxlength="64"
+                                   placeholder="Suche" value="{{ request('search') ?: '' }}"/>
+                            <button id="search-btn" type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-search"></i>
+                            </button>
                         </form>
                     </div>
-                    @if(request()->has('name'))
+                    @if(request()->has('search'))
                         <div class="reset-search">
-                            <a href="{{ url()->filtered(['-name']) }}" class="btn btn-secondary btn-sm"><i
+                            <a href="{{ url()->filtered(['-search']) }}" class="btn btn-default btn-sm"><i
                                         class="fa fa-times"></i></a>
                         </div>
                     @endif
@@ -27,7 +36,6 @@
                         </a>
                     </div>
                 </div>
-                <h1>Personendatenbank</h1>
             </div>
             @include('partials.prefixSelection', ['route' => 'people'])
             <div class="col-md-12 pagination-container">
@@ -39,40 +47,41 @@
                 </div>
                 <table class="table table-hover">
                     <thead>
-                    <tr>
-                        <th>
-                            <a href="{{ sort_link('people', 'id') }}"># {!! sort_arrow('id') !!}</a>
-                        </th>
-                        @foreach(\Grimm\Person::gridColumns() as $column)
+                        <tr>
                             <th>
-                                <a href="{{ sort_link('people', $column->name()) }}">
-                                    {{ trans('people.' . $column->name()) }}
-                                    {!! sort_arrow($column->name()) !!}
-                                </a>
+                                <a href="{{ sort_link('people', 'id') }}"># {!! sort_arrow('id') !!}</a>
                             </th>
-                        @endforeach
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @forelse($people->items() as $index => $person)
-                        <tr id="person-{{ $person->id }}"
-                            onclick="location.href='{{ route('people.show', [$person]) }}'"
-                            style="cursor: pointer;"
-                            class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
-                            <td>{{ $person->id }}</td>
-                            @foreach($person->grid()->columns() as $column)
-                                <td>
-                                    {{ $person->gridify($column) }}
-                                </td>
+                            @foreach(\Grimm\Person::gridColumns() as $column)
+                                <th>
+                                    <a href="{{ sort_link('people', $column->name()) }}">
+                                        {{ trans('people.' . $column->name()) }}
+                                        {!! sort_arrow($column->name()) !!}
+                                    </a>
+                                </th>
                             @endforeach
                         </tr>
-                    @empty
-                        <tr onclick="location.href='{{ route('people.create') }}'" style="cursor: pointer;">
-                            <td class="empty-list" colspan="6">In der Datenbank ist keine Person vorhanden. Möchten Sie
-                                eine erstellen?
-                            </td>
-                        </tr>
-                    @endforelse
+                    </thead>
+                    <tbody>
+                        @forelse($people->items() as $index => $person)
+                            <tr id="person-{{ $person->id }}"
+                                onclick="location.href='{{ route('people.show', ['id' => $person->id]) }}'"
+                                style="cursor: pointer;"
+                                class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
+                                <td>{{ $person->id }}</td>
+                                @foreach($person->grid()->columns() as $column)
+                                    <td>
+                                        {{ $person->gridify($column) }}
+                                    </td>
+                                @endforeach
+                            </tr>
+                        @empty
+                            <tr onclick="location.href='{{ route('people.create') }}'" style="cursor: pointer;">
+                                <td class="empty-list" colspan="6">In der Datenbank ist keine Person vorhanden. Möchten
+                                    Sie
+                                    eine erstellen?
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
 

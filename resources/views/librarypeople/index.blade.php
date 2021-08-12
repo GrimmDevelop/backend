@@ -4,6 +4,7 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
+                <h1>Personenregister - Grimm-Bibliothek</h1>
                 <div class="button-container">
                     <div class="search {{ request()->has('name') ? 'active' : '' }}">
                         <form action="{{ url('librarypeople') }}" method="get">
@@ -23,10 +24,6 @@
                         </div>
                     @endif
                 </div>
-
-                <h1>
-                    Personenregister - Grimm-Bibliothek
-                </h1>
             </div>
             @include('partials.prefixSelection', ['route' => 'library'])
             <div class="col-md-12 pagination-container">
