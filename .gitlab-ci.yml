@@ -1,8 +1,20 @@
+
+test:php:
+  stage: test
+  image: composer:2.1
+  cache:
+    key: "grimm-test-php-cache"
+    paths:
+      - vendor/
+  script:
+    - composer install --no-progress --no-interaction --prefer-dist
+    - php vendor/bin/phpunit --coverage-text --colors=never
+
 test:js:
   stage: test
   image: node:16
   cache:
-    key: "trax-test-js-cache"
+    key: "grimm-test-js-cache"
     paths:
       - node_modules/
   script:
