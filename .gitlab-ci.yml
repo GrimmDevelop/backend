@@ -1,0 +1,10 @@
+test:js:
+  stage: test
+  image: node:16
+  cache:
+    key: "trax-test-js-cache"
+    paths:
+      - node_modules/
+  script:
+    - npm ci
+    - npm run lint
