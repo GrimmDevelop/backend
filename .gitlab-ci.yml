@@ -1,7 +1,7 @@
+image: "registry.ueberreiter.com/grimm/php8.0"
 
 test:php:
   stage: test
-  image: composer:2.1
   cache:
     key: "grimm-test-php-cache"
     paths:
