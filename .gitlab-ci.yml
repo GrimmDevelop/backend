@@ -18,5 +18,5 @@ test:js:
     paths:
       - node_modules/
   script:
-    - npm ci
+    - npm install --no-progress
     - npm run lint
