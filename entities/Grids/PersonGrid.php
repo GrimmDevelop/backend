@@ -9,6 +9,7 @@ use Grimm\PersonInheritance;
 use Grimm\PersonPrint;
 use Grimm\PersonReference;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Builder;
 
 class PersonGrid extends Grid
 {
@@ -16,9 +17,11 @@ class PersonGrid extends Grid
     public function __construct(Person $person)
     {
         parent::__construct('people', [
+            new Column('ddb_id', true),
             new Column('full_name', true, function () use ($person) {
-
                 return $person->fullName();
+            }, function(Builder $q, $term) {
+                return $q->searchByName($term);
             }),
             new Column('last_name', false),
             new Column('first_name', false),

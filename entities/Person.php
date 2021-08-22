@@ -14,8 +14,10 @@ use Illuminate\Support\Collection;
 
 /**
  * @property integer id
+ * @property string ddb_id
  * @property string last_name
  * @property string first_name
+ * @property string full_name
  * @property string birth_date
  * @property string death_date
  * @property string bio_data
@@ -35,7 +37,6 @@ use Illuminate\Support\Collection;
  */
 class Person extends Model implements IsGridable
 {
-
     use SoftDeletes, CollectPrefixes, HasActivity, Gridable;
 
     public static $unknownName = 'unknown';
@@ -44,8 +45,10 @@ class Person extends Model implements IsGridable
 
     protected $fillable = [
         'id',
+        'ddb_id',
         'last_name',
         'first_name',
+        'full_name',
         'birth_date',
         'death_date',
         'bio_data',
@@ -79,7 +82,7 @@ class Person extends Model implements IsGridable
             return $name;
         }
 
-        return $this->last_name . ', ' . $this->first_name;
+        return $this->full_name ?? $this->last_name . ', ' . $this->first_name;
     }
 
     /**
@@ -148,7 +151,7 @@ class Person extends Model implements IsGridable
      */
     public function scopeSearchByName(Builder $query, $name)
     {
-        return $query->whereRaw('match(first_name, last_name) against (? in boolean mode)', [$name]);
+        return $query->whereRaw('match(full_name, first_name, last_name) against (? in boolean mode)', [$name]);
     }
 
     public function scopeFullInfo(Builder $query)

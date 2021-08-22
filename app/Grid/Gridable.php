@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 /**
  * @method Grid grid()
- * @method static \Illuminate\Database\Eloquent\Builder|static search($term)
+ * @method static \Illuminate\Database\Eloquent\Builder|static search($term, $field = null)
  */
 trait Gridable
 {
@@ -34,15 +34,15 @@ trait Gridable
         static::gridStatic()->apply();
     }
 
-    public function scopeSearch(Builder $query, $term)
+    public function scopeSearch(Builder $query, $term, $field = null)
     {
         $table = $query->getModel()->getTable();
 
-        $query->select($table . '.*');
-        $query->groupBy("$table.{$this->getKeyName()}");
+        /*$query->select($table . '.*');
+        $query->groupBy("$table.{$this->getKeyName()}");*/
 
-        $query->where(function () use ($query, $table, $term) {
-            foreach ($this->getSearchableColumns() as $column) {
+        $query->where(function () use ($field, $query, $table, $term) {
+            foreach ($this->getSearchableColumns($field) as $column) {
                 if ($column instanceof \Closure) {
                     $query->orWhere(function ($q) use ($column, $term) {
                         $column($q, $term);
@@ -54,7 +54,10 @@ trait Gridable
                     $relation = $this->{$relationName}();
 
                     if ($relation instanceof HasOneOrMany) {
-                        $this->joinOneOrMany($query, $relation, $column, $term);
+                        $query->orWhereHas($relationName, function (Builder $query) use ($column, $term) {
+                            $query->where($column, 'LIKE', "%$term%");
+                        });
+                        // $this->joinOneOrMany($query, $relation, $column, $term);
                     } else {
                         throw new \Exception("Search algorithm for relation {$relationName} not defined");
                     }
@@ -69,9 +72,11 @@ trait Gridable
     /**
      * @return Collection|string[]
      */
-    protected function getSearchableColumns()
+    protected function getSearchableColumns($field)
     {
-        return $this->grid()->columns()->map(function (Column $column) {
+        return $this->grid()->columns()->filter(function(Column $column) use ($field) {
+            return $field === null || $column->name() === $field;
+        })->map(function (Column $column) {
             return $column->searchKey();
         })->values()->unique();
     }

@@ -1,0 +1,23 @@
+image: "registry.ueberreiter.com/grimm/php8.0"
+
+test:php:
+  stage: test
+  cache:
+    key: "grimm-test-php-cache"
+    paths:
+      - vendor/
+  script:
+    - composer install --no-progress --no-interaction --prefer-dist
+    - php vendor/bin/phpunit --coverage-text --colors=never
+
+test:js:
+  stage: test
+  image: node:16
+  cache:
+    key: "grimm-test-js-cache"
+    paths:
+      - node_modules/
+  script:
+    - npm install -g eslint
+    - npm ci
+    - npm run lint
