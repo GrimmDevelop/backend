@@ -20,12 +20,16 @@
             </textarea>
         </td>
         <td v-if="editing">
-            <button type="button" class="btn btn-primary btn-sm" v-on:click="saveItem()"><span
-                class="fa fa-spinner fa-spin" v-if="saving"></span> Speichern
+            <button type="button" class="btn btn-primary btn-sm" v-on:click="saveItem()">
+                <span class="fa fa-spinner fa-spin" v-if="saving"></span> Speichern
             </button>
         </td>
-        <td colspan="2" v-if="!editing">{{ data }} <a href="#" v-on:click.prevent="deleteItem" v-if="editable"><span
-            class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Löschen"></span></a></td>
+        <td colspan="2" v-if="!editing">
+            {{ data }}
+            <a href="#" v-on:click.prevent="deleteItem" v-if="editable">
+                <span class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Löschen"></span>
+            </a>
+        </td>
     </tr>
 </template>
 
