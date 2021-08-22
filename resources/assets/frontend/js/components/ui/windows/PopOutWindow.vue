@@ -43,7 +43,7 @@
         watch: {
             popOutUrl() {
                 if (this.windowsIsPoppedOut) {
-                    this.windowHandle = window.open(this.popOutUrl, this.name);
+                    this.windowHandle = window.open(this.popOutUrl, this.name, "top=0,left=0");
                     this.windowHandle.blur();
                     self.focus();
                 }
@@ -53,8 +53,8 @@
         methods: {
             popOut() {
                 this.windowsIsPoppedOut = true;
-                this.windowHandle = window.open(this.popOutUrl, this.name);
-                this.startWindowCheck();
+                this.windowHandle = window.open(this.popOutUrl, this.name, "top=0,left=0");
+                this.startWindowCheck();s
             },
 
             startWindowCheck() {
@@ -68,7 +68,7 @@
         },
 
         mounted() {
-            this.windowHandle = window.open("", this.name);
+            this.windowHandle = window.open("", this.name, "top=0,left=0");
             if (this.windowHandle.location.href === "about:blank") {
                 this.windowsIsPoppedOut = false;
                 this.windowHandle.blur();
