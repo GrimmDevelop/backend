@@ -149,11 +149,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Spatie\Backup\BackupServiceProvider::class,
-        Cviebrock\LaravelElasticsearch\ServiceProvider::class,
-
-        Illuminate\Redis\RedisServiceProvider::class,
 
         /*
          * Application Service Providers...
