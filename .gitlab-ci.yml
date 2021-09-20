@@ -65,6 +65,7 @@ build:npm:
     paths:
       - node_modules/
   script:
+    - npm install -g cross-env
     - npm install
     - npm run production
   artifacts:
