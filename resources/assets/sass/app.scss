@@ -2,7 +2,7 @@
 
 @import "variables";
 @import "bootstrap/bootstrap";
-@import "~tinymce/skins/lightgray/skin.min.css";
+@import "~tinymce/skins/ui/oxide/skin.min.css";
 
 body {
     font-family: 'Lato', sans-serif;
@@ -206,10 +206,7 @@ body {
 .button-box {
     display: flex;
     justify-content: center;
-<<<<<<< HEAD
     flex-wrap: nowrap;
-=======
->>>>>>> master
 
     div {
         text-align: center;
