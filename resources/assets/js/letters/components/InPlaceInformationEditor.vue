@@ -1,5 +1,5 @@
 <template>
-    <tr v-if="existing" :class="{'bg-danger': this.selectedItem.error_generated}">
+    <tr v-if="existing" :class="{'bg-danger': selectedItem.error_generated}">
         <td v-if="editing">
             <a href="#" class="btn btn-link btn-sm" v-on:click.prevent="stopEdit"><span class="fa fa-times"></span></a>
         </td>
@@ -24,7 +24,8 @@
                 <span class="fa fa-spinner fa-spin" v-if="saving"></span> Speichern
             </button>
         </td>
-        <td colspan="2" v-if="!editing">{{ data }}
+        <td colspan="2" v-if="!editing">
+            {{ data }}
             <a href="#" v-on:click.prevent="deleteItem" v-if="editable">
                 <span class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Löschen"></span>
             </a>

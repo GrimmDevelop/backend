@@ -6,7 +6,7 @@
 
 <script>
     import tinymce from 'tinymce/tinymce';
-    import 'tinymce/themes/modern/theme';
+    import 'tinymce/themes/silver/theme';
 
     import 'tinymce/plugins/paste/plugin';
     import 'tinymce/plugins/code/plugin';

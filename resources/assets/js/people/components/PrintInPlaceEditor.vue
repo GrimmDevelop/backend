@@ -8,18 +8,20 @@
                    v-on:keyup.enter="savePrint()"/>
         </td>
         <td colspan="2" v-if="!editing">
-            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><span class="fa fa-edit"></span></a> {{ printEntry }}
+            <a href="#" v-on:click.prevent="clickEdit" v-if="editable"><span class="fa fa-edit"></span></a>
+            {{ printEntry }}
         </td>
         <td v-if="editing">
-            <input type="text" class="form-control form-control-sm" v-model="editingYear" v-on:keyup.enter="savePrint()"/>
+            <input type="text" class="form-control form-control-sm" v-model="editingYear"
+                   v-on:keyup.enter="savePrint()"/>
         </td>
         <td v-if="editing">
             <button type="button" class="btn btn-primary btn-sm" v-on:click="savePrint()"><i
-                    class="fa fa-spinner fa-spin" v-if="saving"></i> Speichern
+                class="fa fa-spinner fa-spin" v-if="saving"></i> Speichern
             </button>
         </td>
         <td colspan="2" v-if="!editing">{{ printYear }} <a href="#" v-on:click.prevent="deletePrint" v-if="editable"><i
-                class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Löschen"></i></a></td>
+            class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="Löschen"></i></a></td>
     </tr>
 </template>
 

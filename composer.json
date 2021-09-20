@@ -8,7 +8,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=8.0.0",
+        "php": ">=8.0",
         "ext-redis": ">=5.0",
         "cviebrock/laravel-elasticsearch": "^8.0",
         "doctrine/dbal": "^2.5",
@@ -16,7 +16,7 @@
         "flowjs/flow-php-server": "^1.0",
         "fruitcake/laravel-cors": "^2.0",
         "hisamu/php-xbase": "^1.0",
-        "illuminate/redis": "^v8.0",
+        "illuminate/redis": "^8.0",
         "laravel/framework": "^8.0",
         "laravel/passport": "^10.0",
         "laravel/ui": "^3.0",
