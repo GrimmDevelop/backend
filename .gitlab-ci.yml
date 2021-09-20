@@ -84,8 +84,10 @@ build:test:
     - test
   tags:
     - images
+  before_script:
+    - mkdir -p $HOME/.docker
+    - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
   script:
-    - docker login -u gitlab -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
     - docker build -t $IMAGE_NAME .
     - docker push $IMAGE_NAME
     - docker tag $IMAGE_NAME $IMAGE_LATEST
@@ -97,8 +99,10 @@ build:production:
     - /^\d+\.\d+\.\d+$/
   tags:
     - images
+  before_script:
+    - mkdir -p $HOME/.docker
+    - echo $DOCKER_AUTH_CONFIG > $HOME/.docker/config.json
   script:
-    - docker login -u gitlab -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
     - docker build -t $IMAGE_VERSION .
     - docker push $IMAGE_VERSION
     - docker tag $IMAGE_NAME $IMAGE_STABLE
