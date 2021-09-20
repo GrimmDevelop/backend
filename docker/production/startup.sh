@@ -14,6 +14,6 @@ echo "Connecting to: $DB_HOST:$DB_PORT \n"
 
 [ ! -e storage/purify ] && mkdir storage/purify
 
-php artisan grimm:boot
+php artisan grimm:deploy
 
 supervisord -c /etc/supervisor/supervisord.conf
