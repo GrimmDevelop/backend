@@ -26,7 +26,7 @@ class AddProviderFieldToOauthClientsTable extends Migration
     public function down()
     {
         Schema::table('oauth_clients', function (Blueprint $table) {
-            //
+            $table->dropColumn('provider');
         });
     }
 }

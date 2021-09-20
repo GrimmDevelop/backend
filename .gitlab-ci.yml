@@ -1,5 +1,16 @@
 image: "registry.ueberreiter.com/grimm/php8.0"
 
+variables:
+  IMAGE_NAME: registry.ueberreiter.com/grimm/grimm
+  IMAGE_VERSION: registry.ueberreiter.com/grimm/grimm:$CI_COMMIT_TAG
+  IMAGE_LATEST: registry.ueberreiter.com/grimm/grimm:latest
+  IMAGE_STABLE: registry.ueberreiter.com/grimm/grimm:stable
+
+stages:
+  - test
+  - build
+  - bundle
+
 test:php:
   stage: test
   cache:
@@ -21,3 +32,73 @@ test:js:
     - npm install -g eslint
     - npm ci
     - npm run lint
+
+build:composer:
+  stage: build
+  only:
+    - master
+    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?(-pre)?$/
+  image: registry.ueberreiter.com/grimm/php8.0:1.0
+  cache:
+    key: "composer-build-cache"
+    paths:
+      - .composer-cache/
+      - vendor/
+  before_script:
+    - composer config -g cache-dir "$(pwd)/.composer-cache"
+  script:
+    # Install composer dependencies
+    - composer install --ignore-platform-reqs --no-progress --no-interaction --no-dev --no-plugins --no-scripts --prefer-dist
+  artifacts:
+    expire_in: 30 min
+    paths:
+      - vendor/
+
+build:npm:
+  stage: build
+  only:
+    - master
+    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?(-pre)?$/
+  image: node:16
+  cache:
+    key: "npm-build-cache"
+    paths:
+      - node_modules/
+  script:
+    - npm install
+    - npm run production
+  artifacts:
+    expire_in: 30 min
+    paths:
+      - public/css/
+      - public/fonts/
+      - public/frontend/
+      - public/images/
+      - public/js/
+      - public/mix-manifest.json
+
+build:test:
+  stage: bundle
+  only:
+    - master
+  tags:
+    - images
+  script:
+    - docker login -u gitlab -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
+    - docker build -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+    - docker tag $IMAGE_NAME $IMAGE_LATEST
+    - docker push $IMAGE_LATEST
+
+build:production:
+  stage: bundle
+  only:
+    - /^\d+\.\d+\.\d+$/
+  tags:
+    - images
+  script:
+    - docker login -u gitlab -p $REGISTRY_PASSWORD $DOCKER_REGISTRY
+    - docker build -t $IMAGE_VERSION .
+    - docker push $IMAGE_VERSION
+    - docker tag $IMAGE_NAME $IMAGE_STABLE
+    - docker push $IMAGE_STABLE
