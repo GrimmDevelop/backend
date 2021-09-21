@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
 # [ ! -e .env ] && cp .env.docker .env
-sed "s/FRONTEND_HOST/$FRONTEND_HOST/g" /var/www/html/docker/production/grimm.conf > /var/www/html/docker/production/site.conf
-sed "s/BACKEND_HOST/$BACKEND_HOST/g" /var/www/html/docker/production/site.conf > /var/www/html/docker/production/site.conf
+sed "s/FRONTEND_HOST/$FRONTEND_HOST/g" /var/www/html/docker/production/grimm.conf > /var/www/html/docker/production/tmp.conf
+sed "s/BACKEND_HOST/$BACKEND_HOST/g" /var/www/html/docker/production/tmp.conf > /var/www/html/docker/production/site.conf
 
 # wait for mariadb
 chmod +x /var/www/html/docker/production/wait-for-it.sh
