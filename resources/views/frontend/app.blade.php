@@ -15,7 +15,9 @@
         window.Laravel = {
             csrfToken: '{{ csrf_token() }}',
             adminUrl: '{{ route('dashboard') }}',
-            userToken: {{ json_encode(auth()->id()) }}
+            userToken: {{ json_encode(auth()->id()) }},
+            pusherAppKey: '{{ env('MIX_PUSHER_APP_KEY') }}',
+            pusherAppCluster: '{{ env('MIX_PUSHER_APP_CLUSTER') }}',
         };
     </script>
 
