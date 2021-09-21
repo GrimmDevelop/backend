@@ -58,7 +58,7 @@ COPY --chown=www-data:www-data . /var/www/html
 # Nginx configuration
 COPY docker/production/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/production/nginx.conf /etc/nginx/nginx.conf
-RUN ln -sf /var/www/html/docker/dist/linux/site.conf /etc/nginx/sites-available/default && chown -R www-data:www-data /var/www/html && rm -rf index.nginx-debian.html
+RUN ln -sf /var/www/html/docker/production/site.conf /etc/nginx/sites-available/default && chown -R www-data:www-data /var/www/html && rm -rf index.nginx-debian.html
 
 USER www-data
 

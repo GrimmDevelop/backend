@@ -35,7 +35,7 @@ class Deploy extends Command
      */
     public function handle()
     {
-        $this->call('migrate', ['force' => true]);
+        $this->call('migrate', ['--force' => true]);
         $this->call('grimm:permissions-update');
 
         return 0;
