@@ -13,7 +13,7 @@
                 </button>
             </div>
         </div>
-        <search-add-filter-button class="additional-search-filter"/>
+        <search-add-filter-button/>
     </div>
 </template>
 

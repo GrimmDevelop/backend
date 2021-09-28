@@ -22,7 +22,6 @@
         border: 1px solid gray;
         border-radius: 5px;
         width: 15rem;
-        height: 1.5rem;
         margin: 1rem auto;
         background: white;
     }

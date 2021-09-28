@@ -179,6 +179,6 @@
     }
 
     .search-filter {
-        min-width: 450px;
+        min-width: 50%;
     }
 </style>

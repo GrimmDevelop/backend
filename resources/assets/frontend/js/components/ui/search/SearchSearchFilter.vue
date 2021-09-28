@@ -4,13 +4,13 @@
             {{ filter.name }}:
         </div>
         <div v-if="filter.type === 'date'" class="table-cell py-2 px-1">
-            <input class="search-filter-content-date" type="date" @input="updateFilterDateValue($event, 'from')"
+            <input class="search-filter-content-date border border-gray-500 rounded px-2 py-1 w-full" type="date" @input="updateFilterDateValue($event, 'from')"
                    :value="value[filter.id].from"> -
-            <input class="search-filter-content-date" type="date" @input="updateFilterDateValue($event, 'to')"
+            <input class="search-filter-content-date border border-gray-500 rounded px-2 py-1 w-full" type="date" @input="updateFilterDateValue($event, 'to')"
                    :value="value[filter.id].to">
         </div>
         <div v-if="filter.type === 'string'" class="table-cell py-2 px-1">
-            <input class="search-filter-input" type="search" :placeholder="placeholder" :value="value[filter.id]"
+            <input class="search-filter-input border border-gray-500 rounded px-2 py-1 w-full" type="search" :placeholder="placeholder" :value="value[filter.id]"
                    @input="updateFilterValue">
         </div>
         <div v-if="filter.type === 'select'" class="table-cell py-2 px-1">
@@ -66,40 +66,11 @@
 </script>
 
 <style scoped>
-    .search-filter-entry {
-        display: grid;
-        grid-template-rows: auto;
-        grid-template-columns: 0.4fr 0.6fr;
-        grid-template-areas: "search-filter-name search-filter-content";
-        padding: 0.25rem 0.25rem;
-    }
-
-    .search-filter-name {
-        grid-area: search-filter-name;
-        margin-left: auto;
-        padding-right: 1rem;
-    }
-
-    .search-filter-content {
-        grid-area: search-filter-content;
-        margin-right: auto;
-    }
-
-    .search-filter-input {
-        border: 1px solid gray;
-        border-radius: 5px;
-        width: 15rem;
-        color: gray;
-    }
-
     .search-filter-content-date {
-        border: 1px solid gray;
-        border-radius: 5px;
-        width: 7rem;
-        color: gray;
+        width: 10rem;
     }
 
     .search-filter-content-select {
-        width: 15rem;
+        width: 100%;
     }
 </style>
