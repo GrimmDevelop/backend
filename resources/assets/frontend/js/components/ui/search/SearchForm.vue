@@ -1,33 +1,16 @@
 <template>
     <div class="complete-container">
         <div class="search-form">
-            <simple-search v-if="mode === 'simple'" :value="searchAll" @switch-mode="mode = 'advanced'"
-                           @filter="searchAll = $event" @search="startSearch"/>
+            <simple-form v-if="mode === 'simple'" :value="searchAll" @switch-mode="mode = 'advanced'"
+                         @filter="searchAll = $event" @search="startSearch"/>
 
-            <advanced-search v-else @switch-mode="mode = 'simple'" :value="search"
-                             @filter="updateFilter(filter, $event)" @search="startSearch"/>
-
-            <!-- simple -->
-            <search-the-search-all-bar class="search-bar" @start-search="startSearch"></search-the-search-all-bar>
-
-            <!-- advanced -->
-            <div class="search-filter flex justify-center items-top">
-                <div class="table">
-                    <search-search-filter v-for="(filter,index) in filters" :key="index"
-                                          :filter="filter" :value="search"
-                                          @filter="updateFilter(filter, $event)"/>
-                </div>
-                <div>
-                    <button class="rounded inline-block mt-2 p-2 text-white bg-blue-700 hover:bg-blue-900"
-                            @click="startSearch">
-                        Suchen
-                    </button>
-                </div>
-            </div>
-            <SearchAddFilterButton class="additional-search-filter"></SearchAddFilterButton>
+            <advanced-form v-else @switch-mode="mode = 'simple'" :search="search"
+                           :filters="filters"
+                           @filter="updateFilter" @search="startSearch"/>
         </div>
 
         <search-dotted-line class="dotted-line" v-if="hasResults"></search-dotted-line>
+
         <search-result v-if="hasResults" :letters="letters"></search-result>
 
         <span @click="pagination.page++">{{ pagination.page }}</span>
@@ -39,16 +22,17 @@
 
     import SearchAddFilterButton from "./SearchAddFilterButton";
     import SearchDottedLine from "./SearchTheDottedLine";
-    import SearchTheSearchAllBar from "./SearchTheSearchAllBar";
+    import SimpleForm from "./SimpleForm";
     import SearchSearchFilter from "./SearchSearchFilter";
     import SearchResult from "./SearchResult";
+    import AdvancedForm from "./AdvancedForm";
 
     export default {
         name: "SearchForm",
 
         data() {
             return {
-                mode: 'simple',
+                mode: 'advanced',
                 searchAll: "",
                 search: {
                     senders: "",
@@ -154,6 +138,8 @@
             },
 
             startSearch() {
+                // TODO: fix request triggered twice due to pagination watch
+                this.pagination.page = 1;
                 this.getLetters();
                 this.showResults = true;
             },
@@ -175,11 +161,10 @@
             },
         },
         components: {
+            AdvancedForm,
             SearchResult,
-            SearchAddFilterButton,
             SearchDottedLine,
-            SearchTheSearchAllBar,
-            SearchSearchFilter,
+            SimpleForm,
         }
     };
 </script>

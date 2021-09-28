@@ -1,19 +1,22 @@
 <template>
     <div class="search-all-bar">
-        <input class="the-search-all-bar" v-model="search" type="search" placeholder="Alles durchsuchen"/>
-        <button class="btn-search" type="submit" @click="$emit('start-search')">
+        <input class="the-search-all-bar" :value="value" @input="$emit('filter', $event.input.value)" type="search" placeholder="Alles durchsuchen"/>
+        <button class="btn-search" type="submit" @click="$emit('search')">
             <icon icon="search"/>
+        </button>
+
+        <button class="btn-search" @click="$emit('switch-mode')">
+            erweiterte Suche
         </button>
     </div>
 </template>
 
 <script>
     export default {
-        name: "SearchTheSearchAllBar",
-        data() {
-            return {
-                search: "",
-            };
+        name: "SimpleForm",
+
+        props: {
+            value: {},
         },
     };
 </script>
@@ -47,5 +50,4 @@
             background-color: darken(#2c5282, 5%);
         }
     }
-
 </style>

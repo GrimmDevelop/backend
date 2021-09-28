@@ -1,10 +1,8 @@
 <template>
     <div class="search-add-filter-button">
         <button @click="$emit('click', $event)">
-            <div class="icon-text">
-                <icon icon="plus-outline"></icon>
-                weiteres Suchfeld hinzufügen
-            </div>
+            <icon icon="plus-outline"></icon>
+            weiteres Suchfeld hinzufügen
         </button>
     </div>
 </template>

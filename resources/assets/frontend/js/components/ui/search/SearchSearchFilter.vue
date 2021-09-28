@@ -5,16 +5,16 @@
         </div>
         <div v-if="filter.type === 'date'" class="table-cell py-2 px-1">
             <input class="search-filter-content-date" type="date" @input="updateFilterDateValue($event, 'from')"
-                   :value="search[filter.id].from"> -
+                   :value="value[filter.id].from"> -
             <input class="search-filter-content-date" type="date" @input="updateFilterDateValue($event, 'to')"
-                   :value="search[filter.id].to">
+                   :value="value[filter.id].to">
         </div>
         <div v-if="filter.type === 'string'" class="table-cell py-2 px-1">
-            <input class="search-filter-input" type="search" :placeholder="placeholder" :value="search[filter.id]"
+            <input class="search-filter-input" type="search" :placeholder="placeholder" :value="value[filter.id]"
                    @input="updateFilterValue">
         </div>
         <div v-if="filter.type === 'select'" class="table-cell py-2 px-1">
-            <v-select class="search-filter-content-select" :value="search[filter.id]" :options="list"
+            <v-select class="search-filter-content-select" :value="value[filter.id]" :options="list"
                       @input="updateFilterValue"></v-select>
         </div>
     </div>
@@ -23,10 +23,12 @@
 <script>
     export default {
         name: "SearchSearchFilter",
+
         props: {
             filter: {},
-            search: {},
+            value: {},
         },
+
         data() {
             return {
                 list: [

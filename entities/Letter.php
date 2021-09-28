@@ -294,6 +294,11 @@ class Letter extends Model implements IsGridable, HasMedia
     public function scopeApplyFilter(Builder $builder, $parameters)
     {
         foreach ($parameters as $field => $term) {
+            if($field === 'date') {
+                // TODO: handle date input
+                continue;
+            }
+
             $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field));
         }
     }
