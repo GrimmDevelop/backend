@@ -54,7 +54,7 @@
             popOut() {
                 this.windowsIsPoppedOut = true;
                 this.windowHandle = window.open(this.popOutUrl, this.name, "top=0,left=0");
-                this.startWindowCheck();s
+                this.startWindowCheck();
             },
 
             startWindowCheck() {

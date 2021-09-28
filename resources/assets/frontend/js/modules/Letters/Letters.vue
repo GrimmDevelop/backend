@@ -1,19 +1,14 @@
 <template>
     <div>
-        <h1>Letters</h1>
-
-        <ul>
-            <li v-for="letter in letters">
-                <router-link :to="`letters/${letter.id}`">Letter #{{ letter.id }}</router-link>
-            </li>
-        </ul>
+        <search-form />
     </div>
 </template>
 
 <script>
+    import SearchForm from "../../components/ui/search/SearchForm";
     export default {
         name: "Letters",
-
+        components: {SearchForm},
         data() {
             return {
                 letters: [],
@@ -21,8 +16,8 @@
         },
 
         mounted() {
-            this.$http.get('/data/letters')
-                .then(response => this.letters = response.data.data);
+            //this.$http.get('/data/letters')
+            //    .then(response => this.letters = response.data.data);
         },
     };
 </script>

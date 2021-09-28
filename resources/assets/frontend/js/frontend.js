@@ -20,9 +20,11 @@ axios.defaults.headers.common = {
 Vue.prototype.$http = axios;
 
 // global components
+import VueSelect from "vue-select";
 import Icon from "./components/ui/Icon";
 
 Vue.component('icon', Icon);
+Vue.component('v-select', VueSelect);
 
 import App from './App';
 
