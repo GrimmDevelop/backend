@@ -54,7 +54,7 @@
                     <tbody>
                     @forelse($books->items() as $book)
                         <tr id="book-{{ $book->id }}"
-                            onclick="location.href='{{ route('librarybooks.show', ['id' => $book->id]) }}'"
+                            onclick="location.href='{{ route('librarybooks.show', [$book]) }}'"
                             style="cursor: pointer;"
                             class="@if($book->trashed()) bg-danger @endif">
                             <td width="15%">{{ $book->catalog_id }}</td>
