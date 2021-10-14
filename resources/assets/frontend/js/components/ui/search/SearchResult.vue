@@ -2,27 +2,37 @@
     <div class="search-result-cards-container">
         <div v-for="letter in letters" :key="letter.id" class="search-result-card" :onclick="letterLink(letter.id)"
              style="cursor: pointer;">
+<!--         TODO: Probleme:
+             Nicht alle Variablen sind in der letter-Variable
+             Das Filtering funktioniert nicht so, wie wir uns das vorstellen.-->
+
             <div class="result-title">
+                <span v-if="letter.from_location_historical">
+                    {{ letter.from_location_historical }},
+                </span>
+                <span v-if="!letter.from_location_historical">
+                    [{{ letter.from_location_derived }}],
+                </span>
                 {{ letter.date }} {{ letterSender(letter.senders) }} an {{ letterRecipient(letter.receivers) }}
             </div>
             <div class="result-properties">
-                <div class="result-item">
+                <div v-if="letter.inc" class="result-item">
                     <div class="result-item-title">Briefbeginn</div>
-                    <div class="result-item-content">{{ letter.letter_start }}</div>
+                    <div class="result-item-content">{{ letter.inc }}</div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.handwriting_location" class="result-item">
                     <div class="result-item-title">Handschrift</div>
-                    <div class="result-item-content">{{ letter.handwriting }}</div>
+                    <div class="result-item-content">{{ letter.handwriting_location }}</div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.printed_in" class="result-item">
                     <div class="result-item-title">gedruckt in</div>
                     <div class="result-item-content">{{ letter.printed_in }}</div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.comments" class="result-item">
                     <div class="result-item-title">Bemerkungen</div>
                     <div class="result-item-content">{{ letter.comments }}</div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.recipient_place" class="result-item">
                     <div class="result-item-title">Empfangsort</div>
                     <div class="result-item-content">{{ letter.recipient_place }}</div>
                 </div>
@@ -33,7 +43,7 @@
                         <i v-else class="fa fa-times" style="text-align: center;"></i>
                     </div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.id" class="result-item">
                     <div class="result-item-title"> BriefID</div>
                     <div class="result-item-content"> {{ letter.id }}</div>
                 </div>

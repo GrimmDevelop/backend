@@ -22,7 +22,7 @@
 
 <script>
     export default {
-        name: "SearchSearchFilter",
+        name: "SearchFilter",
 
         props: {
             filter: {},
@@ -42,9 +42,6 @@
             showDate() {
                 return this.type === "date";
             },
-            // showListing() {
-            //     return this.listing !== [];
-            // }
         },
 
         methods: {

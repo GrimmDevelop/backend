@@ -37,21 +37,25 @@ class LettersController extends Controller
      */
     public function index(IndexLetterRequest $request)
     {
-        Letter::applyGrid();
+        if(request('mode') === 'advanced') {
+            $result = Letter::applyFilter(request('search'))->with('personAssociations')->paginate();
+        }
+        /* The else case (search-all) doesn't work. Taken from applyFilter */
+        else {
+            $result = Letter::query();
+            foreach (request('search') as $field => $term) {
+                if($field === 'date') {
+                    // TODO: handle date input
+                    continue;
+                }
 
-        $letters = Letter::query();
+                $result->where(fn($subBuilder) => $this->scopeSearch($subBuilder, request('searchAll'), $field));
+            }
+        }
 
-        $letters->with(['from', 'to', 'personAssociations']);
+        $exportLimitExceeded = $result->count() > 5000;
 
-        $this->filter($letters);
-
-        $pageSize = $this->filter->filterFor('page-size')->pageSize();
-
-        $exportLimitExceeded = $letters->count() > 5000;
-
-        $letters = $this->prepareCollection('last_letter_index', $letters, $request, $pageSize);
-
-        return view('letters.index', compact('letters', 'exportLimitExceeded'));
+        return view('letters.index', compact('result', 'exportLimitExceeded'));
     }
 
     public function export(IndexLetterRequest $request)

@@ -16,11 +16,11 @@ export default {
             state.windowFlow = type;
         },
 
-        'register-column': (state, {column, defaultVisibility = false}) => {
+        'register-column': (state, {column, defaultVisibility = true}) => {
             state.visibility[column] = defaultVisibility;
         },
 
-        'toggle-column'(state, {column}) {
+        'toggle-column': (state, {column}) => {
             state.visibility[column] = !state.visibility[column];
         },
     },
@@ -28,6 +28,11 @@ export default {
     getters: {
         windowFlow: (state) => {
             return state.windowFlow;
-        }
+        },
+
+        columnVisibility: (state) => (column) => {
+            return state.visibility[column]
+        },
+
     },
 };

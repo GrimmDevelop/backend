@@ -1,6 +1,6 @@
 <template>
     <div class="complete-container">
-        <div class="search-form">
+        <div class="search-form" :class="{ 'search-form-centered': !hasResults }">
             <simple-form v-if="mode === 'simple'" :value="searchAll" @switch-mode="mode = 'advanced'"
                          @filter="searchAll = $event" @search="startSearch"/>
 
@@ -8,22 +8,21 @@
                            :filters="filters"
                            @filter="updateFilter" @search="startSearch"/>
         </div>
+        <div v-if="hasResults">
+            <dotted-line class="dotted-line"></dotted-line>
 
-        <search-dotted-line class="dotted-line" v-if="hasResults"></search-dotted-line>
+            <search-result :letters="letters"></search-result>
 
-        <search-result v-if="hasResults" :letters="letters"></search-result>
-
-        <span @click="pagination.page++">{{ pagination.page }}</span>
+            <span @click="pagination.page++">{{ pagination.page }}</span>
+        </div>
     </div>
 </template>
 
 <script>
     import qs from 'qs';
 
-    import SearchAddFilterButton from "./SearchAddFilterButton";
-    import SearchDottedLine from "./SearchTheDottedLine";
+    import DottedLine from "./DottedLine";
     import SimpleForm from "./SimpleForm";
-    import SearchSearchFilter from "./SearchSearchFilter";
     import SearchResult from "./SearchResult";
     import AdvancedForm from "./AdvancedForm";
 
@@ -32,7 +31,7 @@
 
         data() {
             return {
-                mode: 'advanced',
+                mode: 'simple',
                 searchAll: "",
                 search: {
                     senders: "",
@@ -105,10 +104,12 @@
                 ],
                 remaining_filters: [
                     {
+                        name: "Empfangsort",
                         id: "recipient_place",
                         type: "string",
                     },
                     {
+                        name: "Faksimilies",
                         id: "faksimilies",
                         type: "string",
                     },
@@ -150,7 +151,8 @@
                         page: this.pagination.page,
                         limit: this.pagination.limit,
                         mode: this.mode,
-                        search: this.mode === 'simple' ? this.searchAll : this.search,
+                        search: this.search,
+                        searchAll: this.searchAll,
                     },
                     paramsSerializer: (params) => {
                         return qs.stringify(params, {encodeValuesOnly: true});
@@ -163,7 +165,7 @@
         components: {
             AdvancedForm,
             SearchResult,
-            SearchDottedLine,
+            DottedLine,
             SimpleForm,
         }
     };
@@ -172,7 +174,13 @@
 <style scoped>
     .complete-container {
     }
-
+    .search-form-centered {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 50rem;
+        transform: translate(-50%, -50%);
+    }
     .search-bar {
         padding: 1rem 0 0.5rem 0;
         margin-bottom: 1rem;
