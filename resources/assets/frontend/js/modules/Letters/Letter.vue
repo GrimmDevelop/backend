@@ -78,7 +78,7 @@
             getWindowWidth() {
                 setInterval(() => {
                     this.textWidth = this.$refs.columnContainer.clientWidth / 2;
-                }, 1000)
+                }, 1000);
             },
         },
 

@@ -1,5 +1,5 @@
 <template>
-    <pop-out-window :name="windowName" :pop-out-url="popOutUrl">
+    <pop-out-window :name="windowName" :pop-out-url="popOutUrl" v-if="windowIsShown">
         <slot></slot>
     </pop-out-window>
 </template>
@@ -10,20 +10,21 @@
     export default {
         name: "Column",
 
-        provide: {
-            additionalButtons: [
-                {
-                    icon: 'close',
-                    callback: () => {
-                        console.log('clicked');
-                        // How do we call the store in the callback function? The following code doesn't work.Wie soll der Store in der callback Funktion aufgerufen werden?
-                        this.$store.commit('ui/toggle-column', {
-                            column: 'letters-text'
-                        });
-                        // Alternative: call toggleColumn (method)
-                    },
-                }
-            ],
+        provide() {
+            const that = this;
+
+            return {
+                additionalButtons: [
+                    {
+                        icon: 'close',
+                        callback() {
+                            that.$store.commit('ui/toggle-column', {
+                                column: that.columnName,
+                            });
+                        },
+                    }
+                ],
+            };
         },
 
         props: {
@@ -45,13 +46,16 @@
         },
 
         computed: {
-            windowIsShown(colName) {
-                // Alternative: using getter!?
-                return this.$store.state.ui.visibility[`letters-${colName}`];
+            windowIsShown() {
+                return this.$store.getters['ui/columnVisibility'](this.columnName);
             },
 
             windowName() {
                 return `window-${this.name}`;
+            },
+
+            columnName() {
+                return `${this.namespace}-${this.name}`;
             },
 
             popOutUrl() {
