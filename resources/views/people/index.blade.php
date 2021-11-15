@@ -64,7 +64,7 @@
                     <tbody>
                         @forelse($people->items() as $index => $person)
                             <tr id="person-{{ $person->id }}"
-                                onclick="location.href='{{ route('people.show', ['id' => $person->id]) }}'"
+                                onclick="location.href='{{ route('people.show', [$person]) }}'"
                                 style="cursor: pointer;"
                                 class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
                                 <td>{{ $person->id }}</td>
