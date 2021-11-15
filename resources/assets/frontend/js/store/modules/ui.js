@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 export default {
     namespaced: true,
 
@@ -17,7 +19,7 @@ export default {
         },
 
         'register-column': (state, {column, defaultVisibility = true}) => {
-            state.visibility[column] = defaultVisibility;
+            Vue.set(state.visibility, column, defaultVisibility);
         },
 
         'toggle-column': (state, {column}) => {
@@ -30,9 +32,8 @@ export default {
             return state.windowFlow;
         },
 
-        columnVisibility: (state) => (column) => {
-            return state.visibility[column]
-        },
-
+        columnVisibility: (state) => ((column) => {
+            return state.visibility[column];
+        }),
     },
 };
