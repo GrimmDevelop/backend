@@ -37,25 +37,21 @@ class LettersController extends Controller
      */
     public function index(IndexLetterRequest $request)
     {
-        if(request('mode') === 'advanced') {
-            $result = Letter::applyFilter(request('search'))->with('personAssociations')->paginate();
-        }
-        /* The else case (search-all) doesn't work. Taken from applyFilter */
-        else {
-            $result = Letter::query();
-            foreach (request('search') as $field => $term) {
-                if($field === 'date') {
-                    // TODO: handle date input
-                    continue;
-                }
+        Letter::applyGrid();
 
-                $result->where(fn($subBuilder) => $this->scopeSearch($subBuilder, request('searchAll'), $field));
-            }
-        }
+        $letters = Letter::query();
 
-        $exportLimitExceeded = $result->count() > 5000;
+        $letters->with(['from', 'to', 'personAssociations']);
 
-        return view('letters.index', compact('result', 'exportLimitExceeded'));
+        $this->filter($letters);
+
+        $pageSize = $this->filter->filterFor('page-size')->pageSize();
+
+        $exportLimitExceeded = $letters->count() > 5000;
+
+        $letters = $this->prepareCollection('last_letter_index', $letters, $request, $pageSize);
+
+        return view('letters.index', compact('letters', 'exportLimitExceeded'));
     }
 
     public function export(IndexLetterRequest $request)
@@ -217,7 +213,8 @@ class LettersController extends Controller
                     return $this->sortByPersonAssociation($builder, $key, $direction);
                 }
 
-                if (in_array($key, ['prints', 'transcriptions', 'drafts', 'facsimiles', 'attachments', 'auctionCatalogues'])) {
+                if (in_array($key,
+                    ['prints', 'transcriptions', 'drafts', 'facsimiles', 'attachments', 'auctionCatalogues'])) {
                     return $this->sortByEntryAssociation($builder, $key, $direction);
                 }
 
