@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
  * @property string last_name
  * @property string first_name
  * @property string full_name
+ * @property string full_first_name
  * @property string birth_date
  * @property string death_date
  * @property string bio_data
@@ -49,6 +50,7 @@ class Person extends Model implements IsGridable
         'last_name',
         'first_name',
         'full_name',
+        'full_first_name',
         'birth_date',
         'death_date',
         'bio_data',
@@ -74,7 +76,7 @@ class Person extends Model implements IsGridable
      *
      * @return string
      */
-    public function fullName()
+    public function stdName()
     {
         $name = $this->last_name ?: static::$unknownName;
 

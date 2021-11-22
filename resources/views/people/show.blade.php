@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $person->fullName() . ' | ')
+@section('title', $person->stdName() . ' | ')
 
 @section('content')
     <div class="container">
@@ -19,7 +19,7 @@
                 @endif
                 <h1><a class="prev-link"
                        href="{{ referrer_url('last_person_index', route('people.index'), '#person-' . $person->id) }}"><i
-                                class="fa fa-caret-left"></i></a> Personendaten: {{ $person->fullName() }}</h1>
+                                class="fa fa-caret-left"></i></a> Personendaten: {{ $person->stdName() }}</h1>
             </div>
             @if($person->trashed())
                 <div class="col-md-12 deleted-record-info">
@@ -54,7 +54,8 @@
                     <input type="hidden" name="prev_last_name" value="{{ $person->last_name }}">
                     <input type="hidden" name="prev_first_name" value="{{ $person->first_name }}">
                     @include('partials.form.field', ['field' => 'ddb_id', 'model' => $person])
-                    @include('partials.form.field', ['field' => 'full_name', 'model' => $person, 'placeholder' => $person->fullName()])
+                    @include('partials.form.field', ['field' => 'full_name', 'model' => $person, 'disabled' => $person->trashed()])
+                    @include('partials.form.field', ['field' => 'full_first_name', 'model' => $person, 'disabled' => $person->trashed()])
                     @include('partials.form.field', ['field' => 'last_name', 'model' => $person, 'disabled' => $person->trashed()])
                     @include('partials.form.field', ['field' => 'first_name', 'model' => $person, 'disabled' => $person->trashed()])
                     @include('partials.form.field', ['field' => 'birth_date', 'model' => $person, 'disabled' => $person->trashed()])
