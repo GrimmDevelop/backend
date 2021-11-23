@@ -8,7 +8,7 @@
             </div>
 
         </div>
-        <add-filter-button/>
+        <add-filter-button v-if="remaining_filters.length > 0" :remaining_filters="remaining_filters" @addFilter="addFilter($event)"/>
         <div class="btn-container">
             <button class="btn-search"
                     @click="$emit('search')">
@@ -30,7 +30,73 @@
 
         props: {
             search: {},
-            filters: {},
+        },
+
+        data() {
+            return {
+                filters: [
+                    {
+                        name: "Absender",
+                        id: "senders",
+                        type: "select",
+                    },
+                    {
+                        name: "Empfänger",
+                        id: "receivers",
+                        type: "select",
+                    },
+                    {
+                        name: "Datum",
+                        id: "date",
+                        type: "date",
+                    },
+                    {
+                        name: "Handschrift",
+                        id: "handwriting",
+                        type: "string",
+                    },
+                    {
+                        name: "Drucke",
+                        id: "print",
+                        type: "string",
+                    },
+                    {
+                        name: "Absendeort",
+                        id: "sender_place",
+                        type: "string",
+                    },
+                    {
+                        name: "Briefanfang",
+                        id: "letter_start",
+                        type: "string",
+                    },
+                    {
+                        name: "Briefnummer",
+                        id: "letter_number",
+                        type: "string",
+                    },
+                ],
+                remaining_filters: [
+                    {
+                        name: "Empfangsort",
+                        id: "recipient_place",
+                        type: "string",
+                    },
+                    {
+                        name: "Faksimilies",
+                        id: "faksimilies",
+                        type: "string",
+                    },
+                ],
+            }
+        },
+
+        methods: {
+            addFilter(event){
+                let selectedElement = this.remaining_filters.filter(o => o.name === event.name)[0];
+                this.filters.push(selectedElement);
+                this.remaining_filters = this.remaining_filters.filter(o => o !== selectedElement);
+            }
         },
 
         components: {
@@ -41,9 +107,11 @@
 </script>
 
 <style lang="scss" scoped>
+
     .btn-container {
         display: flex;
         justify-content: center;
+        margin-top: 1rem;
     }
 
     .btn-search {

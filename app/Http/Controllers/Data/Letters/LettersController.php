@@ -43,6 +43,17 @@ class LettersController extends Controller
             return [
                 'id' => $letter->getRouteKey(),
                 'handwriting_location' => $letter->handwriting_location,
+                'date' => $letter->date,
+//                'from_date' => $letter->from_date, /*correct? or only one date?*/
+//                'to_date' => $letter->to_date,
+                'from_location_derived' => $letter->from_location_derived, /*correct?*/
+                'from_location_historical' => $letter->from_location_historical, /*correct?*/
+                'prints' => $letter->prints, /*correct?*/ /*printed_in?*/
+                'comments' => $letter->comment, /*comments?*/
+                'sender_place' => $letter->from, /*correct?*/
+                'receiver_place' => $letter->to, /*correct?*/
+                'letter_number' => $letter->id, /*id or unique_code or id_till_* or code ?*/
+                'facsimiles' => $letter->facsimiles,
                 'senders' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association
                 ) => $association->isSender())->pluck('assignment_source'),
                 'receivers' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association

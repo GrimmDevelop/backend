@@ -1,35 +1,42 @@
 <template>
-    <div class="search-add-filter-button">
-        <button @click="$emit('click', $event)">
-            <icon icon="add-outline" />
-            weiteres Suchfeld hinzufügen
-        </button>
+    <div class="add-filter-button-area">
+        <v-select class="add-filter-button" label="name" :options="options" placeholder="weiteres Suchfeld hinzufügen" v-model="selected">
+        </v-select>
     </div>
 </template>
 
 <script>
     export default {
-        name: "SearchAddFilterButton"
+        name: "SearchAddFilterButton",
+
+        data() {
+            return {
+                selected: '',
+            }
+        },
+
+        props: {
+            remaining_filters: {}
+        },
+
+        watch: {
+            selected: function (val) {
+                this.$emit('addFilter',val)
+                this.selected = ""
+            },
+        },
+
+        computed: {
+            options() {
+                return this.remaining_filters;
+            }
+        },
     };
 </script>
 
 <style lang="scss" scoped>
-    .search-add-filter-button {
-        button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: .5rem;
-            border: 1px solid gray;
-            border-radius: 5px;
-            width: 20rem;
-            margin: 1rem auto;
-            background: white;
-            padding: .5rem 1rem;
-
-            &:hover {
-                border-color: darken(gray, 5%);
-            }
-        }
+    .add-filter-button{
+        width: 20rem;
+        margin: 0.5rem auto 1rem auto;
     }
 </style>

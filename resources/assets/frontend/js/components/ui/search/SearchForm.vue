@@ -5,7 +5,6 @@
                          @filter="searchAll = $event" @search="startSearch"/>
 
             <advanced-form v-else @switch-mode="mode = 'simple'" :search="search"
-                           :filters="filters"
                            @filter="updateFilter" @search="startSearch"/>
         </div>
         <div v-if="hasResults">
@@ -52,68 +51,6 @@
                 },
                 letters: [],
                 showResults: false,
-                senders: [
-                    "Grimm, Wilhelm",
-                    "Grimm, Jacob"
-                ],
-                receiver: [
-                    "Grimm, Wilhelm",
-                    "Grimm, Jacob"
-                ],
-                filters: [
-                    {
-                        name: "Absender",
-                        id: "senders",
-                        type: "select",
-                    },
-                    {
-                        name: "Empfänger",
-                        id: "receivers",
-                        type: "select",
-                    },
-                    {
-                        name: "Datum",
-                        id: "date",
-                        type: "date",
-                    },
-                    {
-                        name: "Handschrift",
-                        id: "handwriting",
-                        type: "string",
-                    },
-                    {
-                        name: "Drucke",
-                        id: "print",
-                        type: "string",
-                    },
-                    {
-                        name: "Absendeort",
-                        id: "sender_place",
-                        type: "string",
-                    },
-                    {
-                        name: "Briefanfang",
-                        id: "letter_start",
-                        type: "string",
-                    },
-                    {
-                        name: "Briefnummer",
-                        id: "letter_number",
-                        type: "string",
-                    },
-                ],
-                remaining_filters: [
-                    {
-                        name: "Empfangsort",
-                        id: "recipient_place",
-                        type: "string",
-                    },
-                    {
-                        name: "Faksimilies",
-                        id: "faksimilies",
-                        type: "string",
-                    },
-                ],
             };
         },
 

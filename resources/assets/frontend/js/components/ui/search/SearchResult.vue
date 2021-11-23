@@ -24,23 +24,23 @@
                     <div class="result-item-title">Handschrift</div>
                     <div class="result-item-content">{{ letter.handwriting_location }}</div>
                 </div>
-                <div v-if="letter.printed_in" class="result-item">
+                <div v-if="letter.prints.length > 0" class="result-item">
                     <div class="result-item-title">gedruckt in</div>
-                    <div class="result-item-content">{{ letter.printed_in }}</div>
+                    <div class="result-item-content">{{ letter.prints }}</div>
                 </div>
                 <div v-if="letter.comments" class="result-item">
                     <div class="result-item-title">Bemerkungen</div>
                     <div class="result-item-content">{{ letter.comments }}</div>
                 </div>
-                <div v-if="letter.recipient_place" class="result-item">
+                <div v-if="letter.receiver_place" class="result-item">
                     <div class="result-item-title">Empfangsort</div>
-                    <div class="result-item-content">{{ letter.recipient_place }}</div>
+                    <div class="result-item-content">{{ letter.receiver_place }}</div>
                 </div>
                 <div class="result-item">
                     <div class="result-item-title">Scan(s)</div>
                     <div class="result-item-content scan-item">
-                        <i v-if="letter.has_scans" class="fa fa-file-alt" style="text-align: center;"></i>
-                        <i v-else class="fa fa-times" style="text-align: center;"></i>
+                        <icon v-if="letter.scans.length > 0" icon="close" style="text-align: center;"></icon>
+                        <icon v-else icon="document" style="text-align: center;"></icon>
                     </div>
                 </div>
                 <div v-if="letter.id" class="result-item">
