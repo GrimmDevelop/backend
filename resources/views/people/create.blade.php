@@ -13,6 +13,7 @@
                     {{ csrf_field() }}
                     @include('partials.form.field', ['field' => 'ddb_id', 'model' => 'people'])
                     @include('partials.form.field', ['field' => 'full_name', 'model' => 'people'])
+                    @include('partials.form.field', ['field' => 'full_first_name', 'model' => 'people'])
                     @include('partials.form.field', ['field' => 'last_name', 'model' => 'people'])
                     @include('partials.form.field', ['field' => 'first_name', 'model' => 'people'])
                     @include('partials.form.field', ['field' => 'birth_date', 'model' => 'people'])
