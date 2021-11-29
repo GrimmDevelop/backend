@@ -59,7 +59,7 @@ class StoreLettersAssociationsRequest extends FormRequest
             $association->person()->associate($person);
 
             if ($assignment_source === null) {
-                $assignment_source = $person->stdName();
+                $assignment_source = $person->normalizeName();
             }
         }
 

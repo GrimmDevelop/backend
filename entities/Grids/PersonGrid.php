@@ -45,7 +45,7 @@ class PersonGrid extends Grid
             }, 'prints.entry'),
             new Column('references', false, function () use ($person) {
                 return $person->references->map(function (PersonReference $reference) {
-                    return $reference->reference->stdName();
+                    return $reference->reference->normalizeName();
                 })->implode('; ');
             }, 'references.entry'),
             new Column('inheritances', false, function () use ($person) {

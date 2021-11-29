@@ -11,7 +11,7 @@ class LettersController extends Controller
 {
     public function index()
     {
-        $result = Letter::applyFilter(request('search'))->with('personAssociations')->paginate();
+        $result = Letter::applyFilter(request('search'))->with('personAssociations.person')->paginate();
 
         return fractal()->collection(
             $result->items(),
@@ -36,9 +36,9 @@ class LettersController extends Controller
                 'id' => $letter->getRouteKey(),
                 'handwriting_location' => $letter->handwriting_location,
                 'senders' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association
-                ) => $association->isSender())->pluck('assignment_source'),
+                ) => $association->isSender())->pluck('name'),
                 'receivers' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association
-                ) => $association->isReceiver())->pluck('assignment_source'),
+                ) => $association->isReceiver())->pluck('name'),
                 'inc' => $letter->inc,
                 'text' => $letter->text,
                 'scans' => $letter->getMedia('letters.scans.handwriting_location')->map(function (Media $media) {

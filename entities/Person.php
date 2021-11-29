@@ -74,17 +74,27 @@ class Person extends Model implements IsGridable
     /**
      * Returns the full name of person and/or organization
      *
+     * @param bool $full
      * @return string
      */
-    public function stdName()
+    public function normalizeName(bool $full = false): string
     {
-        $name = $this->last_name ?: static::$unknownName;
+        $lastName = $full ? $this->full_name : $this->last_name;
+        $firstName = $full ? $this->full_first_name : $this->first_name;
 
-        if ($this->is_organization || $this->first_name == '') {
-            return $name;
+        if(!$lastName && !$firstName) {
+            return static::$unknownName;
         }
 
-        return $this->full_name ?? $this->last_name . ', ' . $this->first_name;
+        if ($this->is_organization || !$firstName) {
+            return $lastName;
+        }
+
+        if(!$lastName) {
+            return $firstName;
+        }
+
+        return $lastName . ', ' . $firstName;
     }
 
     /**

@@ -54,7 +54,7 @@ class UpdateLettersAssociationsRequest extends FormRequest
         }
 
         if ($assignment_source === null && $association->person !== null) {
-            $assignment_source = $association->person->stdName();
+            $assignment_source = $association->person->normalizeName();
         }
 
         $association->assignment_source = $assignment_source;
