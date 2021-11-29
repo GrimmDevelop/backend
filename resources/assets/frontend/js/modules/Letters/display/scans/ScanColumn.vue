@@ -1,6 +1,6 @@
 <template>
-    <div ref="ScanDiv" class="w-full h-full p-4">
-        <zoom-image ref="zoomImage" v-if="hasImages" :src="imageUrl" :container="this.$refs.ScanDiv"></zoom-image>
+    <div class="w-full h-full">
+        <zoom-image ref="zoomImage" v-if="hasImages" :src="imageUrl"></zoom-image>
         <div class="image-pagination">
             <icon icon="cheveron-left"
                   format="cursor-pointer text-gray-600 hover:text-gray-900"
