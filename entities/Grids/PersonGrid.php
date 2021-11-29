@@ -20,8 +20,8 @@ class PersonGrid extends Grid
             new Column('ddb_id', true),
             new Column('full_name', false),
             new Column('full_first_name', false),
-            new Column('last_name', false),
-            new Column('first_name', false),
+            new Column('last_name', true),
+            new Column('first_name', true),
             new Column('birth_date', false),
             new Column('death_date', false),
             new Column('bio_data_source', true, function () use ($person) {

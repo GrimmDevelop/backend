@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', $person->stdName() . ' | ')
+@section('title', $person->normalizeName() . ' | ')
 
 @section('content')
     <div class="container">
@@ -19,7 +19,7 @@
                 @endif
                 <h1><a class="prev-link"
                        href="{{ referrer_url('last_person_index', route('people.index'), '#person-' . $person->id) }}"><i
-                                class="fa fa-caret-left"></i></a> Personendaten: {{ $person->stdName() }}</h1>
+                                class="fa fa-caret-left"></i></a> Personendaten: {{ $person->normalizeName() }}</h1>
             </div>
             @if($person->trashed())
                 <div class="col-md-12 deleted-record-info">
