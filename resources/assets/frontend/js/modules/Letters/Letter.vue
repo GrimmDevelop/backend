@@ -19,9 +19,9 @@
 
 <script>
     import Sidebar from "./display/Sidebar";
-    import ScanColumn from "@/frontend/js/modules/Letters/display/scans/ScanColumn";
-    import LetterText from "@/frontend/js/modules/Letters/LetterText";
-    import Column from "@/frontend/js/components/ui/windows/Column";
+    import ScanColumn from "./display/scans/ScanColumn";
+    import LetterText from "./LetterText";
+    import Column from "../../components/ui/windows/Column.vue";
 
     export default {
         name: "Letter",
@@ -51,6 +51,11 @@
                     'grid-rows-auto': false,
                 };
             },
+
+            columnVisibility(type) {
+                console.log('Hallo',this.$store.getters.visibilityState(type));
+                return true;
+            }
         },
 
         watch: {
@@ -58,7 +63,10 @@
                 immediate: true,
                 handler() {
                     this.$http.get(`/data/letters/${this.id}`)
-                        .then(response => this.letter = response.data.data);
+                        .then(response => {
+                            this.letter = response.data.data;
+                            console.log(this.letter);
+                        });
                 },
             },
         },
@@ -72,6 +80,7 @@
                     }
                 });
             });
+
         },
 
         methods: {

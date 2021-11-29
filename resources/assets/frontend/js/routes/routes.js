@@ -30,7 +30,6 @@ const routes = [
         path: '/lettersearch',
         component: SearchForm
     },
-    // {path: '/bar', component: Bar}
 ];
 
 export default routes;

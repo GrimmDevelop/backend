@@ -25,6 +25,10 @@ export default {
         'toggle-column': (state, {column}) => {
             state.visibility[column] = !state.visibility[column];
         },
+
+        'close-column': (state, {column}) => {
+            state.visibility[column] = false;
+        },
     },
 
     getters: {
