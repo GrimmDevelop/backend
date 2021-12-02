@@ -18,13 +18,10 @@ class PersonGrid extends Grid
     {
         parent::__construct('people', [
             new Column('ddb_id', true),
-            new Column('full_name', true, function () use ($person) {
-                return $person->fullName();
-            }, function(Builder $q, $term) {
-                return $q->searchByName($term);
-            }),
-            new Column('last_name', false),
-            new Column('first_name', false),
+            new Column('full_name', false),
+            new Column('full_first_name', false),
+            new Column('last_name', true),
+            new Column('first_name', true),
             new Column('birth_date', false),
             new Column('death_date', false),
             new Column('bio_data_source', true, function () use ($person) {
@@ -48,7 +45,7 @@ class PersonGrid extends Grid
             }, 'prints.entry'),
             new Column('references', false, function () use ($person) {
                 return $person->references->map(function (PersonReference $reference) {
-                    return $reference->reference->fullName();
+                    return $reference->reference->normalizeName();
                 })->implode('; ');
             }, 'references.entry'),
             new Column('inheritances', false, function () use ($person) {

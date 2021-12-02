@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int letter_id
  * @property int person_id
  * @property string assignment_source
+ * @property string name
  * @property int type
  * @property \Carbon\Carbon created_at
  * @property \Carbon\Carbon updated_at
@@ -26,6 +27,13 @@ class LetterPersonAssociation extends Model
     const MENTION = 2;
 
     protected $table = 'letter_person';
+
+    public function getNameAttribute()
+    {
+        return $this->person_id !== null && $this->relationLoaded('person') ?
+            $this->person->normalizeName() :
+            $this->assignment_source;
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
