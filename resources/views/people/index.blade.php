@@ -25,7 +25,7 @@
                     </div>
                     @if(request()->has('search'))
                         <div class="reset-search">
-                            <a href="{{ url()->filtered(['-search']) }}" class="btn btn-default btn-sm"><i
+                            <a href="{{ url()->filtered(['-search']) }}" class="btn btn-secondary btn-sm"><i
                                         class="fa fa-times"></i></a>
                         </div>
                     @endif

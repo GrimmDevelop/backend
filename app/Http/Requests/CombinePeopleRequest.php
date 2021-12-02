@@ -63,7 +63,7 @@ class CombinePeopleRequest extends FormRequest
             }
         }
 
-        $person->forceDelete();
+        $person->delete();
 
         return true;
     }

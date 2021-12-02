@@ -95,7 +95,7 @@ class LibraryBooksController extends Controller
         event(new StoreLibraryEvent($book, $request->user()));
 
         return redirect()
-            ->route('librarybooks.show', ['id' => $book->id])
+            ->route('librarybooks.show', [$book])
             ->with('success', trans('librarybooks.store_success'));
     }
 
@@ -228,7 +228,7 @@ class LibraryBooksController extends Controller
      *
      * @param UpdateLibraryRequest $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateLibraryRequest $request, $id)
     {
@@ -240,7 +240,7 @@ class LibraryBooksController extends Controller
         event(new UpdateLibraryEvent($book, $request->user()));
 
         return redirect()
-            ->route('librarybooks.show', ['id' => $book->id])
+            ->route('librarybooks.show', [$book])
             ->with('success', 'Die Änderungen wurden gespeichert');
     }
 
@@ -295,7 +295,7 @@ class LibraryBooksController extends Controller
      *
      * @param DestroyLibraryRequest $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(DestroyLibraryRequest $request, $id)
     {
@@ -324,7 +324,7 @@ class LibraryBooksController extends Controller
         $book->restore();
 
         return redirect()
-            ->route('library.show', [$id])
+            ->route('library.show', [$book])
             ->with('success', 'Das Buch wurde wiederhergestellt!');
     }
 

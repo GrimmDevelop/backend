@@ -6,14 +6,6 @@
     <div class="container" id="library">
         <div class="row page">
             <div class="col-md-12 page-title">
-                <div class="button-container">
-                    <div class="generic">
-                        <a href="{{ route('librarybooks.create') }}" role="button" class="btn btn-secondary btn-sm">
-                            <span class="fa fa-plus"></span>
-                            {{ trans('librarybooks.store') }}
-                        </a>
-                    </div>
-                </div>
                 <h1><a class="prev-link"
                        href="{{ referrer_url('last_book_index', route('librarybooks.index'), '#book-' . $book->id) }}"><i
                                 class="fa fa-caret-left"></i></a> Buchdaten: {{ $book->title }}</h1>

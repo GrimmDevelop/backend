@@ -18,13 +18,13 @@
                     </div>
                     @if(request()->has('cat_id'))
                         <div class="reset-search">
-                            <a href="{{ url()->filtered(['-cat_id']) }}" class="btn btn-default btn-sm">
+                            <a href="{{ url()->filtered(['-cat_id']) }}" class="btn btn-secondary btn-sm">
                                 <i class="fa fa-times"></i>
                             </a>
                         </div>
                     @endif
                     <div class="generic">
-                        <a href="{{ route('librarybooks.create') }}" role="button" class="btn btn-default btn-sm">
+                        <a href="{{ route('librarybooks.create') }}" role="button" class="btn btn-secondary btn-sm">
                             <span class="fa fa-plus"></span>
                             {{ trans('librarybooks.store') }}
                         </a>
@@ -37,7 +37,7 @@
                 {{ $books->appends($filter->delta())->links() }}
             </div>
             <div class="col-md-12 list-content">
-                <table class="table table-responsive table-hover">
+                <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>
@@ -63,7 +63,7 @@
                         </tr>
                     @empty
                         <tr onclick="location.href='{{ route('librarybooks.create') }}'" style="cursor: pointer;">
-                            <td class="empty-list" colspan="6">
+                            <td class="empty-list" colspan="3">
                                 In der Datenbank ist kein Buch vorhanden.
                                 Möchten Sie eins erstellen?
                             </td>
@@ -87,7 +87,7 @@
                 @include('partials.filterSelection')
             </div>
 
-            <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
+            <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary"
                data-toggle="tooltip" title="Analyze starten">
                 <i class="fa fa-superpowers"></i>
             </a>

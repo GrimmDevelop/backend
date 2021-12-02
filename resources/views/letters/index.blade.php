@@ -22,7 +22,7 @@
                                         class="fa fa-search"></i></button>
                             @if(request()->has('search'))
                                 <div class="reset-search">
-                                    <a href="{{ url()->filtered(['-search']) }}" class="btn btn-default btn-sm"><i
+                                    <a href="{{ url()->filtered(['-search']) }}" class="btn btn-secondary btn-sm"><i
                                                 class="fa fa-times"></i></a>
                                 </div>
                             @endif
@@ -30,7 +30,7 @@
                     </div>
 
                     <div class="generic">
-                        <a href="{{ route('letters.create') }}" role="button" class="btn btn-default btn-sm">
+                        <a href="{{ route('letters.create') }}" role="button" class="btn btn-secondary btn-sm">
                             <span class="fa fa-plus"></span>
                             {{ trans('letters.store') }}
                         </a>
@@ -44,7 +44,7 @@
             <div class="col-md-12 list-content">
                 <div class="add-button">
                 </div>
-                <table class="table table-responsive table-hover">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             {{--<th>
@@ -101,7 +101,7 @@
 
             <div class="dropup">
                 <div class="btn-group">
-                    <a href="#" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Spalten <span
+                    <a href="#" data-toggle="dropdown" class="btn btn-secondary dropdown-toggle">Spalten <span
                                 class="caret"></span></a>
                     <ul class="dropdown-menu" style="width: 600px;">
                         @foreach(\Grimm\Letter::gridColumns(true, true) as $column)
