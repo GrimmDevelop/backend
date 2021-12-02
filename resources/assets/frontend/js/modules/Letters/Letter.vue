@@ -51,11 +51,6 @@
                     'grid-rows-auto': false,
                 };
             },
-
-            columnVisibility(type) {
-                console.log('Hallo',this.$store.getters.visibilityState(type));
-                return true;
-            }
         },
 
         watch: {
@@ -87,6 +82,7 @@
             getWindowWidth() {
                 setInterval(() => {
                     this.textWidth = this.$refs.columnContainer.clientWidth / 2;
+                    console.log(this.textWidth);
                 }, 1000);
             },
         },

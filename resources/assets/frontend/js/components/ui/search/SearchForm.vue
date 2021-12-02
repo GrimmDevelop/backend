@@ -14,6 +14,13 @@
 
             <span @click="pagination.page++">{{ pagination.page }}</span>
         </div>
+
+        <div v-if="showResults && !hasResults" class="mx-auto w-70 mt-12">
+            <dotted-line class="dotted-line"></dotted-line>
+
+            <img src="https://www.grimmstories.com/images/sprookjes/author.jpg" alt="No Results" class="mx-auto">
+            <div class="text-gray-400 text-center font-bold mt-6">No results were found ...</div>
+        </div>
     </div>
 </template>
 
@@ -61,7 +68,7 @@
 
             currentPage() {
                 return this.pagination.page;
-            }
+            },
         },
 
         watch: {

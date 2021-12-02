@@ -4,27 +4,24 @@ namespace App\Http\Controllers\Data\People;
 
 use Grimm\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PeopleController
 {
-    /**
-     * JSON based search via person names
-     *
-     * @param Request $request
-     *
-     * @return mixed
-     */
-    public function search(Request $request)
+
+    public function index()
     {
-        // catch both: sender and receiver, how?
-        $query = Person::searchByName($request->get('name'));
+        return Person::searchByName(request('name'))->paginate(20);
+    }
 
-        /*
-         * Sort by full text match
-        $query->orderBy('last_name')
-        ->orderBy('first_name');
-        */
+    public function get()
+    {
+        $people = DB::table('letter_person')
+            ->select('assignment_source')
+            ->distinct()
+            ->where('assignment_source','like', '%' . request('name') . '%')
+            ->get();
 
-        return $query->paginate(20);
+        return $people;
     }
 }
