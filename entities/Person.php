@@ -163,7 +163,7 @@ class Person extends Model implements IsGridable
      */
     public function scopeSearchByName(Builder $query, $name)
     {
-        return $query->whereRaw('match(full_name, first_name, last_name) against (? in boolean mode)', [$name]);
+        return $query->whereRaw('match(full_first_name, full_name, first_name, last_name) against (? in boolean mode)', [$name]);
     }
 
     public function scopeFullInfo(Builder $query)
