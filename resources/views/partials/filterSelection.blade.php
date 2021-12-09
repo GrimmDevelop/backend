@@ -3,7 +3,7 @@
         <a href="{{ toggle_active_filters($filter) }}" class="btn btn-secondary" data-toggle="tooltip"
            title="{{ ($filter->hasSelected()) ? trans('filters.remove') : trans('filters.about') }}"
            data-container="body">Filter <span
-                class="badge {{ ($filter->hasSelected()) ? '': 'hide' }}">{{ $filter->selected()->count() }}</span></a>
+                class="badge badge-warning {{ ($filter->hasSelected()) ? '': 'd-none' }}">{{ $filter->selected()->count() }}</span></a>
         <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
             <span class="caret"></span>

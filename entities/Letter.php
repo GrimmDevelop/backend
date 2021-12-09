@@ -73,6 +73,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property Collection|LetterInformation[] information
  * @property LetterApparatus apparatus
  * @property LetterComment comment
+ * @method static static|Builder applyFilter($parameters)
  */
 class Letter extends Model implements IsGridable, HasMedia
 {
@@ -288,5 +289,17 @@ class Letter extends Model implements IsGridable, HasMedia
             ->width(200)
             ->height(300)
             ->performOnCollections('letters.scans.handwriting_location');
+    }
+
+    public function scopeApplyFilter(Builder $builder, $parameters)
+    {
+        foreach ($parameters as $field => $term) {
+            if($field === 'date') {
+                // TODO: handle date input
+                continue;
+            }
+
+            $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field));
+        }
     }
 }

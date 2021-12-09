@@ -93,7 +93,7 @@ class BioDataExtractorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_extract_alternative_birht_dates()
+    public function it_can_extract_alternative_birth_dates()
     {
         $extractor = new BioDataExtractor();
         $extractor->extract('geb. 1854');

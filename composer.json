@@ -8,7 +8,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.4.0",
+        "php": ">=8.0",
         "ext-redis": ">=5.0",
         "cviebrock/laravel-elasticsearch": "^8.0",
         "doctrine/dbal": "^2.5",
@@ -23,7 +23,7 @@
         "league/flysystem-aws-s3-v3": "^1.0",
         "phpoffice/phpspreadsheet": "^1.2",
         "pusher/pusher-php-server": "^4.0",
-        "spatie/laravel-backup": "^6.0",
+        "spatie/laravel-backup": "^7.0",
         "spatie/laravel-fractal": "^5.0",
         "spatie/laravel-medialibrary": "^8.7.1",
         "spatie/valuestore": "^1.0"
@@ -31,7 +31,6 @@
     "require-dev": {
         "laravel/tinker": "^2.0",
         "beyondcode/laravel-dump-server": "^1.4",
-        "barryvdh/laravel-ide-helper": "^2.0",
         "filp/whoops": "~2.0",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",

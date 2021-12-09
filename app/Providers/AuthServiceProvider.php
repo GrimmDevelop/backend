@@ -4,7 +4,10 @@ namespace App\Providers;
 
 use Grimm\Permission;
 use Grimm\User;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 
@@ -34,6 +37,8 @@ class AuthServiceProvider extends ServiceProvider
         }
 
         Passport::routes();
+
+        $this->registerChannelGuard();
     }
 
     private function registerRolesAsGates()
@@ -58,5 +63,46 @@ class AuthServiceProvider extends ServiceProvider
                 return false;
             });
         }
+    }
+
+    private function registerChannelGuard()
+    {
+        Auth::extend('channel', function ($app, $name, array $config) {
+            // Return an instance of Illuminate\Contracts\Auth\Guard...
+
+            return new class implements Guard {
+
+                public function check()
+                {
+                    return true;
+                }
+
+                public function guest()
+                {
+                    // TODO: Implement user() method.
+                }
+
+                public function user()
+                {
+                    // TODO: Implement user() method.
+                    return true;
+                }
+
+                public function id()
+                {
+                    // TODO: Implement id() method.
+                }
+
+                public function validate(array $credentials = [])
+                {
+                    // TODO: Implement validate() method.
+                }
+
+                public function setUser(Authenticatable $user)
+                {
+                    // TODO: Implement setUser() method.
+                }
+            };
+        });
     }
 }

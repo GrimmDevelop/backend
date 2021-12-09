@@ -4,39 +4,22 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
+                <h1>Grimm-Bibliothek</h1>
                 <div class="button-container">
-                    {{-- <div class="search {{ request()->has('title') ? 'active' : '' }}">
+                    <div class="search {{ request()->has('cat_id') ? 'active' : '' }}">
                         <form action="{{ url('librarybooks') }}" method="get">
-                            <input type="text" class="form-control form-control-sm" name="title" maxlength="64"
-                                   placeholder="Suche" value="{{ request('title') ?: '' }}"/>
+                            <input type="text" class="form-control input-sm" name="cat_id" maxlength="64"
+                                   placeholder="Suche nach Buchnr." value="{{ request('cat_id') ?: '' }}"/>
 
                             <button id="search-btn" type="submit" class="btn btn-primary btn-sm">
                                 <i class="fa fa-search"></i>
                             </button>
                         </form>
                     </div>
-                    @if(request()->has('title'))
-                        <div class="reset-search">
-                            <a href="{{ url()->filtered(['-title']) }}" class="btn btn-secondary btn-sm">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    @endif --}}
-
-                    <div class="search {{ request()->has('cat_id') ? 'active' : '' }}">
-                        <form action="{{ url('librarybooks') }}" method="get">
-                            <input type="text" class="form-control form-control-sm" name="cat_id" maxlength="64"
-                                   placeholder="Suche nach Buchnr." value="{{ request('cat_id') ?: '' }}"/>
-
-                            <button id="search-btn" type="submit" class="btn btn-primary btn-sm">
-                                <span class="fa fa-search"></span>
-                            </button>
-                        </form>
-                    </div>
                     @if(request()->has('cat_id'))
                         <div class="reset-search">
                             <a href="{{ url()->filtered(['-cat_id']) }}" class="btn btn-secondary btn-sm">
-                                <span class="fa fa-times"></span>
+                                <i class="fa fa-times"></i>
                             </a>
                         </div>
                     @endif
@@ -47,10 +30,6 @@
                         </a>
                     </div>
                 </div>
-
-                <h1>
-                    Grimm-Bibliothek
-                </h1>
             </div>
 
             @include('partials.prefixSelection', ['route' => 'library'])
@@ -84,7 +63,7 @@
                         </tr>
                     @empty
                         <tr onclick="location.href='{{ route('librarybooks.create') }}'" style="cursor: pointer;">
-                            <td class="empty-list" colspan="6">
+                            <td class="empty-list" colspan="3">
                                 In der Datenbank ist kein Buch vorhanden.
                                 Möchten Sie eins erstellen?
                             </td>
@@ -110,7 +89,7 @@
 
             <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary"
                data-toggle="tooltip" title="Analyze starten">
-                <span class="fa fa-superpowers"></span>
+                <i class="fa fa-superpowers"></i>
             </a>
             <div class="btn-group">
                 <form action="{{ route('librarybooks.export') . '?' . http_build_query($filter->delta()) }}"
@@ -119,7 +98,7 @@
                     {{ csrf_field() }}
                     <button type="submit" class="btn btn-info"
                             data-toggle="tooltip" title="Daten exportieren">
-                        <span class="fa fa-download"></span>
+                        <i class="fa fa-download"></i>
                     </button>
                 </form>
             </div>

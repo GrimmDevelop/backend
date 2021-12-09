@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import Modal from "../../ui/components/Modal";
+    import Modal from "@/js/ui/components/Modal";
 
     export default {
         props: ['url', 'modal', 'title', 'on-stored'],
