@@ -30,7 +30,8 @@ class BackupStatusReader
     public function lastSuccessfulBackup($format = null)
     {
         $data = Redis::get('grimm.last_successful_backup');
-        $date = new Carbon($data);
+
+        $date = Carbon::createFromTimeString($data);
 
         if ($format === null) {
             return $date;
