@@ -201,12 +201,6 @@
                         <a class="nav-link" href="#facsimiles" data-toggle="tab">Faksimiles</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#information" data-toggle="tab">Informationen</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#codes" data-toggle="tab">Codes</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#changes" data-toggle="tab">Änderungsverlauf</a>
                     </li>
                 </ul>
@@ -448,68 +442,6 @@
                                          :on-stored="storedFacsimile"
                                          modal="addFacsimile"
                                          title="Faksimile"></add-item-editor>
-                    </div>
-
-                    <div role="tabpanel" class="tab-pane" id="information">
-                        @unless($letter->trashed())
-                            <div class="add-button">
-                                <button id="addInformationButton" type="button" class="btn btn-primary btn-sm"
-                                        data-toggle="modal"
-                                        data-target="#addInformation-modal">
-                                    <span class="fa fa-plus"></span> Information hinzufügen
-                                </button>
-                            </div>
-                        @endunless
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th colspan="2">Code</th>
-                                <th colspan="2">Wert</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(info, index) in information" is="in-place-information-editor"
-                                :item-id="info.id" :item-codes="codes" :selected-code="codes[info.letter_code_id]"
-                                :item-data="info.data" @removed-info="removedInformation(index)" :key="info.id"
-                                base-url="{{ route('letters.information.index', [$letter]) }}"
-                                editable="{{ !$letter->trashed() }}">
-                            </tr>
-                            </tbody>
-                        </table>
-                        <add-information-editor url="{{ route('letters.information.store', [$letter]) }}"
-                                                :on-stored="storedInformation" :codes-item="codes"
-                                                modal="addInformation"
-                                                title="Information"></add-information-editor>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="codes">
-                        @unless($letter->trashed())
-                            <div class="add-button">
-                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                        data-target="#addCode-modal">
-                                    <span class="fa fa-plus"></span> Code hinzufügen
-                                </button>
-                            </div>
-                        @endunless
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th colspan="2">Name</th>
-                                <th colspan="1">Error Generated</th>
-                                <th colspan="2">Internal</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="(code, index) in codes" is="in-place-code-editor"
-                                :item-id="code.id" :item-code="code" :key="code.id"
-                                @updated-code="updatedCode" @removed-code="removedCode(index)"
-                                base-url="{{ route('letters.codes.index', [$letter]) }}"
-                                editable="{{ !$letter->trashed() }}">
-                            </tr>
-                            </tbody>
-                        </table>
-                        <add-code-editor url="{{ route('letters.codes.store', [$letter]) }}"
-                                         :on-stored="storedCode" modal="addCode"
-                                         title="Code"></add-code-editor>
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="changes">
