@@ -75,4 +75,9 @@ class TrashFilter implements Filter, FlagFilter
     {
         return session($this->sessionKey());
     }
+
+    public function nextTitle()
+    {
+        return trans('filters.trash.' . $this->nextValue());
+    }
 }
