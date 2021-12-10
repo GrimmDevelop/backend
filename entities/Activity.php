@@ -92,10 +92,6 @@ class Activity extends Model
 
     public function getRouteModel()
     {
-        if(($this->parent === null ? $this->model : $this->parent) === null) {
-            dd($this, $this->model, $this->parent);
-        }
-
         return $this->parent === null ? $this->model : $this->parent;
     }
 

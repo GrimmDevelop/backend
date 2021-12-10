@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class LetterApparatus extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, TextWithLetterLinks;
 
     public $guarded = [];
 

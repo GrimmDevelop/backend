@@ -8,18 +8,18 @@
         </div>
         <table class="table">
             <thead>
-            <tr>
-                <th colspan="3">Eintrag</th>
-            </tr>
+                <tr>
+                    <th colspan="3">Eintrag</th>
+                </tr>
             </thead>
             <tbody>
-            <tr v-for="(inheritance, index) in inheritances" is="inheritance-in-place-editor"
-                :key="`inheritance-${index}`"
-                :inheritance-id="inheritance.id" :inheritance-entry="inheritance.entry"
-                :base-url="indexUrl"
-                :editable="!deleted"
-                @saved="loadInheritances">
-            </tr>
+                <tr v-for="(inheritance, index) in inheritances" is="inheritance-in-place-editor"
+                    :key="`inheritance-${index}`"
+                    :inheritance-id="inheritance.id" :inheritance-entry="inheritance.entry"
+                    :base-url="indexUrl"
+                    :editable="!deleted"
+                    @saved="loadInheritances">
+                </tr>
             </tbody>
         </table>
         <div class="modal fade" id="addInheritance" role="dialog" aria-labelledby="addInheritanceTitle">

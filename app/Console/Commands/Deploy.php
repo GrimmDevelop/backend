@@ -18,7 +18,7 @@ class Deploy extends Command
      *
      * @var string
      */
-    protected $description = 'This command is executed by deploy script.';
+    protected $description = 'This command is executed by start script.';
 
     /**
      * Create a new command instance.
@@ -35,6 +35,7 @@ class Deploy extends Command
      */
     public function handle()
     {
+        $this->call('migrate', ['--force' => true]);
         $this->call('grimm:permissions-update');
 
         return 0;

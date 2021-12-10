@@ -1,18 +1,18 @@
 @if($association->person)
-    @if($association->person->fullName() != $association->assignment_source)
+    @if($association->person->normalizeName() != $association->assignment_source)
         {{ $association->assignment_source }}
 
         <a href="{{ route('people.show', [$association->person]) }}"
            data-toggle="tooltip"
            title="Person öffnen"
            style="margin-left: 2em;">
-            <span>{{ $association->person->fullName() }}</span>
+            <span>{{ $association->person->normalizeName() }}</span>
         </a>
     @else
         <a href="{{ route('people.show', [$association->person]) }}"
            data-toggle="tooltip"
            title="Person öffnen">
-            <span>{{ $association->person->fullName() }}</span>
+            <span>{{ $association->person->normalizeName() }}</span>
         </a>
     @endif
 

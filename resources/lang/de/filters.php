@@ -5,4 +5,7 @@ return [
     'about' => 'Filter helfen, die dargestellte Datenmenge einzuschränken',
     'biodata_extractor' => 'Duplikate in Lebensdaten',
     'only_trashed' => 'Nur gelöschte Einträge',
+
+    'denecke' => 'Unbearbeiteter Titel',
+    'folk' => 'Grimms Märchen',
 ];

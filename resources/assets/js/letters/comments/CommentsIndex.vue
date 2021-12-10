@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import HtmlEditor from "../components/HtmlEditor";
+    import HtmlEditor from "@/js/letters/components/HtmlEditor";
 
     export default {
         name: "CommentsIndex",

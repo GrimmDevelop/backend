@@ -4,25 +4,8 @@
     <div class="container">
         <div class="row page">
             <div class="col-md-12 page-title">
+                <h1>Grimm-Bibliothek</h1>
                 <div class="button-container">
-                    {{-- <div class="search {{ request()->has('title') ? 'active' : '' }}">
-                        <form action="{{ url('librarybooks') }}" method="get">
-                            <input type="text" class="form-control form-control-sm" name="title" maxlength="64"
-                                   placeholder="Suche" value="{{ request('title') ?: '' }}"/>
-
-                            <button id="search-btn" type="submit" class="btn btn-primary btn-sm">
-                                <span class="fa fa-search"></span>
-                            </button>
-                        </form>
-                    </div>
-                    @if(request()->has('title'))
-                        <div class="reset-search">
-                            <a href="{{ url()->filtered(['-title']) }}" class="btn btn-secondary btn-sm">
-                                <span class="fa fa-times"></span>
-                            </a>
-                        </div>
-                    @endif --}}
-
                     <div class="search {{ request()->has('cat_id') ? 'active' : '' }}">
                         <form action="{{ route('librarybooks.analyze') }}" method="get">
                             <input type="text" class="form-control form-control-sm" name="cat_id" maxlength="64"
@@ -47,8 +30,6 @@
                         </a>
                     </div>
                 </div>
-
-                <h1>Grimm-Bibliothek</h1>
             </div>
 
             <div class="col-md-12 pagination-container">
@@ -111,7 +92,7 @@
                 @include('partials.filterSelection')
             </div>
 
-            <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary btn-sm"
+            <a href="{{ route('librarybooks.analyze') }}" class="btn btn-primary"
                data-toggle="tooltip" title="Analyze erneut starten">
                 <span class="fa fa-superpowers"></span>
             </a>

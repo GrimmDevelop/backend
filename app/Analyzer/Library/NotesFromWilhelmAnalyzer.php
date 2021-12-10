@@ -49,6 +49,6 @@ class NotesFromWilhelmAnalyzer extends RegexpAnalyzer
      */
     protected function displayString(): string
     {
-        return "Model contains a note from Wilhelm Grimm [%s]";
+        return "Denecke field contains a note from Wilhelm Grimm [%s] but corresponding field is empty";
     }
 }

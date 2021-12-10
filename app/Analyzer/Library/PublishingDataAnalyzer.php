@@ -48,6 +48,6 @@ class PublishingDataAnalyzer extends RegexpAnalyzer
      */
     protected function displayString(): string
     {
-        return "Model contains possible publishing data [%s: %s %s].";
+        return "Denecke field contains possible publishing data [%s: %s %s] but corresponding fields are empty.";
     }
 }

@@ -2,7 +2,7 @@
 
 @import "variables";
 @import "bootstrap/bootstrap";
-@import "~tinymce/skins/lightgray/skin.min.css";
+@import "~tinymce/skins/ui/oxide/skin.min.css";
 
 body {
     font-family: 'Lato', sans-serif;
@@ -17,13 +17,13 @@ body {
     margin-bottom: 20px;
 }
 
-.border-bottom{
+.border-bottom {
     /* TODO: extract statement to _variables.scss */
     $color_env: $color_master;
-    @if ($APP_ENV == 'local'){
+    @if ($APP_ENV == 'local') {
         $color_env: $color_dev;
     }
-    @if ($APP_ENV == 'test'){
+    @if ($APP_ENV == 'test') {
         $color_env: $color_test;
     }
     box-shadow: 0px 3px 0px 0px $color_env;
@@ -32,6 +32,9 @@ body {
 .page-title {
     background: $gray_blue;
     border: 1px solid darken($gray_blue, 10%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
     &.error-title {
         background: $brand-danger;
@@ -43,6 +46,7 @@ body {
         margin-top: 10px;
         font-weight: 100;
         font-size: $h2-font-size;
+        flex-grow: 1;
     }
 
     a.prev-link {
@@ -104,65 +108,35 @@ body {
 }
 
 .button-container {
-    float: right;
-    margin-top: 9px;
-    width: 300px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 
     .btn {
         height: 30px;
     }
-
-    .generic {
-        position: relative;
-
-        .btn {
-            position: absolute;
-            top: 5px;
-            right: 0;
-        }
-    }
-
-    .reset-search {
-        position: relative;
-        right: 100px;
-
-        .btn {
-            position: absolute;
-            top: 5px;
-        }
-    }
 }
 
 .search {
-    padding: 5px 0;
-    width: 230px;
-    height: 30px;
-
-    position: relative;
-    right: 100px;
-    float: left;
-    line-height: 22px;
+    form {
+        display: flex;
+    }
 
     .btn {
-        position: absolute;
-        right: 0;
-        top: 5px;
         border-radius: 1px;
     }
 
-    input {
-        position: absolute;
+    input, select {
         width: 0;
-        float: Left;
-        margin-left: 210px;
         -webkit-transition: all 0.7s ease-in-out;
         -moz-transition: all 0.7s ease-in-out;
         -o-transition: all 0.7s ease-in-out;
         transition: all 0.7s ease-in-out;
         height: 30px;
         line-height: 18px;
-        padding: 0 2px 0 2px;
         border-radius: 1px;
+        padding: 0;
+        border-width: 0;
     }
 }
 
@@ -176,10 +150,10 @@ body {
 
 @keyframes target-fade {
     0% {
-        background-color: $black;
+        background-color: fade-in($light_gray, .1);
     }
     100% {
-        background-color: $black;
+        background-color: $light_gray;
     }
 }
 
@@ -192,9 +166,16 @@ body {
     }
 }
 
-.search:hover input, .search input:focus, .search.active input {
+.search:hover input, .search input:focus, .search.active input, .search select:focus + input {
     width: 200px;
-    margin-left: 0;
+    padding: 0 2px 0 2px;
+    border-width: 1px;
+}
+
+.search:hover select, .search select:focus, .search.active select, .search input:focus ~ select {
+    width: 80px;
+    padding: 0 2px 0 2px;
+    border-width: 1px;
 }
 
 .empty-list {

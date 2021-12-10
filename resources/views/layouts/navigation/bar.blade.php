@@ -101,13 +101,13 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="nav navbar-nav ml-auto">
-                <li class="nav-item">
-                    @include('partials.backup-link')
-                </li>
                 <!-- Authentication Links -->
                 @if (Auth::guest())
                     <li class="nav-item"><a href="{{ url('/login') }}">Login</a></li>
                 @else
+                    <li class="nav-item">
+                        @include('partials.backup-link')
+                    </li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                            aria-expanded="false">
