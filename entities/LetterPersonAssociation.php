@@ -2,6 +2,7 @@
 
 namespace Grimm;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -71,5 +72,12 @@ class LetterPersonAssociation extends Model
     public function makePersonMentioned()
     {
         $this->type = static::MENTION;
+    }
+
+    public function scopeSearch(Builder $builder, $term)
+    {
+        $builder
+            ->where('assignment_source', 'like', '%' . $term . '%')
+            ->groupBy('assignment_source');
     }
 }

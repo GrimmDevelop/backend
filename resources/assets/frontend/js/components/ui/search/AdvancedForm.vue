@@ -3,12 +3,13 @@
         <div class="search-filter flex justify-center items-top">
             <div class="table">
                 <search-filter v-for="(filter, index) in filters" :key="index"
-                                      :filter="filter" :value="search"
-                                      @filter="$emit('filter', filter, $event)"/>
+                               :filter="filter" :value="search"
+                               @filter="$emit('filter', filter, $event)"/>
             </div>
 
         </div>
-        <add-filter-button v-if="remaining_filters.length > 0" :remaining_filters="remaining_filters" @addFilter="addFilter($event)"/>
+        <add-filter-button v-if="remaining_filters.length > 0" :remaining_filters="remaining_filters"
+                           @addFilter="addFilter($event)"/>
         <div class="btn-container">
             <button class="btn-search"
                     @click="$emit('search')">
@@ -67,12 +68,12 @@
                     },
                     {
                         name: "Briefanfang",
-                        id: "letter_start",
+                        id: "inc",
                         type: "string",
                     },
                     {
                         name: "Briefnummer",
-                        id: "letter_number",
+                        id: "id_till_2018",
                         type: "string",
                     },
                 ],
@@ -92,7 +93,7 @@
         },
 
         methods: {
-            addFilter(event){
+            addFilter(event) {
                 let selectedElement = this.remaining_filters.filter(o => o.name === event.name)[0];
                 this.filters.push(selectedElement);
                 this.remaining_filters = this.remaining_filters.filter(o => o !== selectedElement);
@@ -124,9 +125,10 @@
         align-self: center;
 
         &:hover {
-             background-color: darken(#2c5282, 5%);
-         }
+            background-color: darken(#2c5282, 5%);
+        }
     }
+
     .btn-advanced {
         border-radius: 0 5px 5px 0;
         padding: 0.6rem;

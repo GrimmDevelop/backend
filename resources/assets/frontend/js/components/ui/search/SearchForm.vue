@@ -49,8 +49,8 @@
                     handwriting: "",
                     print: "",
                     sender_place: "",
-                    letter_start: "",
-                    letter_number: "",
+                    inc: "",
+                    id_till_2018: "",
                 },
                 pagination: {
                     page: 1,

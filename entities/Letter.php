@@ -294,12 +294,27 @@ class Letter extends Model implements IsGridable, HasMedia
     public function scopeApplyFilter(Builder $builder, $parameters)
     {
         foreach ($parameters as $field => $term) {
-            if($field === 'date') {
-                // TODO: handle date input
+            if(is_null($term)) {
                 continue;
             }
 
-            $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field));
+            if($field === 'date') {
+                // TODO: handle date input
+                $from = $term['from'] ?? null;
+                $to = $term['to'] ?? null;
+
+                if(!is_null($to)) {
+                    // filter to
+                }
+
+                if(!is_null($from)) {
+                    // filter from
+                }
+
+                continue;
+            }
+
+            $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field, true));
         }
     }
 }
