@@ -7,19 +7,29 @@
             <advanced-form v-else @switch-mode="mode = 'simple'" :search="search"
                            @filter="updateFilter" @search="startSearch"/>
         </div>
-        <div v-if="hasResults">
+        <div class="search-result-container" v-if="showResults">
             <dotted-line class="dotted-line"></dotted-line>
+            <div v-if="hasResults">
 
-            <search-result :letters="letters"></search-result>
+                <search-result :letters="letters"></search-result>
+                <!--                old-->
+                <!--                <span @click="pagination.page++">{{ pagination.page }}</span>-->
+                <!--                new-->
+                <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
+            </div>
+            <div v-if="searching" class="mx-auto w-70 mt-12">
+                <img src="https://www.grimmstories.com/images/sprookjes/author.jpg" alt="Searching" class="mx-auto">
+                <div class="text-gray-400 text-center font-bold mt-6">Es wird gesucht ... </div>
+            </div>
+<!--            Show something if we are searching?-->
 
-            <span @click="pagination.page++">{{ pagination.page }}</span>
-        </div>
+<!--            Show something if nothing is found? -->
 
-        <div v-if="showResults && !hasResults" class="mx-auto w-70 mt-12">
-            <dotted-line class="dotted-line"></dotted-line>
 
-            <img src="https://www.grimmstories.com/images/sprookjes/author.jpg" alt="No Results" class="mx-auto">
-            <div class="text-gray-400 text-center font-bold mt-6">No results were found ...</div>
+<!--            <div v-else class="mx-auto w-70 mt-12">-->
+
+
+<!--            </div>-->
         </div>
     </div>
 </template>
@@ -31,6 +41,7 @@
     import SimpleForm from "./SimpleForm";
     import SearchResult from "./SearchResult";
     import AdvancedForm from "./AdvancedForm";
+    import SearchPagination from "./SearchPagination";
 
     export default {
         name: "SearchForm",
@@ -54,10 +65,12 @@
                 },
                 pagination: {
                     page: 1,
-                    limit: 25,
+                    limit: 3,
+                    maxPage: 0,
                 },
                 letters: [],
                 showResults: false,
+                searching: false,
             };
         },
 
@@ -84,6 +97,7 @@
 
             startSearch() {
                 // TODO: fix request triggered twice due to pagination watch
+                this.searching = true
                 this.pagination.page = 1;
                 this.getLetters();
                 this.showResults = true;
@@ -102,8 +116,19 @@
                         return qs.stringify(params, {encodeValuesOnly: true});
                     }
                 }).then(response => {
+                    this.searching = false;
                     this.letters = response.data.data;
+                    this.paginationMaxPage();
                 });
+            },
+
+            paginationSetPage(number) {
+                console.log(number);
+                this.pagination.page = number;
+            },
+
+            paginationMaxPage(){
+                this.pagination.maxPage = Math.ceil(this.letters.length / this.pagination.limit)
             },
         },
         components: {
@@ -111,20 +136,33 @@
             SearchResult,
             DottedLine,
             SimpleForm,
+            SearchPagination,
         }
     };
 </script>
 
 <style scoped>
     .complete-container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
     }
+
     .search-form-centered {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 50rem;
-        transform: translate(-50%, -50%);
+        margin-top: auto;
+        margin-bottom: auto;
     }
+
+    .current-searching-container{
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .search-result-container{
+
+    }
+
     .search-bar {
         padding: 1rem 0 0.5rem 0;
         margin-bottom: 1rem;
