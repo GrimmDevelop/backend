@@ -30,7 +30,7 @@ return [
     'couvert' => 'Couvert',
     // "copy_owned" => "",
     "language" => "Sprache",
-    "copy" => "Copy",
+    "copy" => "Briefkopie(n)",
     "directory" => "Verzeichnet in",
     'handwriting_location' => 'Handschrift',
 
@@ -67,4 +67,6 @@ return [
 
     'attachment' => 'Beilage',
     'attachments' => 'Beilagen',
+
+    'auctionCatalogues' => 'Auktionskataloge',
 ];
