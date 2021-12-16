@@ -30,6 +30,7 @@ class LetterGrid extends Grid
             new Column('date', true),
             new Column('outgoing_notice', false),
             new Column('couvert', false),
+            new Column('copy', false),
             new Column('language', false),
             new Column('inc', false),
             new Column('copy', false),
