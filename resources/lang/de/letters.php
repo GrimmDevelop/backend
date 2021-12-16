@@ -31,7 +31,6 @@ return [
     // "copy_owned" => "",
     "language" => "Sprache",
     "copy" => "Briefkopie(n)",
-
     "directory" => "Verzeichnet in",
     'handwriting_location' => 'Handschrift',
 
@@ -75,4 +74,5 @@ return [
     'comment' => 'Sachkommentar',
     'apparatus' => 'Apparat',
 
+    'auctionCatalogues' => 'Auktionskataloge',
 ];
