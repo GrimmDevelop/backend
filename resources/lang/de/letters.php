@@ -69,6 +69,7 @@ return [
 
     'attachment' => 'Beilage',
     'attachments' => 'Beilagen',
+    'auctionCatalogues' => 'Auktionskataloge',
 
     'comment' => 'Sachkommentar',
     'apparatus' => 'Apparat',
