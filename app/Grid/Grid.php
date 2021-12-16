@@ -7,10 +7,10 @@ use Illuminate\Support\Collection;
 class Grid
 {
 
-    private $namespace;
-    protected $columns;
+    protected string $namespace;
+    protected Collection $columns;
 
-    public function __construct($namespace, array $columns = [])
+    public function __construct(string $namespace, array $columns = [])
     {
         $this->namespace = $namespace;
 
@@ -41,7 +41,7 @@ class Grid
      * @param Column $column
      * @return $this
      */
-    public function add(Column $column)
+    public function add(Column $column): Grid
     {
         $this->columns[$column->name()] = $column;
 
@@ -54,7 +54,7 @@ class Grid
      * @param $name
      * @return Column
      */
-    public function column($name)
+    public function column($name): Column
     {
         return $this->columns[$name];
     }
@@ -63,15 +63,11 @@ class Grid
      * @param bool $alsoHiddenOnes
      * @return Collection
      */
-    public function columns($alsoHiddenOnes = false)
+    public function columns(bool $alsoHiddenOnes = false): Collection
     {
         return $this->columns
             ->filter(function (Column $column) use ($alsoHiddenOnes) {
-                if ($alsoHiddenOnes) {
-                    return true;
-                }
-
-                return $column->isActive();
+                return $alsoHiddenOnes || $column->isActive();
             });
     }
 
@@ -79,7 +75,7 @@ class Grid
      * @param $items
      * @return Collection
      */
-    public function data($items)
+    public function data($items): Collection
     {
         return collect($items)->map(function (IsGridable $model) {
             return $model->activeGridRow();
@@ -97,7 +93,7 @@ class Grid
     /**
      * @return string
      */
-    public function namespace()
+    public function namespace(): string
     {
         return $this->namespace . '.';
     }
@@ -108,7 +104,7 @@ class Grid
      *
      * @return string
      */
-    public function gridSessionKey()
+    public function gridSessionKey(): string
     {
         $namespace = 'grid.';
 

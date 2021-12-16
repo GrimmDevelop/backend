@@ -31,6 +31,7 @@ return [
     // "copy_owned" => "",
     "language" => "Sprache",
     "copy" => "Briefkopie(n)",
+
     "directory" => "Verzeichnet in",
     'handwriting_location' => 'Handschrift',
 
@@ -51,6 +52,8 @@ return [
     'sender' => 'Absender',
     'receiver' => 'Empfänger',
 
+    'outgoing_notice' => 'Ausgangsnotiz',
+
     'assignment_source' => 'Person (Quellenangabe)',
 
     'print' => 'Druck',
@@ -67,6 +70,9 @@ return [
 
     'attachment' => 'Beilage',
     'attachments' => 'Beilagen',
-
     'auctionCatalogues' => 'Auktionskataloge',
+
+    'comment' => 'Sachkommentar',
+    'apparatus' => 'Apparat',
+
 ];
