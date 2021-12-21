@@ -1,7 +1,7 @@
 <template>
     <div class="search-all-bar">
         <input class="the-search-all-bar" :value="value" @input="$emit('filter', $event.target.value)" type="search" placeholder="Alles durchsuchen"/>
-        <button class="btn-search" type="submit" @click="$emit('search')">
+        <button class="btn-search magnifier" type="submit" @click="$emit('search')">
             <icon icon="search"/>
         </button>
 
@@ -37,14 +37,16 @@
         padding: 0.5rem 1rem;
     }
 
+    .magnifier {
+        width: 3rem;
+        height: 3rem;
+    }
+
     .btn-search {
         background-color: #2c5282;
         color: white;
         border: none;
         border-radius: 0 5px 5px 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         padding: 0.85rem;
 
         &:hover {

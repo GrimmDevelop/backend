@@ -12,9 +12,9 @@
             <spinner v-if="searching"></spinner>
             <div v-if="hasResults">
                 <search-result :letters="letters"></search-result>
-                <!--                old-->
-                <!--                <span @click="pagination.page++">{{ pagination.page }}</span>-->
-                <!--                new-->
+                <!-- old -->
+                <!-- <span @click="pagination.page++">{{ pagination.page }}</span> -->
+                <!-- new -->
                 <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
         </div>
@@ -131,6 +131,10 @@
 </script>
 
 <style scoped>
+    .search-form{
+        padding-top: 2rem;
+    }
+
     .complete-container {
         width: 100%;
         height: 100vh;
