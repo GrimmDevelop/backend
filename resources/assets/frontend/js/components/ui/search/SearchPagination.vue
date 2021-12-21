@@ -29,7 +29,7 @@
         data() {
             return {
                 active: 0
-            }
+            };
         },
 
         mounted() {
@@ -38,36 +38,31 @@
 
         methods: {
             increasePage() {
-                this.$emit('setPage', this.pagination.page + 1)
+                this.$emit('setPage', this.pagination.page + 1);
             },
 
             decreasePage() {
-                this.$emit('setPage', this.pagination.page - 1)
+                this.$emit('setPage', this.pagination.page - 1);
             },
 
             setPage() {
-                this.$emit('setPage', this.active)
+                this.$emit('setPage', this.active);
             },
         },
 
 
-    }
+    };
 </script>
 
 <style scoped lang="scss">
     @import "~@/sass/variables";
 
     .image-pagination {
-        border-radius: 5px;
         background-color: rgba(248, 239, 239, 0.5);
         display: flex;
+        justify-content: center;
         align-items: center;
-        $w: 80px;
-        position: absolute;
-        bottom: 5px;
-        left: 50%;
-        margin-left: -($w / 2);
-        width: $w;
+        padding: 0.7rem;
     }
 
     .page-input {
@@ -81,5 +76,9 @@
         &:focus {
             border: 1px solid black;
         }
+    }
+
+    .cheveron-outline-right{
+        margin-left: 0.4rem;
     }
 </style>

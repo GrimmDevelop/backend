@@ -9,27 +9,14 @@
         </div>
         <div class="search-result-container" v-if="showResults">
             <dotted-line class="dotted-line"></dotted-line>
+            <spinner v-if="searching"></spinner>
             <div v-if="hasResults">
-
                 <search-result :letters="letters"></search-result>
                 <!--                old-->
                 <!--                <span @click="pagination.page++">{{ pagination.page }}</span>-->
                 <!--                new-->
                 <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
-            <div v-if="searching" class="mx-auto w-70 mt-12">
-                <img src="https://www.grimmstories.com/images/sprookjes/author.jpg" alt="Searching" class="mx-auto">
-                <div class="text-gray-400 text-center font-bold mt-6">Es wird gesucht ... </div>
-            </div>
-<!--            Show something if we are searching?-->
-
-<!--            Show something if nothing is found? -->
-
-
-<!--            <div v-else class="mx-auto w-70 mt-12">-->
-
-
-<!--            </div>-->
         </div>
     </div>
 </template>
@@ -42,6 +29,7 @@
     import SearchResult from "./SearchResult";
     import AdvancedForm from "./AdvancedForm";
     import SearchPagination from "./SearchPagination";
+    import Spinner from "../Spinner";
 
     export default {
         name: "SearchForm",
@@ -65,7 +53,7 @@
                 },
                 pagination: {
                     page: 1,
-                    limit: 3,
+                    limit: 4,
                     maxPage: 0,
                 },
                 letters: [],
@@ -97,7 +85,7 @@
 
             startSearch() {
                 // TODO: fix request triggered twice due to pagination watch
-                this.searching = true
+                this.searching = true;
                 this.pagination.page = 1;
                 this.getLetters();
                 this.showResults = true;
@@ -128,7 +116,7 @@
             },
 
             paginationMaxPage(){
-                this.pagination.maxPage = Math.ceil(this.letters.length / this.pagination.limit)
+                this.pagination.maxPage = Math.ceil(this.letters.length / this.pagination.limit);
             },
         },
         components: {
@@ -137,6 +125,7 @@
             DottedLine,
             SimpleForm,
             SearchPagination,
+            Spinner,
         }
     };
 </script>
