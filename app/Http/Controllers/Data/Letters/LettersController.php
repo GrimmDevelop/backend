@@ -14,11 +14,11 @@ class LettersController extends Controller
         if (request('mode') === 'advanced') {
             $result = Letter::applyFilter(request('search'))
                 ->with('personAssociations')
-                ->paginate();
+                ->paginate(request('limit'));
         } else {
             $result = Letter::search(request('searchAll'), null, true)
                 ->with('personAssociations')
-                ->paginate();
+                ->paginate(request('limit'));
         }
 
         return fractal()->collection(

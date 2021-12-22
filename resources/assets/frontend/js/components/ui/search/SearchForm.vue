@@ -54,7 +54,7 @@
                 pagination: {
                     page: 1,
                     limit: 4,
-                    maxPage: 0,
+                    lastPage: 0,
                 },
                 letters: [],
                 showResults: false,
@@ -85,13 +85,13 @@
 
             startSearch() {
                 // TODO: fix request triggered twice due to pagination watch
-                this.searching = true;
                 this.pagination.page = 1;
                 this.getLetters();
                 this.showResults = true;
             },
 
             getLetters() {
+                this.searching = true;
                 this.$http.get('/data/letters', {
                     params: {
                         page: this.pagination.page,
@@ -106,17 +106,12 @@
                 }).then(response => {
                     this.searching = false;
                     this.letters = response.data.data;
-                    this.paginationMaxPage();
+                    this.pagination.lastPage = response.data.meta.last_page;
                 });
             },
 
             paginationSetPage(number) {
-                console.log(number);
                 this.pagination.page = number;
-            },
-
-            paginationMaxPage(){
-                this.pagination.maxPage = Math.ceil(this.letters.length / this.pagination.limit);
             },
         },
         components: {

@@ -6,8 +6,8 @@
                   @click="decreasePage">
             </icon>
             <span class="text-gray-900 whitespace-nowrap">
-                <input :placeholder="pagination.page" :value="active" @input="setPage"
-                       class="page-input cursor-pointer">/ {{ pagination.maxPage }}
+                <input :value="pagination.page" @input="setPage"
+                       class="page-input cursor-pointer">/ {{ pagination.lastPage }}
             </span>
             <icon icon="cheveron-outline-right"
                   format="cursor-pointer text-gray-600 hover:text-gray-900"
@@ -26,23 +26,13 @@
             pagination: {},
         },
 
-        data() {
-            return {
-                active: 0
-            };
-        },
-
-        mounted() {
-            this.active = this.pagination.page;
-        },
-
         methods: {
             increasePage() {
-                this.$emit('setPage', this.pagination.page + 1);
+                this.$emit('setPage', Math.min(this.pagination.page + 1, this.pagination.lastPage));
             },
 
             decreasePage() {
-                this.$emit('setPage', this.pagination.page - 1);
+                this.$emit('setPage', Math.max(1, this.pagination.page - 1));
             },
 
             setPage() {
