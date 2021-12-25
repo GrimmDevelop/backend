@@ -53,7 +53,7 @@
                     },
                     {
                         name: "Handschrift",
-                        id: "handwriting",
+                        id: "handwriting_location",
                         type: "string",
                     },
                     {
@@ -89,7 +89,7 @@
                         type: "string",
                     },
                 ],
-            }
+            };
         },
 
         methods: {
@@ -108,6 +108,7 @@
 </script>
 
 <style lang="scss" scoped>
+    @import "~@/sass/variables";
 
     .btn-container {
         display: flex;
@@ -116,7 +117,7 @@
     }
 
     .btn-search {
-        background-color: #2c5282;
+        background-color: $button-blue;
         color: white;
         border: none;
         border-radius: 5px 0 0 5px;
@@ -125,7 +126,7 @@
         align-self: center;
 
         &:hover {
-            background-color: darken(#2c5282, 5%);
+            background-color: darken($button-blue, 5%);
         }
     }
 

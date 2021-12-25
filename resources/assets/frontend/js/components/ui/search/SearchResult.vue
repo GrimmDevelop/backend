@@ -100,7 +100,8 @@
     };
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import "~@/sass/variables";
     /*full container:*/
     .search-result-cards-container {
         display: flex;
@@ -125,7 +126,10 @@
         padding: 0.3rem;
         font-size: 1.3rem;
         color: white;
-        background-color: #35495d;
+        background-color: $search-result-title;
+        &:hover {
+            background-color: darken($search-result-title, 5%);
+        }
     }
 
     .result-properties {
@@ -139,13 +143,10 @@
         font-size: 1rem;
         margin-left: auto;
         margin-right: auto;
-        /*padding-bottom: 5px;*/
-        /*display: flex;*/
     }
 
     .result-item-title {
         grid-area: item-title;
-        /*margin-left: auto;*/
         margin-right: auto;
         padding-bottom: 5px;
     }
@@ -155,13 +156,7 @@
         border-left: 1px solid black;
         padding-left: 1rem;
         padding-bottom: 5px;
-
-        /*margin-left: auto;*/
         margin-right: auto;
     }
 
-    /*.scan-item{*/
-    /*    margin-right: auto;*/
-    /*    margin-left: auto;*/
-    /*}*/
 </style>

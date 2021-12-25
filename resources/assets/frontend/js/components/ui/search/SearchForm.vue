@@ -48,6 +48,8 @@
                     handwriting: "",
                     print: "",
                     sender_place: "",
+                    from_location_historical: "",
+                    from_location_derived: "",
                     inc: "",
                     id_till_2018: "",
                 },
@@ -81,6 +83,9 @@
         methods: {
             updateFilter(filter, value) {
                 this.search[filter.id] = value;
+                if (filter.name === "Absendeort") { // should we also search for the "from_location_derived"? (But I think with a logical or?)
+                    this.search["from_location_historical"] = value;
+                }
             },
 
             startSearch() {
@@ -107,6 +112,7 @@
                     this.searching = false;
                     this.letters = response.data.data;
                     this.pagination.lastPage = response.data.meta.last_page;
+                    console.log(this.letters);
                 });
             },
 
