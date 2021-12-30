@@ -291,6 +291,12 @@ class Letter extends Model implements IsGridable, HasMedia
             ->performOnCollections('letters.scans.handwriting_location');
     }
 
+    public function scopeGetDateCode($carbonDate)
+    {
+        return $carbonDate->year * 10000 + $carbonDate->month * 100 + $carbonDate->day;
+    }
+
+
     public function scopeApplyFilter(Builder $builder, $parameters)
     {
         foreach ($parameters as $field => $term) {
@@ -300,17 +306,34 @@ class Letter extends Model implements IsGridable, HasMedia
 
             if($field === 'date') {
                 // TODO: handle date input
-                $from = $term['from'] ?? null;
-                $to = $term['to'] ?? null;
-
-                if(!is_null($to)) {
-                    // filter to
-                }
-
-                if(!is_null($from)) {
-                    // filter from
-                }
-
+//                $table = $builder->getModel()->getTable();
+//                var_dump($table);
+//
+//
+//                $from = $term['from'] ?? null;
+//                $to = $term['to'] ?? null;
+//
+//                var_dump($from);
+//                if(!is_null($to)) {
+//                    // filter to
+//                    $endDate = Carbon::createFromFormat('Y-m-d', $to);
+//                    var_dump($endDate);
+//                    $endCode = $this->scopeGetDateCode($endDate);
+//                    var_dump($endCode);
+//                    $builder->where("{$table}.code", 'LIKE', "%183%");
+//                }
+//
+//                if(!is_null($from)) {
+//                    // filter from
+//                    $startDate = Carbon::createFromFormat('Y-m-d', $to);
+//                    var_dump($startDate);
+//                    var_dump($startDate->year * 1000);
+//                    $startCode = $this->scopeGetDateCode($startDate);
+//                    var_dump($startCode);
+//                    $builder->where("{$table}.code", 'LIKE', "%183%");
+//                }
+//                $codes = $builder->where("{$table}.code", '>', "1")->get();
+//                var_dump($codes);
                 continue;
             }
 

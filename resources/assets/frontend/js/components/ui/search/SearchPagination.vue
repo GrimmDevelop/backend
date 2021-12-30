@@ -10,7 +10,7 @@
                        class="page-input cursor-pointer">/ {{ pagination.lastPage }}
             </span>
             <icon icon="cheveron-outline-right"
-                  format="cursor-pointer text-gray-600 hover:text-gray-900"
+                  format="cheveron-outline-right cursor-pointer text-gray-600 hover:text-gray-900"
                   @click="increasePage">
             </icon>
         </div>
@@ -48,7 +48,6 @@
     @import "~@/sass/variables";
 
     .image-pagination {
-        background-color: rgba(248, 239, 239, 0.5);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -69,6 +68,6 @@
     }
 
     .cheveron-outline-right{
-        margin-left: 0.4rem;
+        margin-left: 0.3rem;
     }
 </style>

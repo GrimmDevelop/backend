@@ -51,7 +51,7 @@
                     from_location_historical: "",
                     from_location_derived: "",
                     inc: "",
-                    id_till_2018: "",
+                    id: "",
                 },
                 pagination: {
                     page: 1,
@@ -66,7 +66,12 @@
 
         computed: {
             hasResults() {
-                return this.letters.length > 0;
+                try {
+                    return this.letters.length > 0;
+                } catch (error) {
+                    return false;
+                }
+
             },
 
             currentPage() {
@@ -97,6 +102,7 @@
 
             getLetters() {
                 this.searching = true;
+                console.log(this.search);
                 this.$http.get('/data/letters', {
                     params: {
                         page: this.pagination.page,
@@ -111,7 +117,11 @@
                 }).then(response => {
                     this.searching = false;
                     this.letters = response.data.data;
-                    this.pagination.lastPage = response.data.meta.last_page;
+                    try {
+                        this.pagination.lastPage = response.data.meta.last_page;
+                    } catch(error) {
+                        this.pagination.lastPage = 1;
+                    }
                     console.log(this.letters);
                 });
             },

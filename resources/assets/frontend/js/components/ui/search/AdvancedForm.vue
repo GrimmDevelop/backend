@@ -73,7 +73,7 @@
                     },
                     {
                         name: "Briefnummer",
-                        id: "id_till_2018",
+                        id: "id",
                         type: "string",
                     },
                 ],

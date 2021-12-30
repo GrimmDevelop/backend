@@ -73,20 +73,20 @@
                 });
             }, 350),
 
-            updateFilterValueVSelect(value) {
-                console.log("UpdateFilter: ", value);
+            updateFilterValueVSelect(value) { // is ok to not debounce
+                console.log("UpdateFilter-Vselect: ", value);
 
                 this.$emit('filter', value);
             },
 
-            updateFilterValue(event) {
+            updateFilterValue(event) { // is ok to not debounce
                 const value = typeof event === 'object' ? event.target.value : event;
                 console.log("UpdateFilter: ", value);
 
                 this.$emit('filter', value);
             },
 
-            updateFilterDateValue(event, position) {
+            updateFilterDateValue(event, position) { // is ok to not debounce
                 const value = {...this.value[this.filter.id]};
 
                 value[position] = event.target.value;
