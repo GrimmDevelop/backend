@@ -18,6 +18,7 @@ use Illuminate\Support\Collection;
  * @property string last_name
  * @property string first_name
  * @property string full_name
+ * @property string full_first_name
  * @property string birth_date
  * @property string death_date
  * @property string bio_data
@@ -49,6 +50,7 @@ class Person extends Model implements IsGridable
         'last_name',
         'first_name',
         'full_name',
+        'full_first_name',
         'birth_date',
         'death_date',
         'bio_data',
@@ -72,17 +74,27 @@ class Person extends Model implements IsGridable
     /**
      * Returns the full name of person and/or organization
      *
+     * @param bool $full
      * @return string
      */
-    public function fullName()
+    public function normalizeName(bool $full = false): string
     {
-        $name = $this->last_name ?: static::$unknownName;
+        $lastName = $full ? $this->full_name : $this->last_name;
+        $firstName = $full ? $this->full_first_name : $this->first_name;
 
-        if ($this->is_organization || $this->first_name == '') {
-            return $name;
+        if(!$lastName && !$firstName) {
+            return static::$unknownName;
         }
 
-        return $this->full_name ?? $this->last_name . ', ' . $this->first_name;
+        if ($this->is_organization || !$firstName) {
+            return $lastName;
+        }
+
+        if(!$lastName) {
+            return $firstName;
+        }
+
+        return $lastName . ', ' . $firstName;
     }
 
     /**
@@ -151,7 +163,7 @@ class Person extends Model implements IsGridable
      */
     public function scopeSearchByName(Builder $query, $name)
     {
-        return $query->whereRaw('match(full_name, first_name, last_name) against (? in boolean mode)', [$name]);
+        return $query->whereRaw('match(full_first_name, full_name, first_name, last_name) against (? in boolean mode)', [$name]);
     }
 
     public function scopeFullInfo(Builder $query)

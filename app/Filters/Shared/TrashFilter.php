@@ -44,8 +44,10 @@ class TrashFilter implements Filter, FlagFilter
 
     public function default(Builder $query)
     {
-        if (session($this->sessionKey())) {
+        if (session($this->sessionKey()) == 1) {
             $query->withTrashed();
+        } else if (session($this->sessionKey()) == 2) {
+            $query->onlyTrashed();
         }
     }
 
@@ -61,11 +63,21 @@ class TrashFilter implements Filter, FlagFilter
 
     public function nextValue()
     {
-        return !session($this->sessionKey());
+        return (session($this->sessionKey()) + 1) % 3;
     }
 
     public function applied()
     {
+        return session($this->sessionKey()) > 0;
+    }
+
+    public function value()
+    {
         return session($this->sessionKey());
+    }
+
+    public function nextTitle()
+    {
+        return trans('filters.trash.' . $this->nextValue());
     }
 }

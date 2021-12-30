@@ -48,6 +48,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string from_date
  * @property string receive_annotation
  * @property string reconstructed_from
+ * @property string outgoing_notice
  *
  * @property int to_id
  * @property string to_location_historical

@@ -11,6 +11,7 @@ class LettersController extends Controller
 {
     public function index()
     {
+<<<<<<< HEAD
         if (request('mode') === 'advanced') {
             $result = Letter::applyFilter(request('search'))
                 ->with('personAssociations')
@@ -20,6 +21,9 @@ class LettersController extends Controller
                 ->with('personAssociations')
                 ->paginate(request('limit'));
         }
+=======
+        $result = Letter::applyFilter(request('search'))->with('personAssociations.person')->paginate();
+>>>>>>> test
 
         return fractal()->collection(
             $result->items(),
@@ -54,9 +58,9 @@ class LettersController extends Controller
                 'letter_number' => $letter->id, /*id or unique_code or id_till_* or code ?*/
                 'facsimiles' => $letter->facsimiles,
                 'senders' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association
-                ) => $association->isSender())->pluck('assignment_source'),
+                ) => $association->isSender())->pluck('name'),
                 'receivers' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association
-                ) => $association->isReceiver())->pluck('assignment_source'),
+                ) => $association->isReceiver())->pluck('name'),
                 'inc' => $letter->inc,
                 'text' => $letter->text,
                 'scans' => $letter->getMedia('letters.scans.handwriting_location')->map(function (Media $media) {

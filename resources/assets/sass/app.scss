@@ -150,10 +150,10 @@ body {
 
 @keyframes target-fade {
     0% {
-        background-color: $black;
+        background-color: fade-in($light_gray, .1);
     }
     100% {
-        background-color: $black;
+        background-color: $light_gray;
     }
 }
 

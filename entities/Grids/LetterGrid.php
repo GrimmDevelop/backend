@@ -21,23 +21,6 @@ class LetterGrid extends Grid
 
     public function __construct(Letter $letter)
     {
-        $codes = LetterCode::all()->map(function (LetterCode $code) use ($letter) {
-            return new Column('code_' . $code->name, false, function () use ($letter, $code) {
-                return $letter->information()
-                    ->where('letter_code_id', $code->id)
-                    ->get()
-                    ->pluck('data')
-                    ->implode('; ');
-            }, function (Builder $query, $search) use ($code) {
-                $query->whereHas('information', function (Builder $q) use ($code, $search) {
-                    $q->join('letter_codes', function (JoinClause $join) use ($code) {
-                        $join->on('letter_codes.id', '=', 'letter_informations.letter_code_id')
-                            ->where('letter_codes.name', $code->name);
-                    })->where('data', 'LIKE', "%$search%");
-                });
-            });
-        });
-
         parent::__construct('letters', collect([
             new Column('unique_code', true),
             new Column('id_till_2018', false),
@@ -45,7 +28,9 @@ class LetterGrid extends Grid
             new Column('id_till_1997', false),
             new Column('code', true),
             new Column('date', true),
+            new Column('outgoing_notice', false),
             new Column('couvert', false),
+            new Column('copy', false),
             new Column('language', false),
             new Column('inc', false),
             new Column('copy', false),
@@ -120,6 +105,6 @@ class LetterGrid extends Grid
                 })->implode('; ');
             }, 'auctionCatalogues.entry'),
             new Column('addition', true),
-        ])->merge($codes)->toArray());
+        ])->toArray());
     }
 }

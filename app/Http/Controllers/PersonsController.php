@@ -207,6 +207,7 @@ class PersonsController extends Controller
     {
         $person->ddb_id = $request->get('ddb_id') ?: null;
         $person->full_name = $request->get('full_name') ?: null;
+        $person->full_first_name = $request->get('full_first_name') ?: null;
         $person->last_name = $request->get('last_name');
         $person->first_name = $request->get('first_name') ?: null;
 
