@@ -11,7 +11,6 @@ class LettersController extends Controller
 {
     public function index()
     {
-<<<<<<< HEAD
         if (request('mode') === 'advanced') {
             $result = Letter::applyFilter(request('search'))
                 ->with('personAssociations')
@@ -21,9 +20,6 @@ class LettersController extends Controller
                 ->with('personAssociations')
                 ->paginate(request('limit'));
         }
-=======
-        $result = Letter::applyFilter(request('search'))->with('personAssociations.person')->paginate();
->>>>>>> test
 
         return fractal()->collection(
             $result->items(),
