@@ -4,15 +4,15 @@
             {{ filter.name }}:
         </div>
         <div v-if="filter.type === 'date'" class="table-cell py-2 px-1">
-            <input class="search-filter-content-date border border-gray-500 rounded px-2 py-1 w-full" type="date"
+            <input class="search-filter-content-date search-filter-border px-2 py-1 w-full" type="date"
                    @input="updateFilterDateValue($event, 'from')"
                    :value="value[filter.id].from"> -
-            <input class="search-filter-content-date border border-gray-500 rounded px-2 py-1 w-full" type="date"
+            <input class="search-filter-content-date search-filter-border px-2 py-1 w-full" type="date"
                    @input="updateFilterDateValue($event, 'to')"
                    :value="value[filter.id].to">
         </div>
         <div v-if="filter.type === 'string'" class="table-cell py-2 px-1">
-            <input class="search-filter-input border border-gray-500 rounded px-2 py-1 w-full" type="search"
+            <input class="search-filter-input search-filter-border px-2 py-1 w-full" type="search"
                    :placeholder="placeholder" :value="value[filter.id]"
                    @input="updateFilterValue">
         </div>
@@ -106,5 +106,19 @@
     .search-filter-content-select {
         width: 100%;
         color: gray;
+    }
+
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: gray;
+        opacity: 1; /* Firefox */
+    }
+
+    ::-ms-input-placeholder { /* Microsoft Edge */
+        color: gray;
+    }
+
+    .search-filter-border {
+        border: 1px solid rgba(60,60,60,0.26);
+        border-radius: 4px;
     }
 </style>
