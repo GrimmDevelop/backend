@@ -1,4 +1,19 @@
 let mix = require('laravel-mix');
+let path = require('path');
+
+const tailwindcss = require('tailwindcss');
+
+Mix.listen('configReady', webpackConfig => {
+    webpackConfig.module.rules.forEach(rule => {
+        if (Array.isArray(rule.use)) {
+            rule.use.forEach(ruleUse => {
+                if (ruleUse.loader === 'resolve-url-loader') {
+                    ruleUse.options.engine = 'postcss';
+                }
+            });
+        }
+    });
+});
 
 /*
  |--------------------------------------------------------------------------
@@ -11,7 +26,10 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/misc.js', 'public/js')
+mix
+    // backend
+    .vue({ version: 2 })
+    .js('resources/assets/js/misc.js', 'public/js')
     .js('resources/assets/js/associations/associations.js', 'public/js')
     .js('resources/assets/js/letters/associations.js', 'public/js/letters')
     .js('resources/assets/js/people/person.js', 'public/js')
@@ -25,7 +43,26 @@ mix.js('resources/assets/js/misc.js', 'public/js')
     .js('resources/assets/js/letters/letter.js', 'public/js')
     .js('resources/assets/js/letters/scans.js', 'public/js/letters-scans.js')
     .js('resources/assets/js/letters/apparatuses.js', 'public/js/letters-apparatuses.js')
+    .js('resources/assets/js/letters/lettertext.js', 'public/js/letters-lettertext.js')
     .js('resources/assets/js/deployment/deployment.js', 'public/js')
     .js('resources/assets/js/import/import.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css')
-    .sass('resources/assets/sass/formats.scss', 'public/css');
+    .sass('resources/assets/sass/app.scss', 'public/css', {
+        additionalData: "$APP_ENV: '" + process.env.APP_ENV + "';"
+    })
+    .sass('resources/assets/sass/formats.scss', 'public/css')
+    // frontend
+    .js('resources/assets/frontend/js/frontend.js', 'public/frontend/js')
+    .sass('resources/assets/frontend/sass/app.scss', 'public/frontend/css/')
+    .options({
+        processCssUrls: true,
+        postCss: [
+            tailwindcss('./tailwind.config.js'),
+        ]
+    })
+    .copy('node_modules/tinymce/skins', 'public/frontend/js/skins')
+    .copy('node_modules/tinymce/icons', 'public/js/icons')
+    .alias({
+        '@': path.resolve(__dirname, 'resources/assets'),
+    })
+    .version()
+    .sourceMaps();

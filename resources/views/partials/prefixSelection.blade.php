@@ -1,7 +1,7 @@
 <div class="col-md-12 letters-container">
     <ul class="letters">
         @foreach($navigationPrefixes as $letter => $_)
-            <li {!! active($firstCharacter, $letter) !!}>
+            <li class="{{ active($firstCharacter, $letter) }}">
                 <a href="{{ url()->filtered(['prefix' => $letter]) }}">{{ $letter }}</a>
             </li>
         @endforeach
@@ -16,7 +16,7 @@
     <div class="col-md-12 letters-container">
         <ul class="letters">
             @foreach($navigationPrefixes[$firstCharacter] as $letter)
-                <li {!! active($secondCharacter, $letter) !!}>
+                <li class="{{ active($secondCharacter, $letter) }}">
                     <a href="{{ url()->filtered(['prefix' => $firstCharacter . $letter]) }}">{{ $firstCharacter . $letter }}</a>
                 </li>
             @endforeach

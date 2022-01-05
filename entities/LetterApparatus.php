@@ -3,6 +3,7 @@
 namespace Grimm;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int id
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class LetterApparatus extends Model
 {
+    use SoftDeletes, TextWithLetterLinks;
 
     public $guarded = [];
 

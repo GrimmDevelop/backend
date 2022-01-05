@@ -9,14 +9,18 @@
     ],
     "parserOptions": {
         "sourceType": "module",
-        "parser": "babel-eslint",
+        "parser": "@babel/eslint-parser",
         "ecmaVersion": 2017
     },
     "rules": {
         "semi": ["error","always"],
-        "vue/html-indent": ["warning", 4],
+        "vue/html-indent": ["warn", 4],
         "vue/attribute-hyphenation": [1, "always"],
         "vue/mustache-interpolation-spacing": [1, "always"],
-        "vue/no-template-shadow": [1]
+        "vue/no-template-shadow": [1],
+        "vue/this-in-template": ["error", "never"],
+
+        "no-console": "error",
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings":  true }]
     }
 }

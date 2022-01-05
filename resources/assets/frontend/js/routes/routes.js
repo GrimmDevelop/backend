@@ -1,0 +1,30 @@
+
+import Home from "@/frontend/js/modules/Home/Home";
+import LettersList from "@/frontend/js/modules/Letters/Letters";
+import LettersView from "@/frontend/js/modules/Letters/Letter";
+import LetterWindowsScan from "@/frontend/js/modules/Letters/Windows/Scan";
+
+const routes = [
+    {
+        path: '/',
+        component: Home
+    },
+    {
+        name: 'letters-list',
+        path: '/letters',
+        component: LettersList
+    },
+    {
+        name: 'letters-view',
+        path: '/letters/:id',
+        component: LettersView
+    },
+    {
+        name: 'letters-windows-scan',
+        path: '/letters/:id/scan',
+        component: LetterWindowsScan
+    },
+    // {path: '/bar', component: Bar}
+];
+
+export default routes;

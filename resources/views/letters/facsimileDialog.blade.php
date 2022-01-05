@@ -12,20 +12,20 @@
             <div class="form-inline" id="create{{ ucfirst($type) }}Form"
                  data-url="{{ $baseUrl }}">
                 <div class="modal-body">
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label for="create{{ ucfirst($type) }}Entry">Eintrag: </label>
-                        <input type="text" id="create{{ ucfirst($type) }}Entry" class="form-control input-sm"
+                        <input type="text" id="create{{ ucfirst($type) }}Entry" class="form-control form-control-sm"
                                name="entry"
                                ref="createEntryField" v-model="createEntry">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group row">
                         <label for="year">Jahr: </label>
-                        <input type="text" class="form-control input-sm" name="year"
+                        <input type="text" class="form-control form-control-sm" name="year"
                                v-model="createYear">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         Schließen
                     </button>
                     <button type="button" class="btn btn-primary" @click.prevent="storeItem">Speichern</button>

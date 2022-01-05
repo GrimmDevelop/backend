@@ -29,7 +29,6 @@ use App\Upload\UploadsFiles;
 use Carbon\Carbon;
 use Flow\File;
 use Grimm\LibraryBook;
-use Illuminate\Support\Facades\Input;
 
 
 class LibraryBooksController extends Controller
@@ -96,7 +95,7 @@ class LibraryBooksController extends Controller
         event(new StoreLibraryEvent($book, $request->user()));
 
         return redirect()
-            ->route('librarybooks.show', ['id' => $book->id])
+            ->route('librarybooks.show', [$book])
             ->with('success', trans('librarybooks.store_success'));
     }
 
@@ -158,7 +157,6 @@ class LibraryBooksController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function uploadGet(IndexLibraryRequest $request, $id)
     {
@@ -180,7 +178,6 @@ class LibraryBooksController extends Controller
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     public function uploadPost(IndexLibraryRequest $request, $id)
     {
@@ -205,11 +202,10 @@ class LibraryBooksController extends Controller
      * @throws \Exception
      * @throws \Flow\FileLockException
      * @throws \Flow\FileOpenException
-     * @throws \Spatie\MediaLibrary\Exceptions\FileCannotBeAdded
      */
     private function saveUploadedFile(File $file, LibraryBook $book)
     {
-        $filename = Input::get('flowRelativePath');
+        $filename = request()->get('flowRelativePath');
 
         $tmp = uniqid(null, true);
 
@@ -232,7 +228,7 @@ class LibraryBooksController extends Controller
      *
      * @param UpdateLibraryRequest $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateLibraryRequest $request, $id)
     {
@@ -244,7 +240,7 @@ class LibraryBooksController extends Controller
         event(new UpdateLibraryEvent($book, $request->user()));
 
         return redirect()
-            ->route('librarybooks.show', ['id' => $book->id])
+            ->route('librarybooks.show', [$book])
             ->with('success', 'Die Änderungen wurden gespeichert');
     }
 
@@ -299,7 +295,7 @@ class LibraryBooksController extends Controller
      *
      * @param DestroyLibraryRequest $request
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(DestroyLibraryRequest $request, $id)
     {
@@ -328,7 +324,7 @@ class LibraryBooksController extends Controller
         $book->restore();
 
         return redirect()
-            ->route('library.show', [$id])
+            ->route('library.show', [$book])
             ->with('success', 'Das Buch wurde wiederhergestellt!');
     }
 

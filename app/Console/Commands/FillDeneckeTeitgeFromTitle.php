@@ -46,6 +46,6 @@ class FillDeneckeTeitgeFromTitle extends Command
                     $book->save();
                 })->count() . " books");
 
-        return true;
+        return 0;
     }
 }

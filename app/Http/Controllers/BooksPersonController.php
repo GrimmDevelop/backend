@@ -36,7 +36,7 @@ class BooksPersonController extends Controller
                 ->orderBy('volume')
                 ->orderBy('volume_irregular')
                 ->orderBy('edition')
-                ->paginate(10);;
+                ->paginate(10);
         }
 
         return view('people.add-book', compact('books', 'person'));

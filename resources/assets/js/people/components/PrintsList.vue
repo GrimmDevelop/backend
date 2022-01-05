@@ -3,23 +3,23 @@
         <div class="add-button" v-if="!deleted">
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#addPrint">
-                <i class="fa fa-plus"></i> Druck hinzufügen
+                <span class="fa fa-plus"></span> Druck hinzufügen
             </button>
         </div>
-        <table class="table table-responsive">
+        <table class="table">
             <thead>
-            <tr>
-                <th colspan="2">Eintrag</th>
-                <th colspan="2">Jahr</th>
-            </tr>
+                <tr>
+                    <th colspan="2">Eintrag</th>
+                    <th colspan="2">Jahr</th>
+                </tr>
             </thead>
             <tbody>
-            <tr v-for="print in prints" is="in-place-editor"
-                :key="`print-${print.id}`"
-                :print-id="print.id" :print-entry="print.entry" :print-year="print.year"
-                :base-url="indexUrl" :editable="!deleted"
-                @stored="loadPrints">
-            </tr>
+                <tr v-for="print in prints" is="in-place-editor"
+                    :key="`print-${print.id}`"
+                    :print-id="print.id" :print-entry="print.entry" :print-year="print.year"
+                    :base-url="indexUrl" :editable="!deleted"
+                    @stored="loadPrints">
+                </tr>
             </tbody>
         </table>
         <div class="modal fade" id="addPrint" role="dialog" aria-labelledby="addPrintTitle">
@@ -36,18 +36,18 @@
                           class="form-inline" method="POST">
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="entry">Eintrag: </label>
-                                <input type="text" class="form-control input-sm" name="entry"
+                                <label for="inputEntry">Eintrag: </label>
+                                <input type="text" class="form-control form-control-sm" name="entry" id="inputEntry"
                                        ref="createEntryField" v-model="createEntry">
                             </div>
                             <div class="form-group">
-                                <label for="year">Jahr: </label>
-                                <input type="text" class="form-control input-sm" name="year"
+                                <label for="inputYear">Jahr: </label>
+                                <input type="text" class="form-control form-control-sm" name="year" id="inputYear"
                                        v-model="createYear">
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Schließen
                             </button>
                             <button type="submit" class="btn btn-primary">Speichern</button>

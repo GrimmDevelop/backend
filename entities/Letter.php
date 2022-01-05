@@ -5,14 +5,16 @@ namespace Grimm;
 use App\Grid\Grid;
 use App\Grid\Gridable;
 use App\Grid\IsGridable;
+use Carbon\Carbon;
 use Grimm\Grids\LetterGrid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int id
@@ -25,6 +27,7 @@ use Spatie\MediaLibrary\Models\Media;
  * @property float code
  * @property bool valid
  *
+ * @property string text
  * @property string date
  *
  * @property string addition
@@ -45,36 +48,38 @@ use Spatie\MediaLibrary\Models\Media;
  * @property string from_date
  * @property string receive_annotation
  * @property string reconstructed_from
+ * @property string outgoing_notice
  *
  * @property int to_id
  * @property string to_location_historical
  * @property string to_date
  * @property string reply_annotation
  *
- * @property \Carbon\Carbon created_at
- * @property \Carbon\Carbon updated_at
+ * @property Carbon created_at
+ * @property Carbon updated_at
  *
- * @property \Carbon\Carbon deleted_at
+ * @property Carbon deleted_at
  * @property string deleted_reason
  *
  * @property Location from
  * @property Location to
  *
- * @property \Illuminate\Support\Collection|LetterPersonAssociation[] personAssociations
- * @property \Illuminate\Support\Collection|LetterPrint[] prints
- * @property \Illuminate\Support\Collection|LetterTranscription[] transcriptions
- * @property \Illuminate\Support\Collection|Draft[] drafts
- * @property \Illuminate\Support\Collection|Facsimile[] facsimiles
- * @property \Illuminate\Support\Collection|LetterAttachment[] attachments
- * @property \Illuminate\Support\Collection|AuctionCatalogue[] auctionCatalogues
- * @property \Illuminate\Support\Collection|LetterInformation[] information
+ * @property Collection|LetterPersonAssociation[] personAssociations
+ * @property Collection|LetterPrint[] prints
+ * @property Collection|LetterTranscription[] transcriptions
+ * @property Collection|Draft[] drafts
+ * @property Collection|Facsimile[] facsimiles
+ * @property Collection|LetterAttachment[] attachments
+ * @property Collection|AuctionCatalogue[] auctionCatalogues
+ * @property Collection|LetterInformation[] information
  * @property LetterApparatus apparatus
  * @property LetterComment comment
+ * @method static static|Builder applyFilter($parameters)
  */
 class Letter extends Model implements IsGridable, HasMedia
 {
 
-    use SoftDeletes, HasActivity, Gridable, HasMediaTrait;
+    use SoftDeletes, HasActivity, Gridable, InteractsWithMedia;
 
     /**
      * Returns the field used by router
@@ -233,7 +238,7 @@ class Letter extends Model implements IsGridable, HasMedia
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function senders()
     {
@@ -243,7 +248,7 @@ class Letter extends Model implements IsGridable, HasMedia
     }
 
     /**
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public function receivers()
     {
@@ -273,5 +278,29 @@ class Letter extends Model implements IsGridable, HasMedia
         $ids = $this->getMedia($collection)->pluck('id')->toArray();
 
         Media::setNewOrder($ids);
+    }
+
+    /**
+     * @param Media|null $media
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     */
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(200)
+            ->height(300)
+            ->performOnCollections('letters.scans.handwriting_location');
+    }
+
+    public function scopeApplyFilter(Builder $builder, $parameters)
+    {
+        foreach ($parameters as $field => $term) {
+            if($field === 'date') {
+                // TODO: handle date input
+                continue;
+            }
+
+            $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field));
+        }
     }
 }

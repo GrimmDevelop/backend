@@ -5,6 +5,7 @@ namespace App\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class FilterApplicator
 {
@@ -160,7 +161,7 @@ class FilterApplicator
 
         /** @var Collection $toRemove */
         $toRemove = $deltaCollection->filter(function ($value, $key) {
-            return is_numeric($key) && starts_with($value, '-');
+            return is_numeric($key) && Str::startsWith($value, '-');
         })->map(function ($item) {
             return substr($item, 1);
         });
@@ -183,11 +184,9 @@ class FilterApplicator
      */
     public function selectable()
     {
-        $selectable = collect($this->filters)->filter(function ($value) {
+        return collect($this->filters)->filter(function ($value) {
             return $value instanceof SelectableFilter;
         });
-
-        return $selectable;
     }
 
     /**
@@ -236,15 +235,13 @@ class FilterApplicator
      */
     protected function flags(Collection $deltaCollection)
     {
-        $flags = $deltaCollection->filter(function ($value, $key) {
-            return is_numeric($key) && !starts_with($value, '-');
+        return $deltaCollection->filter(function ($value, $key) {
+            return is_numeric($key) && !Str::startsWith($value, '-');
         })->flatMap(function ($value, $key) {
             $filter = $this->filterFor($value);
 
             return [$value => $filter->nextValue()];
         });
-
-        return $flags;
     }
 
     /**

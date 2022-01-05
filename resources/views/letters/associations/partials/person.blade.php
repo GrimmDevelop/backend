@@ -1,23 +1,23 @@
 @if($association->person)
-    @if($association->person->fullName() != $association->assignment_source)
+    @if($association->person->normalizeName() != $association->assignment_source)
         {{ $association->assignment_source }}
 
         <a href="{{ route('people.show', [$association->person]) }}"
            data-toggle="tooltip"
            title="Person öffnen"
            style="margin-left: 2em;">
-            <span>{{ $association->person->fullName() }}</span>
+            <span>{{ $association->person->normalizeName() }}</span>
         </a>
     @else
         <a href="{{ route('people.show', [$association->person]) }}"
            data-toggle="tooltip"
            title="Person öffnen">
-            <span>{{ $association->person->fullName() }}</span>
+            <span>{{ $association->person->normalizeName() }}</span>
         </a>
     @endif
 
     <a href="{{ route('letters.index') }}?correspondence={{ $association->person->id }}"
-       class="btn btn-default" data-toggle="tooltip"
+       class="btn btn-secondary" data-toggle="tooltip"
        title="Korrespondenz"
        style="margin-left: 2em;">
         <span class="fa fa-envelope"></span>
@@ -32,7 +32,7 @@
 @endif
 
 <a href="{{ route('letters.associations.edit', [$letter, $association]) }}"
-   class="btn btn-default" data-toggle="tooltip" title="Verknüpfung bearbeiten">
+   class="btn btn-secondary" data-toggle="tooltip" title="Verknüpfung bearbeiten">
     <span class="fa fa-pencil"></span>
 </a>
 

@@ -48,7 +48,7 @@ class StoreLetterRequest extends FormRequest
 
         $letter->unique_code = $transformer->transform($letter->id);
 
-        $letter->code = number_format($this->normalizeCode($this->input('code')), 4, '.', '');
+        $letter->code = $this->normalizeCode($this->input('code'));
 
         $letter->date = $this->input('date');
 
@@ -62,6 +62,9 @@ class StoreLetterRequest extends FormRequest
 
     protected function normalizeCode($code)
     {
-        return str_replace(',', '.', $code);
+        return number_format(
+            str_replace(',', '.', $code),
+            4, '.', ''
+        );
     }
 }

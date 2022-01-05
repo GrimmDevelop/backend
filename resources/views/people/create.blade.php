@@ -13,6 +13,7 @@
                     {{ csrf_field() }}
                     @include('partials.form.field', ['field' => 'ddb_id', 'model' => 'people'])
                     @include('partials.form.field', ['field' => 'full_name', 'model' => 'people'])
+                    @include('partials.form.field', ['field' => 'full_first_name', 'model' => 'people'])
                     @include('partials.form.field', ['field' => 'last_name', 'model' => 'people'])
                     @include('partials.form.field', ['field' => 'first_name', 'model' => 'people'])
                     @include('partials.form.field', ['field' => 'birth_date', 'model' => 'people'])
@@ -26,7 +27,7 @@
                     @include('partials.form.boolean', ['field' => 'auto_generated', 'model' => 'people'])
 
                     <div class="button-bar row">
-                        <div class="col-sm-10 col-md-offset-2">
+                        <div class="col-sm-10 offset-md-2">
                             <button type="submit" class="btn btn-primary">Speichern</button>
                             <a href="{{ referrer_url('last_person_index', route('people.index')) }}"
                                class="btn btn-link">Abbrechen</a>

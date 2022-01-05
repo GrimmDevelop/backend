@@ -6,7 +6,6 @@ use App\Import\Converter\DBFRecordConverter;
 use App\Import\ModelConverter;
 use App\Transformers\UniqueIdTransformer;
 use Grimm\Letter;
-use XBase\Column;
 
 class LetterConverter implements ModelConverter
 {

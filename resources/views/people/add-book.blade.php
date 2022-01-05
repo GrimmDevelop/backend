@@ -11,7 +11,7 @@
                 <form action="{{ route('people.add-book', [$person]) }}" class="form-horizontal"
                       method="GET">
                     <div class="row">
-                        <label class="col-sm-2 control-label">Buch suchen</label>
+                        <label class="col-sm-2 col-form-label text-right">Buch suchen</label>
                         <div class="col-sm-10">
                             <div class="input-group">
                                 <div class="input-group-btn">
@@ -24,7 +24,7 @@
                                        placeholder="Buchtitel">
                                 <div class="input-group-btn">
                                     <a href="{{ route('people.add-book', [$person]) }}"
-                                       class="btn btn-default"><i class="fa fa-times"></i></a>
+                                       class="btn btn-secondary"><span class="fa fa-times"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -35,16 +35,16 @@
                       method="POST">
                     {{ csrf_field() }}
 
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
+                    <div class="form-group row">
+                        <div class="offset-sm-2 col-sm-10">
                             <div class="text-center">
                                 {{ $books->links() }}
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group{{ $errors->has('book') ? ' has-error' : '' }}">
-                        <label class="col-sm-2 control-label">Buch</label>
+                    <div class="form-group row {{ $errors->has('book') ? ' has-error' : '' }}">
+                        <label class="col-sm-2 col-form-label text-right">Buch</label>
                         <div class="col-sm-10">
                             <div class="list-group">
                                 @foreach($books->items() as $book)
@@ -73,59 +73,59 @@
                             </div>
 
                             @if ($errors->has('book'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('book') }}</strong>
                                 </span>
                             @endif
                         </div>
                     </div>
-                    <div class="form-group{{ $errors->has('page') || $errors->has('page_to') || $errors->has('line') ? ' has-error' : '' }}">
-                        <label class="col-sm-2 control-label">Seite</label>
+                    <div class="form-group row {{ $errors->has('page') || $errors->has('page_to') || $errors->has('line') ? ' has-error' : '' }}">
+                        <label class="col-sm-2 col-form-label text-right">Seite</label>
                         <div class="col-sm-2">
                             <input class="form-control" name="page"
                                    value="{{ old('page') }}">
 
                         </div>
-                        <label class="col-sm-1 control-label" style="text-align: center;">bis</label>
+                        <label class="col-sm-1 col-form-label" style="text-align: center;">bis</label>
                         <div class="col-sm-2">
                             <input class="form-control" name="page_to"
                                    value="{{ old('page_to') }}">
                         </div>
-                        <label class="col-sm-2 control-label">Zeile</label>
+                        <label class="col-sm-2 col-form-label text-right">Zeile</label>
                         <div class="col-sm-3">
                             <input class="form-control" name="line"
                                    value="{{ old('line') }}">
                         </div>
                     </div>
-                    <div class="form-group{{ $errors->has('page') || $errors->has('page_to') || $errors->has('line') ? ' has-error' : '' }}">
-                        <div class="col-sm-offset-2 col-sm-10">
+                    <div class="form-group row {{ $errors->has('page') || $errors->has('page_to') || $errors->has('line') ? ' has-error' : '' }}">
+                        <div class="offset-sm-2 col-sm-10">
                             @if ($errors->has('page'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('page') }}</strong>
                                 </span>
                             @endif
 
                             @if ($errors->has('page_to'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('page_to') }}</strong>
                                 </span>
                             @endif
 
                             @if ($errors->has('line'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('line') }}</strong>
                                 </span>
                             @endif
                         </div>
                     </div>
-                    <div class="form-group{{ $errors->has('page_description') ? ' has-error' : '' }}">
-                        <label class="col-sm-2 control-label">Notiz</label>
+                    <div class="form-group row {{ $errors->has('page_description') ? ' has-error' : '' }}">
+                        <label class="col-sm-2 col-form-label text-right">Notiz</label>
                         <div class="col-sm-10">
                             <input class="form-control" name="page_description"
                                    value="{{ old('page_description') }}">
 
                             @if ($errors->has('page_description'))
-                                <span class="help-block">
+                                <span class="form-text">
                                     <strong>{{ $errors->first('page_description') }}</strong>
                                 </span>
                             @endif
@@ -133,7 +133,7 @@
                     </div>
 
                     <div class="button-bar row">
-                        <div class="col-sm-10 col-md-offset-2">
+                        <div class="col-sm-10 offset-md-2">
                             <button type="submit" class="btn btn-primary">Speichern</button>
                             <a href="{{ route('people.show', [$person->id]) }}#books"
                                class="btn btn-link">Abbrechen</a>
@@ -144,36 +144,36 @@
                 <hr>
 
                 <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Nachname</label>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label text-right">Nachname</label>
                         <div class="col-sm-10">
                             <input class="form-control" name="last_name"
                                    value="{{ $person->last_name }}" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Vorname</label>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label text-right">Vorname</label>
                         <div class="col-sm-10">
                             <input class="form-control" name="first_name"
                                    value="{{ $person->first_name }}" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Geburtsdatum</label>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label text-right">Geburtsdatum</label>
                         <div class="col-sm-10">
                             <input class="form-control" name="birth_date"
                                    value="{{ $person->birth_date }}" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Todesdatum</label>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label text-right">Todesdatum</label>
                         <div class="col-sm-10">
                             <input class="form-control" name="death_date"
                                    value="{{ $person->death_date }}" readonly>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Biographische Daten</label>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label text-right">Biographische Daten</label>
                         <div class="col-sm-10">
                             <input class="form-control" name="bio_data"
                                    value="{{ $person->bio_data }}" readonly>

@@ -71,7 +71,7 @@ class LibraryPeopleController extends Controller
     {
         $person = LibraryPerson::findOrFail($libraryPerson);
 
-        return view('librarypeople.combine', ['person' => $person]);
+        return view('librarypeople.combine', [$person]);
     }
 
     /**
@@ -116,7 +116,7 @@ class LibraryPeopleController extends Controller
         event(new StoreLibraryPersonEvent($person, $request->user()));
 
         return redirect()
-            ->route('librarybooks.show', ['book' => $request->input('book')])
+            ->route('librarybooks.show', [$request->input('book')])
             ->with('success', 'Die Person und Verknüpfung wurden gespeichert.');
     }
 

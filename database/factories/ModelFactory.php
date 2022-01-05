@@ -11,80 +11,23 @@
 |
 */
 
-$factory->define(Grimm\User::class, function (Faker\Generator $faker) {
-    return [
-        'name' => $faker->name,
-        'email' => $faker->email,
-        'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
-        'api_token' => str_random(60),
-        'api_only' => true
-    ];
-});
-
-$factory->define(Grimm\Person::class, function (Faker\Generator $faker) {
-
-    $birthDate = \Carbon\Carbon::now()->subYears($faker->randomNumber(3));
-
-    return [
-        'last_name' => $faker->lastName,
-        'first_name' => $faker->firstName,
-        'birth_date' => $birthDate->format('Y'),
-        'death_date' => $birthDate->addYears($faker->randomNumber(2))->format('Y'),
-        'is_organization' => $faker->boolean(20),
-    ];
-});
-
-$factory->define(Grimm\LibraryBook::class, function (Faker\Generator $faker) {
-
-    $catalog_id = $faker->numberBetween(1, 10000);
-
-    if ($faker->boolean(20)) {
-        $catalog_id .= $faker->randomLetter();
-    }
-
-    return [
-        'catalog_id' => $catalog_id,
-        'title' => $faker->sentence,
-    ];
-});
-
-$factory->define(Grimm\Book::class, function (Faker\Generator $faker) {
-
-    if ($faker->boolean(80)) {
-        $v = rand(1, 7);
-        $v_i = null;
-    } else {
-        $v = null;
-        $v_i = rand(1, 7);
-    }
-
-    $title = $faker->sentence(4);
-
-    return [
-        'title' => $title,
-        'short_title' => str_slug($title),
-        'volume' => $v,
-        'volume_irregular' => $v_i,
-        'edition' => $faker->boolean(20),
-        'year' => rand(1500, 2000),
-    ];
-});
+use Illuminate\Support\Str;
 
 $factory->define(Grimm\PersonCode::class, function (Faker\Generator $faker) {
 
     return [
         'error_generated' => $faker->boolean(20),
         'internal' => $faker->boolean(20),
-        'name' => str_slug($faker->sentence(3)),
+        'name' => Str::slug($faker->sentence(3)),
     ];
 });
 
 $factory->define(Grimm\PersonInformation::class, function (Faker\Generator $faker) {
+    /** @var \Grimm\PersonCode $code */
+    $code = Grimm\PersonCode::query()->orderByRaw('RAND()')->first();
 
-    $code = Grimm\PersonCode::orderByRaw('RAND()')->first();
-
-    $person = Grimm\Person::orderByRaw('RAND()')->first();
+    /** @var \Grimm\Person $person */
+    $person = Grimm\Person::query()->orderByRaw('RAND()')->first();
 
     if (!$code || !$person) {
         throw new \Exception('no book or person found for association');
@@ -98,8 +41,8 @@ $factory->define(Grimm\PersonInformation::class, function (Faker\Generator $fake
 });
 
 $factory->define(Grimm\PersonPrint::class, function (Faker\Generator $faker) {
-
-    $person = Grimm\Person::orderByRaw('RAND()')->first();
+    /** @var \Grimm\Person $person */
+    $person = Grimm\Person::query()->orderByRaw('RAND()')->first();
 
     if (!$person) {
         throw new \Exception('no book or person found for association');
@@ -113,8 +56,8 @@ $factory->define(Grimm\PersonPrint::class, function (Faker\Generator $faker) {
 });
 
 $factory->define(Grimm\PersonInheritance::class, function (Faker\Generator $faker) {
-
-    $person = Grimm\Person::orderByRaw('RAND()')->first();
+    /** @var \Grimm\Person $person */
+    $person = Grimm\Person::query()->orderByRaw('RAND()')->first();
 
     if (!$person) {
         throw new \Exception('no book or person found for association');
@@ -127,10 +70,11 @@ $factory->define(Grimm\PersonInheritance::class, function (Faker\Generator $fake
 });
 
 $factory->define(Grimm\BookPersonAssociation::class, function (Faker\Generator $faker) {
+    /** @var \Grimm\Book $book */
+    $book = Grimm\Book::query()->orderByRaw('RAND()')->first();
 
-    $book = Grimm\Book::orderByRaw('RAND()')->first();
-
-    $person = Grimm\Person::orderByRaw('RAND()')->first();
+    /** @var \Grimm\Person $person */
+    $person = Grimm\Person::query()->orderByRaw('RAND()')->first();
 
     if (!$book || !$person) {
         throw new \Exception('no book or person found for association');

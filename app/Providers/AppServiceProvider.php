@@ -12,6 +12,7 @@ use App\Import\ImportService;
 use Carbon\Carbon;
 use Grimm\Person;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
@@ -31,7 +32,11 @@ class AppServiceProvider extends ServiceProvider
         Person::$unknownName = trans('people.unknownName');
 
         Passport::withoutCookieSerialization();
-        Paginator::useBootstrapThree();
+        Paginator::useBootstrap();
+
+        if(env('APP_FORCE_HTTPS', false)) {
+            URL::forceScheme('https');
+        }
 
         Validator::extend('equals', function ($attribute, $value, $parameters, $validator) {
             if (!isset($parameters[0])) {

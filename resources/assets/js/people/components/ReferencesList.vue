@@ -3,28 +3,28 @@
         <div class="add-button" v-if="!deleted">
             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
                     data-target="#addReference">
-                <i class="fa fa-plus"></i> Referenz hinzufügen
+                <span class="fa fa-plus"></span> Referenz hinzufügen
             </button>
         </div>
-        <table class="table table-responsive">
+        <table class="table">
             <thead>
-            <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Notizen</th>
-                <th class="action-column"></th>
-            </tr>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Notizen</th>
+                    <th class="action-column"></th>
+                </tr>
             </thead>
             <tbody>
-            <tr v-for="(reference, index) in references"
-                :key="`reference-${index}`">
-                <td>{{ reference.reference.id }}</td>
-                <td>{{ fullName(reference.reference) }}</td>
-                <td>{{ reference.notes }}</td>
-                <td>
-                    <span class="fa fa-trash"></span>
-                </td>
-            </tr>
+                <tr v-for="(reference, index) in references"
+                    :key="`reference-${index}`">
+                    <td>{{ reference.reference.id }}</td>
+                    <td>{{ fullName(reference.reference) }}</td>
+                    <td>{{ reference.notes }}</td>
+                    <td>
+                        <span class="fa fa-trash"></span>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <div class="modal fade" id="addReference" role="dialog" aria-labelledby="addReferenceTitle">
@@ -51,16 +51,17 @@
                                         {{ fullName(props.item) }}
                                     </template>
                                 </typeahead>
-                                <input v-if="createReferencedPerson" class="form-control" :value="fullName(createReferencedPerson)" readonly>
+                                <input v-if="createReferencedPerson" class="form-control"
+                                       :value="fullName(createReferencedPerson)" readonly>
                             </div>
                             <div class="form-group">
-                                <label for="inputNote">Notizen: </label>
-                                <textarea type="text" class="form-control input-sm" name="entry"
+                                <label for="inputNotes">Notizen: </label>
+                                <textarea type="text" class="form-control form-control-sm" name="entry" id="inputNotes"
                                           ref="createNotesField" v-model="createNotes" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 Schließen
                             </button>
                             <button type="submit" class="btn btn-primary">Speichern</button>

@@ -1,4 +1,5 @@
-window._ = require('lodash');
+import Vue from "vue";
+import axios from "axios";
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -18,14 +19,10 @@ window._ = require('lodash');
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-let axios = window.axios = require('axios');
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-axios.defaults.headers.common = {
-    'X-CSRF-TOKEN': window.Laravel.csrfToken,
-    'X-Requested-With': 'XMLHttpRequest'
-};
-
-let Vue = window.Vue = require('vue');
+window.Vue = Vue;
 
 Vue.prototype.$http = axios;
 

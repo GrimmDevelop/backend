@@ -5,8 +5,8 @@ namespace Grimm;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
 /**
  * @property int id
@@ -39,7 +39,7 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 class LibraryBook extends Model implements HasMedia
 {
 
-    use SoftDeletes, CollectPrefixes, HasActivity,HasMediaTrait;
+    use SoftDeletes, CollectPrefixes, HasActivity,InteractsWithMedia;
 
     protected $fillable = [
         'id',

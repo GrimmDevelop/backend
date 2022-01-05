@@ -5,6 +5,7 @@ namespace App\Filters\Shared;
 use App\Filters\FilterWithOptionals;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 
 class SortFilter implements FilterWithOptionals
 {
@@ -31,7 +32,7 @@ class SortFilter implements FilterWithOptionals
 
     public function default(Builder $query)
     {
-        if (\Schema::hasColumn($query->getModel()->getTable(), $this->orderByKey)) {
+        if (Schema::hasColumn($query->getModel()->getTable(), $this->orderByKey)) {
             $query->orderBy($this->orderByKey, $this->direction);
         } else {
             if (is_callable($this->unknownFieldCallback)) {

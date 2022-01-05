@@ -9,7 +9,7 @@
                 <h1>
                     <a class="prev-link"
                        href="{{ route('letters.show', [$letter]) }}">
-                        <i class="fa fa-caret-left"></i>
+                        <span class="fa fa-caret-left"></span>
                     </a>
 
                     Brief: {{ $letter->title() }}
@@ -38,7 +38,7 @@
                 </button>
 
                 <a href="{{ route('letters.show', [$letter]) }}"
-                   class="btn btn-default">
+                   class="btn btn-secondary">
                     Abbrechen
                 </a>
             @endunless

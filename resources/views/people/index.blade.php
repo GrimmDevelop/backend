@@ -25,12 +25,12 @@
                     </div>
                     @if(request()->has('search'))
                         <div class="reset-search">
-                            <a href="{{ url()->filtered(['-search']) }}" class="btn btn-default btn-sm"><i
+                            <a href="{{ url()->filtered(['-search']) }}" class="btn btn-secondary btn-sm"><i
                                         class="fa fa-times"></i></a>
                         </div>
                     @endif
                     <div class="generic">
-                        <a href="{{ route('people.create') }}" role="button" class="btn btn-default btn-sm">
+                        <a href="{{ route('people.create') }}" role="button" class="btn btn-secondary btn-sm">
                             <span class="fa fa-plus"></span>
                             {{ trans('people.store') }}
                         </a>
@@ -45,7 +45,7 @@
             <div class="col-md-12 list-content">
                 <div class="add-button">
                 </div>
-                <table class="table table-responsive table-hover">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>
@@ -64,7 +64,7 @@
                     <tbody>
                         @forelse($people->items() as $index => $person)
                             <tr id="person-{{ $person->id }}"
-                                onclick="location.href='{{ route('people.show', ['id' => $person->id]) }}'"
+                                onclick="location.href='{{ route('people.show', [$person]) }}'"
                                 style="cursor: pointer;"
                                 class="@if($person->auto_generated) bg-warning @endif @if($person->trashed()) bg-danger @endif">
                                 <td>{{ $person->id }}</td>
@@ -102,17 +102,17 @@
             </div>
             <div class="dropup">
                 <div class="btn-group">
-                    <a href="#" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Spalten <span
+                    <a href="#" data-toggle="dropdown" class="btn btn-secondary dropdown-toggle">Spalten <span
                                 class="caret"></span></a>
-                    <ul class="dropdown-menu">
+                    <div class="dropdown-menu dropdown-menu-right" style="width: 600px;">
                         @foreach(\Grimm\Person::gridColumns(true) as $column)
-                            <li {!! active_if($column->isActive()) !!}>
-                                <a href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">
-                                    {{ trans('people.' . $column->name()) }}
-                                </a>
-                            </li>
+                            <a class="dropdown-item {{ active_if($column->isActive()) }}"
+                               style="float: left; width: calc(33.33% - 1rem); margin: 0 0.5rem; clear:none;"
+                               href="{{ route('people.index') }}?grid={{ $column->name() }}&state={{ (int) !$column->isActive() }}">
+                                {{ trans('people.' . $column->name()) }}
+                            </a>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
             </div>
 
@@ -127,7 +127,7 @@
                     {{ csrf_field() }}
                     <button type="submit" class="btn btn-info"
                             data-toggle="tooltip" title="Daten exportieren">
-                        <i class="fa fa-download"></i>
+                        <span class="fa fa-download"></span>
                     </button>
                 </form>
             </div>

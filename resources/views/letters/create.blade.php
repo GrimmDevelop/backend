@@ -9,7 +9,7 @@
                 <h1>
                     <a class="prev-link"
                        href="{{ referrer_url('last_letter_index', route('letters.index')) }}">
-                        <i class="fa fa-caret-left"></i></a> Brief hinzufügen
+                        <span class="fa fa-caret-left"></span></a> Brief hinzufügen
                 </h1>
             </div>
 
@@ -24,8 +24,8 @@
 
                     @include('partials.form.textarea', ['field' => 'inc', 'model' => 'letters', 'rows' => 3])
 
-                    <div class="form-group">
-                        <div class="col-sm-10 col-sm-offset-2">
+                    <div class="form-group row">
+                        <div class="col-sm-10 offset-sm-2">
                             @can('library.update')
                                 <button type="submit" class="btn btn-primary">
                                     <span class="fa fa-floppy-o"></span>

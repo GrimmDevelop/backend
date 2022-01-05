@@ -46,6 +46,6 @@ class PurchaseNumberAnalyzer extends RegexpAnalyzer
      */
     protected function displayString(): string
     {
-        return "Model contains possible purchase number [%s].";
+        return "Denecke field contains possible purchase number [%s] but corresponding field is empty.";
     }
 }
