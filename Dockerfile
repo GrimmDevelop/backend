@@ -5,7 +5,19 @@ FROM ubuntu:20.04
 
 WORKDIR /var/www/html
 
-RUN apt-get update && apt-get install software-properties-common -yqq --no-install-recommends && add-apt-repository ppa:ondrej/php && apt-get update && apt-get install default-mysql-client php8.0 nginx supervisor ca-certificates \
+RUN apt-get update
+
+# Add mariadb repository for mariadb-client
+RUN apt-get install curl -yqq
+RUN curl https://downloads.mariadb.com/MariaDB/mariadb_repo_setup --output mariadb_repo_setup
+RUN echo "fd3f41eefff54ce144c932100f9e0f9b1d181e0edd86a6f6b8f2a0212100c32c mariadb_repo_setup" \
+    | sha256sum -c -
+RUN chmod +x mariadb_repo_setup
+RUN ./mariadb_repo_setup \
+   --mariadb-server-version="mariadb-10.6"
+
+# Install packages
+RUN apt-get update && apt-get install software-properties-common -yqq --no-install-recommends && add-apt-repository ppa:ondrej/php && apt-get update && apt-get install mariadb-client php8.0 nginx supervisor ca-certificates \
         php8.0-fpm php8.0-curl php8.0-mbstring php8.0-mysql php8.0-xml php8.0-gd php8.0-ldap php8.0-zip php8.0-redis php8.0-bcmath \
          -yqq --no-install-recommends \
           && rm -rf /var/lib/apt/lists/*
