@@ -306,39 +306,40 @@ class Letter extends Model implements IsGridable, HasMedia
             }
 
             if($field === 'date') {
-                // TODO: handle date input
-//                $table = $builder->getModel()->getTable();
-//                var_dump($table);
-//
-//
-//                $from = $term['from'] ?? null;
-//                $to = $term['to'] ?? null;
-//
-//                var_dump($from);
-//                if(!is_null($to)) {
-//                    // filter to
-//                    $endDate = Carbon::createFromFormat('Y-m-d', $to);
-//                    var_dump($endDate);
-//                    $endCode = $this->scopeGetDateCode($endDate);
-//                    var_dump($endCode);
-//                    $builder->where("{$table}.code", 'LIKE', "%183%");
-//                }
-//
-//                if(!is_null($from)) {
-//                    // filter from
-//                    $startDate = Carbon::createFromFormat('Y-m-d', $to);
-//                    var_dump($startDate);
-//                    var_dump($startDate->year * 1000);
-//                    $startCode = $this->scopeGetDateCode($startDate);
-//                    var_dump($startCode);
-//                    $builder->where("{$table}.code", 'LIKE', "%183%");
-//                }
-//                $codes = $builder->where("{$table}.code", '>', "1")->get();
-//                var_dump($codes);
-                continue;
-            }
+                $from = $term['from'] ?? null;
+                $to = $term['to'] ?? null;
+                if(is_null($from) && is_null($to)){
+                    continue;
+                }
+                $table = $builder->getModel()->getTable();
 
-            $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field, true));
+                if(is_null($from) && !is_null($to)) {
+                    // filter to
+                    $endDate = Carbon::createFromFormat('Y-m-d', $to);
+                    $endCode = $this->scopeGetDateCode($endDate);
+                    $builder->where("{$table}.code", 'LIKE', "%$endCode%");
+                }
+
+                if(is_null($to) && !is_null($from)) {
+                    // filter from
+                    $startDate = Carbon::createFromFormat('Y-m-d', $from);
+                    $startCode = $this->scopeGetDateCode($startDate);
+                    $builder->where("{$table}.code", 'LIKE', "%$startCode%");
+                }
+
+                if(!is_null($to) && !is_null($from)){
+                    // filter from to
+                    $startDate = Carbon::createFromFormat('Y-m-d', $from);
+                    $startCode = $this->scopeGetDateCode($startDate);
+                    $endDate = Carbon::createFromFormat('Y-m-d', $to);
+                    $endCode = $this->scopeGetDateCode($endDate);
+
+                    $builder->where("{$table}.code", '>=', "$startCode")->where("{$table}.code", '<=', "$endCode");
+                }
+            }
+            if($field !== 'date') {
+                $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field, true));
+            }
         }
     }
 }
