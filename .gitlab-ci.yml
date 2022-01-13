@@ -36,7 +36,7 @@ test:js:
 build:composer:
   stage: build
   only:
-    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?(-pre)?$/
+    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?(-pre\d*)?$/
   image: registry.ueberreiter.com/grimm/php8.0:1.0
   cache:
     key: "composer-build-cache"
@@ -56,7 +56,7 @@ build:composer:
 build:npm:
   stage: build
   only:
-    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?(-pre)?$/
+    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?(-pre\d*)?$/
   image: node:16
   cache:
     key: "npm-build-cache"
@@ -79,7 +79,7 @@ build:npm:
 build:test:
   stage: bundle
   only:
-    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?-pre$/
+    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?-pre\d*$/
   tags:
     - images
   before_script:
