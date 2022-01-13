@@ -244,7 +244,7 @@ class Letter extends Model implements IsGridable, HasMedia
     {
         return $this->personAssociations->filter(function (LetterPersonAssociation $association) {
             return $association->isSender();
-        })->values();
+        });
     }
 
     /**
@@ -254,7 +254,7 @@ class Letter extends Model implements IsGridable, HasMedia
     {
         return $this->personAssociations->filter(function (LetterPersonAssociation $association) {
             return $association->isReceiver();
-        })->values();
+        });
     }
 
     public function scopeByPerson(Builder $query, $personId, $type)
@@ -292,7 +292,7 @@ class Letter extends Model implements IsGridable, HasMedia
             ->performOnCollections('letters.scans.handwriting_location');
     }
 
-    public function scopeGetDateCode($carbonDate)
+    public function carbonToDateCode(Carbon $carbonDate): float
     {
         return $carbonDate->year * 10000 + $carbonDate->month * 100 + $carbonDate->day;
     }
@@ -301,43 +301,38 @@ class Letter extends Model implements IsGridable, HasMedia
     public function scopeApplyFilter(Builder $builder, $parameters)
     {
         foreach ($parameters as $field => $term) {
-            if(is_null($term)) {
+            if (is_null($term)) {
                 continue;
             }
 
-            if($field === 'date') {
+            if ($field === 'date') {
                 $from = $term['from'] ?? null;
                 $to = $term['to'] ?? null;
-                if(is_null($from) && is_null($to)){
+
+                if (is_null($from) && is_null($to)) {
                     continue;
                 }
-                $table = $builder->getModel()->getTable();
 
-                if(is_null($from) && !is_null($to)) {
-                    // filter to
-                    $endDate = Carbon::createFromFormat('Y-m-d', $to);
-                    $endCode = $this->scopeGetDateCode($endDate);
-                    $builder->where("{$table}.code", 'LIKE', "%$endCode%");
-                }
+                $table = $this->getTable();
 
-                if(is_null($to) && !is_null($from)) {
-                    // filter from
-                    $startDate = Carbon::createFromFormat('Y-m-d', $from);
-                    $startCode = $this->scopeGetDateCode($startDate);
-                    $builder->where("{$table}.code", 'LIKE', "%$startCode%");
-                }
+                $builder->where(function(Builder $subQuery) use($from, $to, $table) {
+                    if (!is_null($to)) {
+                        $endCode = $this->carbonToDateCode(
+                            Carbon::createFromFormat('Y-m-d', $to)
+                        );
 
-                if(!is_null($to) && !is_null($from)){
-                    // filter from to
-                    $startDate = Carbon::createFromFormat('Y-m-d', $from);
-                    $startCode = $this->scopeGetDateCode($startDate);
-                    $endDate = Carbon::createFromFormat('Y-m-d', $to);
-                    $endCode = $this->scopeGetDateCode($endDate);
+                        $subQuery->where("{$table}.code", '<=', $endCode);
+                    }
 
-                    $builder->where("{$table}.code", '>=', "$startCode")->where("{$table}.code", '<=', "$endCode");
-                }
-            }
-            if($field !== 'date') {
+                    if (!is_null($from)) {
+                        $startCode = $this->carbonToDateCode(
+                            Carbon::createFromFormat('Y-m-d', $from)
+                        );
+
+                        $subQuery->where("{$table}.code", '>=', $startCode);
+                    }
+                });
+            } else {
                 $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field, true));
             }
         }

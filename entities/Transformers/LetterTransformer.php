@@ -20,24 +20,9 @@ class LetterTransformer extends TransformerAbstract
         'prints',
         'comments',
         'facsimiles',
+        'senders',
+        'receivers',
     ];
-
-    /*Alles in den Transformer
-
-    Für Alles (alle Relationships) auch einen Tranformer
-    Mit return new Transformer
-
-    print -> entry, year, is transkription als bool casten $letter->prints()->orderBy('sort')->get(),
-
-    Man kann immer im model gucken was es für properties hat.
-
-    mit include relationship für scans auch umbauen, sodass es nicht gemapped wird, sondern mit relation
-    auch für senders und receivers
-    links:
-    - https://laravel.com/docs/8.x/eloquent-relationships#one-to-many-inverse (relations)
-    - https://laravel.com/docs/master/queries#where-clauses
-
-    */
 
     public function transform(Letter $letter)
     {
@@ -47,17 +32,12 @@ class LetterTransformer extends TransformerAbstract
             'date' => $letter->date,
             'from_location_derived' => $letter->from_location_derived,
             'from_location_historical' => $letter->from_location_historical,
-//            'prints' => $letter->prints, /*correct?*/ /*printed_in?*/
-//            'comments' => $letter->comment, /*comments?*/
-            'code' => $letter->code, /*correct?*/
-            'sender_place' => $letter->from,
-            'receiver_place' => $letter->to,
+            'code' => $letter->code,
+            // 'sender_place' => $letter->from,
+            // 'receiver_place' => $letter->to,
             'letter_number' => $letter->id_till_2018,
-//            'facsimiles' => $letter->facsimiles,
-            'senders' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association
-            ) => $association->isSender())->pluck('name'),
-            'receivers' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association
-            ) => $association->isReceiver())->pluck('name'),
+            'senders' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association) => $association->isSender())->pluck('name'),
+            'receivers' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association) => $association->isReceiver())->pluck('name'),
             'inc' => $letter->inc,
             'text' => $letter->text,
             'scans' => $letter->getMedia('letters.scans.handwriting_location')->map(function (Media $media) {
@@ -77,9 +57,7 @@ class LetterTransformer extends TransformerAbstract
      */
     public function includePrints(Letter $letter)
     {
-        $prints = $letter->prints;
-
-        return $this-> Collection($prints, new LetterPrintTransformer());
+        return $this->collection($letter->prints, new LetterPrintTransformer);
     }
 
     /**
@@ -90,9 +68,7 @@ class LetterTransformer extends TransformerAbstract
      */
     public function includeComments(Letter $letter)
     {
-        $comment = $letter -> comment;
-
-        return $this -> Item($comment, new LetterCommentTransformer());
+        return $this->item($letter->comment, new LetterCommentTransformer);
     }
 
     /**
@@ -101,10 +77,16 @@ class LetterTransformer extends TransformerAbstract
      */
     public function includeFacsimiles(Letter $letter)
     {
-        $facsimile = $letter->facsimiles;
-
-        return $this -> Collection($facsimile, new LetterFacsimileTransformer);
+        return $this->collection($letter->facsimiles, new LetterFacsimileTransformer);
     }
 
+    public function includeSenders(Letter $letter)
+    {
+        return $this->collection($letter->senders(), new LetterPersonAssociationTransformer);
+    }
 
+    public function includeReceivers(Letter $letter)
+    {
+        return $this->collection($letter->receivers(), new LetterPersonAssociationTransformer);
+    }
 }

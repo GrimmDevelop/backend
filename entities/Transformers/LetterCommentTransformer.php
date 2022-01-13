@@ -16,7 +16,6 @@ class LetterCommentTransformer extends TransformerAbstract
         return[
             'id' => $comment->id,
             'entry' => $comment->entry,
-            'letter' => $comment->letter
         ];
     }
 }
