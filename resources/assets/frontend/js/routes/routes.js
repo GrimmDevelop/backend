@@ -25,11 +25,6 @@ const routes = [
         path: '/letters/:id/scan',
         component: LetterWindowsScan
     },
-    {
-        name: 'search-view',
-        path: '/lettersearch',
-        component: SearchForm
-    },
 ];
 
 export default routes;

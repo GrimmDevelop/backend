@@ -27,7 +27,7 @@
                 return window.Laravel.adminUrl;
             },
             letterSearch() {
-                return "https://grimm.test/lettersearch";
+                return "/letters";
             }
         },
     };
