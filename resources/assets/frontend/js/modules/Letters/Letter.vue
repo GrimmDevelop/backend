@@ -1,12 +1,12 @@
 <template>
     <div class="flex w-full h-screen" v-if="letter">
-        <div class="flex-grow grid" :class="gridClass">
+        <div class="flex-grow grid" :class="gridClass" ref="columnContainer">
             <column namespace="letters" :entity="letter" name="scan">
                 <scan-column :letter="letter"/>
             </column>
 
-            <column namespace="letters" :entity="letter" name="text">
-                <letter-text :text="letter.text" class="p-4"/>
+            <column namespace="letters" :entity="letter" name="text" >
+                <letter-text @registered="getWindowWidth" :width="textWidth" :text="letter.text" class="p-4"/>
             </column>
         </div>
 
@@ -19,9 +19,9 @@
 
 <script>
     import Sidebar from "./display/Sidebar";
-    import ScanColumn from "@/frontend/js/modules/Letters/display/scans/ScanColumn";
-    import LetterText from "@/frontend/js/modules/Letters/LetterText";
-    import Column from "@/frontend/js/components/ui/windows/Column";
+    import ScanColumn from "./display/scans/ScanColumn";
+    import LetterText from "./LetterText";
+    import Column from "../../components/ui/windows/Column.vue";
 
     export default {
         name: "Letter",
@@ -29,6 +29,7 @@
         data() {
             return {
                 letter: null,
+                textWidth: 0,
             };
         },
 
@@ -57,7 +58,10 @@
                 immediate: true,
                 handler() {
                     this.$http.get(`/data/letters/${this.id}`)
-                        .then(response => this.letter = response.data.data);
+                        .then(response => {
+                            this.letter = response.data.data;
+                            console.log(this.letter);
+                        });
                 },
             },
         },
@@ -71,6 +75,16 @@
                     }
                 });
             });
+
+        },
+
+        methods: {
+            getWindowWidth() {
+                setInterval(() => {
+                    this.textWidth = this.$refs.columnContainer.clientWidth / 2;
+                    console.log(this.textWidth);
+                }, 1000);
+            },
         },
 
         components: {

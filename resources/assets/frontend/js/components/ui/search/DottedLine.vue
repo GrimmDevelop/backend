@@ -1,18 +1,18 @@
 <template>
-    <div class="search-dotted-line">
+    <div class="dotted-line">
         <br>
     </div>
 </template>
 
 <script>
     export default {
-        name: "SearchDottedLine"
+        name: "DottedLine"
     };
 </script>
 
 <style scoped>
 
-    .search-dotted-line {
+    .dotted-line {
         /* creation of a line https://jsfiddle.net/yyp67pbg/ */
         background-image: linear-gradient(to right, gray 30%, rgba(255, 255, 255, 0) 0%);
         /*vertical position*/

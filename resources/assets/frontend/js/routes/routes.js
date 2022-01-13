@@ -3,6 +3,7 @@ import Home from "@/frontend/js/modules/Home/Home";
 import LettersList from "@/frontend/js/modules/Letters/Letters";
 import LettersView from "@/frontend/js/modules/Letters/Letter";
 import LetterWindowsScan from "@/frontend/js/modules/Letters/Windows/Scan";
+import SearchForm from "../components/ui/search/SearchForm";
 
 const routes = [
     {
@@ -24,7 +25,11 @@ const routes = [
         path: '/letters/:id/scan',
         component: LetterWindowsScan
     },
-    // {path: '/bar', component: Bar}
+    {
+        name: 'search-view',
+        path: '/lettersearch',
+        component: SearchForm
+    },
 ];
 
 export default routes;

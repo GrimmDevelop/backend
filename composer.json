@@ -9,6 +9,7 @@
     "type": "project",
     "require": {
         "php": ">=8.0",
+        "ext-gd": "*",
         "ext-redis": ">=5.0",
         "cviebrock/laravel-elasticsearch": "^8.0",
         "doctrine/dbal": "^2.5",

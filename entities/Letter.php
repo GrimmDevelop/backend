@@ -244,7 +244,7 @@ class Letter extends Model implements IsGridable, HasMedia
     {
         return $this->personAssociations->filter(function (LetterPersonAssociation $association) {
             return $association->isSender();
-        })->values();
+        });
     }
 
     /**
@@ -254,7 +254,7 @@ class Letter extends Model implements IsGridable, HasMedia
     {
         return $this->personAssociations->filter(function (LetterPersonAssociation $association) {
             return $association->isReceiver();
-        })->values();
+        });
     }
 
     public function scopeByPerson(Builder $query, $personId, $type)
@@ -292,15 +292,49 @@ class Letter extends Model implements IsGridable, HasMedia
             ->performOnCollections('letters.scans.handwriting_location');
     }
 
+    public function carbonToDateCode(Carbon $carbonDate): float
+    {
+        return $carbonDate->year * 10000 + $carbonDate->month * 100 + $carbonDate->day;
+    }
+
+
     public function scopeApplyFilter(Builder $builder, $parameters)
     {
         foreach ($parameters as $field => $term) {
-            if($field === 'date') {
-                // TODO: handle date input
+            if (is_null($term)) {
                 continue;
             }
 
-            $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field));
+            if ($field === 'date') {
+                $from = $term['from'] ?? null;
+                $to = $term['to'] ?? null;
+
+                if (is_null($from) && is_null($to)) {
+                    continue;
+                }
+
+                $table = $this->getTable();
+
+                $builder->where(function(Builder $subQuery) use($from, $to, $table) {
+                    if (!is_null($to)) {
+                        $endCode = $this->carbonToDateCode(
+                            Carbon::createFromFormat('Y-m-d', $to)
+                        );
+
+                        $subQuery->where("{$table}.code", '<=', $endCode);
+                    }
+
+                    if (!is_null($from)) {
+                        $startCode = $this->carbonToDateCode(
+                            Carbon::createFromFormat('Y-m-d', $from)
+                        );
+
+                        $subQuery->where("{$table}.code", '>=', $startCode);
+                    }
+                });
+            } else {
+                $builder->where(fn($subBuilder) => $this->scopeSearch($subBuilder, $term, $field, true));
+            }
         }
     }
 }

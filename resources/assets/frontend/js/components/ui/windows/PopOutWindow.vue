@@ -68,7 +68,7 @@
         },
 
         mounted() {
-            this.windowHandle = window.open("", this.name, "top=0,left=0");
+            /*this.windowHandle = window.open("", this.name, "top=0,left=0");
             if (this.windowHandle.location.href === "about:blank") {
                 this.windowsIsPoppedOut = false;
                 this.windowHandle.blur();
@@ -77,7 +77,7 @@
             } else {
                 this.windowsIsPoppedOut = true;
                 this.startWindowCheck();
-            }
+            }*/
         }
     };
 </script>

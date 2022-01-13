@@ -1,5 +1,7 @@
 <template>
-    <div class="letter" v-html="html"></div>
+    <div>
+        <div :style="cssVars" class="letter" v-html="html"></div>
+    </div>
 </template>
 
 <script>
@@ -18,9 +20,17 @@
 
         props: {
             text: {},
+            width: 0,
         },
 
         computed: {
+            cssVars() {
+                return {
+                    '--titel-font-size': this.width / 37 + 'px',
+                    '--text-font-size': this.width / 40 + 'px',
+                }
+            },
+
             xml() {
                 let parser = new DOMParser();
                 return parser.parseFromString(this.text, "application/xml");
@@ -73,7 +83,6 @@
                         body += nodeMap(node.childNodes, this.format).join('');
                     }
                 }
-
                 return body;
             },
 
@@ -85,6 +94,10 @@
                 return node.nodeType === 1 && node.tagName.toLowerCase() === this.lineBreakTag;
             }
         },
+
+        mounted() {
+            this.$emit('registered')
+        },
     };
 </script>
 
@@ -93,10 +106,9 @@
     .letter {
         width: 600px;
         max-width: 100%;
-        margin: auto;
 
         .title {
-            font-size: 18px;
+            font-size: var(--titel-font-size);
             font-weight: bold;
             margin-bottom: 2rem;
         }
@@ -104,7 +116,7 @@
         .letter-body {
             .paragraph {
                 margin: 0;
-                font-size: 16px;
+                font-size: var(--text-font-size);
                 text-align: justify;
                 white-space: nowrap;
                 text-indent: 1.5rem;

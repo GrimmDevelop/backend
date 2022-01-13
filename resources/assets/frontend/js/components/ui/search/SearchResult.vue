@@ -2,38 +2,48 @@
     <div class="search-result-cards-container">
         <div v-for="letter in letters" :key="letter.id" class="search-result-card" :onclick="letterLink(letter.id)"
              style="cursor: pointer;">
+<!--         TODO: Probleme:
+             Nicht alle Variablen sind in der letter-Variable
+             Das Filtering funktioniert nicht so, wie wir uns das vorstellen.-->
+
             <div class="result-title">
+                <span v-if="letter.from_location_historical">
+                    {{ letter.from_location_historical }},
+                </span>
+                <span v-if="!letter.from_location_historical">
+                    [{{ letter.from_location_derived }}],
+                </span>
                 {{ letter.date }} {{ letterSender(letter.senders) }} an {{ letterRecipient(letter.receivers) }}
             </div>
             <div class="result-properties">
-                <div class="result-item">
+                <div v-if="letter.inc" class="result-item">
                     <div class="result-item-title">Briefbeginn</div>
-                    <div class="result-item-content">{{ letter.letter_start }}</div>
+                    <div class="result-item-content">{{ letter.inc }}</div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.handwriting_location" class="result-item">
                     <div class="result-item-title">Handschrift</div>
-                    <div class="result-item-content">{{ letter.handwriting }}</div>
+                    <div class="result-item-content">{{ letter.handwriting_location }}</div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.prints.data.length > 0" class="result-item">
                     <div class="result-item-title">gedruckt in</div>
-                    <div class="result-item-content">{{ letter.printed_in }}</div>
+                    <div class="result-item-content">{{ letter.prints.data.map(p => p.entry).join('; ') }}</div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.comment.data.length > 0" class="result-item">
                     <div class="result-item-title">Bemerkungen</div>
-                    <div class="result-item-content">{{ letter.comments }}</div>
+                    <div class="result-item-content">{{ letter.comment.data[0] }}</div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.receiver_place" class="result-item">
                     <div class="result-item-title">Empfangsort</div>
-                    <div class="result-item-content">{{ letter.recipient_place }}</div>
+                    <div class="result-item-content">{{ letter.receiver_place }}</div>
                 </div>
                 <div class="result-item">
                     <div class="result-item-title">Scan(s)</div>
                     <div class="result-item-content scan-item">
-                        <i v-if="letter.has_scans" class="fa fa-file-alt" style="text-align: center;"></i>
-                        <i v-else class="fa fa-times" style="text-align: center;"></i>
+                        <icon v-if="letter.scans.data.length > 0" icon="close" style="text-align: center;"></icon>
+                        <icon v-else icon="document" style="text-align: center;"></icon>
                     </div>
                 </div>
-                <div class="result-item">
+                <div v-if="letter.id" class="result-item">
                     <div class="result-item-title"> BriefID</div>
                     <div class="result-item-content"> {{ letter.id }}</div>
                 </div>
@@ -72,16 +82,16 @@
             },
 
             letterSender(sender) {
-                if (sender) {
-                    return sender.join('; ');
+                if (sender.data.length > 0) {
+                    return sender.data.map(person => person.name).join('; ');
                 } else {
                     return "Unbekannt";
                 }
             },
 
             letterRecipient(recipient) {
-                if (recipient) {
-                    return recipient.join('; ');
+                if (recipient.data.length > 0) {
+                    return recipient.data.map(person => person.name).join('; ');
                 } else {
                     return "Unbekannt";
                 }
@@ -90,7 +100,8 @@
     };
 </script>
 
-<style>
+<style lang="scss" scoped>
+    @import "~@/sass/variables";
     /*full container:*/
     .search-result-cards-container {
         display: flex;
@@ -115,7 +126,10 @@
         padding: 0.3rem;
         font-size: 1.3rem;
         color: white;
-        background-color: #35495d;
+        background-color: $search-result-title;
+        &:hover {
+            background-color: darken($search-result-title, 5%);
+        }
     }
 
     .result-properties {
@@ -129,13 +143,10 @@
         font-size: 1rem;
         margin-left: auto;
         margin-right: auto;
-        /*padding-bottom: 5px;*/
-        /*display: flex;*/
     }
 
     .result-item-title {
         grid-area: item-title;
-        /*margin-left: auto;*/
         margin-right: auto;
         padding-bottom: 5px;
     }
@@ -145,13 +156,7 @@
         border-left: 1px solid black;
         padding-left: 1rem;
         padding-bottom: 5px;
-
-        /*margin-left: auto;*/
         margin-right: auto;
     }
 
-    /*.scan-item{*/
-    /*    margin-right: auto;*/
-    /*    margin-left: auto;*/
-    /*}*/
 </style>

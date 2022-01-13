@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 /**
  * @method Grid grid()
- * @method static \Illuminate\Database\Eloquent\Builder|static search($term, $field = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|static search($term, $field = null, $hiddenColumns = false)
  */
 trait Gridable
 {
@@ -34,15 +34,15 @@ trait Gridable
         static::gridStatic()->apply();
     }
 
-    public function scopeSearch(Builder $query, $term, $field = null)
+    public function scopeSearch(Builder $query, $term, $field = null, $hiddenColumns = false)
     {
         $table = $query->getModel()->getTable();
 
         /*$query->select($table . '.*');
         $query->groupBy("$table.{$this->getKeyName()}");*/
 
-        $query->where(function () use ($field, $query, $table, $term) {
-            foreach ($this->getSearchableColumns($field) as $column) {
+        $query->where(function () use ($hiddenColumns, $field, $query, $table, $term) {
+            foreach ($this->getSearchableColumns($field, $hiddenColumns) as $column) {
                 if ($column instanceof \Closure) {
                     $query->orWhere(function ($q) use ($column, $term) {
                         $column($q, $term);
@@ -72,9 +72,9 @@ trait Gridable
     /**
      * @return Collection|string[]
      */
-    protected function getSearchableColumns($field)
+    protected function getSearchableColumns($field, $hiddenColumns)
     {
-        return $this->grid()->columns()->filter(function(Column $column) use ($field) {
+        return $this->grid()->columns($hiddenColumns)->filter(function(Column $column) use ($field) {
             return $field === null || $column->name() === $field;
         })->map(function (Column $column) {
             return $column->searchKey();

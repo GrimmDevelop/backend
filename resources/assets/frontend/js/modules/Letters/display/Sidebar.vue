@@ -6,7 +6,7 @@
             <span class="caption">Seitenleiste ausblenden</span>
         </div>
 
-        <div class="sidebar-link hover:bg-blue-900" :class="linkClass('text')"
+        <div class="sidebar-link hover:bg-blue-900" :class="linkClass('letters-text')"
              @click="textOpen">
             <icon icon="document"></icon>
             <span class="caption">Brieftext - Fenster</span>
@@ -20,12 +20,12 @@
         </div>
 
         <div class="sidebar-link hover:bg-blue-900"
-             :class="{ 'bg-blue-900': visibility('scan') }" @click="toggleColumn('scan')">
+             :class="{ 'bg-blue-900': visibility('letters-scan') }" @click="toggleColumn('letters-scan')">
             <icon icon="camera"></icon>
             <span class="caption">Handschrift(en)</span>
         </div>
         <div class="sidebar-link hover:bg-blue-900"
-             :class="{ 'bg-blue-900': visibility('text') }" @click="toggleColumn('text')">
+             :class="{ 'bg-blue-900': visibility('letters-text') }" @click="toggleColumn('letters-text')">
             <icon icon="document"></icon>
             <span class="caption">Text</span>
         </div>
@@ -36,14 +36,14 @@
         </div>
 
         <!--   will be modified for the new data structure (conversations)   -->
-        <div class="sidebar-link hover:bg-blue-900" @click="increaseID()">
-            <icon icon="layers"></icon>
-            <span class="caption">nächster Brief</span>
-        </div>
-        <div class="sidebar-link hover:bg-blue-900" @click="decreaseID()">
-            <icon icon="layers"></icon>
-            <span class="caption">vorheriger Brief</span>
-        </div>
+<!--        <div class="sidebar-link hover:bg-blue-900" @click="increaseID()">-->
+<!--            <icon icon="layers"></icon>-->
+<!--            <span class="caption">nächster Brief</span>-->
+<!--        </div>-->
+<!--        <div class="sidebar-link hover:bg-blue-900" @click="decreaseID()">-->
+<!--            <icon icon="layers"></icon>-->
+<!--            <span class="caption">vorheriger Brief</span>-->
+<!--        </div>-->
 
         <div class="flex-grow"></div>
 
@@ -84,15 +84,9 @@
 
         methods: {
             textOpen() {
-                this.$emit('text-open');
-            },
-
-            increaseID() {
-                this.$emit('increase-id');
-            },
-
-            decreaseID() {
-                this.$emit('decrease-id');
+                this.$store.commit('ui/toggle-column', {
+                // opens the letters text instant? Intentional function?
+                });
             },
 
             linkClass(column) {
