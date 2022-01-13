@@ -12,9 +12,6 @@
             <spinner v-if="searching"></spinner>
             <div v-if="hasResults">
                 <search-result :letters="letters"></search-result>
-                <!-- old -->
-                <!-- <span @click="pagination.page++">{{ pagination.page }}</span> -->
-                <!-- new -->
                 <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
         </div>
@@ -55,7 +52,7 @@
                 },
                 pagination: {
                     page: 1,
-                    limit: 4,
+                    limit: 9,
                     lastPage: 0,
                 },
                 letters: [],
@@ -102,7 +99,6 @@
 
             getLetters() {
                 this.searching = true;
-                console.log(this.search);
                 this.$http.get('/data/letters', {
                     params: {
                         page: this.pagination.page,
@@ -122,7 +118,6 @@
                     } catch(error) {
                         this.pagination.lastPage = 1;
                     }
-                    console.log(this.letters);
                 });
             },
 

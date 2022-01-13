@@ -6,7 +6,7 @@
                   @click="decreasePage">
             </icon>
             <span class="text-gray-900 whitespace-nowrap">
-                <input :value="pagination.page" @input="setPage"
+                <input :value="pagination.page" @input.enter="setPage"
                        class="page-input cursor-pointer">/ {{ pagination.lastPage }}
             </span>
             <icon icon="cheveron-outline-right"
@@ -35,8 +35,10 @@
                 this.$emit('setPage', Math.max(1, this.pagination.page - 1));
             },
 
-            setPage() {
-                this.$emit('setPage', this.active);
+            setPage(event) {
+                const page = Math.min(Math.max(1, parseInt(event.target.value)), this.pagination.lastPage);
+
+                this.$emit('setPage', page);
             },
         },
 
@@ -55,7 +57,7 @@
     }
 
     .page-input {
-        width: 1rem;
+        width: 3rem;
         border: 1px solid transparent;
         padding: 0;
         margin: 0;
@@ -67,7 +69,7 @@
         }
     }
 
-    .cheveron-outline-right{
+    .cheveron-outline-right {
         margin-left: 0.3rem;
     }
 </style>

@@ -3,9 +3,9 @@
 namespace Grimm\Transformers;
 
 use Grimm\Letter;
-use Grimm\LetterPersonAssociation;
 use League\Fractal\Resource\Collection;
 use League\Fractal\Resource\Item;
+use League\Fractal\Resource\NullResource;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use League\Fractal\TransformerAbstract;
 
@@ -18,10 +18,11 @@ class LetterTransformer extends TransformerAbstract
      */
     protected $availableIncludes = [
         'prints',
-        'comments',
+        'comment',
         'facsimiles',
         'senders',
         'receivers',
+        'scans',
     ];
 
     public function transform(Letter $letter)
@@ -36,8 +37,6 @@ class LetterTransformer extends TransformerAbstract
             // 'sender_place' => $letter->from,
             // 'receiver_place' => $letter->to,
             'letter_number' => $letter->id_till_2018,
-            'senders' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association) => $association->isSender())->pluck('name'),
-            'receivers' => $letter->personAssociations->filter(fn(LetterPersonAssociation $association) => $association->isReceiver())->pluck('name'),
             'inc' => $letter->inc,
             'text' => $letter->text,
             'scans' => $letter->getMedia('letters.scans.handwriting_location')->map(function (Media $media) {
@@ -49,44 +48,40 @@ class LetterTransformer extends TransformerAbstract
         ];
     }
 
-    /**
-     * Include Prints
-     *
-     * @param Letter $letter
-     * @return Collection
-     */
-    public function includePrints(Letter $letter)
+    public function includePrints(Letter $letter): Collection
     {
         return $this->collection($letter->prints, new LetterPrintTransformer);
     }
 
-    /**
-     * Include Comment
-     *
-     * @param Letter $letter
-     * @return Item
-     */
-    public function includeComments(Letter $letter)
+    public function includeComment(Letter $letter): NullResource|Item
     {
+        if ($letter->comment === null) {
+            return $this->null();
+        }
+
         return $this->item($letter->comment, new LetterCommentTransformer);
     }
 
-    /**
-     * @param Letter $letter
-     * @return Collection
-     */
-    public function includeFacsimiles(Letter $letter)
+    public function includeFacsimiles(Letter $letter): Collection
     {
         return $this->collection($letter->facsimiles, new LetterFacsimileTransformer);
     }
 
-    public function includeSenders(Letter $letter)
+    public function includeSenders(Letter $letter): Collection
     {
         return $this->collection($letter->senders(), new LetterPersonAssociationTransformer);
     }
 
-    public function includeReceivers(Letter $letter)
+    public function includeReceivers(Letter $letter): Collection
     {
         return $this->collection($letter->receivers(), new LetterPersonAssociationTransformer);
+    }
+
+    public function includeScans(Letter $letter): Collection
+    {
+        return $this->collection(
+            $letter->getMedia('letters.scans.handwriting_location'),
+            new MediaTransformer(['thumb' => 'thumb'])
+        );
     }
 }

@@ -24,13 +24,13 @@
                     <div class="result-item-title">Handschrift</div>
                     <div class="result-item-content">{{ letter.handwriting_location }}</div>
                 </div>
-                <div v-if="letter.prints.length > 0" class="result-item">
+                <div v-if="letter.prints.data.length > 0" class="result-item">
                     <div class="result-item-title">gedruckt in</div>
-                    <div class="result-item-content">{{ letter.prints }}</div>
+                    <div class="result-item-content">{{ letter.prints.data.map(p => p.entry).join('; ') }}</div>
                 </div>
-                <div v-if="letter.comments" class="result-item">
+                <div v-if="letter.comment.data.length > 0" class="result-item">
                     <div class="result-item-title">Bemerkungen</div>
-                    <div class="result-item-content">{{ letter.comments }}</div>
+                    <div class="result-item-content">{{ letter.comment.data[0] }}</div>
                 </div>
                 <div v-if="letter.receiver_place" class="result-item">
                     <div class="result-item-title">Empfangsort</div>
@@ -39,7 +39,7 @@
                 <div class="result-item">
                     <div class="result-item-title">Scan(s)</div>
                     <div class="result-item-content scan-item">
-                        <icon v-if="letter.scans.length > 0" icon="close" style="text-align: center;"></icon>
+                        <icon v-if="letter.scans.data.length > 0" icon="close" style="text-align: center;"></icon>
                         <icon v-else icon="document" style="text-align: center;"></icon>
                     </div>
                 </div>
@@ -82,16 +82,16 @@
             },
 
             letterSender(sender) {
-                if (sender) {
-                    return sender.join('; ');
+                if (sender.data.length > 0) {
+                    return sender.data.map(person => person.name).join('; ');
                 } else {
                     return "Unbekannt";
                 }
             },
 
             letterRecipient(recipient) {
-                if (recipient) {
-                    return recipient.join('; ');
+                if (recipient.data.length > 0) {
+                    return recipient.data.map(person => person.name).join('; ');
                 } else {
                     return "Unbekannt";
                 }
