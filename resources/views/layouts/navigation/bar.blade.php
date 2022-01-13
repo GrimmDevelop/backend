@@ -103,7 +103,7 @@
             <ul class="nav navbar-nav ml-auto">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                    <li class="nav-item"><a href="{{ url('/login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url('/login') }}">Login</a></li>
                 @else
                     <li class="nav-item">
                         @include('partials.backup-link')
