@@ -20,8 +20,8 @@
 @if($filter->hasFilter('trash'))
     <div class="btn-group">
         <a href="{{ url()->filtered(['trash']) }}" type="button"
-           class="btn btn-{{ ($filter->filterFor('trash')->applied()) ? 'danger' : 'secondary' }}"
-           data-toggle="tooltip" title="Gelöschte Elemente anzeigen">
+           class="btn btn-{{ $filter->filterFor('trash')->value() == 1 ? 'warning' : ($filter->filterFor('trash')->value() == 2 ? 'danger' : 'secondary') }}"
+           data-toggle="tooltip" title="{{ $filter->filterFor('trash')->nextTitle() }}">
             <span class="fa fa-trash-o"></span>
         </a>
     </div>

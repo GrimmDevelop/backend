@@ -1,38 +1,39 @@
 <template>
     <div class="complete-container">
-        <div class="search-form">
+        <div class="search-form" :class="{ 'search-form-centered': !hasResults }">
             <simple-form v-if="mode === 'simple'" :value="searchAll" @switch-mode="mode = 'advanced'"
                          @filter="searchAll = $event" @search="startSearch"/>
 
             <advanced-form v-else @switch-mode="mode = 'simple'" :search="search"
-                           :filters="filters"
                            @filter="updateFilter" @search="startSearch"/>
         </div>
-
-        <search-dotted-line class="dotted-line" v-if="hasResults"></search-dotted-line>
-
-        <search-result v-if="hasResults" :letters="letters"></search-result>
-
-        <span @click="pagination.page++">{{ pagination.page }}</span>
+        <div class="search-result-container" v-if="showResults">
+            <dotted-line class="dotted-line"></dotted-line>
+            <spinner v-if="searching"></spinner>
+            <div v-if="hasResults">
+                <search-result :letters="letters"></search-result>
+                <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import qs from 'qs';
 
-    import SearchAddFilterButton from "./SearchAddFilterButton";
-    import SearchDottedLine from "./SearchTheDottedLine";
+    import DottedLine from "./DottedLine";
     import SimpleForm from "./SimpleForm";
-    import SearchSearchFilter from "./SearchSearchFilter";
     import SearchResult from "./SearchResult";
     import AdvancedForm from "./AdvancedForm";
+    import SearchPagination from "./SearchPagination";
+    import Spinner from "../Spinner";
 
     export default {
         name: "SearchForm",
 
         data() {
             return {
-                mode: 'advanced',
+                mode: 'simple',
                 searchAll: "",
                 search: {
                     senders: "",
@@ -44,86 +45,35 @@
                     handwriting: "",
                     print: "",
                     sender_place: "",
-                    letter_start: "",
-                    letter_number: "",
+                    from_location_historical: "",
+                    from_location_derived: "",
+                    inc: "",
+                    id: "",
                 },
                 pagination: {
                     page: 1,
-                    limit: 25,
+                    limit: 9,
+                    lastPage: 0,
                 },
                 letters: [],
                 showResults: false,
-                senders: [
-                    "Grimm, Wilhelm",
-                    "Grimm, Jacob"
-                ],
-                receiver: [
-                    "Grimm, Wilhelm",
-                    "Grimm, Jacob"
-                ],
-                filters: [
-                    {
-                        name: "Absender",
-                        id: "senders",
-                        type: "select",
-                    },
-                    {
-                        name: "Empfänger",
-                        id: "receivers",
-                        type: "select",
-                    },
-                    {
-                        name: "Datum",
-                        id: "date",
-                        type: "date",
-                    },
-                    {
-                        name: "Handschrift",
-                        id: "handwriting",
-                        type: "string",
-                    },
-                    {
-                        name: "Drucke",
-                        id: "print",
-                        type: "string",
-                    },
-                    {
-                        name: "Absendeort",
-                        id: "sender_place",
-                        type: "string",
-                    },
-                    {
-                        name: "Briefanfang",
-                        id: "letter_start",
-                        type: "string",
-                    },
-                    {
-                        name: "Briefnummer",
-                        id: "letter_number",
-                        type: "string",
-                    },
-                ],
-                remaining_filters: [
-                    {
-                        id: "recipient_place",
-                        type: "string",
-                    },
-                    {
-                        id: "faksimilies",
-                        type: "string",
-                    },
-                ],
+                searching: false,
             };
         },
 
         computed: {
             hasResults() {
-                return this.letters.length > 0;
+                try {
+                    return this.letters.length > 0;
+                } catch (error) {
+                    return false;
+                }
+
             },
 
             currentPage() {
                 return this.pagination.page;
-            }
+            },
         },
 
         watch: {
@@ -135,6 +85,9 @@
         methods: {
             updateFilter(filter, value) {
                 this.search[filter.id] = value;
+                if (filter.name === "Absendeort") { // should we also search for the "from_location_derived"? (But I think with a logical or?)
+                    this.search["from_location_historical"] = value;
+                }
             },
 
             startSearch() {
@@ -145,32 +98,68 @@
             },
 
             getLetters() {
+                this.searching = true;
                 this.$http.get('/data/letters', {
                     params: {
                         page: this.pagination.page,
                         limit: this.pagination.limit,
                         mode: this.mode,
-                        search: this.mode === 'simple' ? this.searchAll : this.search,
+                        search: this.search,
+                        searchAll: this.searchAll,
                     },
                     paramsSerializer: (params) => {
                         return qs.stringify(params, {encodeValuesOnly: true});
                     }
                 }).then(response => {
+                    this.searching = false;
                     this.letters = response.data.data;
+                    try {
+                        this.pagination.lastPage = response.data.meta.last_page;
+                    } catch(error) {
+                        this.pagination.lastPage = 1;
+                    }
                 });
+            },
+
+            paginationSetPage(number) {
+                this.pagination.page = number;
             },
         },
         components: {
             AdvancedForm,
             SearchResult,
-            SearchDottedLine,
+            DottedLine,
             SimpleForm,
+            SearchPagination,
+            Spinner,
         }
     };
 </script>
 
 <style scoped>
+    .search-form{
+        padding-top: 2rem;
+    }
+
     .complete-container {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .search-form-centered {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .current-searching-container{
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .search-result-container{
+
     }
 
     .search-bar {

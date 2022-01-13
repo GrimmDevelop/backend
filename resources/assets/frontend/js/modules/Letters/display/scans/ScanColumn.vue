@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-full p-4">
+    <div class="w-full h-full">
         <zoom-image ref="zoomImage" v-if="hasImages" :src="imageUrl"></zoom-image>
         <div class="image-pagination">
             <icon icon="cheveron-left"

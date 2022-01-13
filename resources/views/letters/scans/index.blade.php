@@ -49,6 +49,18 @@
             </div>
         @endif
 
+        @if($letter->copy != null)
+            <div class="row page">
+                <div class="col-md-12 page-title page-title--subtitle">
+                    <h1>{{ trans('letters.copy') }}</h1>
+                </div>
+
+                <div class="col-md-12 page-content">
+                    @include('letters.scans.partials.collection', ['collection' => 'copy'])
+                </div>
+            </div>
+        @endif
+
         @if($letter->transcriptions()->count() > 0)
             <div class="row page">
                 <div class="col-md-12 page-title page-title--subtitle">

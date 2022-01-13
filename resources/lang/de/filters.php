@@ -8,4 +8,10 @@ return [
 
     'denecke' => 'Unbearbeiteter Titel',
     'folk' => 'Grimms Märchen',
+
+    'trash' => [
+        'Gelöschte Elemente nicht anzeigen',
+        'gelöschte und nicht gelöschte Elemente anzeigen',
+        'nur gelöschte Elemente anzeigen',
+    ],
 ];
