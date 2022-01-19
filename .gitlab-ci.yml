@@ -19,7 +19,11 @@ test:php:
       - vendor/
   script:
     - composer install --no-progress --no-interaction --prefer-dist
-    - php vendor/bin/phpunit --coverage-text --colors=never
+    - php vendor/bin/phpunit --coverage-text --colors=never --log-junit report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
 
 test:js:
   stage: test
