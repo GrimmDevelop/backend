@@ -7,3 +7,16 @@
 @import "~vue-select/src/scss/vue-select";
 
 @import "variables";
+
+@layer components {
+    .card {
+        background-color: theme('colors.white');
+        border-radius: theme('borderRadius.sm');
+        padding: theme('spacing.6');
+        box-shadow: theme('boxShadow.xl');
+    }
+    .card-header {
+        text-decoration: underline;
+        text-decoration-color: #e5e7eb;
+    }
+}

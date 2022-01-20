@@ -6,20 +6,62 @@
                     <a :href="homeURL" class="text-lg text-gray-500 mr-4 hover:text-gray-600">
                         Grimmbriefwechsel
                     </a>
-                    <a :href="homeURL" class="text-base text-gray-400 mx-4 hover:text-gray-500">Foo</a>
-                    <a :href="homeURL" class="text-base text-gray-400 mx-4 hover:text-gray-500">Bar</a>
-                    <a :href="homeURL" class="text-base text-gray-400 mx-4 hover:text-gray-500">Foobar</a>
-                    <a :href="homeURL" class="text-base text-gray-400 mx-4 hover:text-gray-500">Baz</a>
-                    <a :href="homeURL" class="text-base text-gray-400 mx-4 hover:text-gray-500">Qux</a>
                     <a :href="adminUrl" class="text-base text-gray-400 mx-4 hover:text-gray-500">Verwaltung</a>
                     <a :href="letterSearch" class="text-base text-gray-400 mx-4 hover:text-gray-500">Briefsuche</a>
                 </div>
             </div>
         </nav>
-        <div class="flex h-screen items-center justify-center bg-gray-100">
-            <div class="bg-blue-800 px-16 py-10 text-center text-white">
-                <h1 class="p-2 text-2xl font-extralight">Hey, die Links sind oben!</h1>
-
+        <div class="w-full h-screen bg-gray-100">
+            <div class="container grid grid-cols-3 gap-4 grid-rows-4 content-evenly mx-auto pt-4">
+                <div class="card col-span-2 row-span-3">
+                    <div class="card-header text-xl">
+                        Arbeitsstelle Grimmbriefwechsel
+                    </div>
+                    <a class="card-body text-base">
+                        <p>
+                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+                            invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
+                            et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+                            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
+                            diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+                            voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
+                            amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+                            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
+                            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+                            amet.
+                        </p>
+                        <p>
+                            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
+                            illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
+                            blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem
+                            ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+                            ut laoreet dolore magna aliquam erat volutpat.
+                        </p>
+                        <p>
+                            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
+                            illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
+                            blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem
+                            ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
+                            ut laoreet dolore magna aliquam erat volutpat.
+                        </p>
+                    </a>
+                </div>
+                <div class="card row-span-4">
+                    <div class="card-header text-xl">
+                        Unsere Sponsoren
+                    </div>
+                    <div class="card-body text-base">
+                        <p>Lorem</p>
+                        <p>ipsum</p>
+                        <p>dolor</p>
+                        <p>sit</p>
+                        <p>amet</p>
+                    </div>
+                </div>
+                <div class="card col-span-2">
+                    Hi, die Links sind oben!
+                </div>
             </div>
         </div>
     </div>
