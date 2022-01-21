@@ -17,7 +17,7 @@
                     <div class="card-header text-xl">
                         Arbeitsstelle Grimmbriefwechsel
                     </div>
-                    <a class="card-body text-base">
+                    <div class="card-body text-base">
                         <p>
                             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
                             invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
@@ -45,10 +45,10 @@
                             ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
                             ut laoreet dolore magna aliquam erat volutpat.
                         </p>
-                    </a>
+                    </div>
                 </div>
                 <div class="card row-span-4">
-                    <div class="card-header text-xl">
+                    <div class="card-header text-xl ">
                         Unsere Sponsoren
                     </div>
                     <div class="card-body text-base">
@@ -60,7 +60,9 @@
                     </div>
                 </div>
                 <div class="card col-span-2">
-                    Hi, die Links sind oben!
+                    <div class="card-header text-xl">
+                        Hi, die Links sind oben!
+                    </div>
                 </div>
             </div>
         </div>

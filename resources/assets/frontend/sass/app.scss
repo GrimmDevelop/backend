@@ -12,11 +12,16 @@
     .card {
         background-color: theme('colors.white');
         border-radius: theme('borderRadius.sm');
-        padding: theme('spacing.6');
+        padding: theme('spacing.0');
         box-shadow: theme('boxShadow.xl');
     }
-    .card-header {
-        text-decoration: underline;
-        text-decoration-color: #e5e7eb;
+    .card-header{
+        padding: theme('spacing.4') theme('spacing.6');
+        border-bottom-width: medium;
+        border-bottom-color: $gray-200;
+    }
+    .card-body {
+        padding: theme('spacing.6');
+        text-align: justify;
     }
 }
