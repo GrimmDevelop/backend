@@ -117,5 +117,5 @@ $btn-primary-border: darken($btn-primary-bg, 5%) !default;
 $navbar-light-brand-color: rgba($black, .5) !default;
 
 // colors SearchForm
-$button-blue: #2c5282;
-$search-result-title: darken(#2c5282, 5%);
+$button-blue: $gray-100;
+$search-result-title: darken($gray-100, 5%);
