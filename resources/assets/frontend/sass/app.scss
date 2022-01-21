@@ -9,6 +9,7 @@
 @import "variables";
 
 @layer components {
+    /* occurrences: landing page */
     .card {
         background-color: theme('colors.white');
         border-radius: theme('borderRadius.sm');

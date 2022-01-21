@@ -101,7 +101,6 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "~@/sass/variables";
     /*full container:*/
     .search-result-cards-container {
         display: flex;

@@ -9,7 +9,7 @@
         </div>
         <div class="search-result-container" v-if="showResults">
             <dotted-line class="dotted-line"></dotted-line>
-            <spinner v-if="searching"></spinner>
+            <spinner class="result-loader" v-if="searching"></spinner>
             <div v-if="hasResults">
                 <search-result :letters="letters"></search-result>
                 <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
@@ -136,7 +136,11 @@
     };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    @import "~@/sass/variables";
+    .result-loader{
+        background-color: $gray-200;
+    }
     .search-form{
         padding-top: 2rem;
     }
@@ -146,6 +150,7 @@
         height: 100vh;
         display: flex;
         flex-direction: column;
+        background-color: $gray-200;
     }
 
     .search-form-centered {

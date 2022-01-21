@@ -22,7 +22,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+    @import "~@/sass/variables";
     .search-all-bar {
         display: flex;
         align-items: center;
@@ -43,14 +43,14 @@
     }
 
     .btn-search {
-        background-color: #2c5282;
+        background-color: $button-blue;
         color: white;
         border: none;
         border-radius: 0 5px 5px 0;
         padding: 0.85rem;
 
         &:hover {
-            background-color: darken(#2c5282, 5%);
+            background-color: darken($button-blue, 5%);
         }
     }
 
