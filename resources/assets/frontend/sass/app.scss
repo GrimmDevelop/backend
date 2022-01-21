@@ -26,4 +26,57 @@
         padding: theme('spacing.6');
         text-align: justify;
     }
+
+
+
+    /* occurrences: search-result */
+    .search-result-cards-container {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 2rem 4rem;
+        justify-content: space-around;
+        background: $gray-200;
+    }
+    /*one result card:*/
+    .search-result-card {
+        min-width: 500px;
+        max-width: 500px;
+        height: fit-content;
+        padding: theme('spacing.0');
+        box-shadow: theme('boxShadow.xl');
+        border-radius: theme('borderRadius.sm');
+    }
+    /*result card title*/
+    .result-title {
+        border-bottom-color: $gray-300;
+        border-bottom-width: thin;
+        padding: 0.3rem;
+        font-size: 1.3rem;
+        color: black;
+        background-color: $gray-100;
+        padding: theme('spacing.4') theme('spacing.6');
+    }
+    .result-properties {
+        padding: theme('spacing.4') theme('spacing.6');
+        background: white;
+        margin: theme('margin.0');
+    }
+    .result-item {
+        display: grid;
+        grid-template-columns: 7rem 1fr;
+        grid-template-areas: "item-title item-content";
+        font-size: 1rem;
+    }
+    .result-item-title {
+        grid-area: item-title;
+        margin-right: auto;
+        padding-bottom: 5px;
+    }
+    .result-item-content {
+        grid-area: item-content;
+        border-left: 1px solid $black;
+        padding-left: 1rem;
+        padding-bottom: 5px;
+        margin-right: auto;
+    }
 }
