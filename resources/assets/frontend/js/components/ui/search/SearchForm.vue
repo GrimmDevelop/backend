@@ -1,11 +1,33 @@
 <template>
     <div class="complete-container">
-        <div class="search-form" :class="{ 'search-form-centered': !hasResults }">
-            <simple-form v-if="mode === 'simple'" :value="searchAll" @switch-mode="mode = 'advanced'"
-                         @filter="searchAll = $event" @search="startSearch"/>
+        <div class="card m-auto">
+            <div class="card-header text-xl flex justify-between">
+                <a>Briefsuche</a>
+                <label for="toogleA" class="flex items-center cursor-pointer">
+                    <!-- toggle -->
+                    <div class="relative">
+                        <!-- input -->
+                        <input id="toogleA" type="checkbox" class="sr-only" @click="changeMode()"/>
+                        <!-- line -->
+                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                        <!-- dot -->
+                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                    </div>
+                    <!-- label -->
+                    <div class="ml-3 text-gray-400 text-base">
+                        Erweiterte Suche
+                    </div>
+                </label>
+            </div>
+            <div class="card-body">
+                <div class="search-form" :class="{ 'search-form-centered': !hasResults }">
+                    <simple-form v-if="simple_mode == true" :value="searchAll"
+                                 @filter="searchAll = $event" @search="startSearch"/>
 
-            <advanced-form v-else @switch-mode="mode = 'simple'" :search="search"
-                           @filter="updateFilter" @search="startSearch"/>
+                    <advanced-form v-else :search="search"
+                                   @filter="updateFilter" @search="startSearch"/>
+                </div>
+            </div>
         </div>
         <div class="search-result-container" v-if="showResults">
             <dotted-line class="dotted-line"></dotted-line>
@@ -33,7 +55,7 @@
 
         data() {
             return {
-                mode: 'simple',
+                simple_mode: true,
                 searchAll: "",
                 search: {
                     senders: "",
@@ -83,6 +105,11 @@
         },
 
         methods: {
+            changeMode() {
+                this.simple_mode = !this.simple_mode;
+                console.log(this.simple_mode);
+            },
+
             updateFilter(filter, value) {
                 this.search[filter.id] = value;
                 if (filter.name === "Absendeort") { // should we also search for the "from_location_derived"? (But I think with a logical or?)
@@ -174,5 +201,10 @@
 
     .search-filter {
         min-width: 50%;
+    }
+
+    input:checked ~ .dot {
+        transform: translateX(100%);
+        background-color: $gray-600;
     }
 </style>

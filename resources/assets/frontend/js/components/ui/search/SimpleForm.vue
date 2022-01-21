@@ -4,10 +4,6 @@
         <button class="btn-search magnifier" type="submit" @click="$emit('search')">
             <icon icon="search"/>
         </button>
-
-        <button class="btn-search btn-advanced" @click="$emit('switch-mode')">
-            erweiterte Suche
-        </button>
     </div>
 </template>
 
@@ -27,12 +23,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 700px;
     }
 
     .the-search-all-bar {
-        border: 1px solid gray;
+        border: thin solid $gray-300;
         border-radius: 5px 0 0 5px;
-        width: 35%;
+        width: 75%;
         font-size: 20px;
         padding: 0.5rem 1rem;
     }
@@ -43,14 +40,14 @@
     }
 
     .btn-search {
-        background-color: $button-blue;
-        color: white;
+        background-color: $gray-200;
+        color: black;
         border: none;
         border-radius: 0 5px 5px 0;
         padding: 0.85rem;
 
         &:hover {
-            background-color: darken($button-blue, 5%);
+            background-color: darken($gray-200, 5%);
         }
     }
 
