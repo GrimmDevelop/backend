@@ -39,8 +39,8 @@
                 <div class="result-item">
                     <div class="result-item-title">Scan(s)</div>
                     <div class="result-item-content scan-item">
-                        <icon v-if="letter.scans.data.length > 0" icon="close" style="text-align: center;"></icon>
-                        <icon v-else icon="document" style="text-align: center;"></icon>
+                        <icon v-if="letter.scans.data.length > 0" icon="document" style="text-align: center;"></icon>
+                        <icon v-else icon="close" style="text-align: center;"></icon>
                     </div>
                 </div>
                 <div v-if="letter.id" class="result-item">

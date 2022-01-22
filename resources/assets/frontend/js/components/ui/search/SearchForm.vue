@@ -107,6 +107,15 @@
             currentPage() {
                 return this.pagination.page;
             },
+            adminUrl() {
+                return window.Laravel.adminUrl;
+            },
+            letterSearch() {
+                return "/letters";
+            },
+            homeURL() {
+                return "";
+            },
         },
 
         watch: {
