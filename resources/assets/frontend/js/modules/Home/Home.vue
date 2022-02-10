@@ -1,67 +1,100 @@
 <template>
-    <div>
+    <div class="h-screen bg-gray-200" >
         <nav class="navbar navbar-light navbar-expand-lg p-4 bg-white border-b-2 border-gray-300">
             <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
                 <div class="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start">
                     <a :href="homeURL" class="text-lg text-gray-600 mr-4 hover:text-gray-700">
-                        Grimmbriefwechsel
+                        Digitales Grimmarchiv
                     </a>
                     <a :href="adminUrl" class="text-base text-gray-500 mx-4 hover:text-gray-600">Verwaltung</a>
                     <a :href="letterSearch" class="text-base text-gray-500 mx-4 hover:text-gray-600">Briefsuche</a>
                 </div>
             </div>
         </nav>
-        <div class="w-full h-screen bg-gray-200">
-            <div class="container grid grid-cols-3 gap-4 grid-rows-4 content-evenly mx-auto pt-4">
-                <div class="card col-span-2 row-span-3">
+        <div class="w-full bg-gray-200">
+            <div class="container grid grid-cols-4 gap-4 grid-rows-4 content-evenly mx-auto pt-4">
+                <div class="card col-span-3 row-span-5">
                     <div class="card-header text-xl">
-                        Arbeitsstelle Grimmbriefwechsel
+                        Digitales Grimmarchiv
                     </div>
-                    <div class="card-body text-base">
-                        <p>
-                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-                            invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam
-                            et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-                            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed
-                            diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-                            voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-                            gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-                            amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-                            dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-                            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-                            amet.
-                        </p>
-                        <p>
-                            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
-                            illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
-                            blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem
-                            ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-                            ut laoreet dolore magna aliquam erat volutpat.
-                        </p>
-                        <p>
-                            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel
-                            illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
-                            blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem
-                            ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt
-                            ut laoreet dolore magna aliquam erat volutpat.
-                        </p>
+                    <div class="card-body text-base max-h-160 overflow-auto hover:overflow-scroll hover:overflo" @scroll="onScroll">
+                        <td>
+                            <p><b>Vorbemerkungen zur Version 3.0 (2004)</b></p>
+                            <p><b>Das vorliegende Werk enthält ein chronologisches Verzeichnis der einzelnen Briefe von und an Jacob und Wilhelm Grimm erstmals unter anderem Anspruch als dem eines privaten Hilfsmittels. Die Richtung des Verzeichnisses auf Vollständigkeit entspricht einer Tendenz neuerer Briefeditionen (spätestens seit der Sophien-Ausgabe von Goethes Werken und F. Strehlkes vorausgegangenem Verzeichnis der Briefe), die sich auf Gesamterfassungen stützen wollen und sich gerade für die wichtigen, aber naturgemäß weit verstreuten ausgegangenen Briefe eines Autors nicht nur auf das verlassen können, was eine oftmals vom Zufall bestimmte Rezeption bisher zutage förderte.</b></p>
+                            <p>Es werden hier allerdings erst gut zwei Drittel des vermuteten Gesamtbriefwechsels nachgewiesen. Die Suche und Verzeichnung der Briefe wird parallel zur Arbeit an neuen Editionen einzelner Briefwechsel fortgesetzt. Eine große Masse ermittelter Materialien liegt bereits zur elektronischen Erfassung bereit. Es muß immer noch offen bleiben, wie nah man dem ursprünglichen Gesamtumfang dieses Korrespondenznetzes in der Rekonstruktion kommen kann, auch wenn die Überlieferungssituation sowohl im Fall der Briefe an die Brüder Grimm als auch im Fall der von ihnen ausgesandten als ungewöhnlich günstig bezeichnet werden kann.<br>&nbsp;&nbsp; Vorbehalte von Erben gegen Veröffentlichungen aus Briefnachlässen, die im Fall der Brüder Grimm auf hemmende Weise wirksam geworden sind, muß man bedauernd hinnehmen. Es ist begründet zu vermuten, daß manches im authentischen Nachlaß der Brüder Grimm dokumentarisch Belegte heute weder vorhanden noch zu erschließen ist.<br>&nbsp;&nbsp; Jedenfalls ermöglichen Briefe einen relativ objektiveren Zugang zu Persönlichkeiten, als diese ihn in etwaigen selbst veröffentlichten Autobiographien geben können und wollen. Daß dies auch bei den Grimm-Selbstbiographien so ist, hat Wilhelm Grimm mehrmals eingeräumt, z. B. gegenüber seinem Bruder Ferdinand am 14. 12. 1831: "mit den alten und herzlichen Wünschen zu deinem Geburtstage und ein paar Goldstücken übersende ich dir noch als ein Geschenk einen Abdruck von meiner Biographie, die in Justis Hessischer Gelehrtengeschichte steht u. die ich im Sommer 1829 auf sein dringendes Bitten u. eigentlich sehr ungern geschrieben habe. Man muß bei einer solchen Gelegenheit das meiste u. zum Theil das beste zurückhalten, denn es läßt sich nicht öffentlich sagen oder man hat selbst nicht Lust"&nbsp; (Briefverzeichnis Nr. 7236).</p>
+                            <p>Durch den Umgang mit ihren Papieren haben die Brüder Grimm die Rekonstruierbarkeit ihres Briefgesprächs gewissermaßen nahegelegt. Schon zu ihren Lebzeiten haben sie die bei ihnen vorhandenen Briefe vielfach geordnet, mit Bemerkungen versehen und sie schließlich in einer nicht selbstverständlichen Vollständigkeit der Nachwelt hinterlassen. Das gilt gerade auch für die persönlichen Briefwechsel innerhalb der Familie und für die brisanten politischen Briefwechsel aus der Zeit der Göttinger Sieben, die sie geradezu publikationsreif, mit Datierungen und zum Teil mit inhaltlichen Hinweisen hinterließen. <br>&nbsp;&nbsp; Bisher ist es allerdings unmöglich, durch vorliegende Publikationen einen Gesamtüberblick des Grimm-Briefwechsels zu gewinnen, obwohl er nach Substanz, Vielschichtigkeit und Umfang eine herausragende Stellung einnimmt. Schon der Nachlaß der Brüder Grimm ist nicht in dem Zustand, in dem er sich bei ihrem Tod befand, auf die heutige Zeit gekommen. Trotzdem kann die Überlieferung des Grimmschen Briefwechsels immer noch als günstig bezeichnet werden. Aus den großen Teilnachlässen in Krakau, Berlin und Marburg und aus Splitternachlässen in Bad Homburg, Hanau, Kassel, Weimar und an anderen Orten läßt sich ein Katalog derjenigen Personen aufstellen, die mit den Brüdern Grimm korrespondiert haben. Dieser seinerzeit als Vorarbeit für das Grimm-Briefverzeichnis zusammengestellte Korrespondentenkatalog enthält etwa 2.100 Personen. Mit deren Kenntnis findet man den Weg zu den ausgegangenen, unvermeidlich in alle Welt verstreuten Briefen.<br>&nbsp;&nbsp; Frühere Übersichten über den Grimm-Briefwechsel bezogen sich lediglich auf gedruckte Briefe. In der ersten derartigen Übersicht nannte A. Reifferscheid 1878 206 Briefe mit 33 Partnern (im Apparat zu seiner Ausgabe von “Freundesbriefen” der Brüder Grimm). Der Grimm-Artikel im Goedeke von R. Steig kam 20 Jahre später, im Jahr 1898, schon auf etwa 160 Korrespondenten. Die letzte Bibliographie zu Briefwechseln der Brüder Grimm von L. Denecke, die die gedruckten Briefe alphabetisch nach Korrespondenten angeordnet nachwies, verzeichnete 1983 Briefwechsel der Brüder Grimm mit 582 Personen (siehe Literaturhinweise). Daß dies längst noch nicht das vollständige Bild des Grimm-Briefwechsels ist, kann man schon daraus ersehen, daß sich (wie bereits gesagt) aus den verschiedenen Nachlaßteilen etwa 2.100 Korrespondenten nachweisen lassen, daß also allein der Personenbestand um drei Viertel höher liegt, als sich aus der bisherigen Forschung ableiten ließ.<br>&nbsp;&nbsp; Die Tendenz, daß die Mehrzahl der Briefe von und an Jacob und Wilhelm Grimm bisher als unerschlossen gelten muß, bestätigt sich bei Betrachtung der Zahlen nachgewiesener Einzelbriefe. Auch dies kann im historischen Vergleich verdeutlicht werden: E. Steinmeyer legte sich für die von ihm veranlaßten Miszellendrucke von Grimm-Briefen in zahlreichen Bänden des "Anzeigers für deutsches Altertum" eine Nachweiskartei über seinerzeit bekannte Grimm-Briefe an (erhalten in seinem Nachlaß in der Universitätsbibliothek Erlangen-Nürnberg). Zum überwiegenden Teil notierte er Drucke, vereinzelt auch Handschriftliches. Er dürfte in seiner Generation neben Scherer der beste Kenner dieser Materie gewesen sein. Seine Kartei umfaßt 116 quer liniierte Blätter im Format A 5, 62 für Jacob und 54 für Wilhelm Grimm. Für jedes Jahr, aus dem Briefe überliefert sind, legte Steinmeyer ein Blatt an und vergab für jeden Monat eine Zeile, in die in äußerster Verknappung mit Tinte oder Bleistift Angaben über die Briefe eingetragen wurden. Die Kartei repräsentiert den Kenntnisstand bis etwa 1904. Angelegt wurde sie spätestens 1891. Insgesamt sind etwa 1.700 Briefe angeführt. Da Steinmeyers Kartei der einzige erhaltengebliebene Vorläufer des von uns hiermit veröffentlichten Grimm-Briefverzeichnisses ist und sonst nur Reifferscheid in seiner alphabetischen Liste von Korrespondenten auch die Anzahl der jeweils bekannten Briefe angab, kann an dieser Stelle nochmals quantitativ resümiert werden: vor 1878 waren laut Reifferscheid 208 Einzelstücke aus dem Grimm-Briefwechsel bekannt, das sind etwa 0,7 % der hypothetisch aus der Zahl der Korrespondenten hochzurechnenden Gesamtmasse von 30.000 Briefen. Bis 1904 (Steinmeyer) erhöhte sich die Zahl bekannter Briefe auf etwa 1.700, etwa 6 %. Derzeit, im Jahr 2004, verzeichnet das Grimm-Briefverzeichnis (einschließlich einer noch nicht veröffentlichten Nebendatei mit erschlossenen Briefen) etwa 22.000 Briefe, also knapp drei Viertel der vermutlich einmal vorhanden gewesenen Briefe. Dieser Anteil liegt um etwa das Doppelte über dem Durchschnittswert bei der Überlieferung anderer privater Korrespondenzen der Neuzeit, von früheren Epochen selbstverständlich ganz zu schweigen.</p>
+                            <p>Die bisherigen Bibliographien zum Grimm-Briefwechsel registrierten gedrucktes Schrifttum, und zwar titelmäßig unter den Namen der Korrespondenten, nicht etwa in chronologischen Einzelbrieflisten. Das Ziel des Grimm-Briefverzeichnisses ist es demgegenüber, alle Briefe von und an Jacob und Wilhelm Grimm in Einzelbriefnachweisen zu erfassen. Grundlage dafür ist die Ermittlung der Originale, zu denen die bisherigen Editionen in Beziehung gesetzt werden. Die Ausgangsfrage bei der Suche nach den Brieforiginalen lautete: mit welchen Persönlichkeiten hatten die Brüder Grimm Kontakte, aus welcher Art von Beziehungen läßt sich auf das Vorhandensein eines Briefwechsels schließen? Kennt man die Namen der Briefpartner, so läßt sich gezielt suchen, und es zeigt sich, daß unter Nutzung der seit etwa 30 Jahren international verbesserten Informationsmöglichkeiten über schriftliche Nachlässe eine hohe Erfolgsquote bei der Auffindung der Originalbriefe zu erzielen ist. Als Briefpartner waren zunächst diejenigen Personen zu verbuchen, die durch bisherige Editionen bekannt waren, des weiteren diejenigen, von denen Briefkonvolute aus dem Grimm-Nachlaß in Berlin, Marburg, Krakau und an anderen Orten festzustellen sind. Erweitert wurde der Kreis um Personen, die sich in die Grimmschen Stammbücher eingetragen haben oder von denen im Grimm-Nachlaß Visitenkarten vorhanden sind, und um die in der Vorrede des "Deutschen Wörterbuchs" genannten Exzerptoren sowie die Hörer der Grimmschen Vorlesungen in Göttingen und Berlin.<br>&nbsp;&nbsp; Die Auffindung der heute noch vorhandenen Briefe ging aus von der Abgleichung des aus den genannten Referenzmaterialien kumulierten Korrespondentenregisters mit Nachlaßverzeichnissen und anderen Katalogen personenbezogener Handschriftenüberlieferung, d. h. für Deutschland in erster Linie mit den Verzeichnissen von Denecke / Brandis, Mommsen und Lülfing / Unger / Wolf, für Österreich mit dem Handbuch von Hall und Renner sowie für die Schweiz mit dem Repertorium von Schmutz-Pfister und Knoch-Mund. Die Angaben über Nachlässe sind für den gesamten Kreis der 2.100 Personen in einer alphabetischen Personendatei gespeichert worden, von wo sie sowohl alphabetisch nach Personen wie auch nach Standorten sortiert abrufbar waren. Eine aus dieser Datei hergestellte alphabetische Standortliste, ergänzt um Standortnachweise aus der Zentralen Autographenkartei bei der Staatsbibliothek zu Berlin, bestimmte die Verfahrensweise bei der Verzeichnung der Briefhandschriften. Die Standortliste enthielt allein aufgrund der oben genannten Hilfsmittel aus dem deutschsprachigen Raum Hinweise auf ca. 500 Institute und Privatpersonen, deren Bestände schrittweise durch persönliche Besuche oder durch Rundschreiben auf Grimm-Briefe hin überprüft und ausgewertet wurden. Durch die Nutzung internationaler Hilfsmittel und durch systematische Nachforschungen bei Nachfahren Grimmscher Korrespondenten ist die Anzahl befragter Institute und Privatpersonen seither beachtlich angewachsen.<br>&nbsp;&nbsp; Zur Feststellung von schwer lokalisierbaren Briefhandschriften wurden 1994 Unterstützungsaufrufe zur Veröffentlichung an 29 Zeitschriften und Jahrbücher geschickt und in der Mehrzahl der Fälle auch veröffentlicht. Auf diese Aufrufe gingen jedoch nur drei Zuschriften mit Hinweisen auf acht Grimm-Briefe ein, die überwiegend ohnehin schon bekannt waren.<br>&nbsp;&nbsp; Als zweite Stufe einer zielgerichteten Autographenlokalisierung war ursprünglich die Recherche auf der sachlichen Ebene, auf der Ebene der Institutionengeschichten und der Tätigkeitsfelder der Brüder Grimm und ihrer Korrespondenten, vorgesehen. Die Fixierung auf persönliche Nachlässe und Zufallsüberlieferungen in Autographensammlungen führt allein noch nicht zur möglichen Vollständigkeit der Ergebnisse, da Briefwechsel auch in amtliche Registraturen gelangt sein können bzw. sich briefartiges Material zwangsläufig dort vorfindet, sobald die Person, die Gegenstand der Forschung ist, mit einer anderen Person in deren amtlicher Eigenschaft zu tun hatte. Für die Brüder Grimm ist diesem Zweig der Überlieferung mit einem geradezu überwältigend zu nennenden Erfolg nachgegangen worden, indem große Mengen von bisher völlig unbekannten Autographen, die freilich nur zum Teil Briefe sind, im Behördenschriftgut Hessens, des Königreichs Hannover und Preußens ermittelt werden konnten.</p>
+                            <p>Das Grimm-Briefverzeichnis geht auf kontinuierliche Arbeiten seit dem Jahr 1986 zurück. 1992 legte der Verfasser dieser Vorbemerkungen eine erste Torso-Fassung an der Humboldt-Universität zu Berlin als Dissertation vor. Diese Fassung gilt in der Numerierung der Versionen als 1.0. <br>&nbsp;&nbsp; 1993 bis 1998 war eine von der Deutschen Forschungsgemeinschaft geförderte Arbeitsgruppe an der Humboldt-Universität zu Berlin für die Fortführung des Verzeichnisses tätig. Dieser Arbeitsgruppe gehörten Stephan Bialas, Ingrid Pergande-Kaufmann und der Verfasser dieser Vorbemerkungen als wissenschaftliche Mitarbeiter sowie Bettina Hartz, Leonore Martin und Claudia Priemer als studentische Hilfskräfte an. Als Antragsteller gegenüber der DFG unterstützten Ludwig Denecke, Uwe Meves und Ruth Reiher das Forschungsprojekt, wobei Ludwig Denecke bereits seit 1988 durch vielfache Beratung und Mitwirkung in besonderer Weise an demselben beteiligt war und bis zu seinem Tod im Jahr 1996 blieb.<br>&nbsp;&nbsp;&nbsp; Die genannte Arbeitsgruppe stellte 1995 eine neue gedruckte Fassung des Verzeichnisses her, welche die bis dahin erzielten Zuwächse wiedergab und als Version 2.0 zählt. <br>&nbsp;&nbsp; Aus der Arbeitsgruppe ging die noch bestehende Arbeitsstelle Grimm-Briefwechsel an der Humboldt-Universität zu Berlin hervor.<br>&nbsp;&nbsp; Die nun zugängliche Online-Fassung des Jahres 2004 erhält die Nummer 3.0. Durch die weitere Numerierung der künftig bereitgestellten neuen Versionen soll für Nutzerinnen und Nutzer ersichtlich bleiben, inwieweit ihre bisher aus der Datenbank entnommenen Informationen noch dem letzten Stand der Kenntnisse entsprechen.</p>
+                            <p>Ähnliche Projekte und Ideen aus früheren Jahrzehnten wirkten auf verschiedene Weise auf die Arbeit ein. Als grundlegende Voraussetzungen konnten die Kataloge der Berliner und Marburger Teile des Grimm-Nachlasses und L. Deneckes Bibliographie der Grimm-Briefeditionen, später auch R. Breslaus neuer Katalog des Berliner Bestandes genutzt werden. Aus früheren begonnenen Einzelverzeichnungen der Briefe konnte mit der Ausnahme von E. Steinmeyers Briefkalendarium kein unmittelbarer Zugewinn gezogen werden, da die aus Erwähnungen bekannten Karteien und Register A. Leitzmanns, G. Ginschels und L. Deneckes nicht mehr vorhanden bzw. nicht zugänglich waren.</p>
+                            <p>Zu großem Dank sind wir den hilfreichen Mitarbeiterinnen und Mitarbeitern der zahlreichen Bibliotheken und Archive verpflichtet, wo wir für das Briefverzeichnis arbeiteten oder die uns auf briefliche Anfragen antworteten und dafür manchmal umfangreiche Bestände und Kataloge sichteten. Stellvertretend seien die Bibliothekarinnen und Bibliothekare von der Handschriftenabteilung der früheren Deutschen Staatsbibliothek Unter den Linden in Berlin und ihre Kolleginnen und Kollegen vom anderen Haus der Berliner Staatsbibliothek am Potsdamer Platz genannt, Frau E. Burda von der Jagiellonen-Bibliothek in Krakau, Herr Dr. W. Moritz und seine Kolleginnen und Kollegen im Hessischen Staatsarchiv Marburg, Herr Dr. H. Rohlfing von der Staats- und Universitätsbibliothek Göttingen, Herr Dr. K. Wiedemann von der Murhardschen und Landesbibliothek Kassel, Herr Dr. B. Lauer und seine Kolleginnen vom Brüder Grimm-Museum Kassel, Frau Dr. I. Kratzsch und Herr&nbsp; Blankenburg von der Universitäts- und Landesbibliothek Jena, Herr Dr. H. Bredehorn von der Universitätsbibliothek Marburg, Frau I. Kießling und Herr Dr. W. Raub von der Universitäts- und Landesbibliothek Münster, Herr Dr. A. Merk vom Historischen Museum Hanau, Herr Dr. W. W. Schischkin von der Nationalbibliothek St. Petersburg. Sehr herzlich danken wir auch den Besitzern größerer und kleinerer einschlägiger Privatsammlungen, die uns ihre Grimm-Briefe zugänglich machten.</p>
+                            <p>Ein großer Teil des im Verzeichnis erfaßten handschriftlichen Materials befindet sich jetzt als Kopie in den Sammlungen der Arbeitsstelle Grimm-Briefwechsel an der Humboldt-Universität zu Berlin.</p>
+                            <p>In das Briefverzeichnis wurden auch Briefe aufgenommen, deren Text nicht überliefert ist. Diese Briefe sind in der Regel aus anderen Briefen, aus Schreibkalendern, Tagebüchern und sonstigen Autobiographika zu belegen. Besonders ergiebig waren in dieser Hinsicht die Schreibkalender der Brüder Grimm. Von Jacob Grimm sind 25 und von Wilhelm Grimm 38 derartige Schreibkalender überliefert, in denen sie unter dem Tagesdatum ihre Briefausgänge festhielten. Diese Vermerke wurden in einer gesonderten Datei ausgewertet, wobei ganze Korrespondentengruppen neu bekannt wurden. Als zweifelhaft erwiesen sich jedoch die festgestellten Tagesdaten, da bei Briefen, die bekannt sind und über die auch eine Briefausgangsnotiz vorhanden ist, oftmals Divergenzen zwischen dem Datum auf dem Brief und dem Datum des Ausgangsvermerks bestehen. Vermutlich handelt es sich bei den Ausgangsvermerken um diejenigen Tage, an denen die Briefe zur Post gegeben wurden. Dieses Problem erschwert die Zusammenführung der Nachweise aus den Tagebüchern und Schreibkalendern mit der Hauptdatei des Briefverzeichnisses. Die Daten aus der Datei der erschlossenen Briefe und der des Hauptverzeichnisses sind bis zum jetzigen Zeitpunkt noch nicht vereinigt worden, sondern es wurde in demjenigen Teil des Datenbestandes erschlossener Briefe, bei dem dies möglich ist, lediglich ein Verweis auf das Hauptverzeichnis vorgenommen, so daß sich der Bestand der erschlossenen, sonst nicht nachweisbaren Briefe auf etwa 2.000 verringert hat. Die Zusammenführung der beiden Datenbestände ist für die Version 4.0 des Briefverzeichnisses vorgesehen, in der dann auch die Informationen über diese etwa 2.000 aus den Schreibkalendern und Tagebüchern erschlossenen Briefe enthalten sein werden.</p>
+                            <p>Den Editionen des Grimm-Briefwechsels lag zunächst ein halbes Jahrhundert lang kein wissenschaftlicher Plan zugrunde. A. Leitzmann, der um 1920 solch einen Plan entwickelte, konnte ihn nur in Anteilen verwirklichen.<br>&nbsp;&nbsp; Wünsche nach einer Gesamtausgabe ziehen sich schon seit der Zeit unmittelbar nach Jacob Grimms Tod (1863) durch die Grimm-Literatur, aber Vorstellungen darüber, wie so etwas sinnvoll anzufangen wäre, entstanden erst seit den 1970er Jahren und stießen drei Jahrzehnte lang auf mancherlei Hindernisse. Seit einigen Jahren sind zwei wissenschaftliche Sammelausgaben mit Teilen der Grimmschen Briefwechsel im Erscheinen begriffen, die nicht zuletzt den in dem vorliegenden Verzeichnis gespiegelten Kenntnisstand von der Gesamtheit des Grimm-Briefwechsels laufend erweitern und korrigieren.</p>
+                            <p>Nähere Informationen über die in diesen Vorbemerkungen skizzierten wissenschaftsgeschichtlichen und arbeitspraktischen Gegebenheiten können über die unten mitgeteilten Literaturhinweise aufgefunden werden. Fragen zur Benutzung des Verzeichnisses beantworten die beigegebenen Hilfe-Seiten.</p>
+                            <p>Die im Briefverzeichnis verwendeten Abkürzungen und Namenformen stimmen mit denen der seit 2001 im Verlag S. Hirzel in Stuttgart erscheinenden kritischen Ausgabe des Briefwechsels der Brüder Grimm weitgehend überein. Übersichten darüber bietet der Servicebereich zu dieser Briefausgabe im Grimmnetz, wo sich auch eine Vielzahl ergänzender Informationen über die Briefpartner findet (siehe Link am Kopf dieser Seite). Weitere Angleichungen an die Standards der Briefausgebe, die ihrerseits vielfach auf denen des Briefverzeichnisses gründen, werden künftig noch&nbsp; vorgenommen.</p>
+                            <p>Ein besonders herzlicher Dank der Autorinnen und Autoren gilt abschließend Herrn K. B. Kaindl und Herrn P. D. Doherty für ihren geschickten Umgang mit unseren Daten bei der Programmierung der Internet-Version.</p>
+                            <p>Der als Vignette auf der Titelseite des Briefverzeichnisses abgebildete Rest eines Briefes von Jacob Grimm befindet sich so im Historischen Museum Hanau (Briefverzeichnis Nr. 19203).</p>
+                            <p>Berlin, 24. Februar 2004</p>
+                            <p>Berthold Friemel</p>
+                            <p><b>Literaturhinweise:</b></p>
+                            <p>Ludwig Denecke: Bibliographie der Briefe von und an Jacob und Wilhelm Grimm. In: Aurora. Jahrbuch der Eichendorff-Gesellschaft Bd. 43 (1983), S. 169—227. Zuvor — noch minder vollständig — dasselbe in: ders.: Jacob Grimm und sein Bruder Wilhelm. (Sammlung Metzler, Bd. 100.) Stuttgart 1971, S.&nbsp;5—29</p>
+                            <p>Daniel Droixhe, Jean-Claude Muller und Pierre Swiggers: Les correspondances de linguistes: Projet d'inventaire systématique. In: Speculum historiographiae linguisticae. Kurzbeiträge der IV. Internationalen Konferenz zur Geschichte der Sprachwissenschaften, hrsg. von Klaus D. Dutz. Münster 1989, S. 347—357</p>
+                            <p>Jean-Claude Muller: Des correspondances de linguistes et de leur valeur historiographique. In: La Licorne, Bd. 19 (1991), S. 179—191</p>
+                            <p>Berthold Friemel und Ruth Reiher: Zur Edition des Grimm-Briefwechsels. In: Zeitschrift für Germanistik, N. F. Bd. 1 (1991), S. 311—322</p>
+                            <p>Berthold Friemel: Arbeitsstelle Grimm-Briefwechsel an der Humboldt-Universität. In: Zeitschrift für Germanistik, N. F. Bd. 11 (2001), S. 607—612</p>
+                            <p>&nbsp;</p>
+                            <p><b>Die bisherigen Fassungen des Briefverzeichnisses:</b></p>
+                            <p>Berthold Friemel: Verzeichnis von Jacob und Wilhelm Grimms Briefwechsel. Torso-Fassung, Bd. 1—2. Phil. Diss., Berlin 1992 (= Version 1.0)</p>
+                            <p>Berthold Friemel, Stephan Bialas: Verzeichnis von Jacob und Wilhelm Grimms Briefwechsel. Zwischenbericht, erarbeitet in Verbindung mit Ludwig Denecke, Leonore Martin, Uwe Meves, Ingrid Pergande, Claudia Priemer und Ruth Reiher. Berlin 1995 (= Version 2.0)</p>
+                            <p>Berthold Friemel, Stephan Bialas, Ingrid Pergande-Kaufmann: Verzeichnis von Jacob und Wilhelm Grimms Briefwechsel. erarbeitet gemeinsam mit Bettina Hartz, Leonore Martin, Claudia Priemer unter Mitwirkung von Ludwig Denecke, Uwe Meves, Ruth Reiher. Internetprogrammierung: Klaus B. Kaindl, Paul David Doherty. Version 3.0. Humboldt-Universität zu Berlin 2004. (Online-Version, nicht mehr zugänglich)</p>
+                            <p> Sammlung von Briefwechseln, Tagebüchern und Arbeitsmaterialien der Brüder Grimm, von Büchern aus ihrem Besitz sowie von weiteren Dokumenten und Realien des kulturellen und familiären Umfelds</p>
+                            <p>Version 1.0</p>
+                            <p class=3DMsoNormal>Konzeption und wissenschaftliche Ausführung: Berthold Friemel, Vinzenz Hoppe und Philip Kraut gemeinsam mit Felix Manczak und Elisabeth Rudolph</p>
+                            <p class=3DMsoNormal>Datentechnische Modellierung und Ausführung: Friedrich Ueberreiter, Markus Mayer, Kilian Salomon, Tom Lankenau</p>
+                            <p class=3DMsoNormal>Humboldt-Universität zu Berlin 2022</p>
+                            <p class=3DMsoNormal>Enthält:Verzeichnis von Jacob und Wilhelm Grimms Briefwechsel, erarbeitet von Berthold Friemel, Stephan Bialas und Ingrid Pergande-Kaufmann gemeinsam mit Marcus Böhm, Bettina Hartz, Vinzenz Hoppe, Philip Kraut, Leonore Martin, Claudia Priemer unter Mitwirkung von Ludwig Den= ecke, Uwe Meves und Ruth Reiher. Version 5.0, überarbeitet von Berthold Friemel, Vinzenz Hoppe und Philip Kraut gemeinsam mit Felix Manczak und Elisabeth Rudolph</p>
+                            <p class=3DMsoNormal>Humboldt Universität zu Berlin 2022</p>
+                        </td>
                     </div>
                 </div>
-                <div class="card row-span-4">
+                <div class="card">
+                    Erklärvideo
+                </div>
+                <div class="card row-span-6">
                     <div class="card-header text-xl ">
-                        Unsere Sponsoren
+                        Module des Archivs
                     </div>
-                    <div class="card-body text-base">
-                        <p>Lorem</p>
-                        <p>ipsum</p>
-                        <p>dolor</p>
-                        <p>sit</p>
-                        <p>amet</p>
+                    <div class="card-body text-base align-left">
+
+                        <p><b>Briefe von und an Jacob und Wilhelm Grimm</b><br>
+                            -- Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)<br>
+                            -- Briefwechsel zum „Deutschen Wörterbuch“ (in Vorbereitung)</p>
+
+                        <p><b>Tagebücher und Kalender der Brüder Grimm</b> (in Vorbereitung)</p>
+                        <p><b>Arbeitsmaterialien der Brüder Grimm</b> (in Vorbereitung)<br>
+                            -- Notizbücher (in Vorbereitung)</p>
+
+                        <p><b>persönliche Bibliothek der Brüder Grimm</b> (in Vorbereitung)<br>
+                            --persönliche Handbibliothek der Brüder Grimm zu den „Kinder- und Hausmärchen“ (in Vorbereitung)</p>
+
                     </div>
                 </div>
-                <div class="card col-span-2">
-                    <div class="card-header text-xl">
-                        Hi, die Links sind oben!
+                <div class="card col-span-3">
+                    <div class="card-body flex">
+                        <img class="flex-1 object-scale-down h-20" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Huberlin-logo.svg/1200px-Huberlin-logo.svg.png" alt="Humboldt-Universität zu Berlin"/>
+                        <img class="flex-1 object-scale-down h-20" src="https://iiif.deutsche-digitale-bibliothek.de/image/2/3357e9f2-d145-43bd-ab0f-20fda152fe36/full/!140,105/0/default.jpg" alt="Grimm-Sozietät zu Berlin e.V."/>
+                        <img class="flex-1 object-scale-down h-20" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Logo_Staatsbibliothek_zu_Berlin.svg/2560px-Logo_Staatsbibliothek_zu_Berlin.svg.png" alt="Staatsbibliothek zu Berlin"/>
+                        <img class="flex-1 object-scale-down h-20" src="https://pbs.twimg.com/profile_images/1303703216471912448/pH0ySXa7_400x400.png" alt="Universitätsbibliothek HUB"/>
+                        <img class="flex-1 object-scale-down h-20" src="data:image/png;base64,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">
+
+                    </div>
+                </div>
+                <div class="card col-span-3">
+                    <div class="card-body flex">
+                        <p>gefördert von</p>
+                        <img class="flex-1 object-scale-down h-20" src="https://www.ici-berlin.org/wp-content/uploads/2017/04/DFG_logo_sq-600x450.jpg" alt="Deutsche Forschungsgemeinschaft"/>
+                        <img class="flex-1 object-scale-down h-20" src="https://www.ici-berlin.org/wp-content/uploads/2021/01/Sponsor-2019-logo-senatsverwaltung-kultur-und-europa-1-600x372.jpg" alt="Senatsverwanltung Berlin"/>
+                        <img class="flex-1 object-scale-down h-20" src="https://www.zib.de/sites/default/files/styles/frontpage-news/public/event_images/digiS_logo_ZIB_0.jpg?itok=cu2Xzb-2" alt="digiS"/>
                     </div>
                 </div>
             </div>
@@ -70,17 +103,36 @@
 </template>
 
 <script>
+    import grimmSoz from "../../../../../../public/media/partner/sozlogo.jpg";
+
     export default {
         name: "Home",
         data() {
             return {
-                showMenu: false
+                showMenu: false,
+                scrolledBottom: false,
+                scrolledTop: true,
+                grimmSoz: grimmSoz,
+
             };
         },
         methods: {
             toggleNavbar: function(){
                 this.showMenu = !this.showMenu;
-            }
+            },
+            onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+                if (!this.scrolledBottom) {
+                    if (scrollTop + clientHeight >= scrollHeight) {
+                        this.scrolledBottom = true;
+                        console.log(this.scrolledBottom);
+                    }
+                } else {
+                    if (scrollTop + clientHeight <= scrollHeight) {
+                        this.scrolledBottom = false;
+                        console.log(this.scrolledBottom);
+                    }
+                }
+            },
         },
         computed: {
             adminUrl() {
@@ -96,6 +148,32 @@
     };
 </script>
 
-<style lang="sass">
-    @import 'resources/assets/frontend/sass/app.scss'
+<style lang="scss" scoped>
+    @import 'resources/assets/frontend/sass/app.scss';
+    /*
+    .fade-out {
+        -webkit-mask-image: linear-gradient(180deg, #000 40%, transparent)
+    }
+    */
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: $gray-100;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: $gray-200;
+        border-radius: 2px;
+        border-color: $gray-300;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 </style>
