@@ -172,6 +172,14 @@
                 this.pagination.page = number;
             },
         },
+
+        mounted() {
+            if(this.$route.query.search){
+                this.searchAll = this.$route.query.search;
+                this.startSearch();
+            }
+        },
+
         components: {
             AdvancedForm,
             SearchResult,
