@@ -25,12 +25,12 @@
                     <div class="card-body text-base max-h-160 overflow-auto hover:overflow-scroll hover:overflow" @scroll="onScroll">
                         <td>
                             <p>Sammlung von Briefwechseln, Tagebüchern und Arbeitsmaterialien der Brüder Grimm, von Büchern aus ihrem Besitz sowie von weiteren Dokumenten und Realien des kulturellen und familiären Umfelds<br></p>
-                            <p>Version 1.0<br></p>
+                            <br><p>Version 1.0<br><br></p>
                             <p>Konzeption und wissenschaftliche Ausführung: Berthold Friemel, Vinzenz Hoppe und Philip Kraut gemeinsam mit Felix Manczak und Elisabeth Rudolph<br></p>
-                            <p>Datentechnische Modellierung und Ausführung: Friedrich Ueberreiter, Markus Mayer, Kilian Salomon, Tom Lankenau<br></p>
-                            <p>Humboldt-Universität zu Berlin 2022<br></p>
+                            <p>Datentechnische Modellierung und Ausführung: Friedrich Ueberreiter, Markus Daniel Mayer, Kilian Salomon, Tom Lukas Lankenau<br></p>
+                            <p>Humboldt-Universität zu Berlin 2022<br><br></p>
                             <p>Enthält: <b>Verzeichnis von Jacob und Wilhelm Grimms Briefwechsel</b>, erarbeitet von Berthold Friemel, Stephan Bialas und Ingrid Pergande-Kaufmann gemeinsam mit Marcus Böhm, Bettina Hartz, Vinzenz Hoppe, Philip Kraut, Leonore Martin, Claudia Priemer unter Mitwirkung von Ludwig Denecke, Uwe Meves und Ruth Reiher. Version 5.0, überarbeitet von Berthold Friemel, Vinzenz Hoppe und Philip Kraut gemeinsam mit Felix Manczak und Elisabeth Rudolph<br></p>
-                            <p>Humboldt Universität zu Berlin 2022</p>
+                            <br><p>Humboldt Universität zu Berlin 2022</p>
                         </td>
                     </div>
                 </div>
