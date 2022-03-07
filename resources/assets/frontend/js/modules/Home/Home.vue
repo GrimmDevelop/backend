@@ -25,17 +25,21 @@
                     <div class="card-body text-base max-h-160 overflow-auto hover:overflow-scroll hover:overflow" @scroll="onScroll">
                         <td>
                             <p>Sammlung von Briefwechseln, Tagebüchern und Arbeitsmaterialien der Brüder Grimm, von Büchern aus ihrem Besitz sowie von weiteren Dokumenten und Realien des kulturellen und familiären Umfelds<br></p>
-                            <br><p>Version 1.0<br><br></p>
+                            <p>Version 1.0<br></p>
                             <p>Konzeption und wissenschaftliche Ausführung: Berthold Friemel, Vinzenz Hoppe und Philip Kraut gemeinsam mit Felix Manczak und Elisabeth Rudolph<br></p>
                             <p>Datentechnische Modellierung und Ausführung: Friedrich Ueberreiter, Markus Daniel Mayer, Kilian Salomon, Tom Lukas Lankenau<br></p>
-                            <p>Humboldt-Universität zu Berlin 2022<br><br></p>
+                            <p>Humboldt-Universität zu Berlin 2022<br></p>
                             <p>Enthält: <b>Verzeichnis von Jacob und Wilhelm Grimms Briefwechsel</b>, erarbeitet von Berthold Friemel, Stephan Bialas und Ingrid Pergande-Kaufmann gemeinsam mit Marcus Böhm, Bettina Hartz, Vinzenz Hoppe, Philip Kraut, Leonore Martin, Claudia Priemer unter Mitwirkung von Ludwig Denecke, Uwe Meves und Ruth Reiher. Version 5.0, überarbeitet von Berthold Friemel, Vinzenz Hoppe und Philip Kraut gemeinsam mit Felix Manczak und Elisabeth Rudolph<br></p>
-                            <br><p>Humboldt Universität zu Berlin 2022</p>
+                            <p>Humboldt Universität zu Berlin 2022<br></p>
+                            <p><br>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr.</p>
+                            <p class="text-right text-gray-500">Weiterlesen ...</p>
                         </td>
                     </div>
                 </div>
                 <div class="card col-span-2 row-span-2">
-                    <iframe style="position: relative; height: 100%; width: 100%;" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <!--<iframe style="position: relative; height: 100%; width: 100%;" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    -->
+                    <img src="https://cdn.discordapp.com/attachments/804369796288217121/950377549836468254/grimm.png" style="position: relative; height: 100%; width: 100%;">
                 </div>
                 <div class="card col-span-2 row-span-4">
                     <div class="card-header text-xl ">
@@ -92,7 +96,7 @@
                         <img class="basis-3/20 min-w-0 object-scale-down h-100%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Huberlin-logo.svg/1200px-Huberlin-logo.svg.png" alt="Humboldt-Universität zu Berlin"/>
                         <img class="basis-3/20 min-w-0 object-scale-down h-100%" src="https://cdn.discordapp.com/attachments/804369796288217121/950337715587645500/sozlogo.jpg" alt="Grimm-Sozietät zu Berlin e.V."/>
                         <img class="basis-3/20 min-w-0 object-scale-down h-100%" src="https://pbs.twimg.com/profile_images/1303703216471912448/pH0ySXa7_400x400.png" alt="Universitätsbibliothek HUB"/>
-                        <img class="basis-3/20 min-w-0 object-scale-down h-100%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Logo_Staatsbibliothek_zu_Berlin.svg/2560px-Logo_Staatsbibliothek_zu_Berlin.svg.png" alt="Staatsbibliothek zu Berlin"/>
+                        <img class="basis-3/20 min-w-0 object-scale-down h-1%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Logo_Staatsbibliothek_zu_Berlin.svg/2560px-Logo_Staatsbibliothek_zu_Berlin.svg.png" alt="Staatsbibliothek zu Berlin"/>
                         <img class="basis-2/5 min-w-0 object-scale-down h-100%" src="https://www.oclc.org/content/dam/oclc/member-stories/images/logos/sub-gottingen_logo.jpg" alt="UB Göttingen"/>
                     </div>
                 </div>
