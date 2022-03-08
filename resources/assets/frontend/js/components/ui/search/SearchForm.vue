@@ -52,13 +52,17 @@
                 },
                 pagination: {
                     page: 1,
-                    limit: 9,
+                    limit: 4,
                     lastPage: 0,
                 },
                 letters: [],
                 showResults: false,
                 searching: false,
             };
+        },
+
+        mounted() {
+            this.getLocalStorage();
         },
 
         computed: {
@@ -68,7 +72,6 @@
                 } catch (error) {
                     return false;
                 }
-
             },
 
             currentPage() {
@@ -94,7 +97,7 @@
                 // TODO: fix request triggered twice due to pagination watch
                 this.pagination.page = 1;
                 this.getLetters();
-                this.showResults = true;
+                this.persist();
             },
 
             getLetters() {
@@ -113,9 +116,10 @@
                 }).then(response => {
                     this.searching = false;
                     this.letters = response.data.data;
+                    this.showResults = true;
                     try {
                         this.pagination.lastPage = response.data.meta.last_page;
-                    } catch(error) {
+                    } catch (error) {
                         this.pagination.lastPage = 1;
                     }
                 });
@@ -123,6 +127,51 @@
 
             paginationSetPage(number) {
                 this.pagination.page = number;
+                this.persist();
+            },
+
+            getLocalStorage() {
+                let performSearch = false;
+                if (localStorage.getItem('pagination')) {
+                    try {
+                        this.pagination = JSON.parse(localStorage.getItem('pagination'));
+                    } catch (e) {
+                        localStorage.removeItem('pagination');
+                    }
+                }
+
+                if (localStorage.mode) {
+                    this.mode = localStorage.mode;
+                }
+
+                if (localStorage.searchAll) {
+                    performSearch = true;
+                    this.searchAll = localStorage.searchAll;
+                }
+
+                if (localStorage.getItem('search')) {
+                    performSearch = true;
+                    try {
+                        this.search = JSON.parse(localStorage.getItem('search'));
+                    } catch (e) {
+                        localStorage.removeItem('search');
+                    }
+                }
+
+                if (performSearch) {
+                    this.getLetters();
+                }
+            },
+
+            persist() {
+                localStorage.setItem('mode', this.mode);
+                localStorage.setItem('searchAll', this.searchAll);
+                localStorage.setItem('search', JSON.stringify(this.search));
+                localStorage.setItem('pagination', JSON.stringify(this.pagination));
+            },
+
+            clearStorage() {
+                localStorage.clear();
             },
         },
         components: {
@@ -137,7 +186,7 @@
 </script>
 
 <style scoped>
-    .search-form{
+    .search-form {
         padding-top: 2rem;
     }
 
@@ -153,12 +202,12 @@
         margin-bottom: auto;
     }
 
-    .current-searching-container{
+    .current-searching-container {
         margin-left: auto;
         margin-right: auto;
     }
 
-    .search-result-container{
+    .search-result-container {
 
     }
 
