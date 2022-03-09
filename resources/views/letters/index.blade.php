@@ -7,7 +7,7 @@
                 <h1>Briefdatenbank</h1>
                 <div class="button-container">
                     <div class="search {{ request()->has('search') ? 'active' : '' }}">
-                        <form action="{{ url('letters') }}" method="get">
+                        <form action="{{ route('letters.index') }}" method="get">
                             <select class="form-control input-sm" name="field">
                                 <option value="" {{ selected_if(!request()->get('field')) }}>alle Felder</option>
                                 @foreach(\Grimm\Letter::gridColumns() as $column)
