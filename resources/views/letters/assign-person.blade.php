@@ -36,7 +36,7 @@
                                        empty="Es wurde keine Person gefunden!">
                                 <template slot="list-item" slot-scope="props">
                                     @{{ props.item.last_name }}, @{{ props.item.first_name }} <em
-                                            class='float-right'>@{{ props.item.bio_data }}</em>
+                                            class='float-right'>#@{{ props.item.id }} @{{ props.item.bio_data }}</em>
                                 </template>
                             </typeahead>
                         </div>

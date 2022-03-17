@@ -31,7 +31,9 @@ new window.Vue({
 
         personSelected(person) {
             this.person = person;
-            this.$refs.pageField.focus();
+            if(this.$refs.pageField) {
+                this.$refs.pageField.focus();
+            }
         },
 
         prepareResponse(response) {
