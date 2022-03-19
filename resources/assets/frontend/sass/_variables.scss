@@ -16,15 +16,15 @@ $black: #000 !default;
 $grays: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $grays: map-merge((
-    "100": $gray-100,
-    "200": $gray-200,
-    "300": $gray-300,
-    "400": $gray-400,
-    "500": $gray-500,
-    "600": $gray-600,
-    "700": $gray-700,
-    "800": $gray-800,
-    "900": $gray-900
+        "100": $gray-100,
+        "200": $gray-200,
+        "300": $gray-300,
+        "400": $gray-400,
+        "500": $gray-500,
+        "600": $gray-600,
+        "700": $gray-700,
+        "800": $gray-800,
+        "900": $gray-900
 ), $grays);
 
 $blue: darken(#428bca, 6.5%) !default;
@@ -41,19 +41,19 @@ $cyan: #5bc0de !default; // #17a2b8
 $colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $colors: map-merge((
-    "blue": $blue,
-    "indigo": $indigo,
-    "purple": $purple,
-    "pink": $pink,
-    "red": $red,
-    "orange": $orange,
-    "yellow": $yellow,
-    "green": $green,
-    "teal": $teal,
-    "cyan": $cyan,
-    "white": $white,
-    "gray": $gray-600,
-    "gray-dark": $gray-800
+        "blue": $blue,
+        "indigo": $indigo,
+        "purple": $purple,
+        "pink": $pink,
+        "red": $red,
+        "orange": $orange,
+        "yellow": $yellow,
+        "green": $green,
+        "teal": $teal,
+        "cyan": $cyan,
+        "white": $white,
+        "gray": $gray-600,
+        "gray-dark": $gray-800
 ), $colors);
 
 $primary: $blue !default;
@@ -79,18 +79,19 @@ $color_env: $color_master;
 $theme-colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $theme-colors: map-merge((
-    "primary": $primary,
-    "secondary": $secondary,
-    "success": $success,
-    "info": $info,
-    "warning": $warning,
-    "danger": $danger,
-    "light": $light,
-    "lighter": $lighter,
-    "dark": $dark
+        "primary": $primary,
+        "secondary": $secondary,
+        "success": $success,
+        "info": $info,
+        "warning": $warning,
+        "danger": $danger,
+        "light": $light,
+        "lighter": $lighter,
+        "dark": $dark
 ), $theme-colors);
 
 // misc
+
 $body-bg: #F0F0F0;
 $pager-border-radius: 0;
 $border-radius: 1px;
@@ -116,5 +117,5 @@ $btn-primary-border: darken($btn-primary-bg, 5%) !default;
 $navbar-light-brand-color: rgba($black, .5) !default;
 
 // colors SearchForm
-$button-blue: $gray-100;
-$search-result-title: darken($gray-100, 5%);
+$button-blue: #2c5282;
+$search-result-title: darken(#2c5282, 5%);

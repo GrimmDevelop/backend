@@ -8,6 +8,8 @@
             <hr class="horizontal-thick"/>
             <span class="rotating" @click="rotateImageRight">&#8635;</span>
             <span class="rotating" @click="rotateImageLeft">&#8634;</span>
+            <hr class="horizonal-thick"/>
+            <icon class="reset" icon="target" @click="resetPosition"></icon>
         </div>
     </div>
 </template>

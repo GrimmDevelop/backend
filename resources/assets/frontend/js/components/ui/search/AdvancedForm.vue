@@ -15,9 +15,6 @@
                     @click="$emit('search')">
                 Suchen
             </button>
-            <button class="btn-search btn-advanced" @click="$emit('switch-mode')">
-                vereinfachte Suche
-            </button>
         </div>
     </div>
 </template>
@@ -117,8 +114,8 @@
     }
 
     .btn-search {
-        background-color: $button-blue;
-        color: white;
+        background-color: $gray-200;
+        color: black;
         border: none;
         border-radius: 5px 0 0 5px;
         float: left;
@@ -126,7 +123,7 @@
         align-self: center;
 
         &:hover {
-            background-color: darken($button-blue, 5%);
+            background-color: darken($gray-200, 5%);
         }
     }
 
