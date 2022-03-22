@@ -5,10 +5,10 @@
         <div class="absolute bottom-4 right-4 z-10 bg-gray-200 rounded flex flex-col gap-3 p-3">
             <icon class="zooming" icon="zoom-in" style="color: #495057" @click="zoomIn"></icon>
             <icon class="zooming" icon="zoom-out" style="color: #495057" @click="zoomOut"></icon>
-            <hr class="horizontal-thick" />
+            <hr class="horizontal-thick"/>
             <span class="rotating text-gray-700" @click="rotateImageRight">&#8635;</span>
             <span class="rotating text-gray-700" @click="rotateImageLeft">&#8634;</span>
-            <hr class="horizonal-thick"/>
+            <hr class="horizontal-thick"/>
             <icon class="reset" icon="target" style="color: #495057" @click="resetPosition"></icon>
         </div>
     </div>
