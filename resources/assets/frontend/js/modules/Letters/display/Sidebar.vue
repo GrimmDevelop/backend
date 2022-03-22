@@ -1,12 +1,12 @@
 <template>
-    <div class="sidebar overflow-auto bg-blue-800 text-white px-2 py-4 flex flex-col"
+    <div class="sidebar overflow-auto bg-gray-300 text-gray-700 px-2 py-4 flex flex-col"
          :class="sideBarOpen ? 'open' : ''">
-        <div class="sidebar-link hover:bg-blue-900" @click="mutateSidebar()">
+        <div class="sidebar-link hover:bg-gray-400" @click="mutateSidebar()">
             <icon :icon="sideBarOpen ? 'cheveron-right' : 'cheveron-left'"></icon>
             <span class="caption">Seitenleiste ausblenden</span>
         </div>
 
-        <div class="sidebar-link hover:bg-blue-900" :class="linkClass('letters-text')"
+        <div class="sidebar-link hover:bg-gray-400" :class="linkClass('letters-text')"
              @click="textOpen">
             <icon icon="document"></icon>
             <span class="caption">Brieftext - Fenster</span>
@@ -14,23 +14,23 @@
         <div class="sidebar-link-desc">
             {{ letter.inc }}
         </div>
-        <div class="sidebar-link hover:bg-blue-900">
+        <div class="sidebar-link hover:bg-gray-400">
             <icon icon="library"></icon>
             <span class="caption">Apparate zum Text</span>
         </div>
 
-        <div class="sidebar-link hover:bg-blue-900"
-             :class="{ 'bg-blue-900': visibility('letters-scan') }" @click="toggleColumn('letters-scan')">
+        <div class="sidebar-link hover:bg-gray-400"
+             :class="{ 'bg-gray-400': visibility('letters-scan') }" @click="toggleColumn('letters-scan')">
             <icon icon="camera"></icon>
             <span class="caption">Handschrift(en)</span>
         </div>
-        <div class="sidebar-link hover:bg-blue-900"
-             :class="{ 'bg-blue-900': visibility('letters-text') }" @click="toggleColumn('letters-text')">
+        <div class="sidebar-link hover:bg-gray-400"
+             :class="{ 'bg-gray-400': visibility('letters-text') }" @click="toggleColumn('letters-text')">
             <icon icon="document"></icon>
             <span class="caption">Text</span>
         </div>
 
-        <div class="sidebar-link hover:bg-blue-900">
+        <div class="sidebar-link hover:bg-gray-400">
             <icon icon="light-bulb"></icon>
             <span class="caption">Sachkommentare</span>
         </div>
@@ -49,17 +49,17 @@
 
         <div class="column-configuration">
             <span class="caption">Anzeige:</span>
-            <a class="sidebar-link hover:bg-blue-900" @click="changeFlow('columns')">
+            <a class="sidebar-link hover:bg-gray-400" @click="changeFlow('columns')">
                 <icon icon="view-column"></icon>
                 <span class="caption">Spaltenweise</span>
             </a>
-            <a class="sidebar-link hover:bg-blue-900" @click="changeFlow('rows')">
+            <a class="sidebar-link hover:bg-gray-400" @click="changeFlow('rows')">
                 <icon icon="view-list"></icon>
                 <span class="caption">Zeilenweise</span>
             </a>
         </div>
 
-        <a :href="adminUrl" class="sidebar-link hover:bg-blue-900">
+        <a :href="adminUrl" class="sidebar-link hover:bg-gray-400">
             <icon icon="layers"></icon>
             <span class="caption">Verwaltung</span>
         </a>
@@ -132,6 +132,7 @@
 
     .sidebar {
         align-items: center;
+        border-left-color: #ced4da;
 
         &.open {
             min-width: 13rem;
@@ -142,7 +143,7 @@
     .sidebar-link {
         margin: .1rem 0;
         padding: .4rem .2rem;
-        color: white;
+        color: #495057;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -173,7 +174,7 @@
 
     .sidebar-link-desc {
         display: none;
-        color: rgba(255, 255, 255, .5);
+        color: #343a40;
 
         .sidebar.open & {
             display: block;
