@@ -1,6 +1,7 @@
 <template>
     <div class="search-all-bar">
-        <input class="the-search-all-bar" v-model="searchAll" v-on:keyup.enter="forwarding" placeholder="Alles durchsuchen"/>
+        <input class="the-search-all-bar" v-model="searchAll" v-on:keyup.enter="forwarding"
+               placeholder="Alles durchsuchen"/>
         <button class="btn-search magnifier" type="submit" @click="forwarding">
             <icon icon="search" class="text-gray-600"/>
         </button>
@@ -19,7 +20,7 @@
 
         methods: {
             forwarding() {
-                this.$router.push({ path: '/letters', query: { search: this.searchAll } });
+                this.$router.push({path: '/letters', query: {search: this.searchAll}});
             },
         },
     };
@@ -27,6 +28,7 @@
 
 <style lang="scss" scoped>
     @import "~@/sass/variables";
+
     .search-all-bar {
         display: flex;
         align-items: center;

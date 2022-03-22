@@ -4,14 +4,14 @@
             <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
                 <div class="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start">
                     <a :href="homeURL" class="text-lg text-gray-600 mr-4 hover:text-gray-700">
-                        Grimmbriefwechsel
+                        Digitales Grimmarchiv
                     </a>
                     <a :href="adminUrl" class="text-base text-gray-500 mx-4 hover:text-gray-600">Verwaltung</a>
                     <a :href="letterSearch" class="text-base text-gray-500 mx-4 hover:text-gray-600">Briefsuche</a>
                 </div>
             </div>
         </nav>
-        <div class="card m-auto">
+        <div class="card my-4 mx-auto">
             <div class="card-header text-xl flex justify-between">
                 <a>Briefsuche</a>
                 <label for="toogleA" class="flex items-center cursor-pointer">
@@ -114,7 +114,7 @@
                 return "/letters";
             },
             homeURL() {
-                return "";
+                return "/";
             },
         },
 
@@ -202,7 +202,7 @@
 
     .complete-container {
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         background-color: $gray-200;

@@ -1,12 +1,12 @@
 <template>
-    <div class="w-full h-full">
+    <div class="card card-body w-full h-full">
         <zoom-image ref="zoomImage" v-if="hasImages" :src="imageUrl"></zoom-image>
         <div class="image-pagination">
             <icon icon="cheveron-left"
                   format="cursor-pointer text-gray-600 hover:text-gray-900"
                   @click="decrement">
             </icon>
-            <span class="text-gray-900 whitespace-nowrap">
+            <span class="text-gray-700 whitespace-nowrap">
                 <input :value="active" @input="setPage($event.target.value)"
                        @focus="$event.target.select()"
                        class="page-input cursor-pointer">/ {{ scanCount }}
