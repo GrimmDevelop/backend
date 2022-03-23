@@ -17,7 +17,7 @@
             </div>
             <div class="result-properties">
                 <div v-if="letter.inc" class="result-item">
-                    <div class="result-item-title">Briefbeginn</div>
+                    <div class="result-item-title">Briefanfang</div>
                     <div class="result-item-content">{{ letter.inc }}</div>
                 </div>
                 <div v-if="letter.handwriting_location" class="result-item">
@@ -40,6 +40,13 @@
                     <div class="result-item-title">Scan(s)</div>
                     <div class="result-item-content scan-item">
                         <icon v-if="letter.scans.data.length > 0" icon="document" style="text-align: center;"></icon>
+                        <icon v-else icon="close" style="text-align: center;"></icon>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <div class="result-item-title">Text</div>
+                    <div class="result-item-content scan-item">
+                        <icon v-if="letter.text" icon="align-left" style="text-align: center;"></icon>
                         <icon v-else icon="close" style="text-align: center;"></icon>
                     </div>
                 </div>

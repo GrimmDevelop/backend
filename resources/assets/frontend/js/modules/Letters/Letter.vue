@@ -5,7 +5,7 @@
                 <scan-column :letter="letter"/>
             </column>
 
-            <column namespace="letters" :entity="letter" name="text" >
+            <column v-if="letter.text" namespace="letters" :entity="letter" name="text" >
                 <letter-text @registered="getWindowWidth" :width="textWidth" :text="letter.text" class="p-4"/>
             </column>
         </div>
@@ -60,7 +60,6 @@
                     this.$http.get(`/data/letters/${this.id}`)
                         .then(response => {
                             this.letter = response.data.data;
-                            console.log(this.letter);
                         });
                 },
             },
@@ -82,7 +81,6 @@
             getWindowWidth() {
                 setInterval(() => {
                     this.textWidth = this.$refs.columnContainer.clientWidth / 2;
-                    console.log(this.textWidth);
                 }, 1000);
             },
         },
