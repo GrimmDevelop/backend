@@ -1,29 +1,39 @@
 <template>
     <div class="search-all-bar">
-        <input class="the-search-all-bar" :value="value" @input="$emit('filter', $event.target.value)" type="search" placeholder="Alles durchsuchen"/>
-        <button class="btn-search magnifier" type="submit" @click="$emit('search')">
-            <icon icon="search"/>
+        <input class="the-search-all-bar" v-model="searchAll" v-on:keyup.enter="forwarding"
+               placeholder="Alles durchsuchen"/>
+        <button class="btn-search magnifier" type="submit" @click="forwarding">
+            <icon icon="search" class="text-gray-600"/>
         </button>
     </div>
 </template>
 
 <script>
     export default {
-        name: "SimpleForm",
+        name: "ExternalSearchBar",
 
-        props: {
-            value: {},
+        data() {
+            return {
+                searchAll: "",
+            };
+        },
+
+        methods: {
+            forwarding() {
+                this.$router.push({path: '/letters', query: {search: this.searchAll}});
+            },
         },
     };
 </script>
 
 <style lang="scss" scoped>
     @import "~@/sass/variables";
+
     .search-all-bar {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 700px;
+        //width: 700px;
     }
 
     .the-search-all-bar {

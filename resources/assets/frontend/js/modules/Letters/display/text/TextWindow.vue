@@ -1,6 +1,6 @@
 <template>
     <div class="column-Box">
-        <div class="text-box">
+        <div class="card card-body text-box">
             <letter-text :text="letter.text"/>
         </div>
     </div>

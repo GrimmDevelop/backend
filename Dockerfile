@@ -9,9 +9,8 @@ RUN apt-get update
 
 # Add mariadb repository for mariadb-client
 RUN apt-get install curl -yqq
-RUN curl https://downloads.mariadb.com/MariaDB/mariadb_repo_setup --output mariadb_repo_setup
-RUN echo "fd3f41eefff54ce144c932100f9e0f9b1d181e0edd86a6f6b8f2a0212100c32c mariadb_repo_setup" \
-    | sha256sum -c -
+RUN curl https://downloads.mariadb.com/MariaDB/mariadb_repo_setup --output mariadb_repo_setup \
+    && echo "b9e90cde27affc2a44f9fc60e302ccfcacf71f4ae02071f30d570e6048c28597 mariadb_repo_setup" | sha256sum -c -
 RUN chmod +x mariadb_repo_setup
 RUN ./mariadb_repo_setup \
    --mariadb-server-version="mariadb-10.6"

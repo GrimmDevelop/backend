@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Grimm\LetterPersonAssociation;
 use Grimm\Person;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class AssignPersonToLetterRequest extends FormRequest
 {
@@ -57,7 +58,7 @@ class AssignPersonToLetterRequest extends FormRequest
 
                 \DB::commit();
             } catch (\Exception $e) {
-                // ...
+                Log::error($e->getMessage());
             }
         }
     }
