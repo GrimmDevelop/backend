@@ -1,10 +1,16 @@
 <template>
     <div class="relative overflow-auto" v-if="!windowsIsPoppedOut">
-        <div class="absolute top-4 right-4 z-10 bg-gray-300 rounded p-3 cursor-pointer">
-            <icon icon="share" @click="popOut"></icon>
-
-            <icon v-for="(button, index) in windowButtons" :key="`w-button-${index}`"
-                  :icon="button.icon" @click="button.callback"></icon>
+        <div class="absolute top-4 right-4 z-10 bg-gray-300 rounded cursor-pointer grid-cols-2">
+            <div class="keine-ahnung-was-fuer-buttons tooltip" @click="popOut">
+                <span class="tooltiptext">Popout</span>
+                <icon icon="share"></icon>
+            </div>
+            <div class="keine-ahnung-was-fuer-buttons tooltip"
+                 v-for="(button, index) in windowButtons" :key="`w-button-${index}`"
+                 :icon="button.icon" @click="button.callback">
+                <span class="tooltiptext">Schließen</span>
+                <icon icon="close"></icon>
+            </div>
         </div>
 
         <slot></slot>
@@ -82,6 +88,45 @@
     };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+    .keine-ahnung-was-fuer-buttons{
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-bottom: 10px;
+        padding-top: 11px;
+        display: block;
+        cursor: pointer;
+        user-select: none;
+        border-radius: 5px;
+    }
+
+    .keine-ahnung-was-fuer-buttons:hover{
+        background: #adb5bd;
+    }
+
+    .tooltip{
+        position: relative;
+    }
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+
+        /* Position the tooltip text */
+        position: absolute;
+        z-index: 1;
+        top: +5px;
+        right: 105%;
+    }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
 
 </style>

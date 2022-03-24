@@ -1,16 +1,6 @@
 <template>
     <div class="complete-container">
-        <nav class="navbar navbar-light navbar-expand-lg p-4 bg-white border-b-2 border-gray-300">
-            <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
-                <div class="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start">
-                    <a :href="homeURL" class="text-lg text-gray-600 mr-4 hover:text-gray-700">
-                        Grimmbriefwechsel
-                    </a>
-                    <a :href="adminUrl" class="text-base text-gray-500 mx-4 hover:text-gray-600">Verwaltung</a>
-                    <a :href="letterSearch" class="text-base text-gray-500 mx-4 hover:text-gray-600">Briefsuche</a>
-                </div>
-            </div>
-        </nav>
+        <nav-bar class="navbar"></nav-bar>
         <div class="card m-auto">
             <div class="card-header text-xl flex justify-between">
                 <a>Briefsuche</a>
@@ -53,13 +43,13 @@
 
 <script>
     import qs from 'qs';
-
     import DottedLine from "./DottedLine";
     import SimpleForm from "./SimpleForm";
     import SearchResult from "./SearchResult";
     import AdvancedForm from "./AdvancedForm";
     import SearchPagination from "./SearchPagination";
     import Spinner from "../Spinner";
+    import NavBar from "../NavBar/NavBar";
 
     export default {
         name: "SearchForm",
@@ -181,6 +171,7 @@
         },
 
         components: {
+            NavBar,
             AdvancedForm,
             SearchResult,
             DottedLine,

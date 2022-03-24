@@ -16,7 +16,7 @@
                                     <a href="{{ route('letters.show', [$letter]) }}">
                                         {{ $letter->title() }}
                                     </a>
-                                    ({{ $letter->updated_at->format('d.m.Y H:i:s') }})
+                                    ({{ $letter?->updated_at?->format('d.m.Y H:i:s') }})
                                 </li>
                             @endforeach
                         </ul>
@@ -29,7 +29,7 @@
                                     <a href="{{ route('people.show', [$person]) }}">
                                         {{ $person->first_name }} {{ $person->last_name }}
                                     </a>
-                                    ({{ $person->updated_at->format('d.m.Y H:i:s') }})
+                                    ({{ $person?->updated_at?->format('d.m.Y H:i:s') }})
                                 </li>
                             @endforeach
                         </ul>
@@ -42,7 +42,7 @@
                                     <a href="{{ route('books.show', [$book]) }}">
                                         {{ \Illuminate\Support\Str::words($book->title, 9) }}
                                     </a>
-                                    ({{ $book->updated_at->format('d.m.Y H:i:s') }})
+                                    ({{ $book?->updated_at?->format('d.m.Y H:i:s') }})
                                 </li>
                             @endforeach
                         </ul>
@@ -55,7 +55,7 @@
                                     <a href="{{ route('librarybooks.show', [$book]) }}">
                                         {{ \Illuminate\Support\Str::words($book->title, 9) }}
                                     </a>
-                                    ({{ $book->updated_at->format('d.m.Y H:i:s') }})
+                                    ({{ $book?->updated_at?->format('d.m.Y H:i:s') }})
                                 </li>
                             @endforeach
                         </ul>
