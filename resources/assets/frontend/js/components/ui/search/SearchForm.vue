@@ -1,6 +1,8 @@
 <template>
     <div class="complete-container">
-        <nav-bar class="navbar"></nav-bar>
+        <nav-bar class="navbar">
+            <img class="max-h-12" alt="Briefschnipsel" src="https://cdn.discordapp.com/attachments/767492289429635093/957402708384559104/bvlogo_y.png">
+        </nav-bar>
         <div class="card m-auto">
             <div class="card-header text-xl flex justify-between">
                 <a>Briefsuche</a>

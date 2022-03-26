@@ -1,18 +1,8 @@
 <template>
-    <div class="h-screen bg-gray-200" >
-        <nav class="navbar navbar-light navbar-expand-lg p-4 bg-white border-b-2 border-gray-300">
-            <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
-                <div class="w-full relative flex justify-between lg:w-auto px-4 lg:static lg:block lg:justify-start">
-                    <a :href="homeURL" class="text-xl text-gray-600 mr-4 hover:text-gray-700">
-                        Digitales Grimmarchiv
-                    </a>
-
-<!--                    <a :href="adminUrl" class="text-base text-gray-500 mx-4 hover:text-gray-600">Verwaltung</a>-->
-<!--                    <a :href="letterSearch" class="text-base text-gray-500 mx-4 hover:text-gray-600">Briefsuche</a>-->
-                </div>
-                <external-search-bar class="external-search-bar"></external-search-bar>
-            </div>
-        </nav>
+    <div class="h-screen bg-gray-200">
+        <nav-bar>
+            <external-search-bar class="external-search-bar"></external-search-bar>
+        </nav-bar>
         <div class="w-full bg-gray-200">
             <div class="container grid grid-cols-6 gap-4 grid-rows-6 content-evenly mx-auto pt-4">
                 <div class="col-span-1 row-span-3 img-wrap">
@@ -116,9 +106,10 @@
 <script>
 
     import ExternalSearchBar from "./ExternalSearchBar";
+    import NavBar from "../../components/ui/NavBar/NavBar";
     export default {
         name: "Home",
-        components: {ExternalSearchBar},
+        components: {NavBar, ExternalSearchBar},
         data() {
             return {
                 showMenu: false,

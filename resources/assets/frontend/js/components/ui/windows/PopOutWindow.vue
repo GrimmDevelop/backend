@@ -89,6 +89,7 @@
 </script>
 
 <style scoped lang="scss">
+    @import "~@/sass/variables";
 
     .keine-ahnung-was-fuer-buttons{
         padding-left: 12px;
@@ -102,7 +103,7 @@
     }
 
     .keine-ahnung-was-fuer-buttons:hover{
-        background: #adb5bd;
+        background: $gray-350;
     }
 
     .tooltip{

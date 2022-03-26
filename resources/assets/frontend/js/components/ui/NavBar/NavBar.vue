@@ -5,10 +5,11 @@
                 <!--<a :href="homeURL" class="text-lg text-gray-600 mr-4 hover:text-gray-700">
                     Digitales Grimmarchiv
                 </a>-->
-                <button class="text-lg text-gray-600 hover:text-gray-700" type="submit" @click="backwarding">
+                <button class="text-xl text-gray-600 mr-4 hover:text-gray-700" type="submit" @click="backwarding">
                     Digitales Grimmarchiv
                 </button>
             </div>
+            <slot></slot>
         </div>
     </nav>
 </template>

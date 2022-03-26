@@ -222,26 +222,6 @@
 <style scoped lang="scss">
     @import "~@/sass/variables";
 
-    //.zooming-buttons{
-    //    display: block;
-    //}
-    //
-    //.rotating-button{
-    //    display: block;
-    //}
-    //
-    //.button-group{
-    //    display: block;
-    //}
-
-    //.horizontal{
-    //    background-color: rgba(55, 65, 81, 1);
-    //    border-radius: 8px;
-    //    display: inline-block;
-    //    width: 20px;
-    //    //margin: auto;
-    //}
-
     .horizontal-thick {
         background-color: rgba(55, 65, 81, 1);
         width: 100%;
@@ -259,10 +239,6 @@
         border-radius: 5px;
     }
 
-    .rotating:hover{
-        background: $gray-500;
-    }
-
     .zooming {
         display: block;
         margin-left: auto;
@@ -274,8 +250,8 @@
         border-radius: 5px;
     }
 
-    .zooming:hover{
-        background: $gray-500;
+    .rotating:hover, .zooming:hover{
+        background: $gray-350;
     }
 
     .tooltip{
