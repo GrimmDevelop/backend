@@ -47,7 +47,7 @@
             },
 
             getTransformation(imageX, imageY, w, h, scroll, mouseX, mouseY) {
-                const newW = Math.max(w + scroll, 10);
+                const newW = Math.max(w + scroll, 500);
                 const scale = (newW / w);
 
                 const newH = h * scale;
@@ -167,9 +167,21 @@
                 this.transformImage((this.containerWidth - imageWidth) / 2, 100, imageWidth);
             },
 
+
+            centerImageNew() {
+                const factor = 0.9;
+
+                const imageHeight = this.containerWidth * factor;
+
+                // TODO: calculate image height based on width
+
+                this.transformImage(100, (this.containerWidth - imageHeight) / 2, 1000 , imageHeight);
+                this.centerImage();
+            },
+
             transformImage(x, y, width, height) {
-                x = Math.max(-width, Math.min(x, this.containerWidth));
-                y = Math.max(-height, Math.min(y, this.containerHeight));
+                x = Math.max(-width + 100, Math.min(x, this.containerWidth - 100));
+                y = Math.max(-height + 500, Math.min(y, this.containerHeight - 100));
 
                 this.$refs.image.style.left = `${x}px`;
                 this.$refs.image.style.top = `${y}px`;
@@ -197,7 +209,7 @@
 
             resetPosition() {
                 // maybe there is more to do here in future
-                this.centerImage();
+                this.centerImageNew();
             }
         },
     };
