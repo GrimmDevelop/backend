@@ -43,13 +43,6 @@
                         <icon v-else icon="close" style="text-align: center;"></icon>
                     </div>
                 </div>
-                <div class="result-item">
-                    <div class="result-item-title">Text</div>
-                    <div class="result-item-content scan-item">
-                        <icon v-if="letter.text" icon="align-left" style="text-align: center;"></icon>
-                        <icon v-else icon="close" style="text-align: center;"></icon>
-                    </div>
-                </div>
                 <div v-if="letter.id" class="result-item">
                     <div class="result-item-title"> BriefID</div>
                     <div class="result-item-content"> {{ letter.id }}</div>
