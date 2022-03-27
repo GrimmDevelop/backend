@@ -2,8 +2,8 @@
     <div class="search-all-bar">
         <input class="the-search-all-bar" v-model="searchAll" v-on:keyup.enter="forwarding"
                placeholder="Alles durchsuchen"/>
-        <button class="btn-search magnifier" type="submit" @click="forwarding">
-            <icon icon="search" class="text-gray-600"/>
+        <button class="btn-search magnifier pt-1" type="submit" @click="forwarding">
+            <icon icon="search" class="text-gray-600 m-auto"/>
         </button>
     </div>
 </template>
@@ -40,13 +40,13 @@
         border: thin solid $gray-300;
         border-radius: 5px 0 0 5px;
         width: 75%;
-        font-size: 20px;
+        font-size: 15px;
         padding: 0.5rem 1rem;
     }
 
     .magnifier {
-        width: 3rem;
-        height: 3rem;
+        width: 40.5px;
+        height: 40.5px;
     }
 
     .btn-search {
@@ -54,7 +54,6 @@
         color: black;
         border: none;
         border-radius: 0 5px 5px 0;
-        padding: 0.85rem;
 
         &:hover {
             background-color: darken($gray-200, 5%);
