@@ -1,16 +1,10 @@
 <template>
-    <div class="sidebar overflow-auto bg-gray-300 text-gray-700 px-2 py-4 flex flex-col"
+    <div class="sidebar overflow-auto bg-white text-gray-700 px-2 py-4 flex flex-col"
          :class="sideBarOpen ? 'open' : ''">
         <div class="sidebar-link" @click="mutateSidebar()">
             <icon :icon="sideBarOpen ? 'cheveron-right' : 'cheveron-left'"></icon>
             <span class="caption">Seitenleiste ausblenden</span>
         </div>
-<!--
-        <div class="sidebar-link" :class="linkClass('letters-text')"
-             @click="textOpen">
-            <icon icon="document"></icon>
-            <span class="caption">Brieftext - Fenster</span>
-        </!--div> -->
         <div class="sidebar-link-desc">
             {{ letter.inc }}
         </div>
@@ -20,11 +14,11 @@
         </div>
 
         <div class="sidebar-link"
-             :class="{ 'bg-gray-400': visibility('letters-scan') }" @click="toggleColumn('letters-scan')">
+             :class="{ 'bg-gray-200': visibility('letters-scan') }" @click="toggleColumn('letters-scan')">
             <icon icon="camera"></icon>
             <span class="caption">Handschrift(en)</span>
         </div>
-        <div :class="{ 'bg-gray-400': visibility('letters-text'), 'sidebar-link': letter.text, 'sidebar-link-inactive': !letter.text }"
+        <div :class="{ 'bg-gray-200': visibility('letters-text'), 'sidebar-link': letter.text, 'sidebar-link-inactive': !letter.text }"
              @click="toggleColumn('letters-text')">
             <icon icon="document"></icon>
             <span v-if="letter.text" class="caption">Text</span>
@@ -173,12 +167,12 @@
     }
 
     .sidebar-link:hover{
-        background-color: rgb(156 163 175); //gray-400 tailwind
+        background-color: #E5E7EB; //gray-200 tailwind
     }
 
     .sidebar-link-inactive{
         cursor: default;
-        color: rgb(156 163 175); //gray-400 tailwind
+        color: #E5E7EB; //gray-200 tailwind
         margin: .1rem 0;
         padding: .4rem .2rem;
         display: flex;
