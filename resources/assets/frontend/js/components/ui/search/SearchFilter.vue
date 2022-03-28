@@ -54,7 +54,6 @@
 
         methods: {
             onSearch(search, loading) {
-                console.log("onSearch: ", search);
                 if (search.length > 2) {
                     loading(true);
                     this.search(loading, search, this);
@@ -74,23 +73,17 @@
             }, 350),
 
             updateFilterValueVSelect(value) { // is ok to not debounce
-                console.log("UpdateFilter-Vselect: ", value);
-
                 this.$emit('filter', value);
             },
 
             updateFilterValue(event) { // is ok to not debounce
                 const value = typeof event === 'object' ? event.target.value : event;
-                console.log("UpdateFilter: ", value);
-
                 this.$emit('filter', value);
             },
 
             updateFilterDateValue(event, position) { // is ok to not debounce
                 const value = {...this.value[this.filter.id]};
-
                 value[position] = event.target.value;
-
                 this.$emit('filter', value);
             },
         },
