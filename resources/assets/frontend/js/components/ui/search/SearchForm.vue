@@ -85,7 +85,7 @@
                 },
                 pagination: {
                     page: 1,
-                    limit: 4,
+                    limit: 60,
                     lastPage: 0,
                 },
                 letters: [],
