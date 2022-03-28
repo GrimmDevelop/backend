@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div ref="textContainer">
         <div :style="cssVars" class="letter" v-html="html"></div>
     </div>
 </template>
@@ -15,12 +15,12 @@
                 paragraphTag: 'p',
                 lineBreakTag: 'lb',
                 formatTag: 'hi',
+                width: 0,
             };
         },
 
         props: {
             text: {},
-            width: 0,
         },
 
         computed: {
@@ -28,7 +28,7 @@
                 return {
                     '--titel-font-size': this.width / 37 + 'px',
                     '--text-font-size': this.width / 40 + 'px',
-                }
+                };
             },
 
             xml() {
@@ -45,6 +45,13 @@
 
                 return html;
             }
+        },
+
+        mounted() {
+            this.$nextTick(() => {
+                // TODO: recalculate when column is resized
+                this.width = this.$refs.textContainer.clientWidth;
+            });
         },
 
         methods: {
@@ -93,10 +100,6 @@
             isLineBreak(node) {
                 return node.nodeType === 1 && node.tagName.toLowerCase() === this.lineBreakTag;
             }
-        },
-
-        mounted() {
-            this.$emit('registered')
         },
     };
 </script>
