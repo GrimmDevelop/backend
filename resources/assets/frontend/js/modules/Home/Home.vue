@@ -13,7 +13,7 @@
                 <external-search-bar class="external-search-bar"></external-search-bar>
             </div>
         </nav>
-        <div class="container grid grid-cols-6 grid-rows-7   gap-4 content-evenly mx-auto pt-4">
+        <div class="container grid grid-cols-6 grid-rows-7 gap-4 content-evenly mx-auto py-4">
             <div class="col-span-1 row-span-2 img-wrap">
                 <svg viewBox="0 0 1488 2336" class="pr-20 w-50%" style="color: #4b5563;">
                     <use xlink:href="/images/home/grimm.svg#image"></use>
@@ -53,7 +53,8 @@
                         Beta-Version bietet daher auch eine überarbeitete neue Version 4.0 des Briefverzeichnisses.
                         Das Grimm-Briefverzeichnis war und ist die bisher einzige Publikation, die anstrebt, den
                         Briefwechsel der Brüder Grimm vollständig zu erfassen.</p>
-                    <p class="text-right text-gray-500"><a href="http://www.grimmnetz.de/bv/vorbemerkungen/vorbemerkungen.html">Weiterlesen ...</a></p>
+                    <p class="text-right text-gray-500"><a
+                        href="http://www.grimmnetz.de/bv/vorbemerkungen/vorbemerkungen.html">Weiterlesen ...</a></p>
                 </div>
             </div>
 
@@ -92,7 +93,10 @@
                 </div>
             </div>
             <div class="card col-span-1 row-span-1">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/0Ir-vnKwd5w" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/0Ir-vnKwd5w"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
             </div>
 
             <div class="card col-span-6">
