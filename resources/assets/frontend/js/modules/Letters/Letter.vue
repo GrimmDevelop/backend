@@ -6,7 +6,7 @@
             </column>
 
             <column v-if="letter.text" namespace="letters" :entity="letter" name="text" >
-                <letter-text @registered="getWindowWidth" :width="textWidth" :text="letter.text" class="p-4"/>
+                <letter-text :text="letter.text" class="p-4"/>
             </column>
         </div>
 
@@ -29,7 +29,6 @@
         data() {
             return {
                 letter: null,
-                textWidth: 0,
             };
         },
 
@@ -58,30 +57,8 @@
                 immediate: true,
                 handler() {
                     this.$http.get(`/data/letters/${this.id}`)
-                        .then(response => {
-                            this.letter = response.data.data;
-                        });
+                        .then(response => this.letter = response.data.data);
                 },
-            },
-        },
-
-        mounted() {
-            this.$on('changing-letter', (id) => {
-                this.$router.push({
-                    name: 'letter-list',
-                    params: {
-                        id
-                    }
-                });
-            });
-
-        },
-
-        methods: {
-            getWindowWidth() {
-                setInterval(() => {
-                    this.textWidth = this.$refs.columnContainer.clientWidth / 2;
-                }, 1000);
             },
         },
 
