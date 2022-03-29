@@ -5,12 +5,10 @@
             <icon :icon="sideBarOpen ? 'cheveron-right' : 'cheveron-left'"></icon>
             <span class="caption">Seitenleiste ausblenden</span>
         </div>
-        <div class="sidebar-link-desc">
-            {{ letter.inc }}
-        </div>
-        <div class="sidebar-link">
+        <div class="sidebar-link-inactive">
             <icon icon="library"></icon>
-            <span class="caption">Apparate zum Text</span>
+            <span class="caption">Apparate zum Text (in Vorbereitung)</span>
+<!--            <span class="caption">Apparate zum Text</span>-->
         </div>
 
         <div class="sidebar-link"
@@ -25,9 +23,10 @@
             <span v-else class="caption">Text (in Vorbereitung)</span>
         </div>
 
-        <div class="sidebar-link">
+        <div class="sidebar-link-inactive">
             <icon icon="light-bulb"></icon>
-            <span class="caption">Sachkommentare</span>
+            <span class="caption">Sachkommentare (in Vorbereitung)</span>
+<!--            <span class="caption">Sachkommentare</span>-->
         </div>
 
         <!--   will be modified for the new data structure (conversations)   -->
@@ -42,17 +41,28 @@
 
         <div class="flex-grow"></div>
 
-        <div class="column-configuration">
-            <span class="caption">Anzeige:</span>
-            <a class="sidebar-link" @click="changeFlow('columns')">
-                <icon icon="view-column"></icon>
-                <span class="caption">Spaltenweise</span>
-            </a>
-            <a class="sidebar-link" @click="changeFlow('rows')">
-                <icon icon="view-list"></icon>
-                <span class="caption">Zeilenweise</span>
-            </a>
+        <div v-if="sideBarOpen" class="sidebar-information">
+            <div class="sidebar-information sidebar-information-caption">Briefinformationen:</div>
+            <div>Datum: {{ letter.date }}</div>
+            <span class="sidebar-information-text">Von: <span class="underline">{{ letterSender(letter.senders) }}</span> an <span class="underline">{{ letterRecipient(letter.receivers) }}</span></span>
+            <div>BriefID: {{ letter.id }}</div>
         </div>
+        <div v-else>
+            <div class="text-xs">BriefID: {{ letter.id }}</div>
+        </div>
+
+<!--        Its broken-->
+<!--        <div class="column-configuration">-->
+<!--            <span class="caption">Anzeige:</span>-->
+<!--            <a class="sidebar-link" @click="changeFlow('columns')">-->
+<!--                <icon icon="view-column"></icon>-->
+<!--                <span class="caption">Spaltenweise</span>-->
+<!--            </a>-->
+<!--            <a class="sidebar-link" @click="changeFlow('rows')">-->
+<!--                <icon icon="view-list"></icon>-->
+<!--                <span class="caption">Untereinander</span>-->
+<!--            </a>-->
+<!--        </div>-->
 
         <a :href="adminUrl" class="sidebar-link">
             <icon icon="layers"></icon>
@@ -104,12 +114,29 @@
             visibility(column) {
                 return this.$store.state.ui.visibility[column];
             },
+
+            // copy from SearchResult.vue for letter information
+            letterSender(sender) {
+                if (sender.data.length > 0) {
+                    return sender.data.map(person => person.name).join('; ');
+                } else {
+                    return "Unbekannt";
+                }
+            },
+
+            letterRecipient(recipient) {
+                if (recipient.data.length > 0) {
+                    return recipient.data.map(person => person.name).join('; ');
+                } else {
+                    return "Unbekannt";
+                }
+            },
         },
     };
 </script>
 
 <style scoped lang="scss">
-    @import "~@/sass/variables";
+    @import "resources/assets/frontend/sass/_variables.scss";
 
     .check-box {
         margin: .75rem;
@@ -126,7 +153,7 @@
 
     .sidebar {
         align-items: center;
-        border-left-color: #ced4da;
+        border-left-color: $gray-400;
 
         &.open {
             min-width: 13rem;
@@ -137,7 +164,7 @@
     .sidebar-link {
         margin: .1rem 0;
         padding: .4rem .2rem;
-        color: #495057;
+        color: $gray-700;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -167,12 +194,12 @@
     }
 
     .sidebar-link:hover{
-        background-color: #E5E7EB; //gray-200 tailwind
+        background-color: $gray-200; //gray-200 tailwind
     }
 
     .sidebar-link-inactive{
         cursor: default;
-        color: #E5E7EB; //gray-200 tailwind
+        color: $gray-400; //gray-400 tailwind
         margin: .1rem 0;
         padding: .4rem .2rem;
         display: flex;
@@ -194,14 +221,45 @@
         }
     }
 
+    .sidebar-link-inactive:hover{
+        background-color: $gray-200; //gray-200 tailwind
+    }
+
     .sidebar-link-desc {
         display: none;
-        color: #343a40;
+        color: $gray-800;
 
         .sidebar.open & {
             display: block;
             width: 100%;
         }
+    }
+
+    .sidebar-information {
+        display: none;
+        padding: .4rem .2rem;
+        color: $gray-700;
+
+        .sidebar.open & {
+            display: block;
+            width: 15rem;
+            float: left; clear: both;
+        }
+    }
+
+    .sidebar-information > * {
+        margin-left: 1rem;
+    }
+
+    .sidebar-information-text {
+        float: left;
+        clear: both;
+    }
+
+    .sidebar-information-caption {
+        display: table;
+        margin: 0 auto;
+        font-size: large;
     }
 
 </style>
