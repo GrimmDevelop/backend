@@ -17,7 +17,7 @@
             </div>
             <div class="result-properties">
                 <div v-if="letter.inc" class="result-item">
-                    <div class="result-item-title">Briefbeginn</div>
+                    <div class="result-item-title">Briefanfang</div>
                     <div class="result-item-content">{{ letter.inc }}</div>
                 </div>
                 <div v-if="letter.handwriting_location" class="result-item">

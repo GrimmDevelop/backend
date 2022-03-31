@@ -5,7 +5,7 @@
                 <scan-column :letter="letter"/>
             </column>
 
-            <column namespace="letters" :entity="letter" name="text" >
+            <column v-if="letter.text" namespace="letters" :entity="letter" name="text" >
                 <letter-text :text="letter.text" class="p-4"/>
             </column>
         </div>

@@ -50,7 +50,8 @@
         mounted() {
             this.$nextTick(() => {
                 // TODO: recalculate when column is resized
-                this.width = this.$refs.textContainer.clientWidth;
+                window.addEventListener('resize', this.getWindowWidth);
+                this.getWindowWidth();
             });
         },
 
@@ -99,15 +100,23 @@
 
             isLineBreak(node) {
                 return node.nodeType === 1 && node.tagName.toLowerCase() === this.lineBreakTag;
-            }
+            },
+
+            getWindowWidth() {
+                this.width = this.$refs.textContainer.clientWidth;
+            },
         },
+
+        beforeDestroy() {
+            window.removeEventListener('resize', this.getWindowWidth);
+        }
     };
 </script>
 
 <style lang="scss">
 
     .letter {
-        width: 600px;
+        padding: 0 1rem 0 1rem;
         max-width: 100%;
 
         .title {
