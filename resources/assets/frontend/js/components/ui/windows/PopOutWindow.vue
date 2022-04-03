@@ -1,11 +1,11 @@
 <template>
     <div class="relative overflow-auto" v-if="!windowsIsPoppedOut">
         <div class="absolute top-4 right-4 z-10 bg-gray-300 rounded cursor-pointer grid-cols-2">
-            <div class="keine-ahnung-was-fuer-buttons tooltip" @click="popOut">
+            <div class="button-toolbar tooltip" @click="popOut">
                 <span class="tooltiptext">Popout</span>
                 <icon icon="share"></icon>
             </div>
-            <div class="keine-ahnung-was-fuer-buttons tooltip"
+            <div class="button-toolbar tooltip"
                  v-for="(button, index) in windowButtons" :key="`w-button-${index}`"
                  :icon="button.icon" @click="button.callback">
                 <span class="tooltiptext">Schließen</span>
@@ -91,7 +91,7 @@
 <style scoped lang="scss">
     @import "~@/sass/variables";
 
-    .keine-ahnung-was-fuer-buttons{
+    .button-toolbar{
         padding-left: 12px;
         padding-right: 12px;
         padding-bottom: 10px;
@@ -102,7 +102,7 @@
         border-radius: 5px;
     }
 
-    .keine-ahnung-was-fuer-buttons:hover{
+    .button-toolbar:hover{
         background: $gray-350;
     }
 
