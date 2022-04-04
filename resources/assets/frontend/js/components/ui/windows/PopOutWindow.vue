@@ -89,8 +89,7 @@
 </script>
 
 <style scoped lang="scss">
-    //@import "resources/assets/frontend/sass/_variables.scss";
-    @import "~@/sass/variables";
+    @import "resources/assets/frontend/sass/_variables.scss";
 
     .button-toolbar{
         padding: 11px 12px 10px;
@@ -119,7 +118,7 @@
         /* Position the tooltip text */
         position: absolute;
         z-index: 1;
-        right: 0%;
+        right: 0;
         top: 105%;
     }
 
