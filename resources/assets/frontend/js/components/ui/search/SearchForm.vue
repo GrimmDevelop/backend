@@ -3,7 +3,7 @@
         <nav-bar class="navbar">
             <img class="max-h-12" src="/images/search/bvlogo_y.png">
         </nav-bar>
-        <div class="card m-auto">
+        <div class="card my-4 mx-auto">
             <div class="card-header text-xl flex justify-between">
                 <a>Briefsuche</a>
                 <label for="toogleA" class="flex items-center cursor-pointer">
@@ -24,7 +24,7 @@
             </div>
             <div class="card-body">
                 <div class="search-form" :class="{ 'search-form-centered': !hasResults }">
-                    <simple-form v-if="simple_mode == true" :value="searchAll"
+                    <simple-form v-if="simple_mode === true" :value="searchAll"
                                  @filter="searchAll = $event" @search="startSearch"/>
 
                     <advanced-form v-else :search="search"
@@ -77,7 +77,7 @@
                 },
                 pagination: {
                     page: 1,
-                    limit: 9,
+                    limit: 60,
                     lastPage: 0,
                 },
                 letters: [],
@@ -93,7 +93,6 @@
                 } catch (error) {
                     return false;
                 }
-
             },
 
             currentPage() {
@@ -106,7 +105,7 @@
                 return "/letters";
             },
             homeURL() {
-                return "";
+                return "/";
             },
         },
 
@@ -119,7 +118,6 @@
         methods: {
             changeMode() {
                 this.simple_mode = !this.simple_mode;
-                console.log(this.simple_mode);
             },
 
             updateFilter(filter, value) {
@@ -133,7 +131,7 @@
                 // TODO: fix request triggered twice due to pagination watch
                 this.pagination.page = 1;
                 this.getLetters();
-                this.showResults = true;
+                this.persist();
             },
 
             getLetters() {
@@ -152,9 +150,10 @@
                 }).then(response => {
                     this.searching = false;
                     this.letters = response.data.data;
+                    this.showResults = true;
                     try {
                         this.pagination.lastPage = response.data.meta.last_page;
-                    } catch(error) {
+                    } catch (error) {
                         this.pagination.lastPage = 1;
                     }
                 });
@@ -162,6 +161,51 @@
 
             paginationSetPage(number) {
                 this.pagination.page = number;
+                this.persist();
+            },
+
+            getLocalStorage() {
+                let performSearch = false;
+                if (localStorage.getItem('pagination')) {
+                    try {
+                        this.pagination = JSON.parse(localStorage.getItem('pagination'));
+                    } catch (e) {
+                        localStorage.removeItem('pagination');
+                    }
+                }
+
+                if (localStorage.mode) {
+                    this.mode = localStorage.mode;
+                }
+
+                if (localStorage.searchAll) {
+                    performSearch = true;
+                    this.searchAll = localStorage.searchAll;
+                }
+
+                if (localStorage.getItem('search')) {
+                    performSearch = true;
+                    try {
+                        this.search = JSON.parse(localStorage.getItem('search'));
+                    } catch (e) {
+                        localStorage.removeItem('search');
+                    }
+                }
+
+                if (performSearch) {
+                    this.getLetters();
+                }
+            },
+
+            persist() {
+                localStorage.setItem('mode', this.mode);
+                localStorage.setItem('searchAll', this.searchAll);
+                localStorage.setItem('search', JSON.stringify(this.search));
+                localStorage.setItem('pagination', JSON.stringify(this.pagination));
+            },
+
+            clearStorage() {
+                localStorage.clear();
             },
         },
 
@@ -170,6 +214,7 @@
                 this.searchAll = this.$route.query.search;
                 this.startSearch();
             }
+            this.getLocalStorage();
         },
 
         components: {
@@ -186,6 +231,7 @@
 
 <style lang="scss" scoped>
     @import "~@/sass/variables";
+
     .result-loader{
         background-color: $gray-200;
     }
@@ -195,7 +241,7 @@
 
     .complete-container {
         width: 100%;
-        height: 100vh;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         background-color: $gray-200;
@@ -206,12 +252,12 @@
         margin-bottom: auto;
     }
 
-    .current-searching-container{
+    .current-searching-container {
         margin-left: auto;
         margin-right: auto;
     }
 
-    .search-result-container{
+    .search-result-container {
 
     }
 

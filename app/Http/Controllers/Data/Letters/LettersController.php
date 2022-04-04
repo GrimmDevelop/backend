@@ -36,7 +36,7 @@ class LettersController extends Controller
 
     public function show(Letter $letter)
     {
-        return fractal($letter, $this->getTransformer());
+        return fractal($letter, $this->getTransformer())->parseIncludes(['senders', 'receivers']);
     }
 
     protected function getTransformer(): TransformerAbstract
