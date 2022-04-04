@@ -1,6 +1,6 @@
 <template>
-    <div class="relative overflow-auto" v-if="!windowsIsPoppedOut">
-        <div class="absolute top-4 right-4 z-10 bg-gray-300 rounded cursor-pointer grid-cols-2">
+    <div class="card relative overflow-auto" v-if="!windowsIsPoppedOut">
+        <div class="absolute top-4 right-4 z-10 bg-gray-200 rounded cursor-pointer grid grid-cols-2">
             <div class="button-toolbar tooltip" @click="popOut">
                 <span class="tooltiptext">Popout</span>
                 <icon icon="share"></icon>
@@ -89,13 +89,11 @@
 </script>
 
 <style scoped lang="scss">
+    //@import "resources/assets/frontend/sass/_variables.scss";
     @import "~@/sass/variables";
 
     .button-toolbar{
-        padding-left: 12px;
-        padding-right: 12px;
-        padding-bottom: 10px;
-        padding-top: 11px;
+        padding: 11px 12px 10px;
         display: block;
         cursor: pointer;
         user-select: none;
@@ -103,7 +101,7 @@
     }
 
     .button-toolbar:hover{
-        background: $gray-350;
+        background: $gray-300;
     }
 
     .tooltip{
@@ -121,8 +119,8 @@
         /* Position the tooltip text */
         position: absolute;
         z-index: 1;
-        top: +5px;
-        right: 105%;
+        right: 0%;
+        top: 105%;
     }
 
     /* Show the tooltip text when you mouse over the tooltip container */

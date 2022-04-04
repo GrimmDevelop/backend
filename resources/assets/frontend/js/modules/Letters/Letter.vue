@@ -1,7 +1,7 @@
 <template>
     <div class="flex w-full h-screen bg-gray-200" v-if="letter">
-        <div class="flex-grow grid p-4" :class="gridClass" ref="columnContainer">
-            <column namespace="letters" :entity="letter" name="scan">
+        <div class="flex-grow grid gap-1 p-4" :class="gridClass" ref="columnContainer">
+            <column namespace="letters" :entity="letter" name="scan" class="mr-1">
                 <scan-column :letter="letter"/>
             </column>
 
