@@ -1,5 +1,5 @@
 <template>
-    <div class="card-body w-full h-full">
+    <div class="card-body h-full">
         <zoom-image ref="zoomImage" v-if="hasImages" :src="imageUrl"></zoom-image>
         <div class="image-pagination">
             <icon icon="cheveron-left"

@@ -1,12 +1,12 @@
 <template>
-    <div class="flex w-full h-screen bg-gray-200" v-if="letter">
+    <div class="flex h-screen bg-gray-200" v-if="letter">
         <div class="flex-grow grid gap-2 p-4" :class="gridClass" ref="columnContainer">
             <column namespace="letters" :entity="letter" name="scan">
                 <scan-column :letter="letter"/>
             </column>
 
-            <column v-if="letter.text" namespace="letters" :entity="letter" name="text" >
-                <letter-text :text="letter.text" class="p-4"/>
+            <column namespace="letters" :entity="letter" name="text" :default-visibility="letter.text">
+                <text-column :text="letter.text" class="p-4"/>
             </column>
         </div>
 
@@ -18,10 +18,10 @@
 </template>
 
 <script>
-    import Sidebar from "./display/Sidebar";
-    import ScanColumn from "./display/scans/ScanColumn";
-    import LetterText from "./LetterText";
-    import Column from "../../components/ui/windows/Column.vue";
+    import Sidebar from "./Sidebar";
+    import ScanColumn from "./ScanColumn";
+    import TextColumn from "./TextColumn";
+    import Column from "../../../components/ui/windows/Column.vue";
 
     export default {
         name: "Letter",
@@ -64,7 +64,7 @@
 
         components: {
             Column,
-            LetterText,
+            TextColumn,
             ScanColumn,
             Sidebar,
         },

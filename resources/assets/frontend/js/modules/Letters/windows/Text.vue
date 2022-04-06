@@ -1,14 +1,14 @@
 <template>
     <div v-if="letter" class="h-screen">
-        <scan-column :letter="letter"></scan-column>
+        <text-column :text="letter.text"></text-column>
     </div>
 </template>
 
 <script>
-    import ScanColumn from "@/frontend/js/modules/Letters/display/ScanColumn";
+    import TextColumn from "@/frontend/js/modules/Letters/display/TextColumn";
 
     export default {
-        name: "Scan",
+        name: "Text",
 
         data() {
             return {
@@ -33,7 +33,7 @@
         },
 
         components: {
-            ScanColumn
+            TextColumn
         },
     };
 </script>
