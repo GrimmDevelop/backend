@@ -98,14 +98,26 @@
             currentPage() {
                 return this.pagination.page;
             },
+
             adminUrl() {
                 return window.Laravel.adminUrl;
             },
+
             letterSearch() {
                 return "/letters";
             },
+
             homeURL() {
                 return "/";
+            },
+
+            mode() {
+                if (this.simple_mode){
+                    return "simple";
+                }
+                else {
+                    return "advanced";
+                }
             },
         },
 
@@ -192,6 +204,10 @@
                     }
                 }
 
+                if (localStorage.simple_mode) {
+                    this.simple_mode = localStorage.simple_mode;
+                }
+
                 if (performSearch) {
                     this.getLetters();
                 }
@@ -199,6 +215,7 @@
 
             persist() {
                 localStorage.setItem('mode', this.mode);
+                localStorage.setItem('simple_mode', this.simple_mode);
                 localStorage.setItem('searchAll', this.searchAll);
                 localStorage.setItem('search', JSON.stringify(this.search));
                 localStorage.setItem('pagination', JSON.stringify(this.pagination));
@@ -230,7 +247,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "~@/sass/variables";
+    @import "resources/assets/frontend/sass/_variables.scss";
 
     .result-loader{
         background-color: $gray-200;
