@@ -1,10 +1,16 @@
 <template>
-    <div class="relative overflow-auto" v-if="!windowsIsPoppedOut">
-        <div class="absolute top-4 right-4 z-10 bg-gray-300 rounded p-3 cursor-pointer">
-            <icon icon="share" @click="popOut"></icon>
-
-            <icon v-for="(button, index) in windowButtons" :key="`w-button-${index}`"
-                  :icon="button.icon" @click="button.callback"></icon>
+    <div class="card relative overflow-auto" v-if="!windowsIsPoppedOut">
+        <div class="absolute top-4 right-4 z-10 bg-gray-200 rounded cursor-pointer grid grid-cols-2">
+            <div class="button-toolbar tooltip" @click="popOut">
+                <span class="tooltiptext">Popout</span>
+                <icon icon="share"></icon>
+            </div>
+            <div class="button-toolbar tooltip"
+                 v-for="(button, index) in windowButtons" :key="`w-button-${index}`"
+                 :icon="button.icon" @click="button.callback">
+                <span class="tooltiptext">Schließen</span>
+                <icon icon="close"></icon>
+            </div>
         </div>
 
         <slot></slot>
@@ -82,6 +88,43 @@
     };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    @import "resources/assets/frontend/sass/_variables.scss";
+
+    .button-toolbar{
+        padding: 11px 12px 10px;
+        display: block;
+        cursor: pointer;
+        user-select: none;
+        border-radius: 5px;
+    }
+
+    .button-toolbar:hover{
+        background: $gray-300;
+    }
+
+    .tooltip{
+        position: relative;
+    }
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+
+        /* Position the tooltip text */
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 105%;
+    }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
 
 </style>

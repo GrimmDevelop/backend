@@ -1,10 +1,11 @@
 $font-size-base: 0.875rem; // ~14px as 16px is 1rem
 
-// Colors // tailwindcss: text color (rpg) // (hex) // own $gray-xx (hex)
+// Colors // tailwindcss: text color (rgb) // (hex) // own $gray-xx (hex)
 $white: #fff !default;
 $gray-100: #f3f4f6 !default; // rgb(243, 244, 246); // #f3f4f6 // #f8f9fa
 $gray-200: #e5e7eb !default; // rgb(229, 231, 235); // #e5e7eb // #e9ecef
 $gray-300: #d1d5db !default; // rgb(209, 213, 219); // #d1d5db // #dee2e6
+$gray-350: #adb5bd !default; // old css gray-500, don't replace with tailwind value
 $gray-400: #9ca3af !default; // rgb(156, 163, 175); // #9ca3af // #ced4da
 $gray-500: #6b7280 !default; // rgb(107, 114, 128); // #6b7280 // #adb5bd
 $gray-600: #4b5563 !default; // rgb(75, 85, 99); // #4b5563 // #6c757d

@@ -1,6 +1,6 @@
 <template>
     <div class="flex w-full h-screen bg-gray-200" v-if="letter">
-        <div class="flex-grow grid p-4" :class="gridClass" ref="columnContainer">
+        <div class="flex-grow grid gap-2 p-4" :class="gridClass" ref="columnContainer">
             <column namespace="letters" :entity="letter" name="scan">
                 <scan-column :letter="letter"/>
             </column>

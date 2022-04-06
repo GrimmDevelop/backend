@@ -4,15 +4,29 @@
         <div class="relative w-full h-full" ref="container">
             <img class="absolute max-w-none" style="top: 0; left: 0;" ref="image" :src="src" alt="Handschrift">
         </div>
-
-        <div class="absolute bottom-4 right-4 z-10 bg-gray-200 rounded flex flex-col gap-3 p-3">
-            <icon class="zooming" icon="zoom-in" style="color: #495057" @click="zoomIn"></icon>
-            <icon class="zooming" icon="zoom-out" style="color: #495057" @click="zoomOut"></icon>
+        <div class="absolute bottom-4 right-4 z-10 bg-gray-200 grid-rows-5 rounded">
+            <div class="zooming tooltip" @click="zoomIn">
+                <span class="tooltiptext">Vergrößern</span>
+                <icon icon="zoom-in"></icon>
+            </div>
+            <div class="zooming tooltip" @click="zoomOut">
+                <span class="tooltiptext">Verkleinern</span>
+                <icon icon="zoom-out"></icon>
+            </div>
             <hr class="horizontal-thick"/>
-            <span class="rotating text-gray-700" @click="rotateImageRight">&#8635;</span>
-            <span class="rotating text-gray-700" @click="rotateImageLeft">&#8634;</span>
-            <hr class="horizontal-thick"/>
-            <icon class="reset" icon="target" style="color: #495057" @click="resetPosition"></icon>
+            <div class="rotating tooltip" @click="rotateImageRight">
+                <span class="tooltiptext">Drehen</span>
+                <span>&#8635;</span>
+            </div>
+            <div class="rotating tooltip"  @click="rotateImageLeft">
+                <span class="tooltiptext">Drehen</span>
+                <span>&#8634;</span>
+            </div>
+            <hr class="horizonal-thick"/>
+            <div class="zooming tooltip" @click="resetPosition"> <!-- same style as zoom, may need change later -->
+                <span class="tooltiptext">Zurücksetzen</span>
+                <icon icon="target"></icon>
+            </div>
         </div>
     </div>
 </template>
@@ -132,6 +146,7 @@
                 if (event.ctrlKey) {
                     // zoom
                     const scroll = -this.deltaY(event);
+
 
                     const mouseX = event.clientX - this.$refs.container.offsetLeft;
                     const mouseY = event.clientY - this.$refs.container.offsetTop;
@@ -269,35 +284,11 @@
 </script>
 
 <style scoped lang="scss">
-    @import "~@/sass/variables";
-
-    //.zooming-buttons{
-    //    display: block;
-    //}
-    //
-    //.rotating-button{
-    //    display: block;
-    //}
-    //
-    //.button-group{
-    //    display: block;
-    //}
-
-    //.horizontal{
-    //    background-color: rgba(55, 65, 81, 1);
-    //    border-radius: 8px;
-    //    display: inline-block;
-    //    width: 20px;
-    //    //margin: auto;
-    //}
+    @import "resources/assets/frontend/sass/_variables.scss";
 
     .horizontal-thick {
         background-color: rgba(55, 65, 81, 1);
-        border-radius: 8px;
-        display: inline-block;
         width: 100%;
-        height: 3px;
-        color: #495057;
     }
 
     .rotating {
@@ -307,6 +298,9 @@
         text-align: center;
         cursor: pointer;
         user-select: none;
+        padding-top: 12px;
+        padding-bottom: 16px;
+        border-radius: 5px;
     }
 
     .zooming {
@@ -315,5 +309,38 @@
         margin-right: auto;
         cursor: pointer;
         user-select: none;
+        padding: 12px;
+        padding-bottom: 8px;
+        border-radius: 5px;
     }
+
+    .rotating:hover, .zooming:hover{
+        background: $gray-300;
+    }
+
+    .tooltip{
+    position: relative;
+    }
+    .tooltip .tooltiptext {
+        font-size: medium;
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        padding: 5px 0;
+        border-radius: 6px;
+
+        /* Position the tooltip text */
+        position: absolute;
+        z-index: 1;
+        top: +5px;
+        right: 105%;
+    }
+
+    /* Show the tooltip text when you mouse over the tooltip container */
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+
 </style>
