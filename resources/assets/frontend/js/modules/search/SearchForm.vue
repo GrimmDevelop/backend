@@ -73,7 +73,7 @@
                     from_location_historical: "",
                     from_location_derived: "",
                     inc: "",
-                    id: "",
+                    unique_code: "",
                 },
                 pagination: {
                     page: 1,
@@ -186,8 +186,8 @@
                     }
                 }
 
-                if (localStorage.mode) {
-                    this.mode = localStorage.mode;
+                if (localStorage.simple_mode) {
+                    this.simple_mode = localStorage.simple_mode;
                 }
 
                 if (localStorage.searchAll) {
@@ -204,17 +204,12 @@
                     }
                 }
 
-                if (localStorage.simple_mode) {
-                    this.simple_mode = localStorage.simple_mode;
-                }
-
                 if (performSearch) {
                     this.getLetters();
                 }
             },
 
             persist() {
-                localStorage.setItem('mode', this.mode);
                 localStorage.setItem('simple_mode', this.simple_mode);
                 localStorage.setItem('searchAll', this.searchAll);
                 localStorage.setItem('search', JSON.stringify(this.search));
@@ -247,7 +242,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "resources/assets/frontend/sass/_variables.scss";
+    @import "../../../sass/variables";
 
     .result-loader{
         background-color: $gray-200;
