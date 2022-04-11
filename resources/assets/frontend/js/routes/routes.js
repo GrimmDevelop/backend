@@ -1,6 +1,6 @@
 
-import Home from "@/frontend/js/modules/Home/Home";
-import LettersList from "@/frontend/js/modules/Letters/Letters";
+import Home from "@/frontend/js/modules/home/Home";
+import LettersList from "@/frontend/js/modules/search/Letters";
 import LettersView from "@/frontend/js/modules/Letters/display/Letter";
 import LetterWindowsScan from "@/frontend/js/modules/Letters/windows/Scan";
 import LetterWindowsText from "@/frontend/js/modules/Letters/windows/Text";

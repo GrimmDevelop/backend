@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import ZoomImage from "@/frontend/js/components/ui/Image/ZoomImage";
+    import ZoomImage from "@/frontend/js/components/ui/image/ZoomImage";
 
     export default {
         name: "ScanColumn",

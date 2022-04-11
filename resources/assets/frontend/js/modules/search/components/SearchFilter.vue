@@ -18,7 +18,7 @@
         </div>
         <div v-if="filter.type === 'select'" class="table-cell py-2 px-1">
             <v-select class="search-filter-content-select" @input="updateFilterValueVSelect" @search="onSearch"
-                      :value="value[filter.id]" :options="list" placeholder="Wählen..."></v-select>
+                      :value="value[filter.id]" :options="list" :placeholder="placeholder_vselect"></v-select>
         </div>
     </div>
 </template>
@@ -36,12 +36,9 @@
 
         data() {
             return {
-                list: [
-                    "Grimm, Wilhelm",
-                    "Grimm, Jacob",
-                    "Hirzel, Salomon",
-                ],
+                list: [],
                 placeholder: "Eingeben...",
+                placeholder_vselect: "Namen eingeben...",
                 letterPeople: [],
             };
         },

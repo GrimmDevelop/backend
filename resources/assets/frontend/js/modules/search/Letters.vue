@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    import SearchForm from "../../components/ui/search/SearchForm";
+    import SearchForm from "./SearchForm";
 
     export default {
         name: "Letters",

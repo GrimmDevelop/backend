@@ -24,7 +24,7 @@
             </div>
             <div class="card-body">
                 <div class="search-form" :class="{ 'search-form-centered': !hasResults }">
-                    <simple-form v-if="simple_mode === true" :value="searchAll"
+                    <simple-form v-if="simple_mode" :value="searchAll"
                                  @filter="searchAll = $event" @search="startSearch"/>
 
                     <advanced-form v-else :search="search"
@@ -45,13 +45,13 @@
 
 <script>
     import qs from 'qs';
-    import DottedLine from "./DottedLine";
-    import SimpleForm from "./SimpleForm";
-    import SearchResult from "./SearchResult";
-    import AdvancedForm from "./AdvancedForm";
-    import SearchPagination from "./SearchPagination";
-    import Spinner from "../Spinner";
-    import NavBar from "../NavBar/NavBar";
+    import DottedLine from "../../components/ui/DottedLine";
+    import SimpleForm from "./components/SimpleForm";
+    import SearchResult from "./components/SearchResult";
+    import AdvancedForm from "./components/AdvancedForm";
+    import SearchPagination from "./components/SearchPagination";
+    import Spinner from "../../components/ui/Spinner";
+    import NavBar from "../../components/ui/NavBar/NavBar";
 
     export default {
         name: "SearchForm",

@@ -70,7 +70,7 @@
                     },
                     {
                         name: "Briefnummer",
-                        id: "id",
+                        id: "unique_code",
                         type: "string",
                     },
                 ],
