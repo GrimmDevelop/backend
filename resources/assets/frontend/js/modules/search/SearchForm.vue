@@ -242,7 +242,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../../sass/variables";
+    @import "resources/assets/frontend/sass/_variables.scss";
 
     .result-loader{
         background-color: $gray-200;

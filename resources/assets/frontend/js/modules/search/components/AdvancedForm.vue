@@ -105,7 +105,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "~@/sass/variables";
+    @import "resources/assets/frontend/sass/_variables.scss";
 
     .btn-container {
         display: flex;
