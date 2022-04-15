@@ -75,7 +75,7 @@
             this.$refs.image.addEventListener('load', this.measureImage);
         },
 
-        destroyed() {
+        beforeDestroy() {
             this.$refs.image.removeEventListener('load', this.measureImage);
         },
 

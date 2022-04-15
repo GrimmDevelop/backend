@@ -5,7 +5,7 @@
                 <scan-column :letter="letter"/>
             </column>
 
-            <column namespace="letters" :entity="letter" name="text" :default-visibility="letter.text">
+            <column namespace="letters" :entity="letter" name="text" :default-visibility="showLetterText">
                 <text-column :text="letter.text" class="p-4"/>
             </column>
         </div>
@@ -13,7 +13,8 @@
         <sidebar :letter="letter"
                  @increase-id="$router.push({name: 'letters-view', params: {id: parseInt(letter.id) + 1}})"
                  @decrease-id="$router.push({name: 'letters-view', params: {id: parseInt(letter.id) - 1}})"
-                 :admin-url="adminUrl"></sidebar>
+                 :admin-url="adminUrl"
+                 namespace="letters"></sidebar>
     </div>
 </template>
 
@@ -49,6 +50,10 @@
                     'grid-flow-row': false,
                     'grid-rows-auto': false,
                 };
+            },
+
+            showLetterText() {
+                return Boolean(this.letter.text);
             },
         },
 
