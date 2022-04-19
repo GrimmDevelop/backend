@@ -40,7 +40,7 @@ test:js:
 build:composer:
   stage: build
   only:
-    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?(-pre\d*)?$/
+    - /^\d+\.\d+\.\d+([a-zA-Z])?(-pre\d*)?$/
   image: registry.ueberreiter.com/grimm/php8.0:1.0
   cache:
     key: "composer-build-cache"
@@ -60,7 +60,7 @@ build:composer:
 build:npm:
   stage: build
   only:
-    - /^(\d+\.)?(\d+\.)?(\d+)([a-zA-Z])?(-pre\d*)?$/
+    - /^\d+\.\d+\.\d+([a-zA-Z])?(-pre\d*)?$/
   image: node:16
   cache:
     key: "npm-build-cache"
@@ -94,11 +94,12 @@ build:test:
     - docker push $IMAGE_NAME
     - docker tag $IMAGE_NAME $IMAGE_LATEST
     - docker push $IMAGE_LATEST
+    - curl --request POST ${DEPLOYMENT_WEBHOOK_TESTING}
 
 build:production:
   stage: bundle
   only:
-    - /^\d+\.\d+\.\d+$/
+    - /^\d+\.\d+\.\d+([a-zA-Z])?$/
   tags:
     - images
   before_script:
