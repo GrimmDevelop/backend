@@ -5,7 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('title') Grimmbriefwechsel</title>
+        <title>@yield('title')Digitales Grimmarchiv</title>
+        <link rel="icon" href="{{ url('images/favicon/FaviconBlue.ico') }}" type="image/x-icon">
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
