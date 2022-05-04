@@ -232,19 +232,12 @@
                     return;
                 }
 
-                const factor = 0.9;
+                const factor = 0.95;
 
-                let imageWidth = this.containerWidth * factor;
-
-                const resultingHeight = imageWidth / this.aspectRatio;
-
-                if (resultingHeight > this.containerHeight * factor) {
-                    imageWidth = this.containerHeight * factor * this.aspectRatio;
-                }
-
+                const imageWidth = this.containerWidth * factor;
                 const imageHeight = imageWidth / this.aspectRatio;
 
-                this.transformImage((this.containerWidth - imageWidth) / 2, (this.containerHeight - imageHeight) / 2, imageWidth, imageHeight);
+                this.transformImage((this.containerWidth - imageWidth) / 2, this.containerHeight * (1 - factor) / 2, imageWidth, imageHeight);
             },
 
             transformImage(x, y, width, height) {
@@ -276,6 +269,8 @@
             },
 
             resetPosition() {
+                this.rotation = 0;
+                this.$refs.image.style.transform = `rotate(${this.rotation}deg)`;
                 // maybe there is more to do here in future
                 this.centerImage();
             }
