@@ -8,14 +8,14 @@
             </div>
             <div class="col-6">
                 <h5>Vorschau</h5>
-                <letter-text :text="letterText.entry"></letter-text>
+                <text-column :text="letterText.entry"></text-column>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import LetterText from "../../../frontend/js/modules/Letters/LetterText";
+    import TextColumn from "../../../frontend/js/modules/Letters/display/TextColumn";
 
     export default {
         name: "LetterTextIndex",
@@ -54,7 +54,7 @@
         },
 
         components: {
-            LetterText
+            TextColumn
         },
     };
 </script>

@@ -47,7 +47,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import "~@/sass/variables";
+    @import "resources/assets/frontend/sass/_variables.scss";
 
     .image-pagination {
         display: flex;

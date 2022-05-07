@@ -12,12 +12,12 @@
         </div>
 
         <div class="sidebar-link"
-             :class="{ 'bg-gray-200': visibility('letters-scan') }" @click="toggleColumn('letters-scan')">
+             :class="{ 'bg-gray-200': visibility(`${namespace}-scan`) }" @click="toggleColumn(`${namespace}-scan`)">
             <icon icon="camera"></icon>
             <span class="caption">Handschrift(en)</span>
         </div>
-        <div :class="{ 'bg-gray-200': visibility('letters-text'), 'sidebar-link': letter.text, 'sidebar-link-inactive': !letter.text }"
-             @click="toggleColumn('letters-text')">
+        <div :class="{ 'bg-gray-200': visibility(`${namespace}-text`), 'sidebar-link': letter.text, 'sidebar-link-inactive': !letter.text }"
+             @click="toggleColumn(`${namespace}-text`)">
             <icon icon="document"></icon>
             <span v-if="letter.text" class="caption">Text</span>
             <span v-else class="caption">Text (in Vorbereitung)</span>
@@ -43,12 +43,13 @@
 
         <div v-if="sideBarOpen" class="sidebar-information">
             <div class="sidebar-information sidebar-information-caption">Briefinformationen:</div>
-            <div>Datum: {{ letter.date }}</div>
-            <span class="sidebar-information-text">Von: <span class="underline">{{ letterSender(letter.senders) }}</span> an <span class="underline">{{ letterRecipient(letter.receivers) }}</span></span>
-            <div>BriefID: {{ letter.id }}</div>
+            <div class="">Datum: {{ letter.date }}</div>
+            <div class="">Von <span class="underline">{{ letterSender(letter.senders) }}</span></div>
+            <div class="">An <span class="underline">{{ letterRecipient(letter.receivers) }}</span></div>
+            <div class="sidebar-information-text">BriefID: {{ letter.id }}</div>
         </div>
         <div v-else>
-            <div class="text-xs">BriefID: {{ letter.id }}</div>
+            <div class="text-xs">ID: {{ letter.id }}</div>
         </div>
 
 <!--        Its broken-->
@@ -63,11 +64,6 @@
 <!--                <span class="caption">Untereinander</span>-->
 <!--            </a>-->
 <!--        </div>-->
-
-        <a :href="adminUrl" class="sidebar-link">
-            <icon icon="layers"></icon>
-            <span class="caption">Verwaltung</span>
-        </a>
     </div>
 </template>
 
@@ -78,12 +74,13 @@
         props: {
             letter: Object,
             adminUrl: String,
+            namespace: String,
         },
 
         computed: {
             sideBarOpen() {
                 return this.$store.state.ui.sideBarOpen;
-            }
+            },
         },
 
         methods: {
@@ -108,6 +105,9 @@
             },
 
             toggleColumn(column) {
+                if (column === `${this.namespace}-text` && !this.letter.text) {
+                    return;
+                }
                 return this.$store.commit('ui/toggle-column', {column});
             },
 
@@ -152,20 +152,20 @@
     }
 
     .sidebar {
+        min-width: 3.5rem;
         align-items: center;
         border-left-color: $gray-400;
+        margin: .1rem 0;
 
         &.open {
             min-width: 13rem;
+            max-width: 13rem;
             align-items: flex-start;
         }
     }
 
-    .sidebar-link {
-        margin: .1rem 0;
+    .sidebar-link, .sidebar-link-inactive {
         padding: .4rem .2rem;
-        color: $gray-700;
-        cursor: pointer;
         display: flex;
         align-items: center;
 
@@ -176,52 +176,25 @@
         .caption {
             display: none;
             margin-left: .25rem;
-            flex-grow: 1;
 
             .sidebar.open & {
                 display: block;
                 width: 100%;
             }
         }
-
-        &.open::after {
-            content: '•';
-            margin-left: .25rem;
-            font-size: 18pt;
-            line-height: 0;
-            color: $red;
-        }
     }
 
-    .sidebar-link:hover{
-        background-color: $gray-200; //gray-200 tailwind
+    .sidebar-link {
+        color: $gray-700;
+        cursor: pointer;
     }
 
     .sidebar-link-inactive{
         cursor: default;
         color: $gray-400; //gray-400 tailwind
-        margin: .1rem 0;
-        padding: .4rem .2rem;
-        display: flex;
-        align-items: center;
-
-        .sidebar.open & {
-            width: 100%;
-        }
-
-        .caption {
-            display: none;
-            margin-left: .25rem;
-            flex-grow: 1;
-
-            .sidebar.open & {
-                display: block;
-                width: 100%;
-            }
-        }
     }
 
-    .sidebar-link-inactive:hover{
+    .sidebar-link:hover, .sidebar-link-inactive:hover{
         background-color: $gray-200; //gray-200 tailwind
     }
 
@@ -239,11 +212,12 @@
         display: none;
         padding: .4rem .2rem;
         color: $gray-700;
+        align-items: center;
 
         .sidebar.open & {
             display: block;
-            width: 15rem;
-            float: left; clear: both;
+            float: left;
+            clear: both;
         }
     }
 

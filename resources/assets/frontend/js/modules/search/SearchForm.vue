@@ -24,7 +24,7 @@
             </div>
             <div class="card-body">
                 <div class="search-form" :class="{ 'search-form-centered': !hasResults }">
-                    <simple-form v-if="simple_mode === true" :value="searchAll"
+                    <simple-form v-if="simple_mode" :value="searchAll"
                                  @filter="searchAll = $event" @search="startSearch"/>
 
                     <advanced-form v-else :search="search"
@@ -45,13 +45,13 @@
 
 <script>
     import qs from 'qs';
-    import DottedLine from "./DottedLine";
-    import SimpleForm from "./SimpleForm";
-    import SearchResult from "./SearchResult";
-    import AdvancedForm from "./AdvancedForm";
-    import SearchPagination from "./SearchPagination";
-    import Spinner from "../Spinner";
-    import NavBar from "../NavBar/NavBar";
+    import DottedLine from "../../components/ui/DottedLine";
+    import SimpleForm from "./components/SimpleForm";
+    import SearchResult from "./components/SearchResult";
+    import AdvancedForm from "./components/AdvancedForm";
+    import SearchPagination from "./components/SearchPagination";
+    import Spinner from "../../components/ui/Spinner";
+    import NavBar from "../../components/ui/NavBar/NavBar";
 
     export default {
         name: "SearchForm",
@@ -73,7 +73,7 @@
                     from_location_historical: "",
                     from_location_derived: "",
                     inc: "",
-                    id: "",
+                    unique_code: "",
                 },
                 pagination: {
                     page: 1,
@@ -98,14 +98,26 @@
             currentPage() {
                 return this.pagination.page;
             },
+
             adminUrl() {
                 return window.Laravel.adminUrl;
             },
+
             letterSearch() {
                 return "/letters";
             },
+
             homeURL() {
                 return "/";
+            },
+
+            mode() {
+                if (this.simple_mode){
+                    return "simple";
+                }
+                else {
+                    return "advanced";
+                }
             },
         },
 
@@ -174,8 +186,8 @@
                     }
                 }
 
-                if (localStorage.mode) {
-                    this.mode = localStorage.mode;
+                if (localStorage.simple_mode) {
+                    this.simple_mode = localStorage.simple_mode;
                 }
 
                 if (localStorage.searchAll) {
@@ -198,7 +210,7 @@
             },
 
             persist() {
-                localStorage.setItem('mode', this.mode);
+                localStorage.setItem('simple_mode', this.simple_mode);
                 localStorage.setItem('searchAll', this.searchAll);
                 localStorage.setItem('search', JSON.stringify(this.search));
                 localStorage.setItem('pagination', JSON.stringify(this.pagination));
@@ -230,7 +242,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "~@/sass/variables";
+    @import "resources/assets/frontend/sass/_variables.scss";
 
     .result-loader{
         background-color: $gray-200;

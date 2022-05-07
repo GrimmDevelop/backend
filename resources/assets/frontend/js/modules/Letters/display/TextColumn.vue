@@ -44,12 +44,23 @@
                 html += this.body();
 
                 return html;
-            }
+            },
+        },
+
+        watch: {
+            '$store.state.ui.sideBarOpen': function() {
+                this.getWindowWidth();
+            },
+            '$store.state.ui.visibility': {
+                handler: function () {
+                    this.getWindowWidth();
+                },
+                deep: true,
+            },
         },
 
         mounted() {
             this.$nextTick(() => {
-                // TODO: recalculate when column is resized
                 window.addEventListener('resize', this.getWindowWidth);
                 this.getWindowWidth();
             });

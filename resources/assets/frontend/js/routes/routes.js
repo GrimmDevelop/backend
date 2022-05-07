@@ -1,9 +1,9 @@
 
-import Home from "@/frontend/js/modules/Home/Home";
-import LettersList from "@/frontend/js/modules/Letters/Letters";
-import LettersView from "@/frontend/js/modules/Letters/Letter";
-import LetterWindowsScan from "@/frontend/js/modules/Letters/Windows/Scan";
-import SearchForm from "../components/ui/search/SearchForm";
+import Home from "@/frontend/js/modules/home/Home";
+import LettersList from "@/frontend/js/modules/search/Letters";
+import LettersView from "@/frontend/js/modules/Letters/display/Letter";
+import LetterWindowsScan from "@/frontend/js/modules/Letters/windows/Scan";
+import LetterWindowsText from "@/frontend/js/modules/Letters/windows/Text";
 
 const routes = [
     {
@@ -25,6 +25,12 @@ const routes = [
         path: '/letters/:id/scan',
         component: LetterWindowsScan
     },
+    {
+        name: 'letters-windows-text',
+        path: '/letters/:id/text',
+        component: LetterWindowsText
+    },
+
 ];
 
 export default routes;

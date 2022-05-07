@@ -12,7 +12,7 @@
         data() {
             return {
                 selected: '',
-            }
+            };
         },
 
         props: {
@@ -21,8 +21,8 @@
 
         watch: {
             selected: function (val) {
-                this.$emit('addFilter',val)
-                this.selected = ""
+                this.$emit('addFilter',val);
+                this.selected = "";
             },
         },
 

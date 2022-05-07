@@ -1,27 +1,28 @@
 <template>
-    <div class="flex w-full h-screen bg-gray-200" v-if="letter">
+    <div class="flex h-screen bg-gray-200" v-if="letter">
         <div class="flex-grow grid gap-2 p-4" :class="gridClass" ref="columnContainer">
             <column namespace="letters" :entity="letter" name="scan">
                 <scan-column :letter="letter"/>
             </column>
 
-            <column v-if="letter.text" namespace="letters" :entity="letter" name="text" >
-                <letter-text :text="letter.text" class="p-4"/>
+            <column namespace="letters" :entity="letter" name="text" :default-visibility="showLetterText">
+                <text-column :text="letter.text" class="p-4"/>
             </column>
         </div>
 
         <sidebar :letter="letter"
                  @increase-id="$router.push({name: 'letters-view', params: {id: parseInt(letter.id) + 1}})"
                  @decrease-id="$router.push({name: 'letters-view', params: {id: parseInt(letter.id) - 1}})"
-                 :admin-url="adminUrl"></sidebar>
+                 :admin-url="adminUrl"
+                 namespace="letters"></sidebar>
     </div>
 </template>
 
 <script>
-    import Sidebar from "./display/Sidebar";
-    import ScanColumn from "./display/scans/ScanColumn";
-    import LetterText from "./LetterText";
-    import Column from "../../components/ui/windows/Column.vue";
+    import Sidebar from "./Sidebar";
+    import ScanColumn from "./ScanColumn";
+    import TextColumn from "./TextColumn";
+    import Column from "../../../components/ui/windows/Column.vue";
 
     export default {
         name: "Letter",
@@ -50,6 +51,10 @@
                     'grid-rows-auto': false,
                 };
             },
+
+            showLetterText() {
+                return Boolean(this.letter.text);
+            },
         },
 
         watch: {
@@ -64,7 +69,7 @@
 
         components: {
             Column,
-            LetterText,
+            TextColumn,
             ScanColumn,
             Sidebar,
         },

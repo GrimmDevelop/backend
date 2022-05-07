@@ -130,7 +130,7 @@
 
 <script>
 
-    import ExternalSearchBar from "./ExternalSearchBar";
+    import ExternalSearchBar from "../search/components/ExternalSearchBar";
     import NavBar from "../../components/ui/NavBar/NavBar";
 
     export default {

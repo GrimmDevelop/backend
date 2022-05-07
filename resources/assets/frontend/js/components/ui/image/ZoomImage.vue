@@ -1,7 +1,7 @@
 <template>
-    <div class="w-full h-full p-4 overflow-hidden" @wheel.prevent="scroll"
+    <div class="h-full p-4 overflow-hidden" @wheel.prevent="scroll"
          @mousedown.prevent="mouseDown" @mouseup="mouseUP" @mousemove="move">
-        <div class="relative w-full h-full" ref="container">
+        <div class="relative h-full" ref="container">
             <img class="absolute max-w-none" style="top: 0; left: 0;" ref="image" :src="src" alt="Handschrift">
         </div>
         <div class="absolute bottom-4 right-4 z-10 bg-gray-200 grid-rows-5 rounded">
@@ -75,7 +75,7 @@
             this.$refs.image.addEventListener('load', this.measureImage);
         },
 
-        destroyed() {
+        beforeDestroy() {
             this.$refs.image.removeEventListener('load', this.measureImage);
         },
 

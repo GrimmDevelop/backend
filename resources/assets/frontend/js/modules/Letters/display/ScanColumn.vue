@@ -1,5 +1,5 @@
 <template>
-    <div class="card-body w-full h-full">
+    <div class="card-body h-full">
         <zoom-image ref="zoomImage" v-if="hasImages" :src="imageUrl"></zoom-image>
         <div class="image-pagination">
             <icon icon="cheveron-left"
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import ZoomImage from "@/frontend/js/components/ui/Image/ZoomImage";
+    import ZoomImage from "@/frontend/js/components/ui/image/ZoomImage";
 
     export default {
         name: "ScanColumn",
@@ -80,7 +80,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import "~@/sass/variables";
+    @import "resources/assets/frontend/sass/_variables.scss";
 
     .image-pagination {
         border-radius: 5px;
