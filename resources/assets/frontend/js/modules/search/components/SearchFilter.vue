@@ -25,7 +25,9 @@
                       :value="value[filter.id]"
                       :options="list"
                       :placeholder="placeholder_vselect"
-                      :dropdown-should-open="dropdownShouldOpen"></v-select>
+                      :dropdown-should-open="dropdownShouldOpen">
+                  <span slot="no-options" v-text="popoutMessage"></span>
+            </v-select>
         </div>
     </div>
 </template>
@@ -47,6 +49,8 @@
                 placeholder: "Eingeben...",
                 placeholder_vselect: "Namen eingeben...",
                 letterPeople: [],
+                loading: false,
+                popoutMessage: "",
             };
         },
 
@@ -58,7 +62,8 @@
 
         methods: {
             onSearch(search, loading) {
-                if (search.length > 2) {
+                if (search.length > 1) {
+                    this.popoutMessage = "Ergebnisse werden gesucht";
                     loading(true);
                     this.search(loading, search, this);
                 }
@@ -72,6 +77,7 @@
                 }).then(response => {
                     vm.list = response.data.data.map(person => person.assignment_source);
 
+                    this.popoutMessage = "Nichts gefunden!";
                     loading(false);
                 });
             }, 350),
