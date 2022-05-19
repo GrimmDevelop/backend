@@ -26,7 +26,7 @@
                       :options="list"
                       :placeholder="placeholder_vselect"
                       :dropdown-should-open="dropdownShouldOpen">
-                  <span slot="no-options" v-text="popoutMessage"></span>
+                <span slot="no-options" v-text="popoutMessage"></span>
             </v-select>
         </div>
     </div>
@@ -49,7 +49,6 @@
                 placeholder: "Eingeben...",
                 placeholder_vselect: "Namen eingeben...",
                 letterPeople: [],
-                loading: false,
                 popoutMessage: "",
             };
         },
