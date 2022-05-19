@@ -12,13 +12,20 @@
                    :value="value[filter.id].to">
         </div>
         <div v-if="filter.type === 'string'" class="table-cell py-2 px-1">
-            <input class="search-filter-input search-filter-border px-2 py-1 w-full" type="search"
-                   :placeholder="placeholder" :value="value[filter.id]"
+            <input class="search-filter-input search-filter-border px-2 py-1 w-full"
+                   type="search"
+                   :placeholder="placeholder"
+                   :value="value[filter.id]"
                    @input="updateFilterValue">
         </div>
         <div v-if="filter.type === 'select'" class="table-cell py-2 px-1">
-            <v-select class="search-filter-content-select" @input="updateFilterValueVSelect" @search="onSearch"
-                      :value="value[filter.id]" :options="list" :placeholder="placeholder_vselect"></v-select>
+            <v-select class="search-filter-content-select"
+                      @input="updateFilterValueVSelect"
+                      @search="onSearch"
+                      :value="value[filter.id]"
+                      :options="list"
+                      :placeholder="placeholder_vselect"
+                      :dropdown-should-open="dropdownShouldOpen"></v-select>
         </div>
     </div>
 </template>
@@ -82,6 +89,14 @@
                 const value = {...this.value[this.filter.id]};
                 value[position] = event.target.value;
                 this.$emit('filter', value);
+            },
+
+            dropdownShouldOpen(VueSelect){
+                if (this.list.length !== 0) {
+                    return VueSelect.open;
+                }
+
+                return VueSelect.search.length !== 0 && VueSelect.open;
             },
         },
     };
