@@ -36,6 +36,10 @@
             <dotted-line class="dotted-line"></dotted-line>
             <spinner class="result-loader" v-if="searching"></spinner>
             <div v-if="hasResults">
+                <span class="search-result-number">
+                    Es wurden {{ numberOfResults }} Ergebnisse gefunden. {{ moreResultsThanShown ? 'Es werden aktuell ' + numberOfShownResults + ' Ergebnisse angezeigt.' : "" }}
+                </span>
+                <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
                 <search-result :letters="letters"></search-result>
                 <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
@@ -93,6 +97,26 @@
                 } catch (error) {
                     return false;
                 }
+            },
+
+            numberOfResults() {
+                try {
+                    return this.letters.length;
+                } catch (error) {
+                    return 0;
+                }
+            },
+
+            numberOfShownResults() {
+                try {
+                    return Math.min(this.letters.length, this.pagination.limit);
+                } catch (error) {
+                    return 0;
+                }
+            },
+
+            moreResultsThanShown() {
+                return this.numberOfResults > this.numberOfShownResults;
             },
 
             currentPage() {
@@ -269,8 +293,9 @@
         margin-right: auto;
     }
 
-    .search-result-container {
-
+    .search-result-number {
+        display: table;
+        margin: 0 auto;
     }
 
     .search-bar {
