@@ -1,6 +1,6 @@
 <template>
     <div class="search-result-cards-container">
-        <div v-for="letter in letters" :key="letter.id" class="search-result-card" :onclick="letterLink(letter.id)"
+        <div v-for="letter in letters" :key="letter.id" class="search-result-card result-properties-minus-padding" :onclick="letterLink(letter.id)"
              style="cursor: pointer;">
 <!--         TODO: Probleme:
              Nicht alle Variablen sind in der letter-Variable
