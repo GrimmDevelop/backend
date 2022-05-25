@@ -48,7 +48,6 @@
                 list: [],
                 placeholder: "Eingeben...",
                 placeholder_vselect: "Namen eingeben...",
-                letterPeople: [],
                 popoutMessage: "",
             };
         },
@@ -61,25 +60,29 @@
 
         methods: {
             onSearch(search, loading) {
-                if (search.length > 1) {
-                    this.popoutMessage = "Ergebnisse werden gesucht";
-                    loading(true);
+                if (search.length > 0) {
                     this.search(loading, search, this);
                 }
             },
 
             search: debounce(function (loading, search, vm) {
-                vm.$http.get('/data/people', {
-                    params: {
-                        name: search,
-                    },
-                }).then(response => {
-                    vm.list = response.data.data.map(person => person.assignment_source);
-
-                    this.popoutMessage = "Nichts gefunden!";
-                    loading(false);
-                });
-            }, 350),
+                    this.popoutMessage = "Ergebnisse werden gesucht...";
+                    loading(true);
+                    vm.$http.get('/data/people', {
+                        params: {
+                            name: search,
+                        },
+                    }).then(response => {
+                        vm.list = response.data.data.map(person => person.assignment_source);
+                        this.popoutMessage = "Nichts gefunden!";
+                        loading(false);
+                    });
+                },
+                1000,
+                {
+                    'leading': false,
+                    'trailing': true
+                }),
 
             updateFilterValueVSelect(value) { // is ok to not debounce
                 this.$emit('filter', value);
@@ -96,8 +99,8 @@
                 this.$emit('filter', value);
             },
 
-            dropdownShouldOpen(VueSelect){
-                if (this.list.length !== 0) {
+            dropdownShouldOpen(VueSelect) {
+                if (this.list.length !== 0) { // VueSelect.search.length !== 0?
                     return VueSelect.open;
                 }
 
@@ -128,7 +131,7 @@
     }
 
     .search-filter-border {
-        border: 1px solid rgba(60,60,60,0.26);
+        border: 1px solid rgba(60, 60, 60, 0.26);
         border-radius: 4px;
     }
 </style>
