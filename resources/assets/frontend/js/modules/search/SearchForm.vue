@@ -1,7 +1,7 @@
 <template>
     <div class="complete-container">
         <nav-bar class="navbar">
-            <img class="max-h-12" src="/images/search/bvlogo_y.png">
+            <img class="max-h-10" src="/images/search/bvlogo_y.png">
         </nav-bar>
         <div class="card my-4 mx-auto">
             <div class="card-header text-xl flex justify-between">

@@ -3,7 +3,7 @@
         <nav-bar>
             <external-search-bar class="external-search-bar"></external-search-bar>
         </nav-bar>
-        <div class="container grid grid-cols-6 grid-rows-7 gap-4 content-evenly mx-auto py-4">
+        <div class="container grid gap-4 content-evenly mx-auto py-4">
             <div id="main" class="card">
                 <div class="card-header text-xl">
                     Projektbeschreibung
