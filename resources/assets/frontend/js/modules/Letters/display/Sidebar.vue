@@ -6,25 +6,25 @@
             <span class="caption">Seitenleiste ausblenden</span>
         </div>
         <div class="sidebar-link-inactive">
-            <icon icon="library"></icon>
+            <icon icon="add-document"></icon>
             <span class="caption">Apparate zum Text (in Vorbereitung)</span>
 <!--            <span class="caption">Apparate zum Text</span>-->
         </div>
 
         <div class="sidebar-link"
-             :class="{ 'bg-gray-200': visibility(`${namespace}-scan`) }" @click="toggleColumn(`${namespace}-scan`)">
-            <icon icon="camera"></icon>
+             :class="{ 'bg-gray-100': visibility(`${namespace}-scan`) }" @click="toggleColumn(`${namespace}-scan`)">
+            <icon icon="letter-manuscript"></icon>
             <span class="caption">Handschrift(en)</span>
         </div>
-        <div :class="{ 'bg-gray-200': visibility(`${namespace}-text`), 'sidebar-link': letter.text, 'sidebar-link-inactive': !letter.text }"
+        <div :class="{ 'bg-gray-100': visibility(`${namespace}-text`), 'sidebar-link': letter.text, 'sidebar-link-inactive': !letter.text }"
              @click="toggleColumn(`${namespace}-text`)">
-            <icon icon="document"></icon>
+            <icon icon="check-list-document"></icon>
             <span v-if="letter.text" class="caption">Text</span>
             <span v-else class="caption">Text (in Vorbereitung)</span>
         </div>
 
         <div class="sidebar-link-inactive">
-            <icon icon="light-bulb"></icon>
+            <icon icon="answers" color="gray-400"></icon>
             <span class="caption">Sachkommentare (in Vorbereitung)</span>
 <!--            <span class="caption">Sachkommentare</span>-->
         </div>
@@ -41,7 +41,7 @@
 
         <div class="flex-grow"></div>
 
-        <div v-if="sideBarOpen" class="sidebar-information">
+        <div v-if="sideBarOpen" class="sidebar-information text-sm">
             <div class="sidebar-information sidebar-information-caption">Briefinformationen:</div>
             <div class="">Datum: {{ letter.date }}</div>
             <div class="">Von <span class="underline">{{ letterSender(letter.senders) }}</span></div>

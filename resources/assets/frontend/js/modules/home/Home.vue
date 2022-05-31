@@ -4,25 +4,32 @@
             <external-search-bar class="external-search-bar"></external-search-bar>
         </nav-bar>
         <div class="container grid grid-cols-6 grid-rows-7 gap-4 content-evenly mx-auto py-4">
-            <div class="col-span-1 row-span-2 img-wrap">
-                <svg viewBox="0 0 1488 2336" class="pr-20 w-50%" style="color: #4b5563;">
-                    <use xlink:href="/images/home/grimm.svg#image"></use>
-                </svg>
-            </div>
-            <div class="card col-span-3 row-span-6">
+            <div id="main" class="card">
                 <div class="card-header text-xl">
-                    Digitales Grimmarchiv
+                    Projektbeschreibung
                 </div>
                 <div class="card-body text-base overflow-auto hover:overflow-scroll hover:overflow"
                      @scroll="onScroll">
-                    <p>Sammlung von Briefwechseln, Tagebüchern und Arbeitsmaterialien der Brüder Grimm, von
-                        Büchern aus ihrem Besitz sowie von weiteren Dokumenten und Realien des kulturellen und
-                        familiären Umfelds<br><br></p>
-                    <p>Version 1.0<br></p>
-                    <p>Konzeption und wissenschaftliche Ausführung: Berthold Friemel, Vinzenz Hoppe und Philip
-                        Kraut gemeinsam mit Felix Manczak und Elisabeth Rudolph<br></p>
+                    <div class="grid grid-cols-7">
+                        <div class="col-span-1">
+                            <svg viewBox="0 0 1044 1568" height="110%" width="100%" style="color: #4b5563;">
+                                <use xlink:href="/images/home/grimm.svg#image"></use>
+                            </svg>
+                        </div>
+                        <div class="col-span-6">
+                            <p>
+                                <b>Sammlung von Briefwechseln, Tagebüchern und Arbeitsmaterialien der Brüder Grimm, von
+                                    Büchern aus ihrem Besitz sowie von weiteren Dokumenten und Realien des kulturellen und
+                                    familiären Umfelds</b><br><br>
+                            </p>
+                            <p>Version 1.0<br></p>
+                            <p>Konzeption und wissenschaftliche Ausführung: Berthold Friemel, Vinzenz Hoppe und Philip
+                                Kraut gemeinsam mit Felix Manczak und Elisabeth Rudolph<br></p>
+                        </div>
+                    </div>
+
                     <p>Datentechnische Modellierung und Ausführung: Friedrich Ueberreiter, Markus Daniel Mayer,
-                        Kilian Salomon, Tom Lukas Lankenau<br></p>
+                        Kilian Salomon, Tom Lukas Lankenau, Alexander Kerpen<br></p>
                     <p>Humboldt-Universität zu Berlin 2022<br><br></p>
                     <p>Enthält: <b>Verzeichnis von Jacob und Wilhelm Grimms Briefwechsel</b>, erarbeitet von
                         Berthold Friemel, Stephan Bialas und Ingrid Pergande-Kaufmann gemeinsam mit Marcus Böhm,
@@ -40,23 +47,33 @@
                         vollständig digitalisiert werden konnten, ist dem Förderprogramm zur Digitalisierung von
                         Kulturgut des Landes Berlin (digiS) zu verdanken. Die Scans wurden mit der schon zuvor im
                         Internet zugänglichen Datenbank des Grimm-Briefverzeichnisses verbunden. Vorliegende
-                        Beta-Version bietet daher auch eine überarbeitete neue Version 4.0 des Briefverzeichnisses.
+                        Beta-Version bietet daher auch eine überarbeitete neue Version 5.0 des Briefverzeichnisses.
                         Das Grimm-Briefverzeichnis war und ist die bisher einzige Publikation, die anstrebt, den
-                        Briefwechsel der Brüder Grimm vollständig zu erfassen.</p>
+                        Briefwechsel der Brüder Grimm vollständig zu erfassen. Das vorliegende Werk enthält ein
+                        chronologisches Verzeichnis der einzelnen Briefe von und an Jacob und Wilhelm Grimm erstmals
+                        unter anderem Anspruch als dem eines privaten Hilfsmittels. Die Richtung des Verzeichnisses auf
+                        Vollständigkeit entspricht einer Tendenz neuerer Briefeditionen (spätestens seit der
+                        Sophien-Ausgabe von Goethes Werken und F. Strehlkes vorausgegangenem Verzeichnis der Briefe),
+                        die sich auf Gesamterfassungen stützen wollen und sich gerade für die wichtigen, aber naturgemäß
+                        weit verstreuten ausgegangenen Briefe eines Autors nicht nur auf das verlassen können, was eine
+                        oftmals vom Zufall bestimmte Rezeption bisher zutage förderte.
+
                     <p class="text-right text-gray-500"><a
                         href="http://www.grimmnetz.de/bv/vorbemerkungen/vorbemerkungen.html">Weiterlesen ...</a></p>
                 </div>
             </div>
 
-            <div class="card col-span-2 row-span-6">
+            <div id="mod" class="card">
                 <div class="card-header text-xl ">
                     Module des Archivs
                 </div>
-                <div class="card-body text-base align-left p-0">
-                    <div class="grid-rows-4 ">
-                        <a :href="letterSearch">
-                            <div class="module-button"><b>Briefe von und an Jacob und Wilhelm Grimm</b><br>
-                                <p>• Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)</p>
+                <div class="card-body text-base align-left p-0 grid grid-rows-4">
+                    <div class="row-span-3">
+                        <a>
+                            <div class="module-button"><b>Briefe von und an Jacob und Wilhelm Grimm</b>
+                                <p><input type="text" placeholder="Alle Briefe durchsuchen" v-model="searchAll" v-on:keyup.enter="forwarding" name="search" class="border-lighter">
+                                    <button type="submit" @click="forwarding"><icon icon="search" class="text-gray-600 m-auto"/></button></p>
+                                <p><a :href="letterSearch">• Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)</a></p>
                                 <p>• Briefwechsel zum „Deutschen Wörterbuch“ <a class="text-gray-600">(in
                                     Vorbereitung)</a><br></p>
                             </div>
@@ -73,56 +90,29 @@
                             </div>
                         </a>
                         <a>
-                            <div class="module-button border-none"><b>persönliche Bibliothek der Brüder Grimm</b>
+                            <div class="module-button"><b>persönliche Bibliothek der Brüder Grimm</b>
                                 <p class="text-gray-600">(in Vorbereitung)</p>
-                                <p>• persönliche Handbibliothek der Brüder Grimm zu den „Kinder- und
-                                    Hausmärchen“<br></p>
+                                <p>• persönliche Handbibliothek der Brüder Grimm zu den <br>„Kinder- und
+                                     Hausmärchen“<br></p>
                             </div>
                         </a>
                     </div>
+                    <div class="row-span-1">
+                        <iframe width="100%" height="145%" src="https://www.youtube.com/embed/0Ir-vnKwd5w"
+                                title="YouTube video player" frameborder="0"
+                                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
                 </div>
-            </div>
-            <div class="card col-span-1 row-span-1">
-                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/0Ir-vnKwd5w"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
             </div>
 
-            <div class="card col-span-6">
-                <!--
-                <div class="grid grid-cols-10 card-body  max-h-32 max-w-full">
-                    <div class="img-wrap col-span-1">
-                        <img class=""
-                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Huberlin-logo.svg/1200px-Huberlin-logo.svg.png"
-                             alt="Humboldt-Universität zu Berlin"/>
-                    </div>
-                    <div class="col-span-1 img-wrap">
-                        <img class=""
-                             src="https://cdn.discordapp.com/attachments/804369796288217121/950337715587645500/sozlogo.jpg"
-                             alt="Grimm-Sozietät zu Berlin e.V."/>
-                    </div>
-                    <div class="col-span-1 img-wrap">
-                        <img class=""
-                             src="https://pbs.twimg.com/profile_images/1303703216471912448/pH0ySXa7_400x400.png"
-                             alt="Universitätsbibliothek HUB"/>
-                    </div>
-                    <div class="col-span-3 img-wrap">
-                        <img class=""
-                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Logo_Staatsbibliothek_zu_Berlin.svg/2560px-Logo_Staatsbibliothek_zu_Berlin.svg.png"
-                             alt="Staatsbibliothek zu Berlin"/>
-                    </div>
-                    <div class="col-span-4 img-wrap">
-                        <img class="my-auto"
-                             src="https://www.oclc.org/content/dam/oclc/member-stories/images/logos/sub-gottingen_logo.jpg"
-                             alt="UB Göttingen"/>
-                    </div>
-                </div>
-                -->
-                <img src="/images/home/Sponsoren.png" class="p-2 w-full h-full object-cover">
+
+            <div id="spons" class="card">
+                <img src="/images/home/Sponsoren.png" class="p-2 object-cover">
             </div>
-            <div class="card col-span-6 row-span-1">
-                <img class="p-2 img-wrap" src="/images/home/Förderer.png">
+            <div id="förd" class="card">
+                <img class="p-2 object-cover" src="/images/home/Förderer.png">
             </div>
         </div>
     </div>
@@ -141,6 +131,7 @@
                 showMenu: false,
                 scrolledBottom: false,
                 scrolledTop: true,
+                searchAll: "",
 
             };
         },
@@ -158,6 +149,9 @@
                         this.scrolledBottom = false;
                     }
                 }
+            },
+            forwarding() {
+                this.$router.push({path: '/letters', query: {search: this.searchAll}});
             },
         },
         computed: {
@@ -177,13 +171,48 @@
 <style lang="scss" scoped>
     @import 'resources/assets/frontend/sass/app.scss';
 
+    .container {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        grid-template-rows: 6fr 0.6fr 0.6fr;
+        grid-template-areas:
+            "main mod"
+            "spons spons"
+            "förd förd";
+    }
+    main {
+        grid-area: main;
+    }
+    mod {
+        grid-area: mod;
+    }
+    spons {
+        grid-area: spons;
+    }
+    förd {
+        grid-area: förd;
+    }
+    
+    @media only screen and (max-width: 850px) {
+        .container {
+            grid-template-columns: 1fr;
+            grid-template-rows: 6fr 6fr 1fr 1fr;
+            grid-template-areas:
+                "main"
+                "mod"
+                "spons"
+                "förd";
+        }
+        
+    }
+
     .external-search-bar {
         float: right;
     }
 
     .img-wrap {
         position: relative;
-        height: 60%;
+        height: 100%;
         width: auto;
         /*
         overflow: hidden;
@@ -199,7 +228,7 @@
     }
 
     .module-button:hover {
-        background-color: $gray-100;
+        //background-color: $gray-100;
     }
 
     /*
