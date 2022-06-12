@@ -4,10 +4,12 @@
             {{ filter.name }}:
         </div>
         <div v-if="filter.type === 'date'" class="table-cell py-2 px-1">
-            <input class="search-filter-content-date search-filter-border px-2 py-1 w-full" type="date"
+            <input class="search-filter-content-date search-filter-border px-2 py-1 w-full"
+                   type="date"
                    @input="updateFilterDateValue($event, 'from')"
                    :value="value[filter.id].from"> -
-            <input class="search-filter-content-date search-filter-border px-2 py-1 w-full" type="date"
+            <input class="search-filter-content-date search-filter-border px-2 py-1 w-full"
+                   type="date"
                    @input="updateFilterDateValue($event, 'to')"
                    :value="value[filter.id].to">
         </div>
@@ -60,12 +62,13 @@
 
         methods: {
             onSearch(search, loading) {
-                if (search.length > 0) {
-                    this.search(loading, search, this);
-                }
+                this.search(loading, search, this);
             },
 
             search: debounce(function (loading, search, vm) {
+                    if (search.length === 0) {
+                        return;
+                    }
                     this.popoutMessage = "Ergebnisse werden gesucht...";
                     loading(true);
                     vm.$http.get('/data/people', {
