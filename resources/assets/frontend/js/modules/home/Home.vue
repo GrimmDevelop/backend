@@ -109,10 +109,10 @@
 
 
             <div id="spons" class="card">
-                <img src="/images/home/Sponsoren.png" class="p-2 object-cover">
+                <img src="/images/home/sponsoren.png" class="p-2 object-cover">
             </div>
-            <div id="förd" class="card">
-                <img class="p-2 object-cover" src="/images/home/Förderer.png">
+            <div id="foerd" class="card">
+                <img class="p-2 object-cover" src="/images/home/foerderer.png">
             </div>
         </div>
     </div>
@@ -178,7 +178,7 @@
         grid-template-areas:
             "main mod"
             "spons spons"
-            "förd förd";
+            "foerd foerd";
     }
     main {
         grid-area: main;
@@ -189,8 +189,8 @@
     spons {
         grid-area: spons;
     }
-    förd {
-        grid-area: förd;
+    foerd {
+        grid-area: foerd;
     }
     
     @media only screen and (max-width: 850px) {
@@ -201,7 +201,7 @@
                 "main"
                 "mod"
                 "spons"
-                "förd";
+                "foerd";
         }
         
     }
