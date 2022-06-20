@@ -45,6 +45,7 @@
         padding: theme('spacing.0');
         box-shadow: theme('boxShadow.xl');
         border-radius: theme('borderRadius.sm');
+        background: white;
     }
     /*result card title*/
     .result-title {
@@ -56,14 +57,9 @@
         background-color: $gray-100;
         padding: theme('spacing.4') theme('spacing.6');
     }
+
     .result-properties {
         padding: theme('spacing.4') theme('spacing.6');
-        background: white;
-        margin: theme('margin.0');
-    }
-
-    .result-properties-minus-padding {
-        background: white;
         margin: theme('margin.0');
     }
 
