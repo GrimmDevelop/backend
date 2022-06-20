@@ -36,12 +36,17 @@
             <dotted-line class="dotted-line"></dotted-line>
             <spinner class="result-loader" v-if="searching"></spinner>
             <div v-if="hasResults">
-                <span class="search-result-number">
-                    Es wurden {{ numberOfResults }} Ergebnisse gefunden. {{ moreResultsThanShown ? 'Es werden aktuell ' + numberOfShownResults + ' Ergebnisse angezeigt.' : "" }}
-                </span>
-                <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
+                <div class="top-pagination card">
+                    <div>
+                        {{ numberOfResults }} Ergebnisse insgesamt
+                    </div>
+                    <div v-if="numberOfResults > letters.length">
+                        {{ letters.length }} auf der aktuellen Seite
+                    </div>
+                    <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
+                </div>
                 <search-result :letters="letters"></search-result>
-                <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
+                <search-pagination class="bottom-pagination card" @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
         </div>
     </div>
@@ -85,6 +90,7 @@
                     lastPage: 0,
                 },
                 letters: [],
+                numberOfResults: 0,
                 showResults: false,
                 searching: false,
             };
@@ -97,26 +103,6 @@
                 } catch (error) {
                     return false;
                 }
-            },
-
-            numberOfResults() {
-                try {
-                    return this.letters.length;
-                } catch (error) {
-                    return 0;
-                }
-            },
-
-            numberOfShownResults() {
-                try {
-                    return Math.min(this.letters.length, this.pagination.limit);
-                } catch (error) {
-                    return 0;
-                }
-            },
-
-            moreResultsThanShown() {
-                return this.numberOfResults > this.numberOfShownResults;
             },
 
             currentPage() {
@@ -158,7 +144,7 @@
 
             updateFilter(filter, value) {
                 this.search[filter.id] = value;
-                if (filter.name === "Absendeort") { // should we also search for the "from_location_derived"? (But I think with a logical or?)
+                if (filter.name === "Absendeort") { // TODO: should we also search for the "from_location_derived"? (But I think with a logical or?)
                     this.search["from_location_historical"] = value;
                 }
             },
@@ -192,6 +178,7 @@
                     } catch (error) {
                         this.pagination.lastPage = 1;
                     }
+                    this.numberOfResults = response.data.meta.total;
                 });
             },
 
@@ -310,5 +297,20 @@
     input:checked ~ .dot {
         transform: translateX(100%);
         background-color: $gray-600;
+    }
+
+    .top-pagination {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: fit-content;
+        padding: 12px;
+        margin: auto auto 7px;
+    }
+
+    .bottom-pagination {
+        width: fit-content;
+        padding: 12px;
+        margin: 20px auto 7px auto;
     }
 </style>
