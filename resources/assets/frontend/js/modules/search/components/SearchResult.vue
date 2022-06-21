@@ -64,18 +64,6 @@
             }
         },
 
-        data() {
-            return {
-                paginate: 10,
-            };
-        },
-
-        computed: {
-            resultNumber() {
-                return this.letters.length;
-            },
-        },
-
         methods: {
             letterLink(letterID) {
                 return "window.location='letters/" + letterID + "'";

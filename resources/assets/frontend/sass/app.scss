@@ -34,17 +34,18 @@
         display: flex;
         flex-flow: row wrap;
         gap: 2rem 0;
-        justify-content: space-around;
+        justify-content: space-evenly;
         background: $gray-200;
     }
     /*one result card:*/
     .search-result-card {
         min-width: 500px;
         max-width: 500px;
-        height: fit-content;
+        //height: fit-content;
         padding: theme('spacing.0');
         box-shadow: theme('boxShadow.xl');
         border-radius: theme('borderRadius.sm');
+        background: white;
     }
     /*result card title*/
     .result-title {
@@ -56,11 +57,12 @@
         background-color: $gray-100;
         padding: theme('spacing.4') theme('spacing.6');
     }
+
     .result-properties {
         padding: theme('spacing.4') theme('spacing.6');
-        background: white;
         margin: theme('margin.0');
     }
+
     .result-item {
         display: grid;
         grid-template-columns: 7rem 1fr;

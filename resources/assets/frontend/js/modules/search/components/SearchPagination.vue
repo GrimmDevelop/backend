@@ -5,12 +5,11 @@
                   format="cursor-pointer text-gray-600 hover:text-gray-900"
                   @click="decreasePage">
             </icon>
-            <span class="text-gray-900 whitespace-nowrap">
-                <input :value="pagination.page" @input.enter="setPage"
-                       class="page-input cursor-pointer">/ {{ pagination.lastPage }}
-            </span>
+            <span class="page-number">{{ pagination.page }}</span>
+            <span>/</span>
+            <span class="page-number">{{ pagination.lastPage }}</span>
             <icon icon="cheveron-outline-right"
-                  format="cheveron-outline-right cursor-pointer text-gray-600 hover:text-gray-900"
+                  format="cursor-pointer text-gray-600 hover:text-gray-900"
                   @click="increasePage">
             </icon>
         </div>
@@ -34,15 +33,7 @@
             decreasePage() {
                 this.$emit('setPage', Math.max(1, this.pagination.page - 1));
             },
-
-            setPage(event) {
-                const page = Math.min(Math.max(1, parseInt(event.target.value)), this.pagination.lastPage);
-
-                this.$emit('setPage', page);
-            },
         },
-
-
     };
 </script>
 
@@ -53,23 +44,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0.7rem;
     }
 
-    .page-input {
-        width: 3rem;
-        border: 1px solid transparent;
-        padding: 0;
-        margin: 0;
-        background: transparent;
-        text-align: center;
-
-        &:focus {
-            border: 1px solid black;
-        }
-    }
-
-    .cheveron-outline-right {
-        margin-left: 0.3rem;
+    .page-number {
+        margin: 0 5px;
     }
 </style>
