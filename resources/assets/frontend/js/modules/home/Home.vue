@@ -71,28 +71,32 @@
                     <div class="row-span-3">
                         <a>
                             <div class="module-button"><b>Briefe von und an Jacob und Wilhelm Grimm</b>
-                                <p><input type="text" placeholder="Alle Briefe durchsuchen" v-model="searchAll" v-on:keyup.enter="forwarding" name="search" class="border-lighter">
-                                    <button type="submit" @click="forwarding"><icon icon="search" class="text-gray-600 m-auto"/></button></p>
-                                <p><a :href="letterSearch">• Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)</a></p>
-                                <p>• Briefwechsel zum „Deutschen Wörterbuch“ <a class="text-gray-600">(in
+                                <p class="m-auto flex align-center justify-content-center flex-wrap">
+                                    <input type="text" v-model="searchAll" v-on:keyup.enter="forwarding" placeholder="Alle Briefe durchsuchen" name="search" class="border border-solid border-black rounded">
+                                    <button type="submit" @click="forwarding">
+                                        <icon icon="search" class="text-gray-600 mx-2"/>
+                                    </button>
+                                </p>
+                                <p class="sub-item"><a :href="letterSearch">Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)</a></p>
+                                <p class="text-gray-600 sub-item">Briefwechsel zum „Deutschen Wörterbuch“ <a class="text-gray-600">(in
                                     Vorbereitung)</a><br></p>
                             </div>
                         </a>
                         <a>
-                            <div class="module-button"><b>Tagebücher und Kalender der Brüder Grimm</b>
-                                <p class="text-gray-600">(in Vorbereitung)<br></p>
+                            <div class="module-button text-gray-600"><b>Tagebücher und Kalender der Brüder Grimm</b>
+                                <p class="text-gray-600 sub-item">(in Vorbereitung)<br></p>
                             </div>
                         </a>
                         <a>
-                            <div class="module-button"><b>Arbeitsmaterialien der Brüder Grimm</b>
+                            <div class="module-button text-gray-600"><b>Arbeitsmaterialien der Brüder Grimm</b>
                                 <p class="text-gray-600">(in Vorbereitung)</p>
-                                <p>• Notizbücher<br></p>
+                                <p class="sub-item">Notizbücher<br></p>
                             </div>
                         </a>
                         <a>
-                            <div class="module-button"><b>persönliche Bibliothek der Brüder Grimm</b>
+                            <div class="module-button text-gray-600"><b>persönliche Bibliothek der Brüder Grimm</b>
                                 <p class="text-gray-600">(in Vorbereitung)</p>
-                                <p>• persönliche Handbibliothek der Brüder Grimm zu den <br>„Kinder- und
+                                <p class="sub-item">persönliche Handbibliothek der Brüder Grimm zu den <br>„Kinder- und
                                      Hausmärchen“<br></p>
                             </div>
                         </a>
@@ -229,6 +233,17 @@
 
     .module-button:hover {
         //background-color: $gray-100;
+    }
+
+    .sub-item {
+        margin-left: 10px;
+        position: relative;
+    }
+
+    .sub-item::before {
+        content: "•";
+        position: absolute;
+        left: -10px;
     }
 
     /*
