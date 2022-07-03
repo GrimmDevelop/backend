@@ -38,7 +38,7 @@
             <div v-if="hasResults">
                 <div class="top-pagination card">
                     <div>
-                        {{ numberOfResults }} Ergebnisse insgesamt
+                        {{ numberOfResultsString }}
                     </div>
                     <div v-if="numberOfResults > letters.length">
                         {{ letters.length }} auf der aktuellen Seite
@@ -93,10 +93,21 @@
                 numberOfResults: 0,
                 showResults: false,
                 searching: false,
+                numberAsWord: ['', '', 'Zwei', 'Drei', 'Vier', 'Fünf', 'Sechs', 'Sieben', 'Acht', 'Neun', 'Zehn'],
             };
         },
 
         computed: {
+            numberOfResultsString: function() {
+                if(this.numberOfResults <= 12) {
+                    if (this.numberOfResults === 1) {
+                        return "Ein Ergebnis insgesamt";
+                    }
+                    return this.numberAsWord[this.numberOfResults] + " Ergebnisse insgesamt";
+                }
+                return this.numberOfResults + " Ergebnisse insgesamt";
+            },
+
             hasResults() {
                 try {
                     return this.letters.length > 0;
