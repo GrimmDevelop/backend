@@ -46,7 +46,7 @@
             <div class="">Datum: {{ letter.date }}</div>
             <div class="">Von <span class="underline">{{ letterSender(letter.senders) }}</span></div>
             <div class="">An <span class="underline">{{ letterRecipient(letter.receivers) }}</span></div>
-            <div class="sidebar-information-text">BriefID: {{ letter.id }}</div>
+            <div class="sidebar-information-text">Brief-ID: {{ letter.id }}</div>
         </div>
         <div v-else>
             <div class="text-xs">ID: {{ letter.id }}</div>

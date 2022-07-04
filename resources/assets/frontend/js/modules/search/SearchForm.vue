@@ -36,9 +36,9 @@
             <dotted-line class="dotted-line"></dotted-line>
             <spinner class="result-loader" v-if="searching"></spinner>
             <div v-if="hasResults">
-                <div class="top-pagination card">
+                <div class="top-pagination pagination">
                     <div>
-                        {{ numberOfResults }} Ergebnisse insgesamt
+                        {{ numberOfResults }} {{ numberOfResults === 1 ? 'Ergebnis' : 'Ergebnisse' }} insgesamt
                     </div>
                     <div v-if="numberOfResults > letters.length">
                         {{ letters.length }} auf der aktuellen Seite
@@ -46,7 +46,7 @@
                     <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
                 </div>
                 <search-result :letters="letters"></search-result>
-                <search-pagination class="bottom-pagination card" @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
+                <search-pagination class="bottom-pagination pagination" @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
         </div>
     </div>

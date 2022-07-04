@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div v-if="letter.id" class="result-item">
-                    <div class="result-item-title"> BriefID</div>
+                    <div class="result-item-title"> Brief-ID</div>
                     <div class="result-item-content"> {{ letter.id }}</div>
                 </div>
             </div>
