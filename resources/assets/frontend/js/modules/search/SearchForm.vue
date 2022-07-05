@@ -35,17 +35,19 @@
         <div class="search-result-container" v-if="showResults">
             <dotted-line class="dotted-line"></dotted-line>
             <spinner class="result-loader" v-if="searching"></spinner>
-            <div v-if="hasResults">
-                <div class="top-pagination card">
-                    <div>
-                        {{ numberOfResultsString }}
-                    </div>
-                    <div v-if="numberOfResults > letters.length">
-                        {{ letters.length }} auf der aktuellen Seite
-                    </div>
+            <div class="top-pagination card">
+                <div >
+                    {{ numberOfResultsString }}
+                </div>
+                <div v-if="numberOfResults > letters.length">
+                    {{ letters.length }} auf der aktuellen Seite
+                </div>
+                <div v-if="hasResults">
                     <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
                 </div>
-                <search-result :letters="letters"></search-result>
+            </div>
+            <search-result :letters="letters"></search-result>
+            <div v-if="hasResults">
                 <search-pagination class="bottom-pagination card" @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
         </div>
@@ -93,13 +95,16 @@
                 numberOfResults: 0,
                 showResults: false,
                 searching: false,
-                numberAsWord: ['', '', 'Zwei', 'Drei', 'Vier', 'Fünf', 'Sechs', 'Sieben', 'Acht', 'Neun', 'Zehn'],
+                numberAsWord: ['', '', 'Zwei', 'Drei', 'Vier', 'Fünf', 'Sechs', 'Sieben', 'Acht', 'Neun', 'Zehn', 'Elf', 'Zwölf'],
             };
         },
 
         computed: {
             numberOfResultsString: function() {
                 if(this.numberOfResults <= 12) {
+                    if (this.numberOfResults === 0) {
+                        return "Keine Ergebnisse";
+                    }
                     if (this.numberOfResults === 1) {
                         return "Ein Ergebnis insgesamt";
                     }
