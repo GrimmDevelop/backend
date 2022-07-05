@@ -69,7 +69,7 @@
                         type: "string",
                     },
                     {
-                        name: "Briefnummer",
+                        name: "Brief-ID",
                         id: "unique_code",
                         type: "string",
                     },
