@@ -35,18 +35,20 @@
         <div class="search-result-container" v-if="showResults">
             <dotted-line class="dotted-line"></dotted-line>
             <spinner class="result-loader" v-if="searching"></spinner>
-            <div v-if="hasResults">
-                <div class="top-pagination pagination">
-                    <div>
-                        {{ numberOfResults }} {{ numberOfResults === 1 ? 'Ergebnis' : 'Ergebnisse' }} insgesamt
-                    </div>
-                    <div v-if="numberOfResults > letters.length">
-                        {{ letters.length }} auf der aktuellen Seite
-                    </div>
+            <div class="top-pagination card">
+                <div >
+                    {{ numberOfResultsString }}
+                </div>
+                <div v-if="numberOfResults > letters.length">
+                    {{ letters.length }} auf der aktuellen Seite
+                </div>
+                <div v-if="hasResults">
                     <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
                 </div>
-                <search-result :letters="letters"></search-result>
-                <search-pagination class="bottom-pagination pagination" @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
+            </div>
+            <search-result :letters="letters"></search-result>
+            <div v-if="hasResults">
+                <search-pagination class="bottom-pagination card" @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
         </div>
     </div>
@@ -93,10 +95,24 @@
                 numberOfResults: 0,
                 showResults: false,
                 searching: false,
+                numberAsWord: ['', '', 'Zwei', 'Drei', 'Vier', 'Fünf', 'Sechs', 'Sieben', 'Acht', 'Neun', 'Zehn', 'Elf', 'Zwölf'],
             };
         },
 
         computed: {
+            numberOfResultsString: function() {
+                if(this.numberOfResults <= 12) {
+                    if (this.numberOfResults === 0) {
+                        return "Keine Ergebnisse";
+                    }
+                    if (this.numberOfResults === 1) {
+                        return "Ein Ergebnis insgesamt";
+                    }
+                    return this.numberAsWord[this.numberOfResults] + " Ergebnisse insgesamt";
+                }
+                return this.numberOfResults + " Ergebnisse insgesamt";
+            },
+
             hasResults() {
                 try {
                     return this.letters.length > 0;
