@@ -35,9 +35,9 @@
         <div class="search-result-container" v-if="showResults">
             <dotted-line class="dotted-line"></dotted-line>
             <spinner class="result-loader" v-if="searching"></spinner>
-            <div class="top-pagination card">
+            <div class="top-pagination pagination">
                 <div >
-                    {{ numberOfResultsString }}
+                    {{ numberOfResults }} {{ numberOfResults === 1 ? 'Ergebnis' : 'Ergebnisse' }} insgesamt
                 </div>
                 <div v-if="numberOfResults > letters.length">
                     {{ letters.length }} auf der aktuellen Seite
@@ -95,24 +95,10 @@
                 numberOfResults: 0,
                 showResults: false,
                 searching: false,
-                numberAsWord: ['', '', 'Zwei', 'Drei', 'Vier', 'Fünf', 'Sechs', 'Sieben', 'Acht', 'Neun', 'Zehn', 'Elf', 'Zwölf'],
             };
         },
 
         computed: {
-            numberOfResultsString: function() {
-                if(this.numberOfResults <= 12) {
-                    if (this.numberOfResults === 0) {
-                        return "Keine Ergebnisse";
-                    }
-                    if (this.numberOfResults === 1) {
-                        return "Ein Ergebnis insgesamt";
-                    }
-                    return this.numberAsWord[this.numberOfResults] + " Ergebnisse insgesamt";
-                }
-                return this.numberOfResults + " Ergebnisse insgesamt";
-            },
-
             hasResults() {
                 try {
                     return this.letters.length > 0;
