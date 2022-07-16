@@ -63,51 +63,49 @@
                 </div>
             </div>
 
-            <div id="mod" class="card">
-                <div class="card-header text-xl ">
-                    Module des Archivs
+            <div id="mod" class="grid gap-4">
+                <div class="row-span-1 youtube-tutorial card">
+                    <iframe class="responsive-iframe" src="https://www.youtube.com/embed/0Ir-vnKwd5w"
+                            title="YouTube video player" frameborder="0"
+                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                    </iframe>
                 </div>
-                <div class="card-body text-base align-left p-0 grid grid-rows-4">
-                    <div class="row-span-3">
-                        <a>
-                            <div class="module-button"><b>Briefe von und an Jacob und Wilhelm Grimm</b>
-                                <p class="m-auto flex align-center justify-content-center flex-wrap">
-                                    <input type="text" v-model="searchAll" v-on:keyup.enter="forwarding" placeholder="Alle Briefe durchsuchen" name="search" class="border border-solid border-black rounded">
-                                    <button type="submit" @click="forwarding">
-                                        <icon icon="search" class="text-gray-600 mx-2"/>
-                                    </button>
-                                </p>
-                                <p class="sub-item"><a :href="letterSearch">Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)</a></p>
-                                <p class="text-gray-600 sub-item">Briefwechsel zum „Deutschen Wörterbuch“ <a class="text-gray-600">(in
-                                    Vorbereitung)</a><br></p>
-                            </div>
-                        </a>
-                        <a>
-                            <div class="module-button text-gray-600"><b>Tagebücher und Kalender der Brüder Grimm</b>
-                                <p class="text-gray-600 sub-item">(in Vorbereitung)<br></p>
-                            </div>
-                        </a>
-                        <a>
-                            <div class="module-button text-gray-600"><b>Arbeitsmaterialien der Brüder Grimm</b>
-                                <p class="text-gray-600">(in Vorbereitung)</p>
-                                <p class="sub-item">Notizbücher<br></p>
-                            </div>
-                        </a>
-                        <a>
-                            <div class="module-button text-gray-600"><b>persönliche Bibliothek der Brüder Grimm</b>
-                                <p class="text-gray-600">(in Vorbereitung)</p>
-                                <p class="sub-item">persönliche Handbibliothek der Brüder Grimm zu den <br>„Kinder- und
-                                     Hausmärchen“<br></p>
-                            </div>
-                        </a>
+                <div class="card flex-column justify-content-between">
+                    <div class="card-header text-xl ">
+                        Module des Archivs
                     </div>
-                    <div class="row-span-1">
-                        <iframe width="100%" height="145%" src="https://www.youtube.com/embed/0Ir-vnKwd5w"
-                                title="YouTube video player" frameborder="0"
-                                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
-                        </iframe>
-                    </div>
+                    <a>
+                        <div class="module-button"><b>Briefe von und an Jacob und Wilhelm Grimm</b>
+                            <p class="m-auto flex align-center justify-content-center flex-wrap">
+                                <input type="text" v-model="searchAll" v-on:keyup.enter="forwarding" placeholder="Alle Briefe durchsuchen" name="search" class="border border-solid border-black rounded">
+                                <button type="submit" @click="forwarding">
+                                    <icon icon="search" class="text-gray-600 mx-2"/>
+                                </button>
+                            </p>
+                            <p class="sub-item"><a :href="letterSearch">Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)</a></p>
+                            <p class="text-gray-600 sub-item">Briefwechsel zum „Deutschen Wörterbuch“ <a class="text-gray-600">(in
+                                Vorbereitung)</a><br></p>
+                        </div>
+                    </a>
+                    <a>
+                        <div class="module-button text-gray-600"><b>Tagebücher und Kalender der Brüder Grimm</b>
+                            <p class="text-gray-600 sub-item">(in Vorbereitung)<br></p>
+                        </div>
+                    </a>
+                    <a>
+                        <div class="module-button text-gray-600"><b>Arbeitsmaterialien der Brüder Grimm</b>
+                            <p class="text-gray-600">(in Vorbereitung)</p>
+                            <p class="sub-item">Notizbücher<br></p>
+                        </div>
+                    </a>
+                    <a>
+                        <div class="module-button text-gray-600"><b>persönliche Bibliothek der Brüder Grimm</b>
+                            <p class="text-gray-600">(in Vorbereitung)</p>
+                            <p class="sub-item">persönliche Handbibliothek der Brüder Grimm zu den <br>„Kinder- und
+                                Hausmärchen“<br></p>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -284,6 +282,24 @@
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
+    }
+
+    .youtube-tutorial {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+    }
+
+    /* Then style the iframe to fit in the container div with full height and width */
+    .responsive-iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
     }
 
     .footer {
