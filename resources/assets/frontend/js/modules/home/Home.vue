@@ -119,6 +119,9 @@
                 <img class="p-2 object-cover" src="/images/home/foerderer.png">
             </div>
         </div>
+        <footer class="card">
+            <p class="impressum-centered"><a href="http://www.grimmnetz.de/wp/impressum/">Impressum</a></p>
+        </footer>
     </div>
 </template>
 
@@ -174,6 +177,16 @@
 
 <style lang="scss" scoped>
     @import 'resources/assets/frontend/sass/app.scss';
+
+    .html {
+        height: 100%
+    }
+
+    .body {
+        display: grid;
+        flex-direction: column;
+        min-height: 100%;
+    }
 
     .container {
         display: grid;
@@ -271,5 +284,13 @@
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
+    }
+
+    .footer {
+        margin-top: auto;
+    }
+
+    .impressum-centered {
+        text-align: center;
     }
 </style>
