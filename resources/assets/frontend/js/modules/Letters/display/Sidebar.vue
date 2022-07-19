@@ -43,27 +43,18 @@
 
         <div v-if="sideBarOpen" class="sidebar-information text-sm">
             <div class="sidebar-information sidebar-information-caption">Briefinformationen:</div>
-            <div class="">Datum: {{ letter.date }}</div>
-            <div class="">Von <span class="underline">{{ letterSender(letter.senders) }}</span></div>
-            <div class="">An <span class="underline">{{ letterRecipient(letter.receivers) }}</span></div>
-            <div class="sidebar-information-text">Brief-ID: {{ letter.id }}</div>
+            <div>Datum: {{ letter.date }}</div>
+            <div>Von <span class="underline">{{ letterSender(letter.senders) }}</span></div>
+            <div>An <span class="underline">{{ letterRecipient(letter.receivers) }}</span></div>
+            <div class="sidebar-information-text">BriefID: {{ letter.id }}</div>
+            <div class="sidebar-information-caption pt-4 clear-both float-left">
+                <a href="http://www.grimmnetz.de/wp/impressum/">Impressum</a>
+            </div>
         </div>
         <div v-else>
             <div class="text-xs">ID: {{ letter.id }}</div>
         </div>
 
-<!--        Its broken-->
-<!--        <div class="column-configuration">-->
-<!--            <span class="caption">Anzeige:</span>-->
-<!--            <a class="sidebar-link" @click="changeFlow('columns')">-->
-<!--                <icon icon="view-column"></icon>-->
-<!--                <span class="caption">Spaltenweise</span>-->
-<!--            </a>-->
-<!--            <a class="sidebar-link" @click="changeFlow('rows')">-->
-<!--                <icon icon="view-list"></icon>-->
-<!--                <span class="caption">Untereinander</span>-->
-<!--            </a>-->
-<!--        </div>-->
     </div>
 </template>
 
