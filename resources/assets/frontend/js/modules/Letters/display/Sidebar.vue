@@ -48,7 +48,7 @@
             <div>An <span class="underline">{{ letterRecipient(letter.receivers) }}</span></div>
             <div class="sidebar-information-text">BriefID: {{ letter.id }}</div>
             <div class="sidebar-information-caption pt-4 clear-both float-left">
-                <a href="http://www.grimmnetz.de/wp/impressum/">Impressum</a>
+                <a href="/impressum">Impressum</a>
             </div>
         </div>
         <div v-else>

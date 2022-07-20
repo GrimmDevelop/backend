@@ -30,7 +30,13 @@ const routes = [
         path: '/letters/:id/text',
         component: LetterWindowsText
     },
-
+    {
+        name: 'impressum',
+        path: '/impressum',
+        beforeEnter() {
+            location.href = "http://www.grimmnetz.de/wp/impressum/";
+        }
+    },
 ];
 
 export default routes;

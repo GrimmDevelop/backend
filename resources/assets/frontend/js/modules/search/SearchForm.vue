@@ -52,7 +52,7 @@
             </div>
         </div>
         <footer class="card">
-            <p class="impressum-centered"><a href="http://www.grimmnetz.de/wp/impressum/">Impressum</a></p>
+            <p class="impressum-centered"><a href="/impressum">Impressum</a></p>
         </footer>
     </div>
 </template>
