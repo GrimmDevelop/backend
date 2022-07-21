@@ -4,7 +4,7 @@
             <external-search-bar class="external-search-bar"></external-search-bar>
         </nav-bar>
         <div class="container grid gap-4 content-evenly mx-auto py-4">
-            <div id="main" class="card">
+            <div class="main card">
                 <div class="card-header text-xl">
                     Projektbeschreibung
                 </div>
@@ -62,64 +62,51 @@
                         href="http://www.grimmnetz.de/bv/vorbemerkungen/vorbemerkungen.html">Weiterlesen ...</a></p>
                 </div>
             </div>
-
-            <div id="mod" class="grid gap-4">
-                <div class="row-span-1 youtube-tutorial card">
-                    <iframe class="responsive-iframe" src="https://www.youtube.com/embed/0Ir-vnKwd5w"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>
-                    </iframe>
+            <div class="video card">
+                <iframe class="responsive-iframe" src="https://www.youtube.com/embed/0Ir-vnKwd5w"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                </iframe>
+            </div>
+            <div class="modules card">
+                <div class="card-header text-xl ">
+                    Module des Archivs
                 </div>
-                <div class="card flex-column justify-content-between">
-                    <div class="card-header text-xl ">
-                        Module des Archivs
-                    </div>
-                    <a>
-                        <div class="module-button"><b>Briefe von und an Jacob und Wilhelm Grimm</b>
-                            <p class="m-auto flex align-center justify-content-center flex-wrap">
-                                <input type="text" v-model="searchAll" v-on:keyup.enter="forwarding" placeholder="Alle Briefe durchsuchen" name="search" class="border border-solid border-black rounded">
-                                <button type="submit" @click="forwarding">
-                                    <icon icon="search" class="text-gray-600 mx-2"/>
-                                </button>
-                            </p>
-                            <p class="sub-item"><a :href="letterSearch">Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)</a></p>
-                            <p class="text-gray-600 sub-item">Briefwechsel zum „Deutschen Wörterbuch“ <a class="text-gray-600">(in
-                                Vorbereitung)</a><br></p>
-                        </div>
-                    </a>
-                    <a>
-                        <div class="module-button text-gray-600"><b>Tagebücher und Kalender der Brüder Grimm</b>
-                            <p class="text-gray-600 sub-item">(in Vorbereitung)<br></p>
-                        </div>
-                    </a>
-                    <a>
-                        <div class="module-button text-gray-600"><b>Arbeitsmaterialien der Brüder Grimm</b>
-                            <p class="text-gray-600">(in Vorbereitung)</p>
-                            <p class="sub-item">Notizbücher<br></p>
-                        </div>
-                    </a>
-                    <a>
-                        <div class="module-button text-gray-600"><b>persönliche Bibliothek der Brüder Grimm</b>
-                            <p class="text-gray-600">(in Vorbereitung)</p>
-                            <p class="sub-item">persönliche Handbibliothek der Brüder Grimm zu den <br>„Kinder- und
-                                Hausmärchen“<br></p>
-                        </div>
-                    </a>
+                <div class="module-button"><b>Briefe von und an Jacob und Wilhelm Grimm</b>
+                    <p class="m-auto flex align-center justify-content-center flex-wrap">
+                        <input type="text" v-model="searchAll" v-on:keyup.enter="forwarding" placeholder="Alle Briefe durchsuchen" name="search" class="border border-solid border-black rounded">
+                        <button type="submit" @click="forwarding">
+                            <icon icon="search" class="text-gray-600 mx-2"/>
+                        </button>
+                    </p>
+                    <p class="sub-item"><a :href="letterSearch">Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)</a></p>
+                    <p class="text-gray-600 sub-item">Briefwechsel zum „Deutschen Wörterbuch“ <a class="text-gray-600">(in
+                        Vorbereitung)</a><br></p>
+                </div>
+                <div class="module-button text-gray-600"><b>Tagebücher und Kalender der Brüder Grimm</b>
+                    <p class="text-gray-600 sub-item">(in Vorbereitung)<br></p>
+                </div>
+                <div class="module-button text-gray-600"><b>Arbeitsmaterialien der Brüder Grimm</b>
+                    <p class="text-gray-600">(in Vorbereitung)</p>
+                    <p class="sub-item">Notizbücher<br></p>
+                </div>
+                <div class="module-button text-gray-600"><b>persönliche Bibliothek der Brüder Grimm</b>
+                    <p class="text-gray-600">(in Vorbereitung)</p>
+                    <p class="sub-item">persönliche Handbibliothek der Brüder Grimm zu den <br>„Kinder- und
+                        Hausmärchen“<br></p>
                 </div>
             </div>
-
-
-            <div id="spons" class="card">
+            <div class="spons card">
                 <img src="/images/home/sponsoren.png" class="p-2 object-cover">
             </div>
-            <div id="foerd" class="card">
+            <div class="foerd card">
                 <img class="p-2 object-cover" src="/images/home/foerderer.png">
             </div>
         </div>
-        <footer class="card">
-            <p class="impressum-centered"><a href="/impressum">Impressum</a></p>
-        </footer>
+        <div class="mt-auto">
+            <p class="text-center card mt-4"><a href="/impressum">Impressum</a></p>
+        </div>
     </div>
 </template>
 
@@ -133,17 +120,12 @@
         components: {NavBar, ExternalSearchBar},
         data() {
             return {
-                showMenu: false,
                 scrolledBottom: false,
                 scrolledTop: true,
                 searchAll: "",
-
             };
         },
         methods: {
-            toggleNavbar: function () {
-                this.showMenu = !this.showMenu;
-            },
             onScroll({target: {scrollTop, clientHeight, scrollHeight}}) {
                 if (!this.scrolledBottom) {
                     if (scrollTop + clientHeight >= scrollHeight) {
@@ -176,45 +158,39 @@
 <style lang="scss" scoped>
     @import 'resources/assets/frontend/sass/app.scss';
 
-    .html {
-        height: 100%
-    }
-
-    .body {
-        display: grid;
-        flex-direction: column;
-        min-height: 100%;
-    }
-
     .container {
         display: grid;
         grid-template-columns: 3fr 2fr;
-        grid-template-rows: 6fr 0.6fr 0.6fr;
+        grid-template-rows: 290px 1fr min-content;
         grid-template-areas:
-            "main mod"
-            "spons spons"
-            "foerd foerd";
+            "main video"
+            "main modules"
+            "spons foerd";
     }
-    main {
+    .main {
         grid-area: main;
     }
-    mod {
-        grid-area: mod;
+    .video {
+        grid-area: video;
     }
-    spons {
+    .modules {
+        grid-area: modules;
+    }
+    .spons {
         grid-area: spons;
     }
-    foerd {
+    .foerd {
         grid-area: foerd;
     }
     
     @media only screen and (max-width: 850px) {
         .container {
             grid-template-columns: 1fr;
-            grid-template-rows: 6fr 6fr 1fr 1fr;
+            grid-template-rows: auto 290px repeat(3, auto);
             grid-template-areas:
                 "main"
-                "mod"
+                "video"
+                "modules"
                 "spons"
                 "foerd";
         }
@@ -239,11 +215,7 @@
         background: white;
         border-bottom-color: $gray-300;
         border-bottom-width: 2px;
-        padding: 2rem 1rem;
-    }
-
-    .module-button:hover {
-        //background-color: $gray-100;
+        padding: 1rem 1rem;
     }
 
     .sub-item {
@@ -284,29 +256,8 @@
         background: #555;
     }
 
-    .youtube-tutorial {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
-    }
-
-    /* Then style the iframe to fit in the container div with full height and width */
     .responsive-iframe {
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
         width: 100%;
         height: 100%;
-    }
-
-    .footer {
-        margin-top: auto;
-    }
-
-    .impressum-centered {
-        text-align: center;
     }
 </style>

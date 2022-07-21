@@ -51,9 +51,9 @@
                 <search-pagination class="bottom-pagination card" @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
         </div>
-        <footer class="card">
-            <p class="impressum-centered"><a href="/impressum">Impressum</a></p>
-        </footer>
+        <div class="mt-auto">
+            <p class="text-center card mt-4"><a href="/impressum">Impressum</a></p>
+        </div>
     </div>
 </template>
 
@@ -317,13 +317,5 @@
         width: fit-content;
         padding: 12px;
         margin: 20px auto 7px auto;
-    }
-
-    .footer {
-        margin-top: auto;
-    }
-
-    .impressum-centered {
-        text-align: center;
     }
 </style>
