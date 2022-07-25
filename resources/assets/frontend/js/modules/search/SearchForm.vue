@@ -1,7 +1,7 @@
 <template>
     <div class="complete-container">
         <nav-bar class="navbar">
-            <img class="max-h-10" src="/images/search/bvlogo_y.png">
+            <img class="navbar-logo" src="/images/search/bvlogo_y.png">
         </nav-bar>
         <div class="card my-4 mx-auto">
             <div class="card-header text-xl flex justify-between">
@@ -259,6 +259,11 @@
 
 <style lang="scss" scoped>
     @import "resources/assets/frontend/sass/_variables.scss";
+
+    .navbar-logo {
+        max-height: 60px;
+        margin: -10px 0;
+    }
 
     .result-loader{
         background-color: $gray-200;

@@ -12,7 +12,10 @@
                      @scroll="onScroll">
                     <div class="grid grid-cols-7">
                         <div class="col-span-1">
-                            <svg viewBox="0 0 1044 1568" height="110%" width="100%" style="color: #4b5563;">
+                            <svg viewBox="0 0 1044 1568"
+                                 height="110%"
+                                 width="100%"
+                                 style="color: #4b5563;">
                                 <use xlink:href="/images/home/grimm.svg#image"></use>
                             </svg>
                         </div>
@@ -58,12 +61,16 @@
                         weit verstreuten ausgegangenen Briefe eines Autors nicht nur auf das verlassen können, was eine
                         oftmals vom Zufall bestimmte Rezeption bisher zutage förderte.
 
-                    <p class="text-right text-gray-500"><a
-                        href="http://www.grimmnetz.de/bv/vorbemerkungen/vorbemerkungen.html">Weiterlesen ...</a></p>
+                    <p class="text-right text-gray-500">
+                        <a href="http://www.grimmnetz.de/bv/vorbemerkungen/vorbemerkungen.html">
+                            Weiterlesen ...
+                        </a>
+                    </p>
                 </div>
             </div>
             <div class="video card">
-                <iframe class="responsive-iframe" src="https://www.youtube.com/embed/0Ir-vnKwd5w"
+                <iframe class="responsive-iframe"
+                        src="https://www.youtube.com/embed/0Ir-vnKwd5w"
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
@@ -73,28 +80,73 @@
                 <div class="card-header text-xl ">
                     Module des Archivs
                 </div>
-                <div class="module-button"><b>Briefe von und an Jacob und Wilhelm Grimm</b>
-                    <p class="m-auto flex align-center justify-content-center flex-wrap">
-                        <input type="text" v-model="searchAll" v-on:keyup.enter="forwarding" placeholder="Alle Briefe durchsuchen" name="search" class="border border-solid border-black rounded">
-                        <button type="submit" @click="forwarding">
-                            <icon icon="search" class="text-gray-600 mx-2"/>
+                <div class="module-button">
+                    <a :href="letterSearch">
+                        <b>
+                            Briefe von und an Jacob und Wilhelm Grimm
+                        </b>
+                    </a>
+                    <img class="w-20 float-right"
+                         src="/images/search/bvlogo_y.png">
+                    <span class="float-left flex align-center">
+                        <input type="text"
+                               v-model="searchAll"
+                               v-on:keyup.enter="forwarding"
+                               placeholder=" Alle Briefe durchsuchen "
+                               name="search"
+                               class="border border-solid border-black rounded">
+                        <button type="submit"
+                                @click="forwarding"
+                                class="flex items-center">
+                            <icon icon="search"
+                                  class="text-gray-600 mx-2"/>
                         </button>
+                    </span>
+                    <p class="clear-both sub-item">
+                        Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)
                     </p>
-                    <p class="sub-item"><a :href="letterSearch">Briefe im Besitz der Staatsbibliothek zu Berlin (ca. 11.000)</a></p>
-                    <p class="text-gray-600 sub-item">Briefwechsel zum „Deutschen Wörterbuch“ <a class="text-gray-600">(in
-                        Vorbereitung)</a><br></p>
+                    <p class="text-gray-600 sub-item">
+                        Briefwechsel zum „Deutschen Wörterbuch“
+                        <a class="text-gray-600">
+                            (in Vorbereitung)
+                        </a>
+                        <br>
+                    </p>
                 </div>
-                <div class="module-button text-gray-600"><b>Tagebücher und Kalender der Brüder Grimm</b>
-                    <p class="text-gray-600 sub-item">(in Vorbereitung)<br></p>
+                <div class="module-button text-gray-600">
+                    <b>
+                        Tagebücher und Kalender der Brüder Grimm
+                    </b>
+                    <p class="text-gray-600 sub-item">
+                        (in Vorbereitung)
+                        <br>
+                    </p>
                 </div>
-                <div class="module-button text-gray-600"><b>Arbeitsmaterialien der Brüder Grimm</b>
-                    <p class="text-gray-600">(in Vorbereitung)</p>
-                    <p class="sub-item">Notizbücher<br></p>
+                <div class="module-button text-gray-600">
+                    <b>
+                        Arbeitsmaterialien der Brüder Grimm
+                    </b>
+                    <p class="text-gray-600">
+                        (in Vorbereitung)
+                    </p>
+                    <p class="sub-item">
+                        Notizbücher
+                        <br>
+                    </p>
                 </div>
-                <div class="module-button text-gray-600"><b>persönliche Bibliothek der Brüder Grimm</b>
-                    <p class="text-gray-600">(in Vorbereitung)</p>
-                    <p class="sub-item">persönliche Handbibliothek der Brüder Grimm zu den <br>„Kinder- und
-                        Hausmärchen“<br></p>
+                <div class="module-button text-gray-600">
+                    <b>
+                        persönliche Bibliothek der Brüder Grimm
+                    </b>
+                    <p class="text-gray-600">
+                        (in Vorbereitung)
+                    </p>
+                    <p class="sub-item">
+                        persönliche Handbibliothek der Brüder Grimm zu den
+                        <br>„Kinder- und
+                        Hausmärchen“
+                        <br>
+                    </p>
                 </div>
             </div>
             <div class="spons card">
@@ -105,7 +157,9 @@
             </div>
         </div>
         <div class="mt-auto">
-            <p class="text-center card mt-4"><a href="/impressum">Impressum</a></p>
+            <p class="text-center card mt-4">
+                <a href="/impressum">Impressum</a>
+            </p>
         </div>
     </div>
 </template>
