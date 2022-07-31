@@ -4,7 +4,7 @@ import LettersList from "@/frontend/js/modules/search/Letters";
 import LettersView from "@/frontend/js/modules/Letters/display/Letter";
 import LetterWindowsScan from "@/frontend/js/modules/Letters/windows/Scan";
 import LetterWindowsText from "@/frontend/js/modules/Letters/windows/Text";
-import CategorizedSearchResults from "../modules/search/components/CategorizedSearchResults";
+import CategorizedSearchResults from "@/frontend/js/modules/search/components/CategorizedSearchResults";
 
 const routes = [
     {
@@ -40,7 +40,7 @@ const routes = [
     },
     {
         name: 'characterized-search-results',
-        path: "/letters/sb",
+        path: "/sb-letters",
         component: CategorizedSearchResults // need to refactor search and then change this accordingly
 
     },

@@ -1,18 +1,54 @@
 <template>
-    <div class="container flex-column">
-        <div class="float-right">
-            <ul>
-                <li v-for="letter in sortedLetters">
-                    {{ letter.nachlass_category }}
-                </li>
-            </ul>
-        </div>
-        <div class="float-right">
-            <ul>
-                <li v-for="letter in sortedLetters">
-                    {{ letter.nachlass_category }}
-                </li>
-            </ul>
+    <div class="container">
+        <div v-for="(category, categoryName) in categorizedLetters" :key="category">
+            <div class="category-title">{{ categoryName }}</div>
+            <div class="search-result-cards-container">
+                <div v-for="letter in category" :key="letter.id" class="search-result-card" :onclick="letterLink(letter.id)"
+                     style="cursor: pointer;">
+                    <div class="result-title">
+                        <span v-if="letter.from_location_historical">
+                            {{ letter.from_location_historical }},
+                        </span>
+                        <span v-if="!letter.from_location_historical">
+                            [{{ letter.from_location_derived }}],
+                        </span>
+                        {{ letter.date }} {{ letterSender(letter.senders) }} an {{ letterRecipient(letter.receivers) }}
+                    </div>
+                    <div class="result-properties">
+                        <div v-if="letter.inc" class="result-item">
+                            <div class="result-item-title">Briefanfang</div>
+                            <div class="result-item-content">{{ letter.inc }}</div>
+                        </div>
+                        <div v-if="letter.handwriting_location" class="result-item">
+                            <div class="result-item-title">Handschrift</div>
+                            <div class="result-item-content">{{ letter.handwriting_location }}</div>
+                        </div>
+                        <div v-if="letter.prints.data.length > 0" class="result-item">
+                            <div class="result-item-title">gedruckt in</div>
+                            <div class="result-item-content">{{ letter.prints.data.map(p => p.entry).join('; ') }}</div>
+                        </div>
+                        <div v-if="letter.comment.data.length > 0" class="result-item">
+                            <div class="result-item-title">Bemerkungen</div>
+                            <div class="result-item-content">{{ letter.comment.data[0] }}</div>
+                        </div>
+                        <div v-if="letter.receiver_place" class="result-item">
+                            <div class="result-item-title">Empfangsort</div>
+                            <div class="result-item-content">{{ letter.receiver_place }}</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-item-title">Scan(s)</div>
+                            <div class="result-item-content scan-item">
+                                <icon v-if="letter.scans.data.length > 0" icon="letter-manuscript" style="text-align: center;"></icon>
+                                <icon v-else icon="close" style="text-align: center;"></icon>
+                            </div>
+                        </div>
+                        <div v-if="letter.id" class="result-item">
+                            <div class="result-item-title"> Brief-ID</div>
+                            <div class="result-item-content"> {{ letter.id }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -22,16 +58,17 @@
         name: "CategorizedSearchResults",
 
         computed: {
-            sortedLetters: function () {
-                function compare(a, b) {
-                    if (a.nachlass_category < b.nachlass_category)
-                        return -1;
-                    if (a.nachlass_category > b.nachlass_category)
-                        return 1;
-                    return 0;
+            categorizedLetters: function () {
+                let categorizedLetters = {};
+                for (let i = 0; i < this.letters.length; i++) {
+                    let letter = this.letters[i];
+                    if (categorizedLetters[letter.nachlass_category]) {
+                        categorizedLetters[letter.nachlass_category].push(letter);
+                    } else {
+                        categorizedLetters[letter.nachlass_category] = [letter];
+                    }
                 }
-
-                return this.letters.sort(compare);
+                return categorizedLetters;
             }
         },
 
@@ -197,9 +234,37 @@
                     ]
             };
         },
+
+        methods: {
+            letterLink(letterID) {
+                return "window.location='letters/" + letterID + "'";
+            },
+
+            letterSender(sender) {
+                if (sender.data.length > 0) {
+                    return sender.data.map(person => person.name).join('; ');
+                } else {
+                    return "Unbekannt";
+                }
+            },
+
+            letterRecipient(recipient) {
+                if (recipient.data.length > 0) {
+                    return recipient.data.map(person => person.name).join('; ');
+                } else {
+                    return "Unbekannt";
+                }
+            },
+        },
     };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .category-title {
+        text-align: center;
+        padding: 14px;
+        font-size: 21px;
+        background: #e5e7eb;
+        border: 1px solid gray;
+    }
 </style>
