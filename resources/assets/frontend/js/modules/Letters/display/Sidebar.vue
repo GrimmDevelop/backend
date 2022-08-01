@@ -106,7 +106,6 @@
                 return this.$store.state.ui.visibility[column];
             },
 
-            // copy from SearchResult.vue for letter information
             letterSender(sender) {
                 if (sender.data.length > 0) {
                     return sender.data.map(person => person.name).join('; ');

@@ -35,7 +35,6 @@
         flex-flow: row wrap;
         gap: 2rem 0;
         justify-content: space-evenly;
-        background: $gray-200;
     }
     /*one result card:*/
     .search-result-card {
@@ -51,9 +50,7 @@
     .result-title {
         border-bottom-color: $gray-300;
         border-bottom-width: thin;
-        padding: 0.3rem;
-        font-size: 1.3rem;
-        color: black;
+        font-size: 1.25rem;
         background-color: $gray-100;
         padding: theme('spacing.4') theme('spacing.6');
     }

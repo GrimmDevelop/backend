@@ -46,7 +46,9 @@
                     <search-pagination @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
                 </div>
             </div>
-            <search-result :letters="letters"></search-result>
+            <div class="search-result-cards-container">
+                <search-result-card v-for="letter in letters" :key="letter.id" :letter="letter"></search-result-card>
+            </div>
             <div v-if="hasResults">
                 <search-pagination class="bottom-pagination card" @setPage="paginationSetPage" :pagination="pagination"></search-pagination>
             </div>
@@ -61,11 +63,11 @@
     import qs from 'qs';
     import DottedLine from "../../components/ui/DottedLine";
     import SimpleForm from "./components/SimpleForm";
-    import SearchResult from "./components/SearchResult";
     import AdvancedForm from "./components/AdvancedForm";
     import SearchPagination from "./components/SearchPagination";
     import Spinner from "../../components/ui/Spinner";
     import NavBar from "../../components/ui/NavBar/NavBar";
+    import SearchResultCard from "./components/SearchResultCard";
 
     export default {
         name: "SearchForm",
@@ -246,9 +248,9 @@
         },
 
         components: {
+            SearchResultCard,
             NavBar,
             AdvancedForm,
-            SearchResult,
             DottedLine,
             SimpleForm,
             SearchPagination,
